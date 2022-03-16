@@ -8,6 +8,6 @@ namespace Catan.Model
 { 
     public enum ResourceEnum
     {
-        Brick, Crop, Ore, Wool, Wood
+        Crop, Ore, Wood, Brick, Wool, Desert
     }
 }
