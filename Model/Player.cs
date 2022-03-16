@@ -10,7 +10,7 @@ namespace Catan.Model
 {
     public class Player
     {
-        private ResourceEnum[] resources;//enum can be converted to int and vica versa, indexes will equel converted resource int
+        public int[] resources;//enum can be converted to int and vica versa, indexes will equel converted resource int
         private int numberOfSettlemensOwned;
         private int numberOfTownsOwned;
         private int numberOfScoreCardsOwned;
@@ -25,7 +25,7 @@ namespace Catan.Model
             this.name = name;
             //fancy way to get max value of enum.
             //(int)Enum.GetValues(typeof(ResourceEnum)).Cast<ResourceEnum>().Max() 
-            resources = new ResourceEnum[5];
+            resources = new int[5];
         }
 
         public String getName() { return name; }
