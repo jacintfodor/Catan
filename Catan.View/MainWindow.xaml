@@ -6,7 +6,223 @@
         xmlns:local="clr-namespace:Catan.View"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Grid x:Name = "MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
 
+        <Grid x:Name = "Down" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width ="100"/>
+                <ColumnDefinition Width="0.2*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="0.2*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="0.2*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="0.2*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="0.2*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="0.2*"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height = "1*"/>
+                <RowDefinition Height = "9*" />
+            </Grid.RowDefinitions>
+            <Button Grid.Column="2"  Grid.Row="1" Content="Fa"      Background="ForestGreen"/>
+            <Button Grid.Column="4"  Grid.Row="1" Content="Gyapjú"  Background="PaleGreen"/>
+            <!-- Background="Lime" vagy Background="Moccasin"-->
+            <Button Grid.Column="6"  Grid.Row="1" Content="Kő"      Background="SlateGray"/>
+            <Button Grid.Column="8"  Grid.Row="1" Content="Gabona"  Background="Goldenrod"/>
+            <Button Grid.Column="10" Grid.Row="1" Content="Tégla"   Background="Firebrick"/>
+            <Button Grid.Column="12" Grid.Row="1" Content="Kör Vége"/>
+        </Grid>
+
+        <Grid x:Name = "Hex" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width ="100"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <Grid x:Name = "Left" Grid.Row="1" Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.6*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="0.2*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="0.2*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="0.2*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="0.2*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="0.6*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="0.2*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="0.6*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width ="1*"/>
+                    <ColumnDefinition Width="9*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Row="1" Grid.Column="1" Content="Dobásösszeg" />
+                <!-- Background="DodgerBlue" -->
+                <!-- Background="DarkBlue" -->
+                <Button Grid.Row="3" Grid.Column="1" Content="Dob" />
+                <!-- Background="Yellow" -->
+                <!-- Background="Orange" -->
+                <Button Grid.Row="5" Grid.Column="1" Content="Város"/>
+                <!-- Background="Orchid" -->
+                <!-- Background="DarkOrchid" -->
+                <!-- Background="" -->
+                <Button Grid.Row="7" Grid.Column="1" Content="Település"/>
+                <Button Grid.Row="9" Grid.Column="1" Content="Út"/>
+                <Button Grid.Row="11" Grid.Column="1" Content="Bank"/>
+                <Button Grid.Row="13" Grid.Column="1" Content="Csere"/>
+            </Grid>
+            <Grid x:Name = "Hex353" Grid.Row="1" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <!--<RowDefinition Height="0.11547*" />
+                    <RowDefinition Height="0.173205*" />-->
+                    <!--0.0577349-->
+                    <!--0.2309399-->
+                    <RowDefinition Height="0.2309399*" />
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="1.35*" />
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="1.35*" />
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="0.2309399*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.2*"/>
+                    <ColumnDefinition Width="1.732*"/>
+                    <ColumnDefinition Width="0.2*"/>
+                    <ColumnDefinition Width="1.732*"/>
+                    <ColumnDefinition Width="0.2*"/>
+                    <ColumnDefinition Width="1.732*"/>
+                    <ColumnDefinition Width="0.2*"/>
+                    <ColumnDefinition Width="1.732*"/>
+                    <ColumnDefinition Width="0.2*"/>
+                    <ColumnDefinition Width="1.732*"/>
+                    <ColumnDefinition Width="0.2*"/>
+                </Grid.ColumnDefinitions>
+            </Grid>
+            <!---->
+            <Grid x:Name="Hex44" Grid.Row="1" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.2309399*" />
+                    <RowDefinition Height="1.6732*" />
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="1.3464*" />
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="1.6732*" />
+
+                    <RowDefinition Height="0.2309399*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.96602*"/>
+                    <ColumnDefinition Width="0.2*"/>
+                    <ColumnDefinition Width="1.73205*"/>
+                    <ColumnDefinition Width="0.2*"/>
+                    <ColumnDefinition Width="1.73205*"/>
+                    <ColumnDefinition Width="0.2*"/>
+                    <ColumnDefinition Width="1.73205*"/>
+                    <ColumnDefinition Width="0.2*"/>
+                    <ColumnDefinition Width="1.73205*"/>
+                    <ColumnDefinition Width="0.2*"/>
+                    <ColumnDefinition Width="0.96602*"/>
+                </Grid.ColumnDefinitions>
+            </Grid>
+            <!---->
+            <Grid x:Name="Edge" Grid.Row="1" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.0577349*" />
+                    <RowDefinition Height="0.673205*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="0.673205*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="0.673205*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="0.673205*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="0.673205*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="0.673205*" />
+                    <RowDefinition Height="0.0577349*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.09999*"/>
+                    <ColumnDefinition Width="0.96602*"/>
+                    <ColumnDefinition Width="0.96602*"/>
+                    <ColumnDefinition Width="0.96602*"/>
+                    <ColumnDefinition Width="0.96602*"/>
+                    <ColumnDefinition Width="0.96602*"/>
+                    <ColumnDefinition Width="0.96602*"/>
+                    <ColumnDefinition Width="0.96602*"/>
+                    <ColumnDefinition Width="0.96602*"/>
+                    <ColumnDefinition Width="0.96602*"/>
+                    <ColumnDefinition Width="0.96602*"/>
+                    <ColumnDefinition Width="0.09999*"/>
+                </Grid.ColumnDefinitions>
+            </Grid>
+            <!---->
+            <Grid x:Name="Vertex" Grid.Row="1" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.23094*"/>
+                    <RowDefinition Height="0.32679492*"/>
+                    <RowDefinition Height="0.23094*"/>
+                    <RowDefinition Height="0.88452994*"/>
+                    <RowDefinition Height="0.23094*"/>
+                    <RowDefinition Height="0.32679492*"/>
+                    <RowDefinition Height="0.23094*"/>
+                    <RowDefinition Height="0.88452994*"/>
+                    <RowDefinition Height="0.23094*"/>
+                    <RowDefinition Height="0.32679492*"/>
+                    <RowDefinition Height="0.23094*"/>
+                    <RowDefinition Height="0.88452994*"/>
+                    <RowDefinition Height="0.23094*"/>
+                    <RowDefinition Height="0.32679492*"/>
+                    <RowDefinition Height="0.23094*"/>
+                    <RowDefinition Height="0.88452994*"/>
+                    <RowDefinition Height="0.23094*"/>
+                    <RowDefinition Height="0.32679492*"/>
+                    <RowDefinition Height="0.23094*"/>
+                    <RowDefinition Height="0.88452994*"/>
+                    <RowDefinition Height="0.23094*"/>
+                    <RowDefinition Height="0.32679492*"/>
+                    <RowDefinition Height="0.23094*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.23094*"/>
+                    <ColumnDefinition Width="0.735085296*"/>
+                    <ColumnDefinition Width="0.23094*"/>
+                    <ColumnDefinition Width="0.735085296*"/>
+                    <ColumnDefinition Width="0.23094*"/>
+                    <ColumnDefinition Width="0.735085296*"/>
+                    <ColumnDefinition Width="0.23094*"/>
+                    <ColumnDefinition Width="0.735085296*"/>
+                    <ColumnDefinition Width="0.23094*"/>
+                    <ColumnDefinition Width="0.735085296*"/>
+                    <ColumnDefinition Width="0.23094*"/>
+                    <ColumnDefinition Width="0.735085296*"/>
+                    <ColumnDefinition Width="0.23094*"/>
+                    <ColumnDefinition Width="0.735085296*"/>
+                    <ColumnDefinition Width="0.23094*"/>
+                    <ColumnDefinition Width="0.735085296*"/>
+                    <ColumnDefinition Width="0.23094*"/>
+                    <ColumnDefinition Width="0.735085296*"/>
+                    <ColumnDefinition Width="0.23094*"/>
+                    <ColumnDefinition Width="0.735085296*"/>
+                    <ColumnDefinition Width="0.23094*"/>
+
+                </Grid.ColumnDefinitions>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>
