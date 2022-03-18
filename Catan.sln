@@ -5,7 +5,9 @@ VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catan", "Catan.csproj", "{E4DD5BE8-C40D-43B0-8D51-9CA147F526B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catan.Model", "Catan.Model\Catan.Model.csproj", "{0273A8DB-3A41-4B37-A620-B6DE96851746}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catan.Model", "Catan.Model\Catan.Model.csproj", "{0273A8DB-3A41-4B37-A620-B6DE96851746}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catan.ViewModel", "Catan.ViewModel\Catan.ViewModel.csproj", "{04114457-EA65-4856-8F8B-11C4B85AAD98}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{0273A8DB-3A41-4B37-A620-B6DE96851746}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0273A8DB-3A41-4B37-A620-B6DE96851746}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0273A8DB-3A41-4B37-A620-B6DE96851746}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04114457-EA65-4856-8F8B-11C4B85AAD98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04114457-EA65-4856-8F8B-11C4B85AAD98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04114457-EA65-4856-8F8B-11C4B85AAD98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04114457-EA65-4856-8F8B-11C4B85AAD98}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
