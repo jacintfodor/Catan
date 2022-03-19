@@ -19,7 +19,7 @@ namespace Catan.Model.Context.Titles
 
         public void processOwner(IPlayer titleContester)
         {
-            if (titleContester.NumberOfKnightsOwned() > Owner.NumberOfKnightsOwned())
+            if (titleContester.sizeOfArmy() > Owner.sizeOfArmy())
             {
                 Owner = titleContester;
             }

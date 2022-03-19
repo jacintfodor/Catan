@@ -12,7 +12,7 @@ namespace Catan.Model.Context
 
         public int LengthOfLongestRoad();
 
-        public int NumberOfKnightsOwned();
+        public int sizeOfArmy();
 
     }
 }

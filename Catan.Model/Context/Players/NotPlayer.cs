@@ -26,7 +26,7 @@ namespace Catan.Model.Context.Players
             return 4;
         }
 
-        public int NumberOfKnightsOwned()
+        public int sizeOfArmy()
         {
             return 2;
         }
