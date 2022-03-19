@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Catan.Model.Context.Players;
 
 namespace Catan.Model
 {
@@ -41,7 +42,7 @@ namespace Catan.Model
                         continue;
                     getEdgeLocation(i, j).ForEach(x =>
                     {
-                        Edges[x[0], x[1]] = new Edge(new Player("temporary"));
+                        Edges[x[0], x[1]] = new Edge(NotPlayer.Instance);
                     });
                 }
             }

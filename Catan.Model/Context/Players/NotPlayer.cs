@@ -16,6 +16,8 @@ namespace Catan.Model.Context.Players
         public static NotPlayer Instance
         { get { return _instance; } }
 
+        public List<ResourceEnum> resources { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         public int CalculateScore()
         {
             return -1;
