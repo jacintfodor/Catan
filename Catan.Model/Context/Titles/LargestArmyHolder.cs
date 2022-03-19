@@ -7,7 +7,7 @@ using Catan.Model.Context.Players;
 
 namespace Catan.Model.Context.Titles
 {
-    internal class LargestArmyHolder : ITitle
+    public class LargestArmyHolder : ITitle
     {
         public IPlayer Owner { get; private set; }
 
