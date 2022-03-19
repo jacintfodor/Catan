@@ -5,9 +5,9 @@ VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catan.Model", "Catan.Model\Catan.Model.csproj", "{0273A8DB-3A41-4B37-A620-B6DE96851746}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catan.ViewModel", "Catan.ViewModel\Catan.ViewModel.csproj", "{04114457-EA65-4856-8F8B-11C4B85AAD98}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catan.ViewModel", "Catan.ViewModel\Catan.ViewModel.csproj", "{04114457-EA65-4856-8F8B-11C4B85AAD98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catan.View", "Catan.View\Catan.View.csproj", "{4C1FB91C-069A-4602-B427-9E7C6D14BF6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catan.View", "Catan.View\Catan.View.csproj", "{4C1FB91C-069A-4602-B427-9E7C6D14BF6B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
