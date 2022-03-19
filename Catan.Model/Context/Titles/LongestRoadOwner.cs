@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Catan.Model.Context.Titles
 {
-    internal class LongestRoadOwner : ITitle
+    public class LongestRoadOwner : ITitle
     {
+        public IPlayer Owner { get; private set; }
+
         public void processOwner(IPlayer titleContester)
         {
             throw new NotImplementedException();
