@@ -11,7 +11,7 @@ namespace Catan.Model
 {
     public class CatanContext
     {
-        private List<IPlayer> _players;
+        private Queue<IPlayer> _players;
 
         private CatanContext()
         {
@@ -34,6 +34,6 @@ namespace Catan.Model
         public IPlayer NextPlayer { get => _players.ElementAtOrDefault(1) ?? NotPlayer.Instance; }
         public IPlayer NextNextPlayer { get => _players.ElementAtOrDefault(2) ?? NotPlayer.Instance; }
 
-        public void EndTurn() { throw new NotImplementedException(); }
+        public void EndTurn() { _players.Enqueue( _players.Dequeue()); }
     }
 }
