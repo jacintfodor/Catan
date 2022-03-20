@@ -14,7 +14,7 @@ namespace Catan.Model.Context
 
         public int sizeOfArmy();
 
-        public List<ResourceEnum> resources { get; set; }
+        public Goods AvailableResources { get; set; }
 
     }
 }
