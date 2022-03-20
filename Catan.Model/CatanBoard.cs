@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Catan.Model.Context;
 using Catan.Model.Context.Players;
 
 namespace Catan.Model
@@ -140,10 +139,10 @@ namespace Catan.Model
                     
                     getVertexLocation(i, j).ForEach(x =>
                      {
-                         if (Vertices[x[0], x[1]].Owner != null && Hexes[i, j].Resource != ResourceEnum.Desert)
+                         if (Vertices[x[0], x[1]].Owner != null && (int)Hexes[i, j].Resource != 6)
                          { 
                              int rewardMult = reward * Vertices[x[0], x[1]].Building.multiplier(); ;
-                             Vertices[x[0], x[1]].Owner.AvailableResources += new Goods(Hexes[i, j].Resource) * rewardMult;
+                             Vertices[x[0], x[1]].Owner.resources[(int)Hexes[i, j].Resource] += rewardMult;
                          }
                      });
                 }
