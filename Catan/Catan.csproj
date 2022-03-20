@@ -1,14 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
+    <UseWPF>False</UseWPF>
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Catan.Model\Catan.Model.csproj" />
     <ProjectReference Include="..\Catan.ViewModel\Catan.ViewModel.csproj" />
+    <ProjectReference Include="..\Catan.View\Catan.View.csproj" />
   </ItemGroup>
 
 </Project>
