@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Catan.Model.Context;
 using Catan.Model.Context.Titles;
 using Catan.Model.Context.Players;
+using Catan.Model.Board;
 
 namespace Catan.Model
 {

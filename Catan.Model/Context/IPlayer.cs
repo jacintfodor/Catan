@@ -1,20 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Catan.Model.Board;
 
 namespace Catan.Model.Context
 {
     public interface IPlayer
     {
+        public void addResource(ResourceEnum resourceToAdd, int amount);
+
+        public void reduceResources(List<int> resourcesToReduce);
+
         public int CalculateScore();
 
         public int LengthOfLongestRoad();
 
         public int sizeOfArmy();
 
-        public List<ResourceEnum> resources { get; set; }
+        public List<int> resources { get; set; }
 
     }
 }

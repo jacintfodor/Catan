@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Catan.Model.Board.Buildings;
+using Catan.Model.Board.Compontents;
+
 using Catan.Model.Context.Players;
 
-namespace Catan.Model
+namespace Catan.Model.Board
 {
 
     public class CatanBoard
@@ -15,22 +13,13 @@ namespace Catan.Model
         private Hex[,] Hexes = new Hex[5, 5];
         private Edge[,] Edges = new Edge[11, 11];
         private Vertex[,] Vertices = new Vertex[11, 11];
-        private List<int> numbers =new List<int>{ 2, 12, 3, 3, 4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11};
+        private List<int> numbers =new List<int>{2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12 };
 
         public CatanBoard()
         {
             generateHexMap();
             generateEdgeMap();
             generateVertexMap();
-            int ct = 0;
-            for (int i = 0; i < 11; i++)
-            {
-                for (int j = 0; j < 11; j++)
-                {
-                    if (!(Vertices[i, j] == null))
-                        ct++;
-                }
-            }
         }
         private void generateEdgeMap()
         {
@@ -42,7 +31,7 @@ namespace Catan.Model
                         continue;
                     getEdgeLocation(i, j).ForEach(x =>
                     {
-                        Edges[x[0], x[1]] = new Edge(NotPlayer.Instance);
+                        Edges[x[0], x[1]] = new Edge(NotPlayer.Instance,NotBuilding.Instance);
                     });
                 }
             }
@@ -57,7 +46,7 @@ namespace Catan.Model
                         continue;
                     getVertexLocation(i, j).ForEach(x =>
                     {
-                        Vertices[x[0], x[1]] = new Vertex();
+                        Vertices[x[0], x[1]] = new Vertex(NotPlayer.Instance,NotBuilding.Instance);
                     });
                 }
             }
@@ -79,7 +68,7 @@ namespace Catan.Model
         private void generateHexMap()
         {
             List<int[]> emptyHexes = getEmptyHexes();
-
+            
             generateHexes(4, ResourceEnum.Crop, emptyHexes);
             generateHexes(4, ResourceEnum.Wood, emptyHexes);
             generateHexes(4, ResourceEnum.Wool, emptyHexes);
@@ -94,12 +83,20 @@ namespace Catan.Model
             for (int i = 0; i < amount; i++)
             {
                 int[] coord = emptyHexes[rand.Next(0, emptyHexes.Count)];
-                int num = numbers[rand.Next(0, numbers.Count)];
-                Hexes[coord[0], coord[1]] = new Hex(resource, num);
-                emptyHexes.Remove(coord);
-                numbers.Remove(num);
+                if (numbers.Count > 0)
+                {
+                    int num = numbers[rand.Next(0, numbers.Count)];
+                    Hexes[coord[0], coord[1]] = new Hex(resource, num);
+                    emptyHexes.Remove(coord);
+                    numbers.Remove(num);
+                }
+                else
+                {
+                    Hexes[coord[0], coord[1]] = new Hex(resource);
+                }
             }
         }
+
         //Returns a index list of edges to a hex from hex's index
         private List<int[]> getEdgeLocation(int row, int col) {
             List<int[]> retVal = new List<int[]>();
@@ -113,6 +110,7 @@ namespace Catan.Model
             retVal.Add(new int[] { 2 * row + 2, 2 * (col - offset) + 1 + offset });
             return retVal;
         }
+        //Returns a index list of vertices to a hex from hex's index
         private List<int[]> getVertexLocation(int row, int col)
         {
             List<int[]> retVal = new List<int[]>();
@@ -126,26 +124,57 @@ namespace Catan.Model
             retVal.Add(new int[] { row + 1, 2 * (col - offset) + 2 + offset });
             return retVal;
         }
+        
         public void distributeResource(int dieValue)
         {
-            for (int i = 0; i < 5; i++)
+            for (int row = 0; row < 5; row++)
             {
-                for (int j = 0; j < 0; j++)
+                for (int col = 0; col < 5; col++)
                 {
-                    if (Hexes[i, j] == null || Hexes[i,j].Number != dieValue)
+                    if (Hexes[row, col] == null || Hexes[row, col].Number != dieValue)
                         continue;
 
-                    int reward = 2 == dieValue || 12 == dieValue ? 2 : 1;
-                    
-                    getVertexLocation(i, j).ForEach(x =>
+                    getVertexLocation(row, col).ForEach(x =>
                      {
-                         if (Vertices[x[0], x[1]].Owner != null && (int)Hexes[i, j].Resource != 6)
+                         if (Vertices[x[0], x[1]].Owner != NotPlayer.Instance)
                          { 
-                             int rewardMult = reward * Vertices[x[0], x[1]].Building.multiplier(); ;
-                             Vertices[x[0], x[1]].Owner.resources[(int)Hexes[i, j].Resource] += rewardMult;
+                             int amount = Vertices[x[0], x[1]].Building.amount();
+                             Vertices[x[0], x[1]].Owner.addResource(Hexes[row, col].Resource, amount);
                          }
                      });
                 }
+            }
+        }
+
+        //builds a road at given index, doesnt check connection, or if player has enough resource
+        public void buildRoad(int row, int col, Player builder)
+        {
+            if (Edges[row,col] != null && Vertices[row,col].Owner is NotPlayer)
+            { 
+                Edges[row, col].Owner = builder;
+                Edges[row, col].Building = new Road();
+                builder.reduceResources(Edges[row, col].Building.buildCost());
+            }
+        }
+
+        //builds a settlement at given index, doesnt check connection, or if player has enough resource
+        public void buildSettlement(int row, int col, Player builder)
+        {
+            if (Vertices[row, col] != null && Vertices[row, col].Owner is NotPlayer)
+            {
+                Vertices[row, col].Owner = builder;
+                Vertices[row, col].Building = new Settlement();
+                builder.reduceResources(Vertices[row, col].Building.buildCost());
+            }
+        }
+
+        //builds a town at given index, doesnt check connection, or if player has enough resource
+        public void buildTown(int row, int col, Player builder)
+        {
+            if (Vertices[row, col].Building is Settlement && builder == Vertices[row, col].Owner)
+            {
+                Vertices[row, col].Building = new Town();
+                builder.reduceResources(Vertices[row, col].Building.buildCost());
             }
         }
     }
