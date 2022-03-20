@@ -6,8 +6,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Catan.ViewModel;
+using Catan.View;
 
-namespace Catan.View
+namespace Catan
 {
     /// <summary>
     /// Interaction logic for App.xaml
