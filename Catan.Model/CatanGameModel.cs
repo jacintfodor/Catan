@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Catan.Model.GameStates;
+using Catan.Model.Events;
 
 namespace Catan.Model
 {
@@ -14,6 +15,8 @@ namespace Catan.Model
         private MainState _mainState;
         
         private ICatanGameState _currentState;
+
+        public event EventHandler<DicesThrownEventArg> DicesThrown;
 
         public CatanGameModel()
         {
@@ -36,6 +39,8 @@ namespace Catan.Model
         public void ThrowDices()
         {
             _currentState.ThrowDices(_catanContext);
+            OnDiceThrown();
+
         }
         public void MoveRogue(int row, int col)
         {
@@ -99,5 +104,14 @@ namespace Catan.Model
             return _currentState.IsSettlementOwnedByCurrentPlayer(_catanContext, row, col);
         }
 
+
+
+        private void OnDiceThrown()
+        {
+            DicesThrown?.Invoke(
+                this,
+                new DicesThrownEventArg(_catanContext.FirstDice.RolledValue,
+                                         _catanContext.SecondDice.RolledValue));
+        }
     }
 }
