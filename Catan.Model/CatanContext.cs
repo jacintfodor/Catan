@@ -16,11 +16,7 @@ namespace Catan.Model
 
         private CatanContext()
         {
-            Board = new();
-            FirstDice = new(150);
-            LastDice = new(51231);
-
-            throw new NotImplementedException("ControlledPlayer");
+            init();
         }
 
         private static readonly CatanContext _instance = new();
@@ -29,6 +25,9 @@ namespace Catan.Model
         public CatanBoard Board { get; private set; }
         public CubeDice FirstDice { get; private set; }
         public CubeDice LastDice { get; private set; }
+        
+        public int RolledSum { get => FirstDice.RolledValue + LastDice.RolledValue; }
+
         public static LargestArmyHolder LargestArmyHolder { get => LargestArmyHolder.Instance;}
         public static LongestRoadOwner LongestRoadOwner { get => LongestRoadOwner.Instance;}
         public IPlayer CurrentPlayer { get => _players.ElementAtOrDefault(0) ?? NotPlayer.Instance;}
@@ -36,5 +35,27 @@ namespace Catan.Model
         public IPlayer NextNextPlayer { get => _players.ElementAtOrDefault(2) ?? NotPlayer.Instance; }
         public IPlayer Winner { get => CurrentPlayer.CalculateScore() >= 5 ? CurrentPlayer : NotPlayer.Instance;  }
         public void EndTurn() { _players.Enqueue( _players.Dequeue()); }
+
+        public void init()
+        {
+            Board = new();
+            FirstDice = new(150);
+            LastDice = new(51231);
+
+            _players.Enqueue(new Player());
+            _players.Enqueue(new Player());
+            _players.Enqueue(new Player());
+        }
+
+        public void clear()
+        {
+            _players.Clear();
+        }
+
+        public void reset()
+        {
+            clear();
+            init();
+        }
     }
 }
