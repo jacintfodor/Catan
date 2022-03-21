@@ -219,13 +219,13 @@ namespace Catan.Model.Board
             }
         }
 
-        public void buildRoad(int row, int col, Player builder)
+        public void buildRoad(int row, int col, IPlayer builder)
         {
             Edges[row, col].Owner = builder;
             Edges[row, col].Building = new Road();
         }
 
-        public void buildSettlement(int row, int col, Player builder)
+        public void buildSettlement(int row, int col, IPlayer builder)
         {
             Vertices[row, col].Owner = builder;
             Vertices[row, col].Building = new Settlement();
