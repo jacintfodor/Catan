@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Catan.Model.Board;
 
 namespace Catan.Model.Context.Players
 {
@@ -16,7 +12,7 @@ namespace Catan.Model.Context.Players
         public static NotPlayer Instance
         { get { return _instance; } }
 
-        public List<ResourceEnum> resources { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Goods AvailableResources { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public int CalculateScore()
         {
@@ -28,9 +24,18 @@ namespace Catan.Model.Context.Players
             return 4;
         }
 
-        public int sizeOfArmy()
+        public int SizeOfArmy()
         {
             return 2;
+        }
+
+        public void AddResource(Goods resourcesToRemove) { }
+
+        public void ReduceResources(Goods resourcesToReduce) { }
+
+        public bool CanAfford(Goods resourcesToAfford)
+        {
+            return false;
         }
     }
 }
