@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Catan.Model\Catan.Model.csproj" />
+    <ProjectReference Include="..\Catan.ViewModel\Catan.ViewModel.csproj" />
   </ItemGroup>
 
 </Project>

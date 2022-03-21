@@ -16,6 +16,7 @@ namespace Catan.Model
 
         private CatanContext()
         {
+            _players = new();
             init();
         }
 
