@@ -32,5 +32,10 @@ namespace Catan.Model.Context.Players
         public void AddResource(Goods resourcesToRemove) { }
 
         public void ReduceResources(Goods resourcesToReduce) { }
+
+        public bool CanAfford(Goods resourcesToAfford)
+        {
+            return false;
+        }
     }
 }

@@ -37,5 +37,11 @@ namespace Catan.Model.Context.Players
         {
             _resources -= resourcesToReduce;
         }
+
+        public bool CanAfford(Goods resourcesToSpend)
+        {
+            Goods balance = _resources - resourcesToSpend;
+            return balance.Valid;
+        }
     }
 }
