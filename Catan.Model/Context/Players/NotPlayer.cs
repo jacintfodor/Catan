@@ -12,7 +12,7 @@ namespace Catan.Model.Context.Players
         public static NotPlayer Instance
         { get { return _instance; } }
 
-        public Goods resources { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Goods AvailableResources { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public int CalculateScore()
         {
@@ -24,13 +24,13 @@ namespace Catan.Model.Context.Players
             return 4;
         }
 
-        public int sizeOfArmy()
+        public int SizeOfArmy()
         {
             return 2;
         }
 
-        public void addResource(ResourceEnum resourceToAdd, int amount) { }
+        public void AddResource(Goods resourcesToRemove) { }
 
-        public void reduceResources(Goods resourcesToReduce) { }
+        public void ReduceResources(Goods resourcesToReduce) { }
     }
 }
