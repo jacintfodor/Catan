@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Catan.Model.Context;
 
 namespace Catan.Model.Board.Buildings
 {
-    public class NotBuilding : IBuilding
+    public class NotBuilding : Building
     {
+        public static Goods buildCost =  new Goods(new List<int> { 0, 0, 0, 0, 0 });
+
         private NotBuilding()
         {
         }
@@ -16,8 +14,7 @@ namespace Catan.Model.Board.Buildings
         public static NotBuilding Instance
         { get { return _instance; } }
 
-        public int score() { return 0; }
-        public int amount() { return 0; }
-        public List<int> buildCost() { return new List<int> { 0, 0, 0, 0, 0 }; }
+        override public int score() { return 0; }
+        override public int amount() { return 0; }
     }
 }

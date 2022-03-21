@@ -6,7 +6,7 @@ namespace Catan.Model.Context
     {
         public void addResource(ResourceEnum resourceToAdd, int amount);
 
-        public void reduceResources(List<int> resourcesToReduce);
+        public void reduceResources(Goods resourcesToReduce);
 
         public int CalculateScore();
 
@@ -14,7 +14,7 @@ namespace Catan.Model.Context
 
         public int sizeOfArmy();
 
-        public List<int> resources { get; set; }
+        public Goods resources { get; set; }
 
     }
 }

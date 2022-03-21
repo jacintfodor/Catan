@@ -1,6 +1,4 @@
-﻿using Catan.Model.Board;
-using Catan.Model.Context.Players;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 

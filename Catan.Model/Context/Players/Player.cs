@@ -4,13 +4,13 @@ namespace Catan.Model.Context.Players
 {
     public class Player : IPlayer
     {
-        private List<int> _resources;
+        private Goods _resources;
  
-        public List<int> resources { get { return _resources; } set { _resources = value; } }
+        public Goods resources { get { return _resources; } set { _resources = value; } }
 
         public Player()
         {
-            _resources = new List<int> { 0, 0, 0, 0, 0 };
+            _resources = new Goods();
         }
 
         public int CalculateScore()
@@ -30,16 +30,15 @@ namespace Catan.Model.Context.Players
 
         public void addResource(ResourceEnum resourceToAdd, int amount)
         {
-            resources[(int)resourceToAdd] += amount;
+            for (int i = 0; i < amount; i++)
+            {
+                _resources = _resources + new Goods(resourceToAdd);
+            }
         }
 
-        //for buildings
-        public void reduceResources(List<int> resourcesToReduce)
+        public void reduceResources(Goods resourcesToReduce)
         {
-            for (int i = 0; i < 5; i++)
-            {
-                resources[i] -= resourcesToReduce[i];
-            }
+            _resources = _resources - resourcesToReduce;
         }
     }
 }

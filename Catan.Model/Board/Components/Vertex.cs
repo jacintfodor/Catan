@@ -5,13 +5,12 @@ namespace Catan.Model.Board.Compontents
 {
     public class Vertex
     {
-        public Vertex(IPlayer owner, IBuilding building)
+        public Vertex(IPlayer owner, Building building)
         {
             Owner = owner;
             Building = building;
         }
-
         public IPlayer Owner { get; set; }
-        public IBuilding Building { get; set; }
+        public Building Building { get; set; }
     }
 }

@@ -1,9 +1,11 @@
-﻿namespace Catan.Model.Board.Buildings
+﻿using Catan.Model.Context;
+
+namespace Catan.Model.Board.Buildings
 {
-    public class Settlement : IBuilding
+    public class Settlement : Building
     {
-        public int score() { return 1; }
-        public int amount() { return 1;}
-        public List<int> buildCost() {return new List<int>{1, 0, 1, 1, 1};}
+        public static Goods buildCost = new Goods(new List<int> { 1, 0, 1, 1, 1 });
+        override public int score() { return 1; }
+        override public int amount() { return 1;}
     }
 }

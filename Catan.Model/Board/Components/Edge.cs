@@ -5,14 +5,12 @@ namespace Catan.Model.Board.Compontents
 {
     public class Edge
     {
-
-        public Edge(IPlayer owner, IBuilding building)
+        public Edge(IPlayer owner, Building building)
         {
             Owner = owner;
             Building = building;
         }
-
         public IPlayer Owner { get; set; }
-        public IBuilding Building { get; set; }
+        public Building Building { get; set; }
     }
 }
