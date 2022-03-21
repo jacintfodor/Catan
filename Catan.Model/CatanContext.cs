@@ -7,6 +7,7 @@ using Catan.Model.Context;
 using Catan.Model.Context.Titles;
 using Catan.Model.Context.Players;
 using Catan.Model.Board;
+using Catan.Model.Events;
 
 namespace Catan.Model
 {
@@ -25,9 +26,9 @@ namespace Catan.Model
         { get { return _instance; } }
         public CatanBoard Board { get; private set; }
         public CubeDice FirstDice { get; private set; }
-        public CubeDice LastDice { get; private set; }
+        public CubeDice SecondDice { get; private set; }
         
-        public int RolledSum { get => FirstDice.RolledValue + LastDice.RolledValue; }
+        public int RolledSum { get => FirstDice.RolledValue + SecondDice.RolledValue; }
 
         public static LargestArmyHolder LargestArmyHolder { get => LargestArmyHolder.Instance;}
         public static LongestRoadOwner LongestRoadOwner { get => LongestRoadOwner.Instance;}
@@ -41,7 +42,7 @@ namespace Catan.Model
         {
             Board = new();
             FirstDice = new(150);
-            LastDice = new(51231);
+            SecondDice = new(51231);
 
             _players.Enqueue(new Player());
             _players.Enqueue(new Player());
