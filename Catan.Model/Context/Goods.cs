@@ -12,11 +12,13 @@ namespace Catan.Model.Context
         public int Brick { get => _goods[ResourceEnum.Brick]; }
         public int Wool { get => _goods[ResourceEnum.Wool]; }
 
+        public bool Valid { get; private set; }
+
 
         public Goods(List<int> l)
         {
             if (l.Count != 5) throw new InvalidDataException("mismatching list count");
-            if (!l.TrueForAll(n => n >= 0)) throw new InvalidDataException("negative");
+            if (!l.TrueForAll(n => n >= 0)) Valid = false;
             _goods = new Dictionary<ResourceEnum, int>();
             
 
@@ -80,5 +82,6 @@ namespace Catan.Model.Context
 
             return result;
         }
+
     }
 }
