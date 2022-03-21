@@ -22,8 +22,7 @@ namespace Catan.Model.Context
 
             foreach (ResourceEnum resource in Enum.GetValues(typeof(ResourceEnum)))
             {
-                bool e = (int)resource > (int)ResourceEnum.Desert;
-                if ((int)resource < (int)ResourceEnum.Desert)
+                if ((int)resource > (int)ResourceEnum.Desert)
                 {
                     _goods[resource] = l[(int)resource];
                 }
@@ -70,7 +69,7 @@ namespace Catan.Model.Context
             List<int> result = new List<int>();
             foreach (ResourceEnum resource in Enum.GetValues(typeof(ResourceEnum)))
             {
-                if ((int)resource < (int)ResourceEnum.Desert)
+                if ((int)resource > (int)ResourceEnum.Desert)
                 {
                     if (e != resource)
                         result.Add(0);
