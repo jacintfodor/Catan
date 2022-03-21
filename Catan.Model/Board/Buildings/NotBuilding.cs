@@ -4,7 +4,7 @@ namespace Catan.Model.Board.Buildings
 {
     public class NotBuilding : Building
     {
-        public static Goods buildCost =  new Goods(new List<int> { 0, 0, 0, 0, 0 });
+        public static Goods BuildCost =  new Goods(new List<int> { 0, 0, 0, 0, 0 });
 
         private NotBuilding()
         {
