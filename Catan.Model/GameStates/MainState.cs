@@ -78,11 +78,9 @@ namespace Catan.Model.GameStates
         public void ThrowDices(CatanContext context)
         {
             context.FirstDice.roll();
-            context.LastDice.roll();
+            context.SecondDice.roll();
 
             context.Board.distributeResource(context.RolledSum);
-
-            //here goes event
         }
     }
 }
