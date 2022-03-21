@@ -212,7 +212,7 @@ namespace Catan.Model.Board
                          if (vertex.Owner != NotPlayer.Instance)
                          { 
                              int amount = vertex.Building.amount();
-                             vertex.Owner.addResource(Hexes[row, col].Resource, amount);
+                             vertex.Owner.AddResource(new Goods(Hexes[row,col].Resource) * amount);
                          }
                      });
                 }

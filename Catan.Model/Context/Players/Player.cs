@@ -6,7 +6,7 @@ namespace Catan.Model.Context.Players
     {
         private Goods _resources;
  
-        public Goods resources { get { return _resources; } set { _resources = value; } }
+        public Goods AvailableResources { get { return _resources; } set { _resources = value; } }
 
         public Player()
         {
@@ -23,22 +23,19 @@ namespace Catan.Model.Context.Players
             return 4;
         }
 
-        public int sizeOfArmy()
+        public int SizeOfArmy()
         {
             return 2;
         }
 
-        public void addResource(ResourceEnum resourceToAdd, int amount)
+        public void AddResource(Goods resourcesToAdd)
         {
-            for (int i = 0; i < amount; i++)
-            {
-                _resources = _resources + new Goods(resourceToAdd);
-            }
+            _resources += resourcesToAdd;
         }
 
-        public void reduceResources(Goods resourcesToReduce)
+        public void ReduceResources(Goods resourcesToReduce)
         {
-            _resources = _resources - resourcesToReduce;
+            _resources -= resourcesToReduce;
         }
     }
 }

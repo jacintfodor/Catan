@@ -4,17 +4,17 @@ namespace Catan.Model.Context
 {
     public interface IPlayer
     {
-        public void addResource(ResourceEnum resourceToAdd, int amount);
+        public void AddResource(Goods resourcesToAdd);
 
-        public void reduceResources(Goods resourcesToReduce);
+        public void ReduceResources(Goods resourcesToReduce);
 
         public int CalculateScore();
 
         public int LengthOfLongestRoad();
 
-        public int sizeOfArmy();
+        public int SizeOfArmy();
 
-        public Goods resources { get; set; }
+        public Goods AvailableResources { get; set; }
 
     }
 }
