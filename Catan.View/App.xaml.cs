@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Catan.ViewModel;
+using Catan.Model;
 
 namespace Catan.View
 {
@@ -14,7 +15,7 @@ namespace Catan.View
     /// </summary>
     public partial class App : Application
     {
-        //TODO insert model here
+        private CatanGameModel _model;
         private CatanViewModel _viewModel;
         private MainWindow _view;
 
@@ -27,7 +28,9 @@ namespace Catan.View
         {
             // TODO modell creation
 
-            _viewModel = new();
+            _model = new();
+            _model.NewGame();
+            _viewModel = new(_model);
 
             _view = new MainWindow();
             _view.DataContext = _viewModel;
