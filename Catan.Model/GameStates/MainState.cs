@@ -8,7 +8,7 @@ using Catan.Model.Board.Buildings;
 
 namespace Catan.Model.GameStates
 {
-    internal class MainState : ICatanGameState
+    public class MainState : ICatanGameState
     {
         public void AcceptTrade(CatanContext context)
         {
