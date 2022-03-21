@@ -60,7 +60,7 @@ namespace Catan.Model.GameStates
             return false;
         }
 
-        public void MoveRogue(CatanContext context)
+        public void MoveRogue(CatanContext context, int row, int col)
         {
             throw new NotImplementedException();
         }
@@ -79,6 +79,8 @@ namespace Catan.Model.GameStates
         {
             context.FirstDice.roll();
             context.LastDice.roll();
+
+            context.Board.distributeResource(context.RolledSum);
 
             //here goes event
         }
