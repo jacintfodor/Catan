@@ -20,11 +20,6 @@ namespace Catan.Model.Board
             generateHexMap();
             generateEdgeMap();
             generateVertexMap();
-
-            if (NewGame is not null)
-            {
-                NewGame(this, new GameStartEventArgs(Hexes,Vertices,Edges));
-            }
         }
         private void generateEdgeMap()
         {

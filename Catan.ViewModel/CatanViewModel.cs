@@ -19,10 +19,7 @@ namespace Catan.ViewModel
         public int SecondDiceFace { get => _secondDiceValue; set { _secondDiceValue = value; OnPropertyChanged(); OnPropertyChanged(nameof(SumOfDices)); } }
         public int SumOfDices { get => FirstDiceFace + SecondDiceFace; }
 
-
         public DelegateCommand ThrowDicesCommand { get; private set; }
-
-        
 
         public CatanViewModel(CatanGameModel model)
         {
@@ -35,7 +32,7 @@ namespace Catan.ViewModel
 
         private void Model_NewGame(object? sender, GameStartEventArgs e)
         {
-            throw new NotImplementedException();
+
         }
 
         private void Model_DicesThrown(object? sender, Model.Events.DicesThrownEventArg e)

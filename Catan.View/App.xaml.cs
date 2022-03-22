@@ -29,8 +29,8 @@ namespace Catan.View
             // TODO modell creation
 
             _model = new();
-            _model.NewGame();
             _viewModel = new(_model);
+            _model.NewGame();
 
             _view = new MainWindow();
             _view.DataContext = _viewModel;
