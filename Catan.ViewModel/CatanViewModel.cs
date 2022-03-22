@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Catan.Model;
+using Catan.Model.Events;
 
 namespace Catan.ViewModel
 {
@@ -27,9 +28,14 @@ namespace Catan.ViewModel
         {
             _model = model;
             _model.DicesThrown += Model_DicesThrown;
-
+            _model.GameStart += Model_NewGame;
             ThrowDicesCommand = new DelegateCommand(_ => _model.ThrowDices());
 
+        }
+
+        private void Model_NewGame(object? sender, GameStartEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void Model_DicesThrown(object? sender, Model.Events.DicesThrownEventArg e)

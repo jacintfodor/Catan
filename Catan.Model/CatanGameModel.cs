@@ -17,6 +17,7 @@ namespace Catan.Model
         private ICatanGameState _currentState;
 
         public event EventHandler<DicesThrownEventArg> DicesThrown;
+        public event EventHandler<GameStartEventArgs> GameStart;
 
         public CatanGameModel()
         {

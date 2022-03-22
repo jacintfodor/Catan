@@ -2,9 +2,9 @@
 
 namespace Catan.Model.Events
 {
-    public class NewGameEventArgs : EventArgs
+    public class GameStartEventArgs : EventArgs
     {
-        public NewGameEventArgs(Hex[,] hexes, Vertex[,] vertices, Edge[,] edges)
+        public GameStartEventArgs(Hex[,] hexes, Vertex[,] vertices, Edge[,] edges)
         {
             Hexes = hexes;
             Vertices = vertices;
@@ -14,9 +14,5 @@ namespace Catan.Model.Events
         public Hex[,] Hexes { get; set; }
         public Vertex[,] Vertices { get; set; }
         public Edge[,] Edges { get; set; }
-
-
-
-
     }
 }
