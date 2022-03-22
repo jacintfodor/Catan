@@ -6,6 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Catan.Model;
+using Catan.Model.Board;
+using Catan.Model.Board.Buildings;
+using Catan.Model.Board.Compontents;
 using Catan.Model.Events;
 
 namespace Catan.ViewModel
@@ -15,6 +18,7 @@ namespace Catan.ViewModel
         private CatanGameModel _model;
 
         public ObservableCollection<HexViewModel> Hexes { get; set; }
+        public ObservableCollection<VertexViewModel> Vertices { get; set; }
 
 
         int _firstDiceValue = 1;
@@ -28,6 +32,8 @@ namespace Catan.ViewModel
         public CatanViewModel(CatanGameModel model)
         {
             _model = model;
+            Hexes = new ObservableCollection<HexViewModel>();
+            Vertices = new ObservableCollection<VertexViewModel>();
             _model.DicesThrown += Model_DicesThrown;
             _model.GameStart += Model_NewGame;
             ThrowDicesCommand = new DelegateCommand(_ => _model.ThrowDices());
@@ -36,13 +42,83 @@ namespace Catan.ViewModel
 
         private void Model_NewGame(object? sender, GameStartEventArgs e)
         {
-
+            Hex[,] hxs = e.Hexes;
+            Vertex[,] vxs = e.Vertices;
+            for (int i = 0; i < 5; i++)
+            {
+                for (int j = 0; j < 5; j++)
+                {
+                    if (hxs[i, j] != null) {
+                        var hex = new HexViewModel(ResourceEnumToString(hxs[i, j].Resource), hxs[i, j].Number, i,j);
+                        Hexes.Add(hex);
+                    }
+                }
+            }
+            for (int i = 0; i < 11; i++)
+            {
+                for (int j = 0; j < 11; j++)
+                {
+                    if (vxs[i, j] != null)
+                    {
+                        var ver = new VertexViewModel("P1", BuildingToString(vxs[i,j].Building), i, j);
+                        Vertices.Add(ver);
+                    }
+                }
+            }
         }
 
         private void Model_DicesThrown(object? sender, Model.Events.DicesThrownEventArg e)
         {
             FirstDiceFace = e.FirstDice;
             SecondDiceFace = e.SecondDice;
+        }
+
+        private string BuildingToString(Building b)
+        {
+            string retVal;
+            switch (b)
+            {
+                case Settlement:
+                    retVal = "Brown";
+                    break;
+                case Town:
+                    retVal = "Black";
+                    break;
+                default:
+                    retVal = "Moccasin";
+                    break;
+            }
+            return retVal;
+        }
+
+        private string ResourceEnumToString(ResourceEnum res)
+        {
+            string retVal;
+            switch (res)
+            {
+                case ResourceEnum.Ore:
+                    retVal = "SlateGray";
+                    break;
+                case ResourceEnum.Brick:
+                    retVal = "Firebrick";
+                    break;
+                case ResourceEnum.Wool:
+                    retVal = "PaleGreen";
+                    break;
+                case ResourceEnum.Wood:
+                    retVal = "ForestGreen";
+                    break;
+                case ResourceEnum.Crop:
+                    retVal = "Goldenrod";
+                    break;
+                case ResourceEnum.Desert:
+                    retVal = "Orange";
+                    break;
+                default:
+                    retVal = "Black";
+                    break;
+            }
+            return retVal;
         }
     }
 }

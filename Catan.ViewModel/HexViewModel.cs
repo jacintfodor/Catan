@@ -9,14 +9,21 @@ namespace Catan.ViewModel
 {
     public class HexViewModel : ViewModelBase
     {
-        public HexViewModel(ResourceEnum resource, int number)
+        private string _resource;
+        private int _number;
+
+        public HexViewModel(string resource, int number, int row, int column)
         {
             Resource = resource;
             Number = number;
+            Column = column;
+            Row = row;
         }
 
-        public ResourceEnum Resource { get; set; }
-        public int Number { get; set; }
+        public string Resource { get => _resource; set { _resource = value; OnPropertyChanged(); } }
+        public int Number { get => _number; set { _number = value; OnPropertyChanged(); } }
+        public int Column { get; set; }
+        public int Row { get; set; }
 
     }
 }

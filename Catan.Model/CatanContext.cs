@@ -44,9 +44,9 @@ namespace Catan.Model
             FirstDice = new(150);
             SecondDice = new(51231);
 
-            _players.Enqueue(new Player());
-            _players.Enqueue(new Player());
-            _players.Enqueue(new Player());
+            _players.Enqueue(new Player("P1"));
+            _players.Enqueue(new Player("P2"));
+            _players.Enqueue(new Player("P3"));
         }
 
         public void clear()

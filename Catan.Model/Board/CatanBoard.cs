@@ -38,6 +38,9 @@ namespace Catan.Model.Board
         }
         private void generateVertexMap()
         {
+            var rnd = new Random();
+            Player p = new Player("P1");
+
             for (int i = 0; i < 5; i++)
             {
                 for (int j = 0; j < 5; j++)
@@ -46,7 +49,20 @@ namespace Catan.Model.Board
                         continue;
                     getVertexLocationsOfHex(i, j).ForEach(x =>
                     {
-                        Vertices[x[0], x[1]] = new Vertex(NotPlayer.Instance, NotBuilding.Instance);
+                        int rndInt = rnd.Next(101);
+                        if (rndInt > 95)
+                        {
+                            Vertices[x[0], x[1]] = new Vertex(p, new Settlement());
+                            Vertices[x[0], x[1]] = new Vertex(p, new Town());
+                        }
+                        else if (rndInt > 85)
+                        {
+                            Vertices[x[0], x[1]] = new Vertex(p, new Settlement());
+                        }
+                        else
+                        {
+                            Vertices[x[0], x[1]] = new Vertex(NotPlayer.Instance, NotBuilding.Instance);
+                        }
                     });
                 }
             }
