@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,10 @@ namespace Catan.ViewModel
     public class CatanViewModel : ViewModelBase
     {
         private CatanGameModel _model;
-        
+
+        public ObservableCollection<HexViewModel> Hexes { get; set; }
+
+
         int _firstDiceValue = 1;
         int _secondDiceValue = 1;
         public int FirstDiceFace { get => _firstDiceValue; set { _firstDiceValue = value; OnPropertyChanged(); OnPropertyChanged(nameof(SumOfDices)); } }
