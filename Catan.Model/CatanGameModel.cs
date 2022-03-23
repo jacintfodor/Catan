@@ -60,6 +60,7 @@ namespace Catan.Model
         public void PurchaseBonusCard()
         {
             _currentState.PurchaseBonusCard(_catanContext);
+            OnDiceThrown();
         }
         public void BuildRoad(int row, int col)
         {
