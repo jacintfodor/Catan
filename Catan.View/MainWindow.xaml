@@ -39,7 +39,7 @@
             <Button Grid.Column="6"  Grid.Row="1" Content="{Binding CurrentPlayerBrick}"      Background="SlateGray"/>
             <Button Grid.Column="8"  Grid.Row="1" Content="{Binding CurrentPlayerCrop}"  Background="Goldenrod"/>
             <Button Grid.Column="10" Grid.Row="1" Content="{Binding CurrentPlayerOre}"   Background="Firebrick"/>
-            <Button Grid.Column="12" Grid.Row="1" Content="Kör Vége"/>
+            <Button Grid.Column="12" Grid.Row="1" Content="Kör Vége" Command="{Binding EndTurnCommand}"/>
         </Grid>
 
         <Grid x:Name = "Hex" Grid.Row="1">
