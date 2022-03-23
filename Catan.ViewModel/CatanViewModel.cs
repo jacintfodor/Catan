@@ -27,6 +27,13 @@ namespace Catan.ViewModel
         public int SecondDiceFace { get => _secondDiceValue; set { _secondDiceValue = value; OnPropertyChanged(); OnPropertyChanged(nameof(SumOfDices)); } }
         public int SumOfDices { get => FirstDiceFace + SecondDiceFace; }
 
+        private Dictionary<ResourceEnum, int> _currentPlayersResource;
+        public int CurrentPlayerCrop { get => _currentPlayersResource[ResourceEnum.Crop]; set { _currentPlayersResource[ResourceEnum.Crop] = value; OnPropertyChanged(); } }
+        public int CurrentPlayerOre { get => _currentPlayersResource[ResourceEnum.Ore]; set { _currentPlayersResource[ResourceEnum.Ore] = value; OnPropertyChanged(); } }
+        public int CurrentPlayerWood { get => _currentPlayersResource[ResourceEnum.Wood]; set { _currentPlayersResource[ResourceEnum.Wood] = value; OnPropertyChanged(); } }
+        public int CurrentPlayerBrick { get => _currentPlayersResource[ResourceEnum.Brick]; set { _currentPlayersResource[ResourceEnum.Brick] = value; OnPropertyChanged(); } }
+        public int CurrentPlayerWool { get => _currentPlayersResource[ResourceEnum.Wool]; set { _currentPlayersResource[ResourceEnum.Wool] = value; OnPropertyChanged(); } }
+
         public DelegateCommand ThrowDicesCommand { get; private set; }
 
         public CatanViewModel(CatanGameModel model)
@@ -34,6 +41,15 @@ namespace Catan.ViewModel
             _model = model;
             Hexes = new ObservableCollection<HexViewModel>();
             Vertices = new ObservableCollection<VertexViewModel>();
+
+            _currentPlayersResource = new Dictionary<ResourceEnum,int>();
+            _currentPlayersResource.Add(ResourceEnum.Crop, 0);
+            _currentPlayersResource.Add(ResourceEnum.Ore, 0);
+            _currentPlayersResource.Add(ResourceEnum.Wood, 0);
+            _currentPlayersResource.Add(ResourceEnum.Brick, 0);
+            _currentPlayersResource.Add(ResourceEnum.Wool, 0);
+
+
             _model.DicesThrown += Model_DicesThrown;
             _model.GameStart += Model_NewGame;
             ThrowDicesCommand = new DelegateCommand(_ => _model.ThrowDices());
@@ -71,6 +87,14 @@ namespace Catan.ViewModel
         {
             FirstDiceFace = e.FirstDice;
             SecondDiceFace = e.SecondDice;
+
+            CurrentPlayerCrop = e.CropCount;
+            CurrentPlayerOre = e.OreCount;
+            CurrentPlayerWood = e.WoodCount;
+            CurrentPlayerBrick = e.BrickCount;
+            CurrentPlayerWool = e.WoolCount;
+
+
         }
 
         private string BuildingToString(Building b)
