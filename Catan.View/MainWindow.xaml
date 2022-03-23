@@ -33,12 +33,12 @@
                 <RowDefinition Height = "1*"/>
                 <RowDefinition Height = "9*" />
             </Grid.RowDefinitions>
-            <Button Grid.Column="2"  Grid.Row="1" Content="Fa"      Background="ForestGreen"/>
-            <Button Grid.Column="4"  Grid.Row="1" Content="Gyapjú"  Background="PaleGreen"/>
+            <Button Grid.Column="2"  Grid.Row="1" Content="{Binding CurrentPlayerWood}"      Background="ForestGreen"/>
+            <Button Grid.Column="4"  Grid.Row="1" Content="{Binding CurrentPlayerWool}"  Background="PaleGreen"/>
             <!-- Background="Lime" vagy Background="Moccasin"-->
-            <Button Grid.Column="6"  Grid.Row="1" Content="Kő"      Background="SlateGray"/>
-            <Button Grid.Column="8"  Grid.Row="1" Content="Gabona"  Background="Goldenrod"/>
-            <Button Grid.Column="10" Grid.Row="1" Content="Tégla"   Background="Firebrick"/>
+            <Button Grid.Column="6"  Grid.Row="1" Content="{Binding CurrentPlayerBrick}"      Background="SlateGray"/>
+            <Button Grid.Column="8"  Grid.Row="1" Content="{Binding CurrentPlayerCrop}"  Background="Goldenrod"/>
+            <Button Grid.Column="10" Grid.Row="1" Content="{Binding CurrentPlayerOre}"   Background="Firebrick"/>
             <Button Grid.Column="12" Grid.Row="1" Content="Kör Vége"/>
         </Grid>
 
