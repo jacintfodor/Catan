@@ -36,6 +36,7 @@ namespace Catan.ViewModel
 
         public DelegateCommand ThrowDicesCommand { get; private set; }
         public DelegateCommand EndTurnCommand { get; private set; }
+        public DelegateCommand PurchaseBonusCardCommand { get; private set; }
 
         public CatanViewModel(CatanGameModel model)
         {
@@ -55,6 +56,7 @@ namespace Catan.ViewModel
             _model.GameStart += Model_NewGame;
             ThrowDicesCommand = new DelegateCommand(_ => _model.ThrowDices());
             EndTurnCommand = new DelegateCommand(_ => _model.EndTurn());
+            PurchaseBonusCardCommand = new DelegateCommand(_ => _model.PurchaseBonusCard());
 
         }
 
