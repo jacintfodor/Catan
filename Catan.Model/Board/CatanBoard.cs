@@ -39,7 +39,7 @@ namespace Catan.Model.Board
         private void generateVertexMap()
         {
             var rnd = new Random();
-            Player p = new Player("P1");
+            IPlayer p = NotPlayer.Instance;
 
             for (int i = 0; i < 5; i++)
             {
@@ -251,6 +251,13 @@ namespace Catan.Model.Board
 
         public void buildTown(int row, int col)
         {
+            Vertices[row, col].Building = new Town();
+
+        }
+
+        public void buildTown(int row, int col, IPlayer builder)
+        {
+            Vertices[row, col].Owner = builder;
             Vertices[row, col].Building = new Town();
 
         }
