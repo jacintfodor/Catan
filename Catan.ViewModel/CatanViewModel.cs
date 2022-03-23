@@ -35,6 +35,7 @@ namespace Catan.ViewModel
         public int CurrentPlayerWool { get => _currentPlayersResource[ResourceEnum.Wool]; set { _currentPlayersResource[ResourceEnum.Wool] = value; OnPropertyChanged(); } }
 
         public DelegateCommand ThrowDicesCommand { get; private set; }
+        public DelegateCommand EndTurnCommand { get; private set; }
 
         public CatanViewModel(CatanGameModel model)
         {
@@ -53,6 +54,7 @@ namespace Catan.ViewModel
             _model.DicesThrown += Model_DicesThrown;
             _model.GameStart += Model_NewGame;
             ThrowDicesCommand = new DelegateCommand(_ => _model.ThrowDices());
+            EndTurnCommand = new DelegateCommand(_ => _model.EndTurn());
 
         }
 
@@ -136,7 +138,7 @@ namespace Catan.ViewModel
                     retVal = "Goldenrod";
                     break;
                 case ResourceEnum.Desert:
-                    retVal = "Orange";
+                    retVal = "Black";
                     break;
                 default:
                     retVal = "Black";
