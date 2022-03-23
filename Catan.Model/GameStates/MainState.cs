@@ -22,12 +22,7 @@ namespace Catan.Model.GameStates
 
         public void EndTurn(CatanContext context)
         {
-            if (context.Winner != NotPlayer.Instance)
-                context.EndTurn();
-            else
-            {
-                throw new NotImplementedException();
-            }
+            context.EndTurn();
         }
 
         public void ExchangeWithBank(CatanContext context)
