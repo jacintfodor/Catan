@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Catan.Model.Context.Players;
 using Catan.Model.Board.Buildings;
+using Catan.Model.Context;
 
 namespace Catan.Model.GameStates
 {
@@ -60,9 +61,11 @@ namespace Catan.Model.GameStates
             throw new NotImplementedException();
         }
 
+        //Crop, Ore, Wood, Brick, Wool
         public void PurchaseBonusCard(CatanContext context)
         {
-            throw new NotImplementedException();
+            if (context.CurrentPlayer.CanAfford(new Goods(new List<int> { 1, 1, 0, 0, 1 })))
+                context.CurrentPlayer.ReduceResources(new Goods(new List<int> { 1, 1, 0, 0, 1 }));
         }
 
         public void StartTrade(CatanContext context)
