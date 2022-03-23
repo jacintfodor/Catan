@@ -35,11 +35,13 @@ namespace Catan.Model
             {
                 GameStart(this, new GameStartEventArgs(_catanContext.Board.Hexes, _catanContext.Board.Vertices, _catanContext.Board.Edges));
             }
+            OnDiceThrown();
         }
 
         public void EndTurn()
         {
             _currentState.EndTurn(_catanContext);
+            OnDiceThrown();
         }
         public void ThrowDices()
         {
