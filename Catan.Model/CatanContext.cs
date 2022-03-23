@@ -47,6 +47,37 @@ namespace Catan.Model
             _players.Enqueue(new Player("P1"));
             _players.Enqueue(new Player("P2"));
             _players.Enqueue(new Player("P3"));
+
+            CurrentPlayer.AddResource(new Goods(new List<int> { 1, 1, 1, 1, 1 }));
+            NextPlayer.AddResource(new Goods(new List<int> { 2, 2, 2, 2, 2 }));
+            NextNextPlayer.AddResource(new Goods(new List<int> { 3, 3, 3, 3, 3 }));
+
+            generateBuildings();
+        }
+
+        private void generateBuildings()
+        {
+            var rnd = new Random();
+            var rnd2 = new Random(123424);
+
+            List<int> rows = new List<int>() {1, 1, 1, 1, 3, 3, 3, 5, 5, 2, 2, 2, 2, 4, 4};
+            List<int> cols = new List<int>() {3, 5, 6, 7, 1, 5, 8, 4, 6, 2, 5, 6, 7, 4, 5};
+
+            for( int i = 0; i < rows.Count; ++i)
+            {
+                bool build = rnd.Next(100) > 60;
+                
+                bool isTown = rnd2.Next(100) > 80;
+                if (build)
+                {
+                    if (isTown)
+                        Board.buildTown(rows[i], cols[i], CurrentPlayer);
+                    else
+                        Board.buildSettlement(rows[i], cols[i], CurrentPlayer);
+                }
+
+            }
+            
         }
 
         public void clear()
