@@ -12,7 +12,7 @@ namespace Catan.Model.Context
         public int Brick { get => _goods[ResourceEnum.Brick]; }
         public int Wool { get => _goods[ResourceEnum.Wool]; }
 
-        public bool Valid { get; private set; }
+        public bool Valid { get; private set; } = true;
 
 
         public Goods(List<int> l)
