@@ -82,7 +82,7 @@
                 <!-- Background="" -->
                 <Button Grid.Row="7" Grid.Column="1" Content="Település"/>
                 <Button Grid.Row="9" Grid.Column="1" Content="Út"/>
-                <Button Grid.Row="11" Grid.Column="1" Content="Bank"/>
+                <Button Grid.Row="11" Grid.Column="1" Content="Bonus kartya" Command="{Binding PurchaseBonusCardCommand}"/>
                 <Button Grid.Row="13" Grid.Column="1" Content="Csere"/>
             </Grid>
             <Grid x:Name = "Hex353" Grid.Row="1" Grid.Column="1">
