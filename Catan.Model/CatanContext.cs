@@ -58,22 +58,34 @@ namespace Catan.Model
         private void generateBuildings()
         {
             var rnd = new Random();
-            var rnd2 = new Random(123424);
+            var rnd2 = new Random(rnd.Next());
+            var rnd3 = new Random(rnd2.Next());
+
+            IPlayer p = NotPlayer.Instance;
 
             List<int> rows = new List<int>() {1, 1, 1, 1, 3, 3, 3, 5, 5, 2, 2, 2, 2, 4, 4};
             List<int> cols = new List<int>() {3, 5, 6, 7, 1, 5, 8, 4, 6, 2, 5, 6, 7, 4, 5};
 
             for( int i = 0; i < rows.Count; ++i)
             {
+                int roll = rnd3.Next(100);
+                if (roll > 70)
+                    p = NextNextPlayer;
+                else if (roll > 40)
+                    p = NextPlayer;
+                else
+                    p = CurrentPlayer;
+
+
                 bool build = rnd.Next(100) > 60;
                 
                 bool isTown = rnd2.Next(100) > 80;
                 if (build)
                 {
                     if (isTown)
-                        Board.buildTown(rows[i], cols[i], CurrentPlayer);
+                        Board.buildTown(rows[i], cols[i], p);
                     else
-                        Board.buildSettlement(rows[i], cols[i], CurrentPlayer);
+                        Board.buildSettlement(rows[i], cols[i], p);
                 }
 
             }
