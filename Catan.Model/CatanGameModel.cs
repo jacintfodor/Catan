@@ -116,7 +116,9 @@ namespace Catan.Model
             DicesThrown?.Invoke(
                 this,
                 new DicesThrownEventArg(_catanContext.FirstDice.RolledValue,
-                                         _catanContext.SecondDice.RolledValue));
+                                         _catanContext.SecondDice.RolledValue,
+                                         _catanContext.CurrentPlayer.AvailableResources
+            )) ;
         }
     }
 }
