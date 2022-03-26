@@ -9,6 +9,8 @@ using Catan.Model;
 using Catan.Model.Board;
 using Catan.Model.Board.Buildings;
 using Catan.Model.Board.Compontents;
+using Catan.Model.Context;
+using Catan.Model.Context.Players;
 using Catan.Model.Events;
 
 namespace Catan.ViewModel
@@ -80,7 +82,7 @@ namespace Catan.ViewModel
                 {
                     if (vxs[i, j] != null)
                     {
-                        var ver = new VertexViewModel("P1", BuildingToString(vxs[i,j].Building), i, j);
+                        var ver = new VertexViewModel("", BuildingToString(vxs[i,j].Building,vxs[i,j].Owner), i, j);
                         Vertices.Add(ver);
                     }
                 }
@@ -101,10 +103,10 @@ namespace Catan.ViewModel
 
         }
 
-        private string BuildingToString(Building b)
+        private string BuildingToString(Building b, IPlayer p)
         {
-            string retVal;
-            switch (b)
+            string retVal = "";
+            /*switch (b)
             {
                 case Settlement:
                     retVal = "Brown";
@@ -115,7 +117,51 @@ namespace Catan.ViewModel
                 default:
                     retVal = "Moccasin";
                     break;
+            }*/
+            if (p.Name == null)
+                return "Moccasin";
+            switch (p.Name)
+            {
+                case "P1":
+                    switch (b)
+                    {
+                        case Settlement:
+                            retVal = "Red";
+                            break;
+                        case Town:
+                            retVal = "Darkred";
+                            break;
+                    }
+                break;
+                case "P2":
+                    switch (b)
+                    {
+                        case Settlement:
+                            retVal = "Blue";
+                            break;
+                        case Town:
+                            retVal = "Indigo";
+                            break;
+                    }
+                    break;
+                case "P3":
+                    switch (b)
+                    {
+                        case Settlement:
+                            retVal = "Gray";
+                            break;
+                        case Town:
+                            retVal = "Black";
+                            break;
+                    }
+                    break;
+                default :
+                    retVal = "Black";
+                    break;
             }
+
+
+
             return retVal;
         }
 

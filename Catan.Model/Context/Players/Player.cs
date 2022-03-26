@@ -6,6 +6,8 @@ namespace Catan.Model.Context.Players
     {
         private Goods _resources;
         private string _name;
+        
+
         public Goods AvailableResources { get { return _resources; } set { _resources = value; } }
         public string Name { get { return _name; } set { _name = value; } }
 

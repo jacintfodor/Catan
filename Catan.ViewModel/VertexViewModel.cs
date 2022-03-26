@@ -11,7 +11,7 @@ namespace Catan.ViewModel
         private string _building;
         private string _owner;
 
-        public VertexViewModel(string owner,string building, int row, int column)
+        public VertexViewModel(string owner, string building, int row, int column)
         {
             Building = building;
             Owner = owner;

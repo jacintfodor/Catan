@@ -316,6 +316,7 @@ Background="Firebrick"
                             {
                                 hexColor = vModel.Hexes[iter].Resource;
                                 name += vModel.Hexes[iter].Number;
+                                name = name == "7" ? "" : name;
                             }
                         }
                     }

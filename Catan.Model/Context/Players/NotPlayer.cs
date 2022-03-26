@@ -8,6 +8,8 @@ namespace Catan.Model.Context.Players
         {
         }
 
+        public string Name { get ; set; }
+
         private static readonly NotPlayer _instance = new NotPlayer();
         public static NotPlayer Instance
         { get { return _instance; } }

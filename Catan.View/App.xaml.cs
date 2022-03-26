@@ -33,6 +33,7 @@ namespace Catan.View
             _model.NewGame();
 
             _view = new MainWindow(_viewModel);
+
             _view.DataContext = _viewModel;
             _view.Show();
         }
