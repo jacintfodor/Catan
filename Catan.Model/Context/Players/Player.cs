@@ -5,12 +5,16 @@ namespace Catan.Model.Context.Players
     public class Player : IPlayer
     {
         private Goods _resources;
- 
-        public Goods AvailableResources { get { return _resources; } set { _resources = value; } }
+        private string _name;
+        
 
-        public Player()
+        public Goods AvailableResources { get { return _resources; } set { _resources = value; } }
+        public string Name { get { return _name; } set { _name = value; } }
+
+        public Player(string Name)
         {
             _resources = new Goods();
+            _name = Name;
         }
 
         public int CalculateScore()

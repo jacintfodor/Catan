@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Catan.ViewModel;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -287,9 +288,10 @@ Background="Firebrick"
             return System.Windows.Markup.XamlReader.Parse(xaml) as ControlTemplate;
         }
         /**/
-        public MainWindow()
+        public MainWindow(CatanViewModel viewModel)
         {
             InitializeComponent();
+            CatanViewModel vModel = viewModel;
             Button b;
             int count = 0;
             int count2 = 0;
@@ -305,8 +307,21 @@ Background="Firebrick"
                 {
                     b = new Button();
                     b.FontSize = 18;
-                    name = "" + rnd.Next(0, 13);
-                    b.Template = MakeTemplate(name, Shape.Hexagon, FieldTo((Field)rnd.Next(0, 5)));
+                    string hexColor = "Orange";
+                    for (int iter = 0; iter < vModel.Hexes.Count; iter++)
+                    {
+                        if (vModel.Hexes[iter].Row == j)
+                        {
+                            if((j % 2 == 0 && (vModel.Hexes[iter].Column * 2) == i) ||(j % 2 == 1 && (vModel.Hexes[iter].Column * 2)+1 == i))
+                            {
+                                hexColor = vModel.Hexes[iter].Resource;
+                                name += vModel.Hexes[iter].Number;
+                                name = name == "7" ? "" : name;
+                            }
+                        }
+                    }
+                    b.Template = MakeTemplate(name, Shape.Hexagon, hexColor);
+                    name = "";
                     Grid.SetRow(b, j + 1);
                     Grid.SetColumn(b, i + 1);
                     if (i % 2 == 0 && j % 2 == 0)
@@ -387,22 +402,34 @@ Background="Firebrick"
                     }
                 }
             }
+            string vertexColor = "";
             for (int i = 0; i <= 20; i += 2)
             {
                 for (int j = 0; j <= 22; j += 2)
                 {
+                    name = "";
                     b = new Button();
-                    b.FontSize = 8;
-                    //name = "" + count4;
+                    b.FontSize = 15;
+                    vertexColor = "Moccasin";
+                    for (int iter = 0; iter < vModel.Vertices.Count; iter++)
+                    {
+                        if ((vModel.Vertices[iter].Row+vModel.Vertices[iter].Row)*2 == j || (vModel.Vertices[iter].Row + vModel.Vertices[iter].Row+1) * 2 ==j)
+                        {
+                            if ((vModel.Vertices[iter].Column * 2) == i)
+                            {
+                                vertexColor = vModel.Vertices[iter].Building;
+                            }
+                        }
+                    }
+                    //name += j + " - " + i;
                     Grid.SetRow(b, j);
                     Grid.SetColumn(b, i);
-                    b.Template = MakeTemplate(name, Shape.Vertex);//MakeCircleTemplate("" + count4);
+                    b.Template = MakeTemplate(name, Shape.Vertex, vertexColor);//MakeCircleTemplate("" + count4);
                     if (arrVerex[j / 2, i / 2] == 1)
                     {
                         Vertex.Children.Add(b);
                         count4++;
                     }
-
                 }
             }
             b = new Button();
@@ -434,7 +461,7 @@ Background="Firebrick"
             Grid.SetRow(b, 3);
             Grid.SetColumn(b, 0);
             MainGrid.Children.Add(b);
-
+            int asdf = 123;
 
         }
     }

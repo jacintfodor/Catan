@@ -4,6 +4,7 @@ namespace Catan.Model.Context
 {
     public interface IPlayer
     {
+        public string Name { get; set; }
         public void AddResource(Goods resourcesToAdd);
 
         public void ReduceResources(Goods resourcesToReduce);

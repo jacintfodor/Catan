@@ -2,16 +2,18 @@
 using Catan.Model.Board.Compontents;
 using Catan.Model.Context;
 using Catan.Model.Context.Players;
+using Catan.Model.Events;
 
 namespace Catan.Model.Board
 {
 
     public class CatanBoard
     {
-        private Hex[,] Hexes = new Hex[5, 5];
-        private Edge[,] Edges = new Edge[11, 11];
-        private Vertex[,] Vertices = new Vertex[11, 11];
+        public Hex[,] Hexes = new Hex[5, 5];
+        public Vertex[,] Vertices = new Vertex[11, 11];
+        public Edge[,] Edges = new Edge[11, 11];
         private List<int> numbers = new List<int> { 2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12 };
+
 
         public CatanBoard()
         {
@@ -36,6 +38,8 @@ namespace Catan.Model.Board
         }
         private void generateVertexMap()
         {
+            var rnd = new Random();
+
             for (int i = 0; i < 5; i++)
             {
                 for (int j = 0; j < 5; j++)
@@ -44,7 +48,9 @@ namespace Catan.Model.Board
                         continue;
                     getVertexLocationsOfHex(i, j).ForEach(x =>
                     {
+                       
                         Vertices[x[0], x[1]] = new Vertex(NotPlayer.Instance, NotBuilding.Instance);
+                        
                     });
                 }
             }
@@ -233,6 +239,13 @@ namespace Catan.Model.Board
 
         public void buildTown(int row, int col)
         {
+            Vertices[row, col].Building = new Town();
+
+        }
+
+        public void buildTown(int row, int col, IPlayer builder)
+        {
+            Vertices[row, col].Owner = builder;
             Vertices[row, col].Building = new Town();
 
         }
