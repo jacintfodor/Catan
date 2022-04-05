@@ -54,9 +54,9 @@ namespace Catan.Model.Board
                         continue;
                     getVertexLocationsOfHex(i, j).ForEach(x =>
                     {
-                       
+
                         Vertices[x[0], x[1]] = new Vertex(NotPlayer.Instance, NotBuilding.Instance);
-                        
+
                     });
                 }
             }
@@ -175,7 +175,7 @@ namespace Catan.Model.Board
             if (Edges[row * 2 + offset, col] != null)
                 retVal.Add(Edges[row * 2 + offset, col]);
 
-            if (Edges[row * 2, col-1] != null)
+            if (Edges[row * 2, col - 1] != null)
                 retVal.Add(Edges[row * 2, col - 1]);
 
             if (Edges[row * 2 + offset, col] != null)
@@ -189,17 +189,17 @@ namespace Catan.Model.Board
             List<Vertex> retVal = new List<Vertex>();
             if (row % 2 == 0)
             {
-                if(Vertices[row / 2, col] != null)
-                    retVal.Add(Vertices[row/2,col]);
-                if(Vertices[row / 2, col+1] != null)
-                    retVal.Add(Vertices[row/2,col+1]);
+                if (Vertices[row / 2, col] != null)
+                    retVal.Add(Vertices[row / 2, col]);
+                if (Vertices[row / 2, col + 1] != null)
+                    retVal.Add(Vertices[row / 2, col + 1]);
             }
             else
             {
                 if (Vertices[(row - 1) / 2, col] != null)
-                    retVal.Add(Vertices[(row-1) / 2, col]);
-                if(Vertices[(row + 1) / 2, col] != null)
-                    retVal.Add(Vertices[(row+1) / 2, col]);
+                    retVal.Add(Vertices[(row - 1) / 2, col]);
+                if (Vertices[(row + 1) / 2, col] != null)
+                    retVal.Add(Vertices[(row + 1) / 2, col]);
             }
             return retVal;
         }
@@ -208,7 +208,7 @@ namespace Catan.Model.Board
         #region Enumerators
         public IEnumerable<Hex> GetHexesEnumerable()
         {
-            for(int row = 0; row < 5; row++)
+            for (int row = 0; row < 5; row++)
                 for (int col = 0; col < 5; col++)
                 {
                     if (Hexes[row, col] == null)
@@ -229,6 +229,17 @@ namespace Catan.Model.Board
                         yield return Vertices[row, col];
                 }
         }
+        public IEnumerable<Edge> GetEdgesEnumerable()
+        {
+            for (int row = 0; row < 11; row++)
+                for (int col = 0; col < 11; col++)
+                {
+                    if (Vertices[row, col] == null)
+                        continue;
+                    else
+                        yield return Edges[row, col];
+                }
+        }
         #endregion
 
         #region Methods 
@@ -242,13 +253,13 @@ namespace Catan.Model.Board
                         continue;
 
                     getVerticesOfHex(row, col).ForEach(vertex =>
-                     {
-                         if (vertex.Owner != NotPlayer.Instance)
-                         { 
-                             int amount = vertex.Building.amount();
-                             vertex.Owner.AddResource(new Goods(Hexes[row,col].Resource) * amount);
-                         }
-                     });
+                    {
+                        if (vertex.Owner != NotPlayer.Instance)
+                        {
+                            int amount = vertex.Building.amount();
+                            vertex.Owner.AddResource(new Goods(Hexes[row, col].Resource) * amount);
+                        }
+                    });
                 }
             }
         }
