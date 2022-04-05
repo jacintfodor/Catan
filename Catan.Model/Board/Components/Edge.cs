@@ -5,12 +5,17 @@ namespace Catan.Model.Board.Compontents
 {
     public class Edge
     {
-        public Edge(IPlayer owner, Building building)
+        public Edge(IPlayer owner, Building building, bool validForBuilding = true)
         {
             Owner = owner;
             Building = building;
+            ValidForBuilding = validForBuilding;
+            EligablePlayers = new List<IPlayer> {};
         }
+
         public IPlayer Owner { get; set; }
         public Building Building { get; set; }
+        public bool ValidForBuilding { get; set; }
+        public List<IPlayer> EligablePlayers { get; set; }
     }
 }
