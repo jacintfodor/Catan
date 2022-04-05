@@ -6,7 +6,5 @@ namespace Catan.Model.Board.Buildings
     {
         public abstract int score();
         public abstract int amount();
-        public abstract bool isBuildable();
-        public abstract List<Player> canBuild();
     }
 }

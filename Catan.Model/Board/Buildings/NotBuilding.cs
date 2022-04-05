@@ -17,7 +17,5 @@ namespace Catan.Model.Board.Buildings
 
         override public int score() { return 0; }
         override public int amount() { return 0; }
-        override public bool isBuildable() { return true; }
-        override public List<Player> canBuild() { return new List<Player>();}
     }
 }
