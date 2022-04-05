@@ -9,18 +9,24 @@ namespace Catan.Model.Board
 
     public class CatanBoard
     {
+
+        #region Variables
         public Hex[,] Hexes = new Hex[5, 5];
         public Vertex[,] Vertices = new Vertex[11, 11];
         public Edge[,] Edges = new Edge[11, 11];
         private List<int> numbers = new List<int> { 2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12 };
+        #endregion Variables
 
-
+        #region Constructor
         public CatanBoard()
         {
             generateHexMap();
             generateEdgeMap();
             generateVertexMap();
         }
+        #endregion Constructor
+
+        #region Board Generation
         private void generateEdgeMap()
         {
             for (int i = 0; i < 5; i++)
@@ -100,9 +106,8 @@ namespace Catan.Model.Board
                 }
             }
         }
-
-        //Returns an index list of edges to a hex from hex's index, to generate map
-        private List<int[]> getEdgeLocationOfHex(int row, int col) {
+        private List<int[]> getEdgeLocationOfHex(int row, int col)
+        {
             List<int[]> retVal = new List<int[]>();
             int offset = row % 2;
             offset = 0 - offset;
@@ -114,7 +119,6 @@ namespace Catan.Model.Board
             retVal.Add(new int[] { 2 * row + 2, 2 * (col - offset) + 1 + offset });
             return retVal;
         }
-        //Returns an index list of vertices to a hex from hex's index, generatine map
         private List<int[]> getVertexLocationsOfHex(int row, int col)
         {
             List<int[]> retVal = new List<int[]>();
@@ -128,8 +132,11 @@ namespace Catan.Model.Board
             retVal.Add(new int[] { row + 1, 2 * (col - offset) + 2 + offset });
             return retVal;
         }
+        #endregion board generation
+
+        #region Geters of board pieces
         //Returns a list of vertices to a hex from hex's index
-        private List<Vertex> getVerticesOfHex(int row, int col)
+        public List<Vertex> getVerticesOfHex(int row, int col)
         {
             List<Vertex> retVal = new List<Vertex>();
             int offset = row % 2;
@@ -143,12 +150,6 @@ namespace Catan.Model.Board
             return retVal;
         }
 
-
-        /*
-         Ezek a methódusok a State számára készültek. Ezekkel könnyedén lehet lekérni hogy hova mit lehet építeni
-         Ha adott csúcsra akunk építeni és azzal szomszédosan van egy épület az az a körülötte lévő utak túloldalán bárhol van település akkor invalid.
-         Ha nincs akkor a többi élet meg lehet nézni hogy valamelyik az éppen levő játékosé ha igen akkor az biztos vezet valamilyen településhez tehát ide lehet építeni.
-         */
         //Returns a list of neighbouring Vertices of given Vertex index
         public List<Vertex> getNeighborVerticesOfVertex(int row, int col)
         {
@@ -202,8 +203,23 @@ namespace Catan.Model.Board
             }
             return retVal;
         }
+        #endregion Getters of board pieces
 
+        #region Enumerators
+        public IEnumerable<Hex> GetHexesEnumerator()
+        {
+            for(int row = 0; row < 5; row++)
+                for (int col = 0; col < 5; col++)
+                {
+                    if (Hexes[row, col] == null)
+                        continue;
+                    else
+                        yield return Hexes[row, col];
+                }
+        }
+        #endregion
 
+        #region Methods 
         public void distributeResource(int dieValue)
         {
             for (int row = 0; row < 5; row++)
@@ -249,5 +265,6 @@ namespace Catan.Model.Board
             Vertices[row, col].Building = new Town();
 
         }
+        #endregion Methods
     }
 }
