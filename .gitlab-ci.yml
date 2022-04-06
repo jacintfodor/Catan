@@ -1,5 +1,5 @@
 # Default image (https://hub.docker.com/_/microsoft-dotnet-core-sdk/)
-image: mcr.microsoft.com/dotnet/core/sdk:6.0
+image: 6.0.201-nanoserver-ltsc2022
 
 stages:
   - build
