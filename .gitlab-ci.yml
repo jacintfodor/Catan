@@ -35,6 +35,7 @@ test_model:
 # Documentation
 pages:
   stage: deploy
+  image: mcr.microsoft.com/dotnet/sdk:6.0
   before_script:
     - apt-get update -yqq
     - apt-get install -yqq doxygen graphviz
