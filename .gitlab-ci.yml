@@ -12,7 +12,7 @@ before_script:
 # Build
 build_model:
   stage: build
-  tags: [linux]
+  tags: [windows]
   script:
     - dotnet build Catan.Model
 
@@ -28,7 +28,7 @@ build_view:
 # Test
 test_model:
   stage: test
-  tags: [linux]
+  tags: [windows]
   script:
     - dotnet test Catan.Model.Test
 
