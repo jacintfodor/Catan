@@ -1,6 +1,9 @@
 # Default image (https://hub.docker.com/_/microsoft-dotnet-core-sdk/)
 image: mcr.microsoft.com/dotnet/sdk:6.0-windowsservercore-ltsc2019
 
+include:
+  - template: Code-Quality.gitlab-ci.yml
+
 stages:
   - build
   - test
@@ -24,6 +27,7 @@ build_view:
   tags: [windows]
   script:
     - dotnet build Catan.sln
+
 
 # Test
 test_model:
