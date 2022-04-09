@@ -36,6 +36,10 @@ test_model:
   script:
     - dotnet test Catan.Model.Test
 
+code_quality:
+  artifacts:
+    paths: [gl-code-quality-report.json]
+
 # Documentation
 pages:
   stage: deploy
