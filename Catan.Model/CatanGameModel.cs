@@ -16,11 +16,6 @@ namespace Catan.Model
         public event EventHandler<DicesThrownEventArg> DicesThrown;
         public event EventHandler<GameStartEventArgs> GameStart;
 
-        public CatanGameModel()
-        {
-            _catanContext = CatanContext.Instance;
-        }
-
         public void NewGame()
         {
             _currentState = _mainState;
