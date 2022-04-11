@@ -27,76 +27,73 @@ namespace Catan.Model
 
         public void EndTurn()
         {
-            _currentState.EndTurn(_catanContext);
-            OnDiceThrown();
+            throw new NotImplementedException();
         }
         public void ThrowDices()
         {
-            _currentState.ThrowDices(_catanContext);
-            OnDiceThrown();
+            throw new NotImplementedException();
 
         }
         public void MoveRogue(int row, int col)
         {
-            _currentState.MoveRogue(_catanContext, row, col);
+            throw new NotImplementedException();
         }
         public void ExchangeWithBank()
         {
-            _currentState.ExchangeWithBank(_catanContext);
+            throw new NotImplementedException();
         }
         public void PurchaseBonusCard()
         {
-            _currentState.PurchaseBonusCard(_catanContext);
-            OnDiceThrown();
+            throw new NotImplementedException();
         }
         public void BuildRoad(int row, int col)
         {
-            _currentState.BuildRoad(_catanContext, row, col);
+            throw new NotImplementedException();
         }
         public void BuildSettleMent(int row, int col)
         {
-            _currentState.BuildSettleMent(_catanContext, row, col);   
+            throw new NotImplementedException();
         }
         public void UpgradeSettleMentToTown(int row, int col)
         {
-            _currentState.UpgradeSettleMentToTown(_catanContext, row, col);
+            throw new NotImplementedException();
         }
         public void StartTrade()
         {
-            _currentState.StartTrade(_catanContext);
+            throw new NotImplementedException();
         }
         public void AcceptTrade()
         {
-            _currentState.AcceptTrade(_catanContext);
+            throw new NotImplementedException();
         }
         public void DenyTrade()
         {
-            _currentState.DenyTrade(_catanContext);
+            throw new NotImplementedException();
         }
         public bool IsGameInProgress()
         {
-            return _currentState.IsGameInProgress(_catanContext);
+            throw new NotImplementedException();
         }
         public bool IsTradeInProgress()
         {
-            return _currentState.IsTradeInProgress(_catanContext);
+            throw new NotImplementedException();
         }
         public bool HasEnoughResourcesToBuildRoad()
         {
-            return _currentState.HasEnoughResourcesToBuildRoad(_catanContext);
+            throw new NotImplementedException();
         }
         public bool HasEnoughResourcesToBuildSettlement()
         {
-            return _currentState.HasEnoughResourcesToBuildSettlement(_catanContext);
+            throw new NotImplementedException();
         }
         public bool HasEnoughResourcesToUpgradeSettlementToTown()
         {
-            return _currentState.HasEnoughResourcesToUpgradeSettlementToTown(_catanContext);
+            throw new NotImplementedException();
         }
 
         public bool IsSettlementOwnedByCurrentPlayer(int row, int col)
         {
-            return _currentState.IsSettlementOwnedByCurrentPlayer(_catanContext, row, col);
+            throw new NotImplementedException();
         }
 
 
