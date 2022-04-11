@@ -40,8 +40,9 @@ namespace Catan.Model
         public void init()
         {
             Board = new();
-            FirstDice = new(150);
-            SecondDice = new(51231);
+            Random rng = new Random();
+            FirstDice = new(rng.Next());
+            SecondDice = new(rng.Next());
 
             _players.Enqueue(new Player("P1"));
             _players.Enqueue(new Player("P2"));
