@@ -18,13 +18,11 @@ namespace Catan.Model
 
         public void NewGame()
         {
-            _currentState = _mainState;
             _catanContext.reset();
             if (GameStart is not null)
             {
                 GameStart(this, new GameStartEventArgs(_catanContext.Board.Hexes, _catanContext.Board.Vertices, _catanContext.Board.Edges));
             }
-            OnDiceThrown();
         }
 
         public void EndTurn()
