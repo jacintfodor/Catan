@@ -15,18 +15,15 @@ namespace Catan.Model
         public void PurchaseBonusCard(CatanContext context);
         public void BuildRoad(CatanContext context, int row, int col)
         {
-            if (HasEnoughResourcesToBuildRoad(context))
-                context.Board.buildRoad(row, col, context.CurrentPlayer);
+            
         }
         public void BuildSettleMent(CatanContext context, int row, int col)
         {
-            if (HasEnoughResourcesToBuildSettlement(context))
-                context.Board.buildSettlement(row, col, context.CurrentPlayer);
+            
         }
         public void UpgradeSettleMentToTown(CatanContext context, int row, int col)
         {
-            if (HasEnoughResourcesToUpgradeSettlementToTown(context) && IsSettlementOwnedByCurrentPlayer(context, col, row))
-                context.Board.buildSettlement(row, col, context.CurrentPlayer);
+            
         }
         public void StartTrade(CatanContext context);
         public void AcceptTrade(CatanContext context);
@@ -38,7 +35,7 @@ namespace Catan.Model
         public bool HasEnoughResourcesToUpgradeSettlementToTown(CatanContext context);
         public bool IsSettlementOwnedByCurrentPlayer(CatanContext context, int row, int col)
         {
-            throw new NotImplementedException();
+            
         }
 
     }
