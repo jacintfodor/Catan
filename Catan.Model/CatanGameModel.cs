@@ -11,7 +11,7 @@ namespace Catan.Model
 {
     public class CatanGameModel
     {
-        private CatanContext _catanContext;
+        private CatanContext _catanContext = CatanContext.Instance;
 
         public event EventHandler<DicesThrownEventArg> DicesThrown;
         public event EventHandler<GameStartEventArgs> GameStart;
