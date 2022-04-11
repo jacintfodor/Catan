@@ -22,9 +22,6 @@ namespace Catan.Model
         public void StartTrade(CatanContext context);
         public void AcceptTrade(CatanContext context);
         public void DenyTrade(CatanContext context);
-        public bool IsGameInProgress(CatanContext context);
-        public bool IsTradeInProgress(CatanContext context);
-        public bool IsSettlementOwnedByCurrentPlayer(CatanContext context, int row, int col);
 
     }
 }
