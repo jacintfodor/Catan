@@ -24,9 +24,6 @@ namespace Catan.Model
         public void DenyTrade(CatanContext context);
         public bool IsGameInProgress(CatanContext context);
         public bool IsTradeInProgress(CatanContext context);
-        public bool HasEnoughResourcesToBuildRoad(CatanContext context);
-        public bool HasEnoughResourcesToBuildSettlement(CatanContext context);
-        public bool HasEnoughResourcesToUpgradeSettlementToTown(CatanContext context);
         public bool IsSettlementOwnedByCurrentPlayer(CatanContext context, int row, int col);
 
     }
