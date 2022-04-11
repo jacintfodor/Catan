@@ -13,11 +13,10 @@ namespace Catan.Model
 {
     public class CatanContext
     {
-        private Queue<IPlayer> _players;
+        private Queue<IPlayer> _players = new();
 
         private CatanContext()
         {
-            _players = new();
             init();
         }
 
