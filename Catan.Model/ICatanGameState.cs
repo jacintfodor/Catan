@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Catan.Model.Context;
+
 namespace Catan.Model
 {
     interface ICatanGameState
@@ -11,6 +13,7 @@ namespace Catan.Model
         public void EndTurn(CatanContext context);
         public void RollDices(CatanContext context);
         public void MoveRogue(CatanContext context, int row, int col);
+        public void IsAffordable(Goods g);
         public void ExchangeWithBank(CatanContext context);
         public void PurchaseBonusCard(CatanContext context);
         public void BuildRoad(CatanContext context, int row, int col);
