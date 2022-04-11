@@ -73,7 +73,7 @@ namespace Catan.Model.GameStates
             throw new NotImplementedException();
         }
 
-        public void ThrowDices(CatanContext context)
+        public void RollDices(CatanContext context)
         {
             context.FirstDice.roll();
             context.SecondDice.roll();

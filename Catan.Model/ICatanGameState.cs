@@ -9,7 +9,7 @@ namespace Catan.Model
     interface ICatanGameState
     {
         public void EndTurn(CatanContext context);
-        public void ThrowDices(CatanContext context);
+        public void RollDices(CatanContext context);
         public void MoveRogue(CatanContext context, int row, int col);
         public void ExchangeWithBank(CatanContext context);
         public void PurchaseBonusCard(CatanContext context);
