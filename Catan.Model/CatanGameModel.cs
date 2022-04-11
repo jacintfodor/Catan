@@ -12,9 +12,6 @@ namespace Catan.Model
     public class CatanGameModel
     {
         private CatanContext _catanContext;
-        private MainState _mainState;
-        
-        private ICatanGameState _currentState;
 
         public event EventHandler<DicesThrownEventArg> DicesThrown;
         public event EventHandler<GameStartEventArgs> GameStart;
@@ -22,9 +19,6 @@ namespace Catan.Model
         public CatanGameModel()
         {
             _catanContext = CatanContext.Instance;
-            _mainState = new MainState();
-
-            _currentState = _mainState;
         }
 
         public void NewGame()
