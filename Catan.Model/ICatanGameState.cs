@@ -13,18 +13,9 @@ namespace Catan.Model
         public void MoveRogue(CatanContext context, int row, int col);
         public void ExchangeWithBank(CatanContext context);
         public void PurchaseBonusCard(CatanContext context);
-        public void BuildRoad(CatanContext context, int row, int col)
-        {
-            
-        }
-        public void BuildSettleMent(CatanContext context, int row, int col)
-        {
-            
-        }
-        public void UpgradeSettleMentToTown(CatanContext context, int row, int col)
-        {
-            
-        }
+        public void BuildRoad(CatanContext context, int row, int col);
+        public void BuildSettleMent(CatanContext context, int row, int col);
+        public void UpgradeSettleMentToTown(CatanContext context, int row, int col);
         public void StartTrade(CatanContext context);
         public void AcceptTrade(CatanContext context);
         public void DenyTrade(CatanContext context);
@@ -33,10 +24,7 @@ namespace Catan.Model
         public bool HasEnoughResourcesToBuildRoad(CatanContext context);
         public bool HasEnoughResourcesToBuildSettlement(CatanContext context);
         public bool HasEnoughResourcesToUpgradeSettlementToTown(CatanContext context);
-        public bool IsSettlementOwnedByCurrentPlayer(CatanContext context, int row, int col)
-        {
-            
-        }
+        public bool IsSettlementOwnedByCurrentPlayer(CatanContext context, int row, int col);
 
     }
 }
