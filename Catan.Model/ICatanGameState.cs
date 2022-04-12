@@ -8,7 +8,7 @@ using Catan.Model.Context;
 
 namespace Catan.Model
 {
-    interface ICatanGameState
+    public interface ICatanGameState
     {
         public void EndTurn(CatanContext context);
         public void RollDices(CatanContext context);
