@@ -109,7 +109,32 @@ namespace Catan.Model
         public void SetContext(ICatanGameState state) { State = state; }
 
         #region state dependent methods
-        
+        public void EndTurn() { State.EndTurn(this); }
+        public void RollDices() { State.RollDices(this); }
+        public void MoveRogue(int row, int col) { State.MoveRogue(this, row, col); }
+        public void IsAffordable(Goods g) { State.IsAffordable(this, g); }
+        public void ExchangeWithBank() { State.ExchangeWithBank(this); }
+        public void PurchaseBonusCard() { State.PurchaseBonusCard(this); }
+        public void StartRoadBuilding() { State.StartRoadBuilding(this); }
+        public void BuildRoad(int row, int col) { State.BuildRoad(this, row, col); }
+        public void StartSettlementBuilding() { State.StartSettlementBuilding(this); }
+        public void BuildSettleMent(int row, int col) { State.BuildSettleMent(this, row, col); }
+        public void StartSettlementUpgrading() { State.StartSettlementUpgrading(this); }
+        public void UpgradeSettleMentToTown(int row, int col) { State.UpgradeSettleMentToTown(this, row, col); }
+        public void Cancel() { State.Cancel(this); }
+        public void StartTrade() { State.StartTrade(this); }
+        public void AcceptTrade() { State.AcceptTrade(this); }
+        public void DenyTrade() { State.DenyTrade(this); }
+
+        public bool IsEarlyRollingState => State.IsEarlyRollingState;
+        public bool IsEarlySettlementBuildingState => State.IsEarlySettlementBuildingState;
+        public bool IsEarlyRoadBuildingState => State.IsEarlyRoadBuildingState;
+        public bool IsRollingState => State.IsRollingState;
+        public bool IsMainState => State.IsMainState;
+        public bool IsSettlementBuildingState => State. IsSettlementBuildingState;
+        public bool IsRoadBuildingState => State.IsRoadBuildingState;
+        public bool IsSettlementUpgradingState => State. IsSettlementUpgradingState;
+        public bool IsWinningState => State.IsWinningState;
         #endregion
     }
 }
