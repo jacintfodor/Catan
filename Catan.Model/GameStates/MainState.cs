@@ -23,7 +23,7 @@ namespace Catan.Model.GameStates
 
         public void EndTurn(CatanContext context)
         {
-            context.EndTurn();
+            context.NextPlayer();
         }
 
         public void ExchangeWithBank(CatanContext context)
