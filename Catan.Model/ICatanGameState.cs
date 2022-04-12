@@ -18,6 +18,7 @@ namespace Catan.Model
         public void PurchaseBonusCard(CatanContext context);
         public void StartRoadBuilding(CatanContext context);
         public void BuildRoad(CatanContext context, int row, int col);
+        public void StartSettlementBuilding(CatanContext context);
         public void BuildSettleMent(CatanContext context, int row, int col);
         public void UpgradeSettleMentToTown(CatanContext context, int row, int col);
         public void StartTrade(CatanContext context);
