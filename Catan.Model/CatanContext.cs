@@ -8,6 +8,7 @@ using Catan.Model.Context.Titles;
 using Catan.Model.Context.Players;
 using Catan.Model.Board;
 using Catan.Model.Events;
+using Catan.Model.GameStates;
 
 namespace Catan.Model
 {
@@ -102,5 +103,8 @@ namespace Catan.Model
             clear();
             init();
         }
+
+        //TODO change State to be an instance of EarlyRollingState once we can
+        public ICatanGameState State { get; private set; } = new MainState();
     }
 }
