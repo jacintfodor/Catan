@@ -27,5 +27,15 @@ namespace Catan.Model
         public void AcceptTrade(CatanContext context);
         public void DenyTrade(CatanContext context);
 
+        public bool IsEarlyRollingState() { return false; }
+        public bool IsEarlySettlementBuildingState() { return false; }
+        public bool IsEarlyRoadBuildingState() { return false; }
+        public bool IsRollingState() { return false; }
+        public bool IsMainState() { return false; }
+        public bool IsSettlementBuildingState() { return false; }
+        public bool IsRoadBuildingState() { return false; }
+        public bool IsSettlementUpgradingState() { return false; }
+        public bool IsWinningState() { return false; }
+
     }
 }
