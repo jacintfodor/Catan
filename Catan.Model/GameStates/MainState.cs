@@ -16,6 +16,21 @@ namespace Catan.Model.GameStates
             
         }
 
+        public void BuildRoad(CatanContext context, int row, int col)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void BuildSettleMent(CatanContext context, int row, int col)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Cancel(CatanContext context)
+        {
+            throw new NotImplementedException();
+        }
+
         public void DenyTrade(CatanContext context)
         {
             
@@ -31,29 +46,9 @@ namespace Catan.Model.GameStates
             throw new NotImplementedException();
         }
 
-        public bool HasEnoughResourcesToBuildRoad(CatanContext context)
+        public void IsAffordable(CatanContext context, Goods g)
         {
-            return context.CurrentPlayer.CanAfford(Road.BuildCost);
-        }
-
-        public bool HasEnoughResourcesToBuildSettlement(CatanContext context)
-        {
-            return context.CurrentPlayer.CanAfford(Settlement.BuildCost);
-        }
-
-        public bool HasEnoughResourcesToUpgradeSettlementToTown(CatanContext context)
-        {
-            return context.CurrentPlayer.CanAfford(Town.BuildCost);
-        }
-
-        public bool IsGameInProgress(CatanContext context)
-        {
-            return context.Winner == NotPlayer.Instance;
-        }
-
-        public bool IsTradeInProgress(CatanContext context)
-        {
-            return false;
+            throw new NotImplementedException();
         }
 
         public void MoveRogue(CatanContext context, int row, int col)
@@ -68,11 +63,6 @@ namespace Catan.Model.GameStates
                 context.CurrentPlayer.ReduceResources(new Goods(new List<int> { 1, 1, 0, 0, 1 }));
         }
 
-        public void StartTrade(CatanContext context)
-        {
-            throw new NotImplementedException();
-        }
-
         public void RollDices(CatanContext context)
         {
             context.FirstDice.roll();
@@ -80,5 +70,32 @@ namespace Catan.Model.GameStates
 
             context.Board.distributeResource(context.RolledSum);
         }
+
+        public void StartRoadBuilding(CatanContext context)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void StartSettlementBuilding(CatanContext context)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void StartSettlementUpgrading(CatanContext context)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void StartTrade(CatanContext context)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpgradeSettleMentToTown(CatanContext context, int row, int col)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsMainState => true;
     }
 }
