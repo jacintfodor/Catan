@@ -33,8 +33,8 @@ namespace Catan.Model
         public static LargestArmyHolder LargestArmyHolder { get => LargestArmyHolder.Instance;}
         public static LongestRoadOwner LongestRoadOwner { get => LongestRoadOwner.Instance;}
         public IPlayer CurrentPlayer { get => _players.ElementAtOrDefault(0) ?? NotPlayer.Instance;}
-        public IPlayer NextPlayer { get => _players.ElementAtOrDefault(1) ?? NotPlayer.Instance; }
-        public IPlayer NextNextPlayer { get => _players.ElementAtOrDefault(2) ?? NotPlayer.Instance; }
+        public IPlayer NextPlayerInQueue { get => _players.ElementAtOrDefault(1) ?? NotPlayer.Instance; }
+        public IPlayer NextNextPlayerInQueue { get => _players.ElementAtOrDefault(2) ?? NotPlayer.Instance; }
         public IPlayer Winner { get => CurrentPlayer.CalculateScore() >= 5 ? CurrentPlayer : NotPlayer.Instance;  }
         public void EndTurn() { _players.Enqueue( _players.Dequeue()); }
 
@@ -50,8 +50,8 @@ namespace Catan.Model
             _players.Enqueue(new Player("P3"));
 
             CurrentPlayer.AddResource(new Goods(new List<int> { 1, 1, 1, 1, 1 }));
-            NextPlayer.AddResource(new Goods(new List<int> { 2, 2, 2, 2, 2 }));
-            NextNextPlayer.AddResource(new Goods(new List<int> { 3, 3, 3, 3, 3 }));
+            NextPlayerInQueue.AddResource(new Goods(new List<int> { 2, 2, 2, 2, 2 }));
+            NextNextPlayerInQueue.AddResource(new Goods(new List<int> { 3, 3, 3, 3, 3 }));
 
             generateBuildings();
         }
@@ -71,9 +71,9 @@ namespace Catan.Model
             {
                 int roll = rnd3.Next(100);
                 if (roll > 70)
-                    p = NextNextPlayer;
+                    p = NextNextPlayerInQueue;
                 else if (roll > 40)
-                    p = NextPlayer;
+                    p = NextPlayerInQueue;
                 else
                     p = CurrentPlayer;
 
@@ -109,7 +109,7 @@ namespace Catan.Model
         public void SetContext(ICatanGameState state) { State = state; }
 
         #region state dependent methods
-
+        
         #endregion
     }
 }
