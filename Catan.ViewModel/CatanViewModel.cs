@@ -56,7 +56,7 @@ namespace Catan.ViewModel
 
             _model.DicesThrown += Model_DicesThrown;
             _model.GameStart += Model_NewGame;
-            ThrowDicesCommand = new DelegateCommand(_ => _model.ThrowDices());
+            ThrowDicesCommand = new DelegateCommand(_ => _model.RollDices());
             EndTurnCommand = new DelegateCommand(_ => _model.EndTurn());
             PurchaseBonusCardCommand = new DelegateCommand(_ => _model.PurchaseBonusCard());
 

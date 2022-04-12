@@ -29,7 +29,7 @@ namespace Catan.Model
         {
             throw new NotImplementedException();
         }
-        public void ThrowDices()
+        public void RollDices()
         {
             throw new NotImplementedException();
 
