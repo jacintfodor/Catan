@@ -22,6 +22,7 @@ namespace Catan.Model
         public void BuildSettleMent(CatanContext context, int row, int col);
         public void StartSettlementUpgrading(CatanContext context);
         public void UpgradeSettleMentToTown(CatanContext context, int row, int col);
+        public void Cancel(CatanContext context);
         public void StartTrade(CatanContext context);
         public void AcceptTrade(CatanContext context);
         public void DenyTrade(CatanContext context);
