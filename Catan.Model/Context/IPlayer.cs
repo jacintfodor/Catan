@@ -1,10 +1,11 @@
 ﻿using Catan.Model.Board;
+using Catan.Model.Enums;
 
 namespace Catan.Model.Context
 {
     public interface IPlayer
     {
-        public string Name { get; set; }
+        public PlayerEnum ID { get; set; }
         public void AddResource(Goods resourcesToAdd);
 
         public void ReduceResources(Goods resourcesToReduce);

@@ -1,4 +1,5 @@
 ﻿using Catan.Model.Board;
+using Catan.Model.Enums;
 
 namespace Catan.Model.Context.Players
 {
@@ -8,7 +9,7 @@ namespace Catan.Model.Context.Players
         {
         }
 
-        public string Name { get ; set; }
+        public PlayerEnum ID { get ; set; }
 
         private static readonly NotPlayer _instance = new NotPlayer();
         public static NotPlayer Instance

@@ -1,20 +1,21 @@
 ﻿using Catan.Model.Board;
+using Catan.Model.Enums;
 
 namespace Catan.Model.Context.Players
 {
     public class Player : IPlayer
     {
         private Goods _resources;
-        private string _name;
+        private PlayerEnum _id;
         
 
         public Goods AvailableResources { get { return _resources; } set { _resources = value; } }
-        public string Name { get { return _name; } set { _name = value; } }
+        public PlayerEnum ID { get { return _id; } set { _id = value; } }
 
-        public Player(string Name)
+        public Player(PlayerEnum Name)
         {
             _resources = new Goods();
-            _name = Name;
+            _id = Name;
         }
 
         public int CalculateScore()
