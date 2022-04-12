@@ -31,7 +31,8 @@ namespace Catan.Model
         }
         public void RollDices()
         {
-            throw new NotImplementedException();
+            _catanContext.RollDices();
+            OnDiceThrown();
 
         }
         public void MoveRogue(int row, int col)
