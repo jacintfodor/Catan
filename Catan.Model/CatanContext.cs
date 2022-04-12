@@ -107,5 +107,9 @@ namespace Catan.Model
         //TODO change State to be an instance of EarlyRollingState once we can
         public ICatanGameState State { get; private set; } = new MainState();
         public void SetContext(ICatanGameState state) { State = state; }
+
+        #region state dependent methods
+
+        #endregion
     }
 }
