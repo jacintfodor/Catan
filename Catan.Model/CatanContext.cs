@@ -31,7 +31,7 @@ namespace Catan.Model
         public CubeDice SecondDice { get; private set; }
         
         public int RolledSum { get => FirstDice.RolledValue + SecondDice.RolledValue; }
-
+        public static Rogue Rogue { get => Rogue.Instance; }
         public static LargestArmyHolder LargestArmyHolder { get => LargestArmyHolder.Instance;}
         public static LongestRoadOwner LongestRoadOwner { get => LongestRoadOwner.Instance;}
         public IPlayer CurrentPlayer { get => _players.ElementAtOrDefault(0) ?? NotPlayer.Instance;}
