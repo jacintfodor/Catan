@@ -13,7 +13,7 @@ namespace Catan.Model
     {
         private CatanContext _catanContext = new(new MainState());
 
-        public CatanEvents Events { get => CatanContext.Events; }
+        public CatanEvents Events { get => _catanContext .Events; }
 
         public void NewGame()
         {
@@ -28,8 +28,6 @@ namespace Catan.Model
         public void RollDices()
         {
             _catanContext.RollDices();
-            Events.OnDiceThrown(_catanContext);
-
         }
         public void MoveRogue(int row, int col)
         {
