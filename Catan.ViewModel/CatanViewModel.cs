@@ -55,15 +55,26 @@ namespace Catan.ViewModel
             _currentPlayersResource.Add(ResourceEnum.Wool, 0);
 
 
-            _model.DicesThrown += Model_DicesThrown;
-            _model.GameStart += Model_NewGame;
-            ThrowDicesCommand = new DelegateCommand(_ => _model.ThrowDices());
-            EndTurnCommand = new DelegateCommand(_ => _model.EndTurn());
-            PurchaseBonusCardCommand = new DelegateCommand(_ => _model.PurchaseBonusCard());
+            _model.Events.DicesThrown += Model_Events_DicesThrown;
+            _model.Events.GameStart += Model_Events_NewGame;
+            _model.Events.TransactionsHappened += Model_Events_TransactionsHappened;
+
+            ThrowDicesCommand = new DelegateCommand(_ => _model.RollDices(), _ => _model.IsEarlyRollingState || _model.IsMainState);
+            EndTurnCommand = new DelegateCommand(_ => _model.EndTurn(), _ => _model.IsMainState);
+            PurchaseBonusCardCommand = new DelegateCommand(_ => _model.PurchaseBonusCard(), _ => _model.IsMainState);
 
         }
 
-        private void Model_NewGame(object? sender, GameStartEventArgs e)
+        private void Model_Events_TransactionsHappened(object? sender, TransactionsHappenedEventArg e)
+        {
+            CurrentPlayerCrop = e.CropCount;
+            CurrentPlayerBrick = e.BrickCount;
+            CurrentPlayerOre = e.OreCount;
+            CurrentPlayerWood = e.WoodCount;
+            CurrentPlayerWool = e.WoolCount;
+        }
+
+        private void Model_Events_NewGame(object? sender, GameStartEventArgs e)
         {
             Hex[,] hxs = e.Hexes;
             Vertex[,] vxs = e.Vertices;
@@ -90,18 +101,10 @@ namespace Catan.ViewModel
             }
         }
 
-        private void Model_DicesThrown(object? sender, Model.Events.DicesThrownEventArg e)
+        private void Model_Events_DicesThrown(object? sender, DicesThrownEventArg e)
         {
             FirstDiceFace = e.FirstDice;
             SecondDiceFace = e.SecondDice;
-
-            CurrentPlayerCrop = e.CropCount;
-            CurrentPlayerOre = e.OreCount;
-            CurrentPlayerWood = e.WoodCount;
-            CurrentPlayerBrick = e.BrickCount;
-            CurrentPlayerWool = e.WoolCount;
-
-
         }
 
         private string BuildingToString(Building b, IPlayer p)

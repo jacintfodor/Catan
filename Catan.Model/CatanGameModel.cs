@@ -11,117 +11,94 @@ namespace Catan.Model
 {
     public class CatanGameModel
     {
-        private CatanContext _catanContext;
-        private MainState _mainState;
-        
-        private ICatanGameState _currentState;
+        private CatanContext _catanContext = new(new EarlyRollingState());
 
-        public event EventHandler<DicesThrownEventArg> DicesThrown;
-        public event EventHandler<GameStartEventArgs> GameStart;
+        public CatanEvents Events { get => _catanContext .Events; }
 
-        public CatanGameModel()
-        {
-            _catanContext = CatanContext.Instance;
-            _mainState = new MainState();
-
-            _currentState = _mainState;
-        }
+        public bool IsEarlyRollingState => _catanContext.IsEarlyRollingState;
+        public bool IsEarlySettlementBuildingState => _catanContext.IsEarlySettlementBuildingState;
+        public bool IsEarlyRoadBuildingState => _catanContext.IsEarlyRoadBuildingState;
+        public bool IsRollingState => _catanContext.IsRollingState;
+        public bool IsMainState => _catanContext.IsMainState;
+        public bool IsSettlementBuildingState => _catanContext.IsSettlementBuildingState;
+        public bool IsRoadBuildingState => _catanContext.IsRoadBuildingState;
+        public bool IsSettlementUpgradingState => _catanContext.IsSettlementUpgradingState;
+        public bool IsWinningState => _catanContext.IsWinningState;
 
         public void NewGame()
         {
-            _currentState = _mainState;
             _catanContext.reset();
-            if (GameStart is not null)
-            {
-                GameStart(this, new GameStartEventArgs(_catanContext.Board.Hexes, _catanContext.Board.Vertices, _catanContext.Board.Edges));
-            }
-            OnDiceThrown();
+            _catanContext.NewGame();
         }
 
         public void EndTurn()
         {
-            _currentState.EndTurn(_catanContext);
-            OnDiceThrown();
+            _catanContext.EndTurn();
         }
-        public void ThrowDices()
+        public void RollDices()
         {
-            _currentState.ThrowDices(_catanContext);
-            OnDiceThrown();
-
+            _catanContext.RollDices();
         }
         public void MoveRogue(int row, int col)
         {
-            _currentState.MoveRogue(_catanContext, row, col);
+            throw new NotImplementedException();
         }
         public void ExchangeWithBank()
         {
-            _currentState.ExchangeWithBank(_catanContext);
+            throw new NotImplementedException();
         }
         public void PurchaseBonusCard()
         {
-            _currentState.PurchaseBonusCard(_catanContext);
-            OnDiceThrown();
+            throw new NotImplementedException();
         }
         public void BuildRoad(int row, int col)
         {
-            _currentState.BuildRoad(_catanContext, row, col);
+            throw new NotImplementedException();
         }
         public void BuildSettleMent(int row, int col)
         {
-            _currentState.BuildSettleMent(_catanContext, row, col);   
+            throw new NotImplementedException();
         }
         public void UpgradeSettleMentToTown(int row, int col)
         {
-            _currentState.UpgradeSettleMentToTown(_catanContext, row, col);
+            throw new NotImplementedException();
         }
         public void StartTrade()
         {
-            _currentState.StartTrade(_catanContext);
+            throw new NotImplementedException();
         }
         public void AcceptTrade()
         {
-            _currentState.AcceptTrade(_catanContext);
+            throw new NotImplementedException();
         }
         public void DenyTrade()
         {
-            _currentState.DenyTrade(_catanContext);
+            throw new NotImplementedException();
         }
         public bool IsGameInProgress()
         {
-            return _currentState.IsGameInProgress(_catanContext);
+            throw new NotImplementedException();
         }
         public bool IsTradeInProgress()
         {
-            return _currentState.IsTradeInProgress(_catanContext);
+            throw new NotImplementedException();
         }
         public bool HasEnoughResourcesToBuildRoad()
         {
-            return _currentState.HasEnoughResourcesToBuildRoad(_catanContext);
+            throw new NotImplementedException();
         }
         public bool HasEnoughResourcesToBuildSettlement()
         {
-            return _currentState.HasEnoughResourcesToBuildSettlement(_catanContext);
+            throw new NotImplementedException();
         }
         public bool HasEnoughResourcesToUpgradeSettlementToTown()
         {
-            return _currentState.HasEnoughResourcesToUpgradeSettlementToTown(_catanContext);
+            throw new NotImplementedException();
         }
 
         public bool IsSettlementOwnedByCurrentPlayer(int row, int col)
         {
-            return _currentState.IsSettlementOwnedByCurrentPlayer(_catanContext, row, col);
-        }
-
-
-
-        private void OnDiceThrown()
-        {
-            DicesThrown?.Invoke(
-                this,
-                new DicesThrownEventArg(_catanContext.FirstDice.RolledValue,
-                                         _catanContext.SecondDice.RolledValue,
-                                         _catanContext.CurrentPlayer.AvailableResources
-            )) ;
+            throw new NotImplementedException();
         }
     }
 }
