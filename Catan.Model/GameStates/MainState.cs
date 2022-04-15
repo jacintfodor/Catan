@@ -39,6 +39,8 @@ namespace Catan.Model.GameStates
         public void EndTurn(CatanContext context)
         {
             context.NextPlayer();
+            
+            context.Events.OnTransactionsHappened(context);
         }
 
         public void ExchangeWithBank(CatanContext context)
@@ -69,6 +71,7 @@ namespace Catan.Model.GameStates
             context.SecondDice.roll();
 
             context.Board.distributeResource(context.RolledSum);
+            
             context.Events.OnDiceThrown(context);
             context.Events.OnTransactionsHappened(context);
         }
