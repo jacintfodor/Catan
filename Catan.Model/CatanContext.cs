@@ -16,15 +16,11 @@ namespace Catan.Model
     {
         private Queue<IPlayer> _players = new();
 
-        private CatanContext(ICatanGameState initialState)
+        public CatanContext(ICatanGameState initialState)
         {
             SetContext(initialState);
             init();
         }
-
-        private static readonly CatanContext _instance = new(new MainState());
-        public static CatanContext Instance
-        { get { return _instance; } }
         public CatanBoard Board { get; private set; }
         public CubeDice FirstDice { get; private set; }
         public CubeDice SecondDice { get; private set; }
