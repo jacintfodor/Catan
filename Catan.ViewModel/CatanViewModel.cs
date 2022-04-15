@@ -11,6 +11,7 @@ using Catan.Model.Board.Buildings;
 using Catan.Model.Board.Compontents;
 using Catan.Model.Context;
 using Catan.Model.Context.Players;
+using Catan.Model.Enums;
 using Catan.Model.Events;
 
 namespace Catan.ViewModel
@@ -121,11 +122,11 @@ namespace Catan.ViewModel
                     retVal = "Moccasin";
                     break;
             }*/
-            if (p.Name == null)
+            if (p.ID == null)
                 return "Moccasin";
-            switch (p.Name)
+            switch (p.ID)
             {
-                case "P1":
+                case PlayerEnum.Player1:
                     switch (b)
                     {
                         case Settlement:
@@ -136,7 +137,7 @@ namespace Catan.ViewModel
                             break;
                     }
                 break;
-                case "P2":
+                case PlayerEnum.Player2:
                     switch (b)
                     {
                         case Settlement:
@@ -147,7 +148,7 @@ namespace Catan.ViewModel
                             break;
                     }
                     break;
-                case "P3":
+                case PlayerEnum.Player3:
                     switch (b)
                     {
                         case Settlement:

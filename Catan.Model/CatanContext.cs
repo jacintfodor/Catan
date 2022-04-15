@@ -1,14 +1,16 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using Catan.Model.Context;
 using Catan.Model.Context.Titles;
 using Catan.Model.Context.Players;
 using Catan.Model.Board;
 using Catan.Model.Events;
 using Catan.Model.GameStates;
+using Catan.Model.Enums;
 
 namespace Catan.Model
 {
@@ -49,9 +51,9 @@ namespace Catan.Model
             FirstDice = new(rng.Next());
             SecondDice = new(rng.Next());
 
-            _players.Enqueue(new Player("P1"));
-            _players.Enqueue(new Player("P2"));
-            _players.Enqueue(new Player("P3"));
+            _players.Enqueue(new Player(PlayerEnum.Player1));
+            _players.Enqueue(new Player(PlayerEnum.Player2));
+            _players.Enqueue(new Player(PlayerEnum.Player3));
 
             CurrentPlayer.AddResource(new Goods(new List<int> { 1, 1, 1, 1, 1 }));
             NextPlayerInQueue.AddResource(new Goods(new List<int> { 2, 2, 2, 2, 2 }));
