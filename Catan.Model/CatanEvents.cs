@@ -10,14 +10,6 @@ namespace Catan.Model
 {
     public class CatanEvents
     {
-        private CatanEvents()
-        {
-        }
-
-        private static readonly CatanEvents _instance = new();
-        public static CatanEvents Instance
-        { get { return _instance; } }
-
         public event EventHandler<DicesThrownEventArg> DicesThrown;
         public event EventHandler<GameStartEventArgs> GameStart;
 
