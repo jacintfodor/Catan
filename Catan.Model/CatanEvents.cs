@@ -22,6 +22,7 @@ namespace Catan.Model
 
         public event EventHandler<DicesThrownEventArg> DicesThrown;
         public event EventHandler<GameStartEventArgs> GameStart;
+        public event EventHandler<TransactionsHappenedEventArg> TransactionsHappened;
 
         public void OnGameStart(CatanContext ctx)
         {
@@ -35,6 +36,14 @@ namespace Catan.Model
                 new DicesThrownEventArg(ctx.FirstDice.RolledValue,
                                          ctx.SecondDice.RolledValue
             ));
+        }
+
+        public void OnTransactionsHappened(CatanContext ctx)
+        {
+            TransactionsHappened?.Invoke(
+                this,
+                new TransactionsHappenedEventArg(ctx.CurrentPlayer.AvailableResources)
+                );
         }
     }
 }
