@@ -58,9 +58,9 @@ namespace Catan.ViewModel
             _model.Events.GameStart += Model_Events_NewGame;
             _model.Events.TransactionsHappened += Model_Events_TransactionsHappened;
 
-            ThrowDicesCommand = new DelegateCommand(_ => _model.RollDices());
-            EndTurnCommand = new DelegateCommand(_ => _model.EndTurn());
-            PurchaseBonusCardCommand = new DelegateCommand(_ => _model.PurchaseBonusCard());
+            ThrowDicesCommand = new DelegateCommand(_ => _model.RollDices(), _ => _model.IsEarlyRollingState || _model.IsMainState);
+            EndTurnCommand = new DelegateCommand(_ => _model.EndTurn(), _ => _model.IsMainState);
+            PurchaseBonusCardCommand = new DelegateCommand(_ => _model.PurchaseBonusCard(), _ => _model.IsMainState);
 
         }
 
