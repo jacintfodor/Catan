@@ -93,14 +93,6 @@ namespace Catan.ViewModel
         {
             FirstDiceFace = e.FirstDice;
             SecondDiceFace = e.SecondDice;
-
-            CurrentPlayerCrop = e.CropCount;
-            CurrentPlayerOre = e.OreCount;
-            CurrentPlayerWood = e.WoodCount;
-            CurrentPlayerBrick = e.BrickCount;
-            CurrentPlayerWool = e.WoolCount;
-
-
         }
 
         private string BuildingToString(Building b, IPlayer p)
