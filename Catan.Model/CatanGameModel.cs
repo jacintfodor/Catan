@@ -27,7 +27,7 @@ namespace Catan.Model
 
         public void EndTurn()
         {
-            throw new NotImplementedException();
+            _catanContext.EndTurn();
         }
         public void RollDices()
         {
