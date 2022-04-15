@@ -32,7 +32,7 @@ namespace Catan.Model
         
         public int RolledSum { get => FirstDice.RolledValue + SecondDice.RolledValue; }
 
-        public CatanEvents Events { get; } = new();
+        public static CatanEvents Events { get => CatanEvents.Instance; }
 
         public static LargestArmyHolder LargestArmyHolder { get => LargestArmyHolder.Instance;}
         public static LongestRoadOwner LongestRoadOwner { get => LongestRoadOwner.Instance;}
