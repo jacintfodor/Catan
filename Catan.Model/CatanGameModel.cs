@@ -13,16 +13,12 @@ namespace Catan.Model
     {
         private CatanContext _catanContext = new(new MainState());
 
-        public event EventHandler<DicesThrownEventArg> DicesThrown;
-        public event EventHandler<GameStartEventArgs> GameStart;
+        public CatanEvents Events { get => _catanContext.Events; }
 
         public void NewGame()
         {
             _catanContext.reset();
-            if (GameStart is not null)
-            {
-                GameStart(this, new GameStartEventArgs(_catanContext.Board.Hexes, _catanContext.Board.Vertices, _catanContext.Board.Edges));
-            }
+            _catanContext.NewGame();
         }
 
         public void EndTurn()
@@ -32,7 +28,7 @@ namespace Catan.Model
         public void RollDices()
         {
             _catanContext.RollDices();
-            OnDiceThrown();
+            _catanContext.Events.OnDiceThrown(_catanContext);
 
         }
         public void MoveRogue(int row, int col)
@@ -95,18 +91,6 @@ namespace Catan.Model
         public bool IsSettlementOwnedByCurrentPlayer(int row, int col)
         {
             throw new NotImplementedException();
-        }
-
-
-
-        private void OnDiceThrown()
-        {
-            DicesThrown?.Invoke(
-                this,
-                new DicesThrownEventArg(_catanContext.FirstDice.RolledValue,
-                                         _catanContext.SecondDice.RolledValue,
-                                         _catanContext.CurrentPlayer.AvailableResources
-            )) ;
         }
     }
 }

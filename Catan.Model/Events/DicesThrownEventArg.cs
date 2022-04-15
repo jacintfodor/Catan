@@ -16,7 +16,7 @@ namespace Catan.Model.Events
 
         
 
-        public DicesThrownEventArg(int a, int b, Goods g)
+        public DicesThrownEventArg(int a, int b)
         {
             FirstDice = a;
             SecondDice = b;

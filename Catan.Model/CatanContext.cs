@@ -16,6 +16,11 @@ namespace Catan.Model
     {
         private Queue<IPlayer> _players = new();
 
+        public void NewGame()
+        {
+            Events.OnGameStart(this);
+        }
+
         public CatanContext(ICatanGameState initialState)
         {
             SetContext(initialState);
@@ -27,7 +32,7 @@ namespace Catan.Model
         
         public int RolledSum { get => FirstDice.RolledValue + SecondDice.RolledValue; }
 
-        public static CatanEvents Events { get => CatanEvents.Instance; }
+        public CatanEvents Events { get; } = new();
 
         public static LargestArmyHolder LargestArmyHolder { get => LargestArmyHolder.Instance;}
         public static LongestRoadOwner LongestRoadOwner { get => LongestRoadOwner.Instance;}

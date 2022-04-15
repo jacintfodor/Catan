@@ -17,5 +17,14 @@ namespace Catan.Model
         {
             GameStart?.Invoke(this, new GameStartEventArgs(ctx.Board.Hexes, ctx.Board.Vertices, ctx.Board.Edges));
         }
+
+        public void OnDiceThrown(CatanContext ctx)
+        {
+            DicesThrown?.Invoke(
+                this,
+                new DicesThrownEventArg(ctx.FirstDice.RolledValue,
+                                         ctx.SecondDice.RolledValue
+            ));
+        }
     }
 }

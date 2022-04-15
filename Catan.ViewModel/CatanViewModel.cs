@@ -54,8 +54,8 @@ namespace Catan.ViewModel
             _currentPlayersResource.Add(ResourceEnum.Wool, 0);
 
 
-            _model.DicesThrown += Model_DicesThrown;
-            _model.GameStart += Model_NewGame;
+            _model.Events.DicesThrown += Model_DicesThrown;
+            _model.Events.GameStart += Model_NewGame;
             ThrowDicesCommand = new DelegateCommand(_ => _model.RollDices());
             EndTurnCommand = new DelegateCommand(_ => _model.EndTurn());
             PurchaseBonusCardCommand = new DelegateCommand(_ => _model.PurchaseBonusCard());
@@ -89,7 +89,7 @@ namespace Catan.ViewModel
             }
         }
 
-        private void Model_DicesThrown(object? sender, Model.Events.DicesThrownEventArg e)
+        private void Model_DicesThrown(object? sender, DicesThrownEventArg e)
         {
             FirstDiceFace = e.FirstDice;
             SecondDiceFace = e.SecondDice;
