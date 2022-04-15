@@ -69,6 +69,8 @@ namespace Catan.Model.GameStates
             context.SecondDice.roll();
 
             context.Board.distributeResource(context.RolledSum);
+            context.Events.OnDiceThrown(context);
+            context.Events.OnTransactionsHappened(context);
         }
 
         public void StartRoadBuilding(CatanContext context)
