@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Catan.Model.Context.Players;
-using Catan.Model.Board.Buildings;
 using Catan.Model.Context;
 
 namespace Catan.Model.GameStates

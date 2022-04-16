@@ -1,6 +1,4 @@
-﻿using Catan.Model.Board.Buildings;
-using Catan.Model.Context;
-using Catan.Model.Enums;
+﻿using Catan.Model.Enums;
 
 namespace Catan.Model.Board.Components
 {

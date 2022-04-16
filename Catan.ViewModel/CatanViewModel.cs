@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 using Catan.Model;
 using Catan.Model.Board;
-using Catan.Model.Board.Buildings;
 using Catan.Model.Board.Components;
 using Catan.Model.Context;
 using Catan.Model.Context.Players;
@@ -77,7 +76,7 @@ namespace Catan.ViewModel
         private void Model_Events_NewGame(object? sender, GameStartEventArgs e)
         {
             IHex[,] hxs = e.Hexes;
-            Vertex[,] vxs = e.Vertices;
+            IVertex[,] vxs = e.Vertices;
             for (int i = 0; i < 5; i++)
             {
                 for (int j = 0; j < 5; j++)

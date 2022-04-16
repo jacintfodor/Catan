@@ -6,7 +6,7 @@ namespace Catan.Model.Events
     {
 
 
-        public GameStartEventArgs(IHex[,] hexes, Vertex[,] vertices, Edge[,] edges)
+        public GameStartEventArgs(IHex[,] hexes, IVertex[,] vertices, IEdge[,] edges)
         {
             Hexes = hexes;
             Vertices = vertices;
@@ -14,7 +14,7 @@ namespace Catan.Model.Events
         }
 
         public IHex[,] Hexes { get; set; }
-        public Vertex[,] Vertices { get; set; }
-        public Edge[,] Edges { get; set; }
+        public IVertex[,] Vertices { get; set; }
+        public IEdge[,] Edges { get; set; }
     }
 }

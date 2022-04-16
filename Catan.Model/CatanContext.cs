@@ -90,9 +90,9 @@ namespace Catan.Model
                 if (build)
                 {
                     if (isTown)
-                        Board.buildTown(rows[i], cols[i], p);
+                        Board.buildTown(rows[i], cols[i], p.ID);
                     else
-                        Board.buildSettlement(rows[i], cols[i], p);
+                        Board.buildSettlement(rows[i], cols[i], p.ID);
                 }
 
             }

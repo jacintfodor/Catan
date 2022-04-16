@@ -1,5 +1,4 @@
-﻿using Catan.Model.Board.Buildings;
-using Catan.Model.Board.Components;
+﻿using Catan.Model.Board.Components;
 using Catan.Model.Context;
 using Catan.Model.Enums;
 
