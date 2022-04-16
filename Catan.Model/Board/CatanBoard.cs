@@ -94,13 +94,13 @@ namespace Catan.Model.Board
                 if (numbers.Count > 0)
                 {
                     int num = numbers[rand.Next(0, numbers.Count)];
-                    Hexes[coord[0], coord[1]] = new Hex(resource, num);
+                    Hexes[coord[0], coord[1]] = new Hex(resource, coord[0], coord[1], num);
                     emptyHexes.Remove(coord);
                     numbers.Remove(num);
                 }
                 else
                 {
-                    Hexes[coord[0], coord[1]] = new Hex(resource);
+                    Hexes[coord[0], coord[1]] = new Hex(resource, coord[0], coord[1]);
                 }
             }
         }
@@ -254,47 +254,6 @@ namespace Catan.Model.Board
         #endregion
 
         #region Methods 
-        public void distributeResource(int dieValue)
-        {
-            for (int row = 0; row < 5; row++)
-            {
-                for (int col = 0; col < 5; col++)
-                {
-                    if (Hexes[row, col] == null || Hexes[row, col].Value != dieValue)
-                        continue;
-
-                    getVerticesOfHex(row, col).ForEach(vertex =>
-                    {
-                        if (vertex.Owner != PlayerEnum.NotPlayer)
-                        {
-                            int amount = (vertex.GetCommunity() is Town) ? 2 : 1;
-                            //vertex.Owner.AddResource(new Goods(Hexes[row, col].Resource) * amount);
-                        }
-                    });
-                }
-            }
-        }
-
-        public int CalculateLongestRoadFromEdge(int row, int col, PlayerEnum player)
-        {
-            int retVal = 0;
-            List<IEdge> processed = new List<IEdge>();
-            List<IEdge> toProcess = new List<IEdge>();
-            toProcess.Add(Edges[row, col]);
-            while (toProcess.Any())
-            {
-                IEdge currentlyProccessing = toProcess.First();
-                toProcess.Remove(currentlyProccessing);
-                retVal++;
-
-                getNeighbourEdgesOfEdge(currentlyProccessing.Row, currentlyProccessing.Col).ForEach(edge => {
-                    if (edge.Owner == player && !processed.Contains(edge))
-                        toProcess.Add(edge);
-                });
-            }
-            return 0;
-        }
-
         public void BuildRoad(int row, int col, PlayerEnum player)
         {
             Edges[row, col].Build(player);
