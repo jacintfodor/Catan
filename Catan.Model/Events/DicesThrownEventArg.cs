@@ -14,23 +14,12 @@ namespace Catan.Model.Events
         public int SecondDice { get; private set; }
 
 
-        //Crop, Ore, Wood, Brick, Wool
-        public int CropCount { get; private set; }
-        public int OreCount { get; private set; }
-        public int WoodCount { get; private set; }
-        public int BrickCount { get; private set; }
-        public int WoolCount { get; private set; }
+        
 
-        public DicesThrownEventArg(int a, int b, Goods g)
+        public DicesThrownEventArg(int a, int b)
         {
             FirstDice = a;
             SecondDice = b;
-
-            CropCount = g.Crop;
-            OreCount = g.Ore;
-            WoodCount = g.Wood;
-            BrickCount = g.Brick;
-            WoolCount = g.Wool;
         }
     }
 }

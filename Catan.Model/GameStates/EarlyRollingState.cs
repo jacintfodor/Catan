@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Catan.Model.Context.Players;
-using Catan.Model.Board.Buildings;
 using Catan.Model.Context;
+using Catan.Model.GameStates;
 
 namespace Catan.Model.GameStates
 {
-    public class MainState : ICatanGameState
+    public class EarlyRollingState : ICatanGameState
     {
+        private int _rollCount = 0;
+
+        public bool IsEarlyRollingState => true;
+
         public void AcceptTrade(CatanContext context)
         {
-            
+            throw new NotImplementedException();
         }
 
         public void BuildRoad(CatanContext context, int row, int col)
@@ -33,14 +36,12 @@ namespace Catan.Model.GameStates
 
         public void DenyTrade(CatanContext context)
         {
-            
+            throw new NotImplementedException();
         }
 
         public void EndTurn(CatanContext context)
         {
-            context.NextPlayer();
-            
-            context.Events.OnTransactionsHappened(context);
+            throw new NotImplementedException();
         }
 
         public void ExchangeWithBank(CatanContext context)
@@ -58,22 +59,20 @@ namespace Catan.Model.GameStates
             throw new NotImplementedException();
         }
 
-        //Crop, Ore, Wood, Brick, Wool
         public void PurchaseBonusCard(CatanContext context)
         {
-            if (context.CurrentPlayer.CanAfford(new Goods(new List<int> { 1, 1, 0, 0, 1 })))
-                context.CurrentPlayer.ReduceResources(new Goods(new List<int> { 1, 1, 0, 0, 1 }));
+            throw new NotImplementedException();
         }
 
         public void RollDices(CatanContext context)
         {
+            ++_rollCount;
             context.FirstDice.roll();
             context.SecondDice.roll();
 
-            context.Board.distributeResource(context.RolledSum);
-            
             context.Events.OnDiceThrown(context);
-            context.Events.OnTransactionsHappened(context);
+            if (_rollCount == 3)
+                context.SetContext(new MainState());
         }
 
         public void StartRoadBuilding(CatanContext context)
@@ -100,7 +99,5 @@ namespace Catan.Model.GameStates
         {
             throw new NotImplementedException();
         }
-
-        public bool IsMainState => true;
     }
 }

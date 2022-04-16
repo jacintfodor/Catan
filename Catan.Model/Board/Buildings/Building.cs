@@ -1,4 +1,6 @@
-﻿namespace Catan.Model.Board.Buildings
+﻿using Catan.Model.Context.Players;
+
+namespace Catan.Model.Board.Buildings
 {
     public abstract class Building
     {
