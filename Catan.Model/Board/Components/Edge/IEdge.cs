@@ -2,7 +2,7 @@
 
 namespace Catan.Model.Board.Components
 {
-    interface IEdge
+    public interface IEdge
     {
         public PlayerEnum Owner { get; set; }
         public int Row { get; set; }

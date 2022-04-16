@@ -2,7 +2,7 @@
 
 namespace Catan.Model.Board.Components
 {
-    interface ICommunity
+    public interface ICommunity
     {
         public PlayerEnum Owner { get; set; }
 

@@ -8,12 +8,13 @@ namespace Catan.Model.Board.Components
     {
         private ICommunity _community;
 
-        public Vertex(PlayerEnum owner, int row, int col)
+        public Vertex(int row, int col)
         {
-            Owner = owner;
+            Owner = PlayerEnum.NotPlayer;
             Row = row;
             Col = col;
-            IsNotBuildable = true;
+            IsNotBuildable = false;
+            _community = new BuildableCommunity();
         }
 
         public PlayerEnum Owner { get; set; }
@@ -42,6 +43,11 @@ namespace Catan.Model.Board.Components
         {
             if (_community.IsUpgradeable)
                 _community = new Town(Owner);
+        }
+
+        public ICommunity GetCommunity()
+        {
+            return _community;
         }
     }
 }

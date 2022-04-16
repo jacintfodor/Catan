@@ -1,8 +1,7 @@
 ﻿using Catan.Model.Board.Buildings;
 using Catan.Model.Board.Components;
 using Catan.Model.Context;
-using Catan.Model.Context.Players;
-using Catan.Model.Events;
+using Catan.Model.Enums;
 
 namespace Catan.Model.Board
 {
@@ -12,8 +11,8 @@ namespace Catan.Model.Board
 
         #region Variables
         public IHex[,] Hexes = new IHex[5, 5];
-        public Vertex[,] Vertices = new Vertex[11, 11];
-        public Edge[,] Edges = new Edge[11, 11];
+        public IVertex[,] Vertices = new IVertex[11, 11];
+        public IEdge[,] Edges = new IEdge[11, 11];
         private List<int> numbers = new List<int> { 2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12 };
         #endregion Variables
 
@@ -37,7 +36,7 @@ namespace Catan.Model.Board
                         continue;
                     getEdgeLocationOfHex(i, j).ForEach(x =>
                     {
-                        Edges[x[0], x[1]] = new Edge(NotPlayer.Instance, NotBuilding.Instance);
+                        Edges[x[0], x[1]] = new Edge(i, j);
                     });
                 }
             }
@@ -55,7 +54,7 @@ namespace Catan.Model.Board
                     getVertexLocationsOfHex(i, j).ForEach(x =>
                     {
 
-                        Vertices[x[0], x[1]] = new Vertex(NotPlayer.Instance, NotBuilding.Instance);
+                        Vertices[x[0], x[1]] = new Vertex(i, j);
 
                     });
                 }
@@ -136,9 +135,9 @@ namespace Catan.Model.Board
 
         #region Geters of board pieces
         //Returns a list of vertices to a hex from hex's index
-        public List<Vertex> getVerticesOfHex(int row, int col)
+        public List<IVertex> getVerticesOfHex(int row, int col)
         {
-            List<Vertex> retVal = new List<Vertex>();
+            List<IVertex> retVal = new List<IVertex>();
             int offset = row % 2;
             offset = 0 - offset;
             retVal.Add(Vertices[row, 2 * (col - offset) + offset]);
@@ -151,9 +150,9 @@ namespace Catan.Model.Board
         }
 
         //Returns a list of neighbouring Vertices of given Vertex index
-        public List<Vertex> getNeighborVerticesOfVertex(int row, int col)
+        public List<IVertex> getNeighborVerticesOfVertex(int row, int col)
         {
-            List<Vertex> retVal = new List<Vertex>();
+            List<IVertex> retVal = new List<IVertex>();
             int offset = row % 2 == col % 2 ? -1 : 1;
 
             if (Vertices[row + offset, col] != null)
@@ -168,9 +167,9 @@ namespace Catan.Model.Board
             return retVal;
         }
         //Returns a list of neighbouring Edges of given Vertex index
-        public List<Edge> getNeighborEdgesOfVertex(int row, int col)
+        public List<IEdge> getNeighborEdgesOfVertex(int row, int col)
         {
-            List<Edge> retVal = new List<Edge>();
+            List<IEdge> retVal = new List<IEdge>();
             int offset = row % 2 == col % 2 ? -1 : 1;
             if (Edges[row * 2 + offset, col] != null)
                 retVal.Add(Edges[row * 2 + offset, col]);
@@ -184,9 +183,9 @@ namespace Catan.Model.Board
             return retVal;
         }
         //Returns a list of end Vertices of given Edge index
-        public List<Vertex> getNeighbourVerticesOfEdge(int row, int col)
+        public List<IVertex> getNeighbourVerticesOfEdge(int row, int col)
         {
-            List<Vertex> retVal = new List<Vertex>();
+            List<IVertex> retVal = new List<IVertex>();
             if (row % 2 == 0)
             {
                 if (Vertices[row / 2, col] != null)
@@ -201,6 +200,19 @@ namespace Catan.Model.Board
                 if (Vertices[(row + 1) / 2, col] != null)
                     retVal.Add(Vertices[(row + 1) / 2, col]);
             }
+            return retVal;
+        }
+
+        public List<IEdge> getNeighbourEdgesOfEdge(int row, int col)
+        {
+            List<IEdge> retVal = new List<IEdge>();
+            getNeighbourVerticesOfEdge(row, col).ForEach(vertex =>
+                {
+                getNeighborEdgesOfVertex(vertex.Row, vertex.Col).ForEach(edge => {
+                    if(edge.Row != row && edge.Col != col)
+                        retVal.Add(edge);
+                });
+            });
             return retVal;
         }
         #endregion Getters of board pieces
@@ -218,7 +230,7 @@ namespace Catan.Model.Board
                 }
         }
 
-        public IEnumerable<Vertex> GetVerticesEnumerable()
+        public IEnumerable<IVertex> GetVerticesEnumerable()
         {
             for (int row = 0; row < 11; row++)
                 for (int col = 0; col < 11; col++)
@@ -229,7 +241,7 @@ namespace Catan.Model.Board
                         yield return Vertices[row, col];
                 }
         }
-        public IEnumerable<Edge> GetEdgesEnumerable()
+        public IEnumerable<IEdge> GetEdgesEnumerable()
         {
             for (int row = 0; row < 11; row++)
                 for (int col = 0; col < 11; col++)
@@ -254,39 +266,32 @@ namespace Catan.Model.Board
 
                     getVerticesOfHex(row, col).ForEach(vertex =>
                     {
-                        if (vertex.Owner != NotPlayer.Instance)
+                        if (vertex.Owner != PlayerEnum.NotPlayer)
                         {
-                            int amount = vertex.Building.amount();
-                            vertex.Owner.AddResource(new Goods(Hexes[row, col].Resource) * amount);
+                            int amount = (vertex.GetCommunity() is Town) ? 2 : 1;
+                            //vertex.Owner.AddResource(new Goods(Hexes[row, col].Resource) * amount);
                         }
                     });
                 }
             }
         }
 
-        public void buildRoad(int row, int col, IPlayer builder)
+       
+
+        public void BuildRoad(int row, int col, PlayerEnum player)
         {
-            Edges[row, col].Owner = builder;
-            Edges[row, col].Building = new Road();
+            Edges[row, col].Build(player);
         }
 
-        public void buildSettlement(int row, int col, IPlayer builder)
+        public void buildSettlement(int row, int col, PlayerEnum player)
         {
-            Vertices[row, col].Owner = builder;
-            Vertices[row, col].Building = new Settlement();
+            Vertices[row, col].Build(player);
         }
 
-        public void buildTown(int row, int col)
+        public void buildTown(int row, int col, PlayerEnum player)
         {
-            Vertices[row, col].Building = new Town();
-
-        }
-
-        public void buildTown(int row, int col, IPlayer builder)
-        {
-            Vertices[row, col].Owner = builder;
-            Vertices[row, col].Building = new Town();
-
+            if(Vertices[row, col].Owner == player)
+                Vertices[row, col].Upgrade();
         }
         #endregion Methods
     }

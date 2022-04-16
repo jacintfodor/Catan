@@ -94,7 +94,7 @@ namespace Catan.ViewModel
                 {
                     if (vxs[i, j] != null)
                     {
-                        var ver = new VertexViewModel("", BuildingToString(vxs[i,j].Building,vxs[i,j].Owner), i, j);
+                        var ver = new VertexViewModel("", "", i, j);
                         Vertices.Add(ver);
                     }
                 }
@@ -107,65 +107,9 @@ namespace Catan.ViewModel
             SecondDiceFace = e.SecondDice;
         }
 
-        private string BuildingToString(Building b, IPlayer p)
+        private string CommunityToString(IPlayer p)
         {
             string retVal = "";
-            /*switch (b)
-            {
-                case Settlement:
-                    retVal = "Brown";
-                    break;
-                case Town:
-                    retVal = "Black";
-                    break;
-                default:
-                    retVal = "Moccasin";
-                    break;
-            }*/
-            if (p.ID == null)
-                return "Moccasin";
-            switch (p.ID)
-            {
-                case PlayerEnum.Player1:
-                    switch (b)
-                    {
-                        case Settlement:
-                            retVal = "Red";
-                            break;
-                        case Town:
-                            retVal = "Darkred";
-                            break;
-                    }
-                break;
-                case PlayerEnum.Player2:
-                    switch (b)
-                    {
-                        case Settlement:
-                            retVal = "Blue";
-                            break;
-                        case Town:
-                            retVal = "Indigo";
-                            break;
-                    }
-                    break;
-                case PlayerEnum.Player3:
-                    switch (b)
-                    {
-                        case Settlement:
-                            retVal = "Gray";
-                            break;
-                        case Town:
-                            retVal = "Black";
-                            break;
-                    }
-                    break;
-                default :
-                    retVal = "Black";
-                    break;
-            }
-
-
-
             return retVal;
         }
 
