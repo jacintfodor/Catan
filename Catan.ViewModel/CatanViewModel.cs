@@ -75,29 +75,28 @@ namespace Catan.ViewModel
 
         private void Model_Events_NewGame(object? sender, GameStartEventArgs e)
         {
-            IHex[,] hxs = e.Hexes;
-            IVertex[,] vxs = e.Vertices;
-            for (int i = 0; i < 5; i++)
+            List<IHex> hexes = e.Hexes;
+            List<IVertex> vertices = e.Vertices;
+            List<IEdge> edges = e.Edges;
+
+            foreach (IHex hex in hexes)
             {
-                for (int j = 0; j < 5; j++)
-                {
-                    if (hxs[i, j] != null) {
-                        var hex = new HexViewModel(ResourceEnumToString(hxs[i, j].Resource), hxs[i, j].Value, i,j);
-                        Hexes.Add(hex);
-                    }
-                }
+                var hexVM = new HexViewModel(ResourceEnumToString(hex.Resource), hex.Value, hex.Row, hex.Col);
+                Hexes.Add(hexVM);
             }
-            for (int i = 0; i < 11; i++)
+
+            foreach (IVertex vertex in vertices)
             {
-                for (int j = 0; j < 11; j++)
-                {
-                    if (vxs[i, j] != null)
-                    {
-                        var ver = new VertexViewModel("", "", i, j);
-                        Vertices.Add(ver);
-                    }
-                }
+                var ver = new VertexViewModel("", "", vertex.Row, vertex.Col);
+                Vertices.Add(ver);
             }
+
+            foreach (IEdge edge in edges)
+            {
+            }
+
+
+           
         }
 
         private void Model_Events_DicesThrown(object? sender, DicesThrownEventArg e)

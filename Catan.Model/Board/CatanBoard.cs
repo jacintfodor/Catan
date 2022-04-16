@@ -9,9 +9,9 @@ namespace Catan.Model.Board
     {
 
         #region Variables
-        public IHex[,] Hexes = new IHex[5, 5];
-        public IVertex[,] Vertices = new IVertex[11, 11];
-        public IEdge[,] Edges = new IEdge[11, 11];
+        private IHex[,] _Hexes = new IHex[5, 5];
+        private IVertex[,] _Vertices = new IVertex[11, 11];
+        private IEdge[,] _Edges = new IEdge[11, 11];
         private List<int> numbers = new List<int> { 2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12 };
         #endregion Variables
 
@@ -31,11 +31,11 @@ namespace Catan.Model.Board
             {
                 for (int j = 0; j < 5; j++)
                 {
-                    if (Hexes[i, j] == null)
+                    if (_Hexes[i, j] == null)
                         continue;
                     getEdgeLocationOfHex(i, j).ForEach(x =>
                     {
-                        Edges[x[0], x[1]] = new Edge(i, j);
+                        _Edges[x[0], x[1]] = new Edge(i, j);
                     });
                 }
             }
@@ -48,12 +48,12 @@ namespace Catan.Model.Board
             {
                 for (int j = 0; j < 5; j++)
                 {
-                    if (Hexes[i, j] == null)
+                    if (_Hexes[i, j] == null)
                         continue;
                     getVertexLocationsOfHex(i, j).ForEach(x =>
                     {
 
-                        Vertices[x[0], x[1]] = new Vertex(i, j);
+                        _Vertices[x[0], x[1]] = new Vertex(i, j);
 
                     });
                 }
@@ -94,13 +94,13 @@ namespace Catan.Model.Board
                 if (numbers.Count > 0)
                 {
                     int num = numbers[rand.Next(0, numbers.Count)];
-                    Hexes[coord[0], coord[1]] = new Hex(resource, coord[0], coord[1], num);
+                    _Hexes[coord[0], coord[1]] = new Hex(resource, coord[0], coord[1], num);
                     emptyHexes.Remove(coord);
                     numbers.Remove(num);
                 }
                 else
                 {
-                    Hexes[coord[0], coord[1]] = new Hex(resource, coord[0], coord[1]);
+                    _Hexes[coord[0], coord[1]] = new Hex(resource, coord[0], coord[1]);
                 }
             }
         }
@@ -139,12 +139,12 @@ namespace Catan.Model.Board
             List<IVertex> retVal = new List<IVertex>();
             int offset = row % 2;
             offset = 0 - offset;
-            retVal.Add(Vertices[row, 2 * (col - offset) + offset]);
-            retVal.Add(Vertices[row, 2 * (col - offset) + 1 + offset]);
-            retVal.Add(Vertices[row, 2 * (col - offset) + 2 + offset]);
-            retVal.Add(Vertices[row + 1, 2 * (col - offset) + offset]);
-            retVal.Add(Vertices[row + 1, 2 * (col - offset) + 1 + offset]);
-            retVal.Add(Vertices[row + 1, 2 * (col - offset) + 2 + offset]);
+            retVal.Add(_Vertices[row, 2 * (col - offset) + offset]);
+            retVal.Add(_Vertices[row, 2 * (col - offset) + 1 + offset]);
+            retVal.Add(_Vertices[row, 2 * (col - offset) + 2 + offset]);
+            retVal.Add(_Vertices[row + 1, 2 * (col - offset) + offset]);
+            retVal.Add(_Vertices[row + 1, 2 * (col - offset) + 1 + offset]);
+            retVal.Add(_Vertices[row + 1, 2 * (col - offset) + 2 + offset]);
             return retVal;
         }
 
@@ -154,14 +154,14 @@ namespace Catan.Model.Board
             List<IVertex> retVal = new List<IVertex>();
             int offset = row % 2 == col % 2 ? -1 : 1;
 
-            if (Vertices[row + offset, col] != null)
-                retVal.Add(Vertices[row + offset, col]);
+            if (_Vertices[row + offset, col] != null)
+                retVal.Add(_Vertices[row + offset, col]);
 
-            if (Vertices[row, col + 1] != null)
-                retVal.Add(Vertices[row, col + 1]);
+            if (_Vertices[row, col + 1] != null)
+                retVal.Add(_Vertices[row, col + 1]);
 
-            if (Vertices[row, col - 1] != null)
-                retVal.Add(Vertices[row, col - 1]);
+            if (_Vertices[row, col - 1] != null)
+                retVal.Add(_Vertices[row, col - 1]);
 
             return retVal;
         }
@@ -170,14 +170,14 @@ namespace Catan.Model.Board
         {
             List<IEdge> retVal = new List<IEdge>();
             int offset = row % 2 == col % 2 ? -1 : 1;
-            if (Edges[row * 2 + offset, col] != null)
-                retVal.Add(Edges[row * 2 + offset, col]);
+            if (_Edges[row * 2 + offset, col] != null)
+                retVal.Add(_Edges[row * 2 + offset, col]);
 
-            if (Edges[row * 2, col - 1] != null)
-                retVal.Add(Edges[row * 2, col - 1]);
+            if (_Edges[row * 2, col - 1] != null)
+                retVal.Add(_Edges[row * 2, col - 1]);
 
-            if (Edges[row * 2 + offset, col] != null)
-                retVal.Add(Edges[row * 2, col]);
+            if (_Edges[row * 2 + offset, col] != null)
+                retVal.Add(_Edges[row * 2, col]);
 
             return retVal;
         }
@@ -187,17 +187,17 @@ namespace Catan.Model.Board
             List<IVertex> retVal = new List<IVertex>();
             if (row % 2 == 0)
             {
-                if (Vertices[row / 2, col] != null)
-                    retVal.Add(Vertices[row / 2, col]);
-                if (Vertices[row / 2, col + 1] != null)
-                    retVal.Add(Vertices[row / 2, col + 1]);
+                if (_Vertices[row / 2, col] != null)
+                    retVal.Add(_Vertices[row / 2, col]);
+                if (_Vertices[row / 2, col + 1] != null)
+                    retVal.Add(_Vertices[row / 2, col + 1]);
             }
             else
             {
-                if (Vertices[(row - 1) / 2, col] != null)
-                    retVal.Add(Vertices[(row - 1) / 2, col]);
-                if (Vertices[(row + 1) / 2, col] != null)
-                    retVal.Add(Vertices[(row + 1) / 2, col]);
+                if (_Vertices[(row - 1) / 2, col] != null)
+                    retVal.Add(_Vertices[(row - 1) / 2, col]);
+                if (_Vertices[(row + 1) / 2, col] != null)
+                    retVal.Add(_Vertices[(row + 1) / 2, col]);
             }
             return retVal;
         }
@@ -222,10 +222,10 @@ namespace Catan.Model.Board
             for (int row = 0; row < 5; row++)
                 for (int col = 0; col < 5; col++)
                 {
-                    if (Hexes[row, col] == null)
+                    if (_Hexes[row, col] == null)
                         continue;
                     else
-                        yield return Hexes[row, col];
+                        yield return _Hexes[row, col];
                 }
         }
 
@@ -234,10 +234,10 @@ namespace Catan.Model.Board
             for (int row = 0; row < 11; row++)
                 for (int col = 0; col < 11; col++)
                 {
-                    if (Vertices[row, col] == null)
+                    if (_Vertices[row, col] == null)
                         continue;
                     else
-                        yield return Vertices[row, col];
+                        yield return _Vertices[row, col];
                 }
         }
         public IEnumerable<IEdge> GetEdgesEnumerable()
@@ -245,10 +245,10 @@ namespace Catan.Model.Board
             for (int row = 0; row < 11; row++)
                 for (int col = 0; col < 11; col++)
                 {
-                    if (Vertices[row, col] == null)
+                    if (_Vertices[row, col] == null)
                         continue;
                     else
-                        yield return Edges[row, col];
+                        yield return _Edges[row, col];
                 }
         }
         #endregion
@@ -256,18 +256,18 @@ namespace Catan.Model.Board
         #region Methods 
         public void BuildRoad(int row, int col, PlayerEnum player)
         {
-            Edges[row, col].Build(player);
+            _Edges[row, col].Build(player);
         }
 
         public void buildSettlement(int row, int col, PlayerEnum player)
         {
-            Vertices[row, col].Build(player);
+            _Vertices[row, col].Build(player);
         }
 
         public void buildTown(int row, int col, PlayerEnum player)
         {
-            if(Vertices[row, col].Owner == player)
-                Vertices[row, col].Upgrade();
+            if(_Vertices[row, col].Owner == player)
+                _Vertices[row, col].Upgrade();
         }
         #endregion Methods
     }

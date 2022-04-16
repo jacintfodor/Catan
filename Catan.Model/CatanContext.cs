@@ -168,8 +168,10 @@ namespace Catan.Model
         public int CalculateLongestRoadFromEdge(IEdge edge, PlayerEnum player)
         {
             int retVal = 0;
+
             List<IEdge> processed = new List<IEdge>();
             List<IEdge> toProcess = new List<IEdge>();
+
             toProcess.Add(edge);
             while (toProcess.Any())
             {
