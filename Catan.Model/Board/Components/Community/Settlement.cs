@@ -12,13 +12,13 @@ namespace Catan.Model.Board.Components
         public Settlement(PlayerEnum owner)
         {
             Owner = owner;
-            IsUpgradable = true;
+            IsUpgradeable = true;
             IsBuildableCommunity = false;
         }
 
         public PlayerEnum Owner { get; set; }
 
-        public bool IsUpgradable { get; set; }
+        public bool IsUpgradeable { get; set; }
 
         public bool IsBuildableCommunity { get; set; }
 
@@ -26,7 +26,7 @@ namespace Catan.Model.Board.Components
 
         public bool IsBuildableByPlayer(PlayerEnum player)
         {
-            return this.Owner == player;
+            return Owner == player;
         }
     }
 }

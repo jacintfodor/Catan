@@ -13,13 +13,13 @@ namespace Catan.Model.Board.Components
         private NotBuildableCommunity()
         {
             Owner = PlayerEnum.NotPlayer;
-            IsUpgradable = false;
+            IsUpgradeable = false;
             IsBuildableCommunity = false;
         }
 
         public PlayerEnum Owner { get; set; }
 
-        public bool IsUpgradable { get; set; }
+        public bool IsUpgradeable { get; set; }
 
         public bool IsBuildableCommunity { get; set; }
 
