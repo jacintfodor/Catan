@@ -5,9 +5,9 @@
         public Hex(ResourceEnum resource, int number = 7)
         {
             Resource = resource;
-            Number = number;
+            Value = number;
         }
         public ResourceEnum Resource { get; set; }
-        public int Number { get; set; }
+        public int Value { get; set; }
     }
 }

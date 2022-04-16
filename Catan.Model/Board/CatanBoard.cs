@@ -206,7 +206,7 @@ namespace Catan.Model.Board
         #endregion Getters of board pieces
 
         #region Enumerators
-        public IEnumerable<Hex> GetHexesEnumerable()
+        public IEnumerable<IHex> GetHexesEnumerable()
         {
             for (int row = 0; row < 5; row++)
                 for (int col = 0; col < 5; col++)
@@ -249,7 +249,7 @@ namespace Catan.Model.Board
             {
                 for (int col = 0; col < 5; col++)
                 {
-                    if (Hexes[row, col] == null || Hexes[row, col].Number != dieValue)
+                    if (Hexes[row, col] == null || Hexes[row, col].Value != dieValue)
                         continue;
 
                     getVerticesOfHex(row, col).ForEach(vertex =>

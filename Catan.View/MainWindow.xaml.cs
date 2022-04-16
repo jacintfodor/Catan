@@ -411,16 +411,6 @@ Background="Firebrick"
                     b = new Button();
                     b.FontSize = 15;
                     vertexColor = "Moccasin";
-                    for (int iter = 0; iter < vModel.Vertices.Count; iter++)
-                    {
-                        if ((vModel.Vertices[iter].Row+vModel.Vertices[iter].Row)*2 == j || (vModel.Vertices[iter].Row + vModel.Vertices[iter].Row+1) * 2 ==j)
-                        {
-                            if ((vModel.Vertices[iter].Column * 2) == i)
-                            {
-                                vertexColor = vModel.Vertices[iter].Building;
-                            }
-                        }
-                    }
                     //name += j + " - " + i;
                     Grid.SetRow(b, j);
                     Grid.SetColumn(b, i);
