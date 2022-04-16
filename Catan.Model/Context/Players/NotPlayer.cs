@@ -40,5 +40,9 @@ namespace Catan.Model.Context.Players
         {
             return false;
         }
+        public bool CanAfford(Goods resourcesToAfford, String s)
+        {
+            return false;
+        }
     }
 }

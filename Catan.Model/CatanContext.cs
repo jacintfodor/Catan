@@ -34,6 +34,8 @@ namespace Catan.Model
         
         public int RolledSum { get => FirstDice.RolledValue + SecondDice.RolledValue; }
 
+        public static Rogue Rogue { get => Rogue.Instance; }
+
         public CatanEvents Events { get => CatanEvents.Instance; }
 
         public static LargestArmyHolder LargestArmyHolder { get => LargestArmyHolder.Instance;}
