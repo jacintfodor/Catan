@@ -1,6 +1,6 @@
 ﻿using Catan.Model.Enums;
 
-namespace Catan.Model.Board.Components.Edge
+namespace Catan.Model.Board.Components
 {
     public class BuiltRoad : IRoad
     {
