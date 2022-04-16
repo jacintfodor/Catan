@@ -1,7 +1,7 @@
 ﻿using Catan.Model.Board.Buildings;
 using Catan.Model.Context;
 
-namespace Catan.Model.Board.Components
+namespace Catan.Model.Board.Compontents
 {
     public class Edge
     {
