@@ -1,11 +1,6 @@
 ﻿using Catan.Model.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Catan.Model.Board.Components.Edge
+namespace Catan.Model.Board.Components
 {
     interface IEdge
     {

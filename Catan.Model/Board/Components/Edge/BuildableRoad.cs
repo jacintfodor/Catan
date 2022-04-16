@@ -2,32 +2,27 @@
 
 namespace Catan.Model.Board.Components
 {
-    public class BuildableCommunity : ICommunity
+    public class BuildableRoad : IRoad
     {
         HashSet<PlayerEnum> _potentialBuilders;
 
-        public BuildableCommunity()
+        public BuildableRoad()
         {
             _potentialBuilders = new HashSet<PlayerEnum>();
             Owner = PlayerEnum.NotPlayer;
-            IsUpgradeable = false;
-            IsBuildableCommunity = true;
+            IsBuildable = true;
         }
 
         public PlayerEnum Owner { get; set; }
-
-        public bool IsUpgradeable { get; set; }
-
-        public bool IsBuildableCommunity { get; set; }
-
-        public void AddPotentionalBuilder(PlayerEnum player)
+        public bool IsBuildable { get; set; }
+        public void AddPotentialBuilder(PlayerEnum player)
         {
             _potentialBuilders.Add(player);
         }
-
         public bool IsBuildableByPlayer(PlayerEnum player)
         {
             return _potentialBuilders.Contains(player);
         }
+
     }
 }
