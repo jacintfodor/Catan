@@ -1,6 +1,6 @@
 ﻿namespace Catan.Model.Board.Compontents
 {
-    public class Hex
+    public class Hex : IHex
     {
         public Hex(ResourceEnum resource, int number = 7)
         {
