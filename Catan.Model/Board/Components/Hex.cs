@@ -1,4 +1,4 @@
-﻿namespace Catan.Model.Board.Compontents
+﻿namespace Catan.Model.Board.Components
 {
     public class Hex : IHex
     {

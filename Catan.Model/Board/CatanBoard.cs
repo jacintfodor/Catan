@@ -1,5 +1,5 @@
 ﻿using Catan.Model.Board.Buildings;
-using Catan.Model.Board.Compontents;
+using Catan.Model.Board.Components;
 using Catan.Model.Context;
 using Catan.Model.Context.Players;
 using Catan.Model.Events;
@@ -11,7 +11,7 @@ namespace Catan.Model.Board
     {
 
         #region Variables
-        public Hex[,] Hexes = new Hex[5, 5];
+        public IHex[,] Hexes = new IHex[5, 5];
         public Vertex[,] Vertices = new Vertex[11, 11];
         public Edge[,] Edges = new Edge[11, 11];
         private List<int> numbers = new List<int> { 2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12 };
