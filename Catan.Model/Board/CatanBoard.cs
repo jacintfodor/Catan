@@ -276,7 +276,25 @@ namespace Catan.Model.Board
             }
         }
 
-       
+        public int CalculateLongestRoadFromEdge(int row, int col, PlayerEnum player)
+        {
+            int retVal = 0;
+            List<IEdge> processed = new List<IEdge>();
+            List<IEdge> toProcess = new List<IEdge>();
+            toProcess.Add(Edges[row, col]);
+            while (toProcess.Any())
+            {
+                IEdge currentlyProccessing = toProcess.First();
+                toProcess.Remove(currentlyProccessing);
+                retVal++;
+
+                getNeighbourEdgesOfEdge(currentlyProccessing.Row, currentlyProccessing.Col).ForEach(edge => {
+                    if (edge.Owner == player && !processed.Contains(edge))
+                        toProcess.Add(edge);
+                });
+            }
+            return 0;
+        }
 
         public void BuildRoad(int row, int col, PlayerEnum player)
         {
