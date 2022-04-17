@@ -168,18 +168,18 @@ namespace Catan.Model.Board
         {
             List<IEdge> retVal = new List<IEdge>();
             int offset = row % 2 == col % 2 ? 1 : -1;
-            if (col <= 11 && row*2 <= 11) { 
+            if (col < 11 && row*2 < 11) {
 
-                if (_Edges[row * 2 + offset, col] != null)
+                if (_Edges[row * 2, col] != null)
                     retVal.Add(_Edges[row * 2, col]);
             }
-            if (col <= 11 && row * 2 + offset <= 11 && row * 2 + offset >= 0)
+            if (col < 11 && row * 2 + offset < 11 && row * 2 + offset >= 0)
             {
-                if (_Edges[row * 2, col] != null)
+                if (_Edges[row * 2 + offset, col] != null)
                     retVal.Add(_Edges[row * 2 + offset, col]);
             }
 
-            if (col-1 >= 0&& row*2 <= 11)
+            if (col -1 >= 0 && row*2 < 11)
             {
                 if (_Edges[row * 2, col - 1] != null)
                     retVal.Add(_Edges[row * 2, col - 1]);
