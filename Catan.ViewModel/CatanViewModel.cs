@@ -73,11 +73,24 @@ namespace Catan.ViewModel
             _model.Events.DicesThrown += Model_Events_DicesThrown;
             _model.Events.GameStart += Model_Events_NewGame;
             _model.Events.TransactionsHappened += Model_Events_TransactionsHappened;
+            _model.Events.RoadBuilt += Model_Events_RoadBuilt;
+            _model.Events.SettlementBuilt += Model_Events_SettlementBuilt;
+            _model.Events.BuildableByPlayer += Model_Events_BuildableByPlayer;
 
             ThrowDicesCommand = new DelegateCommand(_ => _model.RollDices(), _ => _model.IsEarlyRollingState || _model.IsMainState);
             EndTurnCommand = new DelegateCommand(_ => _model.EndTurn(), _ => _model.IsMainState);
             PurchaseBonusCardCommand = new DelegateCommand(_ => _model.PurchaseBonusCard(), _ => _model.IsMainState);
 
+        }
+
+        private void Model_Events_SettlementBuilt(object? sender, SettlementBuiltEventArgs e)
+        {
+            
+        }
+
+        private void Model_Events_RoadBuilt(object? sender, RoadBuiltEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void Model_Events_TransactionsHappened(object? sender, TransactionsHappenedEventArg e)

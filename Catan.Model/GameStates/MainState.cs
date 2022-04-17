@@ -17,12 +17,17 @@ namespace Catan.Model.GameStates
 
         public void BuildRoad(CatanContext context, int row, int col)
         {
-            throw new NotImplementedException();
+            context.Board.BuildRoad(row, col, context.CurrentPlayer.ID);
+
+            context.Events.OnRoadBuilt(context,row,col,context.CurrentPlayer.ID);
+
         }
 
         public void BuildSettleMent(CatanContext context, int row, int col)
         {
-            throw new NotImplementedException();
+            context.Board.BuildSettlement(row, col, context.CurrentPlayer.ID);
+
+            context.Events.OnSettlementBuilt(context, row, col, context.CurrentPlayer.ID);
         }
 
         public void Cancel(CatanContext context)

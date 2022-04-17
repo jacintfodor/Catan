@@ -261,7 +261,7 @@ namespace Catan.Model.Board
             }
         }
 
-        public void buildSettlement(int row, int col, PlayerEnum player)
+        public void BuildSettlement(int row, int col, PlayerEnum player)
         {
             if (_Vertices[row, col].IsBuildableByPlayer(player)) { 
                 _Vertices[row, col].Build(player);

@@ -1,18 +1,19 @@
 ﻿using Catan.Model.Board.Components;
+using Catan.Model.Enums;
 
 namespace Catan.Model.Events
 {
     public class RoadBuiltEventArgs : EventArgs
     {
-        public RoadBuiltEventArgs(IEdge edge)
+        public RoadBuiltEventArgs(int row, int column, PlayerEnum owner)
         {
-            Row = edge.Row;
-            Column = edge.Col;
-            Owner = edge.Owner.ToString();
+            Row = row;
+            Column = column;
+            Owner = owner;
         }
 
         public int Row { get; private set; }
         public int Column { get; private set; }
-        public string Owner { get; private set; }
+        public PlayerEnum Owner { get; private set; }
     }
 }

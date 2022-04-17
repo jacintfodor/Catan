@@ -1,4 +1,5 @@
 ﻿using Catan.Model.Board.Components;
+using Catan.Model.Enums;
 using Catan.Model.Events;
 
 namespace Catan.Model
@@ -63,6 +64,21 @@ namespace Catan.Model
                 );
         }
 
+        public void OnSettlementBuilt(CatanContext ctx, int row, int col, PlayerEnum player)
+        {
+            SettlementBuilt?.Invoke(
+                this,
+                new SettlementBuiltEventArgs(row,col,player,"Settlement")
+                );
+        }
+
+        public void OnRoadBuilt(CatanContext ctx, int row, int col, PlayerEnum player)
+        {
+            RoadBuilt?.Invoke(
+                this,
+                new RoadBuiltEventArgs(row,col,player)
+                );
+        }
 
         //TODO sort out buildable buildings by current player, populate lists
         public void OnBuildableByPlayer(CatanContext ctx)
