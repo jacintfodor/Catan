@@ -8,18 +8,18 @@ namespace Catan.ViewModel
 {
     public class VertexViewModel : ViewModelBase
     {
-        private string _building;
+        private string _community;
         private string _owner;
 
-        public VertexViewModel(string owner, string building, int row, int column)
+        public VertexViewModel(string owner, string community, int row, int column)
         {
-            Building = building;
+            Community = community;
             Owner = owner;
             Column = column;
             Row = row;
         }
 
-        public string Building { get => _building; set { _building = value; OnPropertyChanged(); } }
+        public string Community { get => _community; set { _community = value; OnPropertyChanged(); } }
         public string Owner { get => _owner; set { _owner = value; OnPropertyChanged(); } }
         public int Column { get; set; }
         public int Row { get; set; }

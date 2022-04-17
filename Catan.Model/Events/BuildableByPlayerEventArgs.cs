@@ -2,7 +2,7 @@
 
 namespace Catan.Model.Events
 {
-    public class BuildableByPlayerEventArgs
+    public class BuildableByPlayerEventArgs : EventArgs
     {
         public BuildableByPlayerEventArgs(List<IVertex> vertices, List<IEdge> edges)
         {
