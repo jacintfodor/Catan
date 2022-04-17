@@ -1,4 +1,4 @@
-﻿using Catan.Model.Board.Compontents;
+using Catan.Model.Board.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
