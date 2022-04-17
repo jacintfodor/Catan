@@ -79,6 +79,8 @@ namespace Catan.ViewModel
             CurrentPlayerWool = e.WoolCount;
         }
 
+        private void Model_Events_BuildableByPlayer(object? sender, BuildableByPlayerEventArgs e) { }
+
         private void Model_Events_NewGame(object? sender, GameStartEventArgs e)
         {
             List<IHex> hexes = e.Hexes;

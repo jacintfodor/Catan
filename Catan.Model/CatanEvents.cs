@@ -19,6 +19,8 @@ namespace Catan.Model
         public event EventHandler<GameStartEventArgs> GameStart;
         public event EventHandler<TransactionsHappenedEventArg> TransactionsHappened;
         public event EventHandler<BuildableByPlayerEventArgs> BuildableByPlayer;
+        public event EventHandler<RoadBuiltEventArgs> RoadBuilt;
+        public event EventHandler<SettlementBuiltEventArgs> SettlementBuilt;
 
         public void OnGameStart(CatanContext ctx)
         {
@@ -61,9 +63,18 @@ namespace Catan.Model
                 );
         }
 
+
+        //TODO sort out buildable buildings by current player, populate lists
         public void OnBuildableByPlayer(CatanContext ctx)
         {
-            
+            List<IEdge> edges = new List<IEdge>();
+            List<IVertex> vertices = new List<IVertex>();
+
+
+            BuildableByPlayer?.Invoke(
+                this,
+                new BuildableByPlayerEventArgs(vertices,edges)
+                );
         }    
     }
 }

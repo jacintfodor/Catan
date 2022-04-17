@@ -10,7 +10,7 @@ namespace Catan.Model.Events
             Edges = edges;
         }
 
-        public List<IVertex> Vertices { get; set; }
-        public List<IEdge> Edges { get; set; }
+        public List<IVertex> Vertices { get; private set; }
+        public List<IEdge> Edges { get; private set; }
     }
 }
