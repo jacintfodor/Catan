@@ -268,6 +268,9 @@ namespace Catan.Model.Board
                 getNeighborVerticesOfVertex(row, col).ForEach(vertex => {
                     vertex.SetNotBuildableCommunity();
                 });
+                getNeighborEdgesOfVertex(row, col).ForEach(edge => {
+                    edge.AddPotentialBuilder(player);
+                });
             }
         }
 

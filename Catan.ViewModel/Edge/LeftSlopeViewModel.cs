@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Catan.ViewModel
 {
-    internal class LeftSlopeViewModel : ViewModelBase
+    public class LeftSlopeViewModel : ViewModelBase
     {
+        public int Column { get; set; }
+        public int Row { get; set; }
+        public int Owner { get; set; }
     }
 }

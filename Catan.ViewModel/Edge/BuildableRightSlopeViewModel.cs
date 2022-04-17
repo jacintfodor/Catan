@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Catan.ViewModel
 
 {
-    internal class BuildableRightSlopeViewModel : ViewModelBase
+    public class BuildableRightSlopeViewModel : ViewModelBase
     {
     }
 }

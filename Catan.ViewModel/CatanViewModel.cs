@@ -20,6 +20,13 @@ namespace Catan.ViewModel
 
         public ObservableCollection<HexViewModel> Hexes { get; set; }
         public ObservableCollection<VertexViewModel> Vertices { get; set; }
+        public ObservableCollection<BuildableCommunityViewModel> BuildableCommunities { get; set; }
+        public ObservableCollection<VerticalViewModel> Verticals { get; set; }
+        public ObservableCollection<LeftSlopeViewModel> LeftSlopes { get; set; }
+        public ObservableCollection<RightSlopeViewModel> RightSlopes { get; set; }
+        public ObservableCollection<BuildableVerticalViewModel> BuildableVerticals { get; set; }
+        public ObservableCollection<BuildableLeftSlopeViewModel> BuildableLeftSlopes { get; set; }
+        public ObservableCollection<BuildableRightSlopeViewModel> BuildableRightSlopes { get; set; }
 
 
         int _firstDiceValue = 1;
@@ -45,7 +52,7 @@ namespace Catan.ViewModel
             Hexes = new ObservableCollection<HexViewModel>();
             Vertices = new ObservableCollection<VertexViewModel>();
 
-            _currentPlayersResource = new Dictionary<ResourceEnum,int>();
+            _currentPlayersResource = new Dictionary<ResourceEnum, int>();
             _currentPlayersResource.Add(ResourceEnum.Crop, 0);
             _currentPlayersResource.Add(ResourceEnum.Ore, 0);
             _currentPlayersResource.Add(ResourceEnum.Wood, 0);
@@ -92,14 +99,54 @@ namespace Catan.ViewModel
 
             foreach (IEdge edge in edges)
             {
-
+                switch (GetEdgeOrientation(edge))
+                {
+                    case "Vertical":
+                        var edge = new 
+                        break;
+                    case "LeftSlope":
+                        break;
+                    case "RightSlope":
+                        break;
+                }
             }
         }
+
+
 
         private void Model_Events_DicesThrown(object? sender, DicesThrownEventArg e)
         {
             FirstDiceFace = e.FirstDice;
             SecondDiceFace = e.SecondDice;
+        }
+
+        private string GetEdgeOrientation(IEdge edge) {
+            if (edge.Row % 2 == 1)
+            {
+                return "Vertical";
+            }
+            else if ((edge.Row / 2) % 2 == 0)
+            {
+                if(edge.Col % 2 == 0)
+                {
+                    return "LeftSlope";
+                }
+                else
+                {
+                    return "RightSlope";
+                }
+            }
+            else
+            {
+                if (edge.Col % 2 == 0)
+                {
+                    return "RightSlope";
+                }
+                else
+                {
+                    return "LeftSlope";
+                }
+            }
         }
 
         private string PlayerToString(IPlayer p)
