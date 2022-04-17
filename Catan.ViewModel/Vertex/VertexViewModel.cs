@@ -11,17 +11,17 @@ namespace Catan.ViewModel
         private string _community;
         private string _owner;
 
-        public VertexViewModel(string owner, string community, int row, int column)
+        public VertexViewModel(int row, int column, string owner, string community)
         {
+            Row = row;
+            Column = column;
             Community = community;
             Owner = owner;
-            Column = column;
-            Row = row;
         }
+        public int Row { get; set; }
+        public int Column { get; set; }
 
         public string Community { get => _community; set { _community = value; OnPropertyChanged(); } }
         public string Owner { get => _owner; set { _owner = value; OnPropertyChanged(); } }
-        public int Column { get; set; }
-        public int Row { get; set; }
     }
 }

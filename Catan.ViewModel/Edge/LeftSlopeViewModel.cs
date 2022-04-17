@@ -8,8 +8,14 @@ namespace Catan.ViewModel
 {
     public class LeftSlopeViewModel : ViewModelBase
     {
-        public int Column { get; set; }
+        public LeftSlopeViewModel(int row, int column, string owner)
+        {
+            Row = row;
+            Column = column;
+            Owner = owner;
+        }
         public int Row { get; set; }
-        public int Owner { get; set; }
+        public int Column { get; set; }
+        public string Owner { get; set; }
     }
 }

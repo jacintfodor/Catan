@@ -12,12 +12,12 @@ namespace Catan.ViewModel
         private string _resource;
         private int _number;
 
-        public HexViewModel(string resource, int number, int row, int column)
+        public HexViewModel(int row, int column, string resource, int number)
         {
             Resource = resource;
             Number = number;
-            Column = column;
             Row = row;
+            Column = column;
         }
 
         public string Resource { get => _resource; set { _resource = value; OnPropertyChanged(); } }

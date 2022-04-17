@@ -87,13 +87,13 @@ namespace Catan.ViewModel
 
             foreach (IHex hex in hexes)
             {
-                var hexVM = new HexViewModel(ResourceEnumToString(hex.Resource), hex.Value, hex.Row, hex.Col);
+                var hexVM = new HexViewModel(hex.Row, hex.Col, ResourceEnumToString(hex.Resource), hex.Value);
                 Hexes.Add(hexVM);
             }
 
             foreach (IVertex vertex in vertices)
             {
-                var vertexVM = new VertexViewModel(CommunityToString(vertex.GetCommunity()), "", vertex.Row, vertex.Col);
+                var vertexVM = new VertexViewModel(vertex.Row, vertex.Col, PlayerToString(PlayerEnum.NotPlayer), CommunityToString(vertex.GetCommunity()));
                 Vertices.Add(vertexVM);
             }
 
@@ -102,17 +102,17 @@ namespace Catan.ViewModel
                 switch (GetEdgeOrientation(edge))
                 {
                     case "Vertical":
-                        var edge = new 
+                        Verticals.Add(new VerticalViewModel(edge.Row,edge.Col,PlayerToString(PlayerEnum.NotPlayer)));
                         break;
                     case "LeftSlope":
+                        LeftSlopes.Add(new LeftSlopeViewModel(edge.Row, edge.Col, PlayerToString(PlayerEnum.NotPlayer)));
                         break;
                     case "RightSlope":
+                        RightSlopes.Add(new RightSlopeViewModel(edge.Row, edge.Col, PlayerToString(PlayerEnum.NotPlayer)));
                         break;
                 }
             }
         }
-
-
 
         private void Model_Events_DicesThrown(object? sender, DicesThrownEventArg e)
         {
@@ -149,9 +149,9 @@ namespace Catan.ViewModel
             }
         }
 
-        private string PlayerToString(IPlayer p)
+        private string PlayerToString(PlayerEnum p)
         {
-            string retVal = p.ID.ToString();
+            string retVal = p.ToString();
             return retVal;
         }
 
