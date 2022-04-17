@@ -30,8 +30,10 @@ namespace Catan.Model.Board.Components
 
         public void Build(PlayerEnum player)
         {
-            if (_road.IsBuildableByPlayer(player))
+            if (_road.IsBuildableByPlayer(player)) {
+                Owner = player;
                 _road = new BuiltRoad(player);
+            }
         }
     }
 }

@@ -93,10 +93,8 @@ namespace Catan.ViewModel
 
             foreach (IEdge edge in edges)
             {
+
             }
-
-
-           
         }
 
         private void Model_Events_DicesThrown(object? sender, DicesThrownEventArg e)

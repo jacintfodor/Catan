@@ -145,7 +145,7 @@ namespace Catan.Model
         #endregion
 
         #region methods
-        public void distributeResource(int dieValue)
+        public void DistributeResource(int dieValue)
         {
             foreach (IHex hex in Board.GetHexesEnumerable()) {
                 if (hex.Value != dieValue)
@@ -179,10 +179,21 @@ namespace Catan.Model
                 toProcess.Remove(currentlyProccessing);
                 retVal++;
 
-                Board.getNeighbourEdgesOfEdge(currentlyProccessing.Row, currentlyProccessing.Col).ForEach(neighbEdge => {
-                    if (neighbEdge.Owner == player && !processed.Contains(neighbEdge))
-                        toProcess.Add(neighbEdge);
+                
+                List<IEdge> connectedEdges = new List<IEdge>();
+                List<IVertex> connectedVertices = Board.getNeighbourVerticesOfEdge(currentlyProccessing.Row,currentlyProccessing.Col);
+                connectedVertices.ForEach(vertex => {
+                    Board.getNeighborEdgesOfVertex(vertex.Row, vertex.Col).ForEach(edge =>
+                    {
+                        connectedEdges.Add(edge);
+                    });
                 });
+
+                connectedEdges.ForEach(edge => {
+                    if (edge.Owner == player && !toProcess.Contains(edge) && !processed.Contains(edge) && edge != currentlyProccessing)
+                        toProcess.Add(edge);
+                });
+                processed.Add(currentlyProccessing);
             }
             return retVal;
         }

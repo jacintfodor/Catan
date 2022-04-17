@@ -35,7 +35,7 @@ namespace Catan.Model.Board
                         continue;
                     getEdgeLocationOfHex(i, j).ForEach(x =>
                     {
-                        _Edges[x[0], x[1]] = new Edge(i, j);
+                        _Edges[x[0], x[1]] = new Edge(x[0], x[1]);
                     });
                 }
             }
@@ -52,9 +52,7 @@ namespace Catan.Model.Board
                         continue;
                     getVertexLocationsOfHex(i, j).ForEach(x =>
                     {
-
-                        _Vertices[x[0], x[1]] = new Vertex(i, j);
-
+                        _Vertices[x[0], x[1]] = new Vertex(x[0], x[1]);
                     });
                 }
             }
@@ -169,16 +167,23 @@ namespace Catan.Model.Board
         public List<IEdge> getNeighborEdgesOfVertex(int row, int col)
         {
             List<IEdge> retVal = new List<IEdge>();
-            int offset = row % 2 == col % 2 ? -1 : 1;
-            if (_Edges[row * 2 + offset, col] != null)
-                retVal.Add(_Edges[row * 2 + offset, col]);
+            int offset = row % 2 == col % 2 ? 1 : -1;
+            if (col <= 11 && row*2 <= 11) { 
 
-            if (_Edges[row * 2, col - 1] != null)
-                retVal.Add(_Edges[row * 2, col - 1]);
+                if (_Edges[row * 2 + offset, col] != null)
+                    retVal.Add(_Edges[row * 2, col]);
+            }
+            if (col <= 11 && row * 2 + offset <= 11 && row * 2 + offset >= 0)
+            {
+                if (_Edges[row * 2, col] != null)
+                    retVal.Add(_Edges[row * 2 + offset, col]);
+            }
 
-            if (_Edges[row * 2 + offset, col] != null)
-                retVal.Add(_Edges[row * 2, col]);
-
+            if (col-1 >= 0&& row*2 <= 11)
+            {
+                if (_Edges[row * 2, col - 1] != null)
+                    retVal.Add(_Edges[row * 2, col - 1]);
+            }
             return retVal;
         }
         //Returns a list of end Vertices of given Edge index
@@ -202,13 +207,17 @@ namespace Catan.Model.Board
             return retVal;
         }
 
+        //TODO fix
         public List<IEdge> getNeighbourEdgesOfEdge(int row, int col)
         {
+            
+            
             List<IEdge> retVal = new List<IEdge>();
+
             getNeighbourVerticesOfEdge(row, col).ForEach(vertex =>
                 {
                 getNeighborEdgesOfVertex(vertex.Row, vertex.Col).ForEach(edge => {
-                    if(edge.Row != row && edge.Col != col)
+                    if(!(edge.Row == row && edge.Col == col))
                         retVal.Add(edge);
                 });
             });
@@ -228,7 +237,6 @@ namespace Catan.Model.Board
                         yield return _Hexes[row, col];
                 }
         }
-
         public IEnumerable<IVertex> GetVerticesEnumerable()
         {
             for (int row = 0; row < 11; row++)
@@ -245,7 +253,7 @@ namespace Catan.Model.Board
             for (int row = 0; row < 11; row++)
                 for (int col = 0; col < 11; col++)
                 {
-                    if (_Vertices[row, col] == null)
+                    if (_Edges[row, col] == null)
                         continue;
                     else
                         yield return _Edges[row, col];
