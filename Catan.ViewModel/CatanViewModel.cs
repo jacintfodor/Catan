@@ -138,7 +138,26 @@ namespace Catan.ViewModel
 
         private void Model_Events_BuildableByPlayer(object? sender, BuildableByPlayerEventArgs e)
         {
-            /*edges*/
+            foreach (IVertex vertex in e.Vertices)
+            {
+                BuildableCommunities.Add(new BuildableCommunityViewModel(vertex.Row,vertex.Col));
+            }
+
+            foreach (IEdge edge in e.Edges)
+            {
+                switch (GetEdgeOrientation(edge.Row, edge.Col))
+                {
+                    case "Vertical":
+                        BuildableVerticals.Add(new BuildableVerticalViewModel(edge.Row, edge.Col));
+                        break;
+                    case "LeftSlope":
+                        BuildableLeftSlopes.Add(new BuildableLeftSlopeViewModel(edge.Row, edge.Col));
+                        break;
+                    case "RightSlope":
+                        BuildableRightSlopes.Add(new BuildableRightSlopeViewModel(edge.Row, edge.Col));
+                        break;
+                }
+            }
         }
 
         private void Model_Events_NewGame(object? sender, GameStartEventArgs e)
