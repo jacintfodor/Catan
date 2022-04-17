@@ -85,12 +85,46 @@ namespace Catan.ViewModel
 
         private void Model_Events_SettlementBuilt(object? sender, SettlementBuiltEventArgs e)
         {
-            
+            foreach (VertexViewModel vm in Vertices) {
+                if (vm.Row == e.Row && vm.Column == e.Column) {
+                    vm.Community = "Settlement";
+                    vm.Owner = PlayerToString(e.Owner);
+                }
+            }
         }
 
         private void Model_Events_RoadBuilt(object? sender, RoadBuiltEventArgs e)
         {
-            throw new NotImplementedException();
+            switch (GetEdgeOrientation(e.Row, e.Column))
+            {
+                case "Vertical":
+                    foreach (VerticalViewModel vertical in Verticals)
+                    {
+                        if (vertical.Row == e.Row && vertical.Column == e.Column)
+                        {
+                            vertical.Owner = PlayerToString(e.Owner);
+                        }
+                    }
+                    break;
+                case "LeftSlope":
+                    foreach (LeftSlopeViewModel vertical in LeftSlopes)
+                    {
+                        if (vertical.Row == e.Row && vertical.Column == e.Column)
+                        {
+                            vertical.Owner = PlayerToString(e.Owner);
+                        }
+                    }
+                    break;
+                case "RightSlope":
+                    foreach (RightSlopeViewModel vertical in RightSlopes)
+                    {
+                        if (vertical.Row == e.Row && vertical.Column == e.Column)
+                        {
+                            vertical.Owner = PlayerToString(e.Owner);
+                        }
+                    }
+                    break;
+            }
         }
 
         private void Model_Events_TransactionsHappened(object? sender, TransactionsHappenedEventArg e)
@@ -102,7 +136,10 @@ namespace Catan.ViewModel
             CurrentPlayerWool = e.WoolCount;
         }
 
-        private void Model_Events_BuildableByPlayer(object? sender, BuildableByPlayerEventArgs e) { }
+        private void Model_Events_BuildableByPlayer(object? sender, BuildableByPlayerEventArgs e)
+        {
+            /*edges*/
+        }
 
         private void Model_Events_NewGame(object? sender, GameStartEventArgs e)
         {
@@ -124,7 +161,7 @@ namespace Catan.ViewModel
 
             foreach (IEdge edge in edges)
             {
-                switch (GetEdgeOrientation(edge))
+                switch (GetEdgeOrientation(edge.Row,edge.Col))
                 {
                     case "Vertical":
                         Verticals.Add(new VerticalViewModel(edge.Row,edge.Col,PlayerToString(PlayerEnum.NotPlayer)));
@@ -145,14 +182,14 @@ namespace Catan.ViewModel
             SecondDiceFace = e.SecondDice;
         }
 
-        private string GetEdgeOrientation(IEdge edge) {
-            if (edge.Row % 2 == 1)
+        private string GetEdgeOrientation(int row, int col) {
+            if (row % 2 == 1)
             {
                 return "Vertical";
             }
-            else if ((edge.Row / 2) % 2 == 0)
+            else if ((row / 2) % 2 == 0)
             {
-                if(edge.Col % 2 == 0)
+                if(col % 2 == 0)
                 {
                     return "LeftSlope";
                 }
@@ -163,7 +200,7 @@ namespace Catan.ViewModel
             }
             else
             {
-                if (edge.Col % 2 == 0)
+                if (col % 2 == 0)
                 {
                     return "RightSlope";
                 }

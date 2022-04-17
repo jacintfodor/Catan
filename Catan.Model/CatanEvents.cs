@@ -68,7 +68,7 @@ namespace Catan.Model
         {
             SettlementBuilt?.Invoke(
                 this,
-                new SettlementBuiltEventArgs(row,col,player,"Settlement")
+                new SettlementBuiltEventArgs(row,col,player)
                 );
         }
 
@@ -80,12 +80,21 @@ namespace Catan.Model
                 );
         }
 
-        //TODO sort out buildable buildings by current player, populate lists
         public void OnBuildableByPlayer(CatanContext ctx)
         {
             List<IEdge> edges = new List<IEdge>();
             List<IVertex> vertices = new List<IVertex>();
-
+            PlayerEnum currPlayer = ctx.CurrentPlayer.ID;
+            foreach(IEdge edge in ctx.Board.GetEdgesEnumerable())
+            {
+                if (edge.IsBuildableByPlayer(currPlayer))
+                    edges.Add(edge);
+            }
+            foreach (IVertex vertex in ctx.Board.GetVerticesEnumerable())
+            {
+                if (vertex.IsBuildableByPlayer(currPlayer))
+                    vertices.Add(vertex);
+            }
 
             BuildableByPlayer?.Invoke(
                 this,
