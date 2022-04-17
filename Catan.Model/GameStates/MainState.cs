@@ -40,6 +40,7 @@ namespace Catan.Model.GameStates
             context.NextPlayer();
             
             context.Events.OnTransactionsHappened(context);
+            context.Events.OnBuildableByPlayer(context);
         }
 
         public void ExchangeWithBank(CatanContext context)

@@ -18,6 +18,7 @@ namespace Catan.Model
         public event EventHandler<DicesThrownEventArg> DicesThrown;
         public event EventHandler<GameStartEventArgs> GameStart;
         public event EventHandler<TransactionsHappenedEventArg> TransactionsHappened;
+        public event EventHandler<BuildableByPlayerEventArgs> BuildableByPlayer;
 
         public void OnGameStart(CatanContext ctx)
         {
@@ -59,5 +60,10 @@ namespace Catan.Model
                 new TransactionsHappenedEventArg(ctx.CurrentPlayer.AvailableResources)
                 );
         }
+
+        public void OnBuildableByPlayer(CatanContext ctx)
+        {
+            
+        }    
     }
 }

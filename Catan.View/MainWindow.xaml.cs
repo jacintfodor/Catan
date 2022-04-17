@@ -451,7 +451,6 @@ Background="Firebrick"
             Grid.SetRow(b, 3);
             Grid.SetColumn(b, 0);
             MainGrid.Children.Add(b);
-            int asdf = 123;
 
         }
     }

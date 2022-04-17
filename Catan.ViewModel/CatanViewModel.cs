@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Catan.Model;
-using Catan.Model.Board;
 using Catan.Model.Board.Components;
 using Catan.Model.Context;
 using Catan.Model.Context.Players;
@@ -87,8 +86,8 @@ namespace Catan.ViewModel
 
             foreach (IVertex vertex in vertices)
             {
-                var ver = new VertexViewModel("", "", vertex.Row, vertex.Col);
-                Vertices.Add(ver);
+                var vertexVM = new VertexViewModel(CommunityToString(vertex.GetCommunity()), "", vertex.Row, vertex.Col);
+                Vertices.Add(vertexVM);
             }
 
             foreach (IEdge edge in edges)
@@ -103,39 +102,21 @@ namespace Catan.ViewModel
             SecondDiceFace = e.SecondDice;
         }
 
-        private string CommunityToString(IPlayer p)
+        private string PlayerToString(IPlayer p)
         {
-            string retVal = "";
+            string retVal = p.ID.ToString();
+            return retVal;
+        }
+
+        private string CommunityToString(ICommunity community)
+        {
+            string retVal = community.GetType().Name;
             return retVal;
         }
 
         private string ResourceEnumToString(ResourceEnum res)
         {
-            string retVal;
-            switch (res)
-            {
-                case ResourceEnum.Ore:
-                    retVal = "SlateGray";
-                    break;
-                case ResourceEnum.Brick:
-                    retVal = "Firebrick";
-                    break;
-                case ResourceEnum.Wool:
-                    retVal = "PaleGreen";
-                    break;
-                case ResourceEnum.Wood:
-                    retVal = "ForestGreen";
-                    break;
-                case ResourceEnum.Crop:
-                    retVal = "Goldenrod";
-                    break;
-                case ResourceEnum.Desert:
-                    retVal = "Black";
-                    break;
-                default:
-                    retVal = "Black";
-                    break;
-            }
+            string retVal = res.ToString();
             return retVal;
         }
     }
