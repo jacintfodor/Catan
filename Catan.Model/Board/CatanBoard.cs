@@ -1,8 +1,6 @@
-﻿using Catan.Model.Board.Buildings;
-using Catan.Model.Board.Compontents;
+﻿using Catan.Model.Board.Components;
 using Catan.Model.Context;
-using Catan.Model.Context.Players;
-using Catan.Model.Events;
+using Catan.Model.Enums;
 
 namespace Catan.Model.Board
 {
@@ -11,9 +9,9 @@ namespace Catan.Model.Board
     {
 
         #region Variables
-        public Hex[,] Hexes = new Hex[5, 5];
-        public Vertex[,] Vertices = new Vertex[11, 11];
-        public Edge[,] Edges = new Edge[11, 11];
+        private IHex[,] _Hexes = new IHex[5, 5];
+        private IVertex[,] _Vertices = new IVertex[11, 11];
+        private IEdge[,] _Edges = new IEdge[11, 11];
         private List<int> numbers = new List<int> { 2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12 };
         #endregion Variables
 
@@ -33,11 +31,11 @@ namespace Catan.Model.Board
             {
                 for (int j = 0; j < 5; j++)
                 {
-                    if (Hexes[i, j] == null)
+                    if (_Hexes[i, j] == null)
                         continue;
                     getEdgeLocationOfHex(i, j).ForEach(x =>
                     {
-                        Edges[x[0], x[1]] = new Edge(NotPlayer.Instance, NotBuilding.Instance);
+                        _Edges[x[0], x[1]] = new Edge(x[0], x[1]);
                     });
                 }
             }
@@ -50,13 +48,11 @@ namespace Catan.Model.Board
             {
                 for (int j = 0; j < 5; j++)
                 {
-                    if (Hexes[i, j] == null)
+                    if (_Hexes[i, j] == null)
                         continue;
                     getVertexLocationsOfHex(i, j).ForEach(x =>
                     {
-
-                        Vertices[x[0], x[1]] = new Vertex(NotPlayer.Instance, NotBuilding.Instance);
-
+                        _Vertices[x[0], x[1]] = new Vertex(x[0], x[1]);
                     });
                 }
             }
@@ -96,13 +92,13 @@ namespace Catan.Model.Board
                 if (numbers.Count > 0)
                 {
                     int num = numbers[rand.Next(0, numbers.Count)];
-                    Hexes[coord[0], coord[1]] = new Hex(resource, num);
+                    _Hexes[coord[0], coord[1]] = new Hex(resource, coord[0], coord[1], num);
                     emptyHexes.Remove(coord);
                     numbers.Remove(num);
                 }
                 else
                 {
-                    Hexes[coord[0], coord[1]] = new Hex(resource);
+                    _Hexes[coord[0], coord[1]] = new Hex(resource, coord[0], coord[1]);
                 }
             }
         }
@@ -136,157 +132,150 @@ namespace Catan.Model.Board
 
         #region Geters of board pieces
         //Returns a list of vertices to a hex from hex's index
-        public List<Vertex> getVerticesOfHex(int row, int col)
+        public List<IVertex> getVerticesOfHex(int row, int col)
         {
-            List<Vertex> retVal = new List<Vertex>();
+            List<IVertex> retVal = new List<IVertex>();
             int offset = row % 2;
             offset = 0 - offset;
-            retVal.Add(Vertices[row, 2 * (col - offset) + offset]);
-            retVal.Add(Vertices[row, 2 * (col - offset) + 1 + offset]);
-            retVal.Add(Vertices[row, 2 * (col - offset) + 2 + offset]);
-            retVal.Add(Vertices[row + 1, 2 * (col - offset) + offset]);
-            retVal.Add(Vertices[row + 1, 2 * (col - offset) + 1 + offset]);
-            retVal.Add(Vertices[row + 1, 2 * (col - offset) + 2 + offset]);
+            retVal.Add(_Vertices[row, 2 * (col - offset) + offset]);
+            retVal.Add(_Vertices[row, 2 * (col - offset) + 1 + offset]);
+            retVal.Add(_Vertices[row, 2 * (col - offset) + 2 + offset]);
+            retVal.Add(_Vertices[row + 1, 2 * (col - offset) + offset]);
+            retVal.Add(_Vertices[row + 1, 2 * (col - offset) + 1 + offset]);
+            retVal.Add(_Vertices[row + 1, 2 * (col - offset) + 2 + offset]);
             return retVal;
         }
 
         //Returns a list of neighbouring Vertices of given Vertex index
-        public List<Vertex> getNeighborVerticesOfVertex(int row, int col)
+        public List<IVertex> getNeighborVerticesOfVertex(int row, int col)
         {
-            List<Vertex> retVal = new List<Vertex>();
+            List<IVertex> retVal = new List<IVertex>();
             int offset = row % 2 == col % 2 ? -1 : 1;
 
-            if (Vertices[row + offset, col] != null)
-                retVal.Add(Vertices[row + offset, col]);
+            if (_Vertices[row + offset, col] != null)
+                retVal.Add(_Vertices[row + offset, col]);
 
-            if (Vertices[row, col + 1] != null)
-                retVal.Add(Vertices[row, col + 1]);
+            if (_Vertices[row, col + 1] != null)
+                retVal.Add(_Vertices[row, col + 1]);
 
-            if (Vertices[row, col - 1] != null)
-                retVal.Add(Vertices[row, col - 1]);
+            if (_Vertices[row, col - 1] != null)
+                retVal.Add(_Vertices[row, col - 1]);
 
             return retVal;
         }
         //Returns a list of neighbouring Edges of given Vertex index
-        public List<Edge> getNeighborEdgesOfVertex(int row, int col)
+        public List<IEdge> getNeighborEdgesOfVertex(int row, int col)
         {
-            List<Edge> retVal = new List<Edge>();
-            int offset = row % 2 == col % 2 ? -1 : 1;
-            if (Edges[row * 2 + offset, col] != null)
-                retVal.Add(Edges[row * 2 + offset, col]);
+            List<IEdge> retVal = new List<IEdge>();
+            int offset = row % 2 == col % 2 ? 1 : -1;
+            if (col < 11 && row*2 < 11) {
 
-            if (Edges[row * 2, col - 1] != null)
-                retVal.Add(Edges[row * 2, col - 1]);
+                if (_Edges[row * 2, col] != null)
+                    retVal.Add(_Edges[row * 2, col]);
+            }
+            if (col < 11 && row * 2 + offset < 11 && row * 2 + offset >= 0)
+            {
+                if (_Edges[row * 2 + offset, col] != null)
+                    retVal.Add(_Edges[row * 2 + offset, col]);
+            }
 
-            if (Edges[row * 2 + offset, col] != null)
-                retVal.Add(Edges[row * 2, col]);
-
+            if (col -1 >= 0 && row*2 < 11)
+            {
+                if (_Edges[row * 2, col - 1] != null)
+                    retVal.Add(_Edges[row * 2, col - 1]);
+            }
             return retVal;
         }
         //Returns a list of end Vertices of given Edge index
-        public List<Vertex> getNeighbourVerticesOfEdge(int row, int col)
+        public List<IVertex> getNeighbourVerticesOfEdge(int row, int col)
         {
-            List<Vertex> retVal = new List<Vertex>();
+            List<IVertex> retVal = new List<IVertex>();
             if (row % 2 == 0)
             {
-                if (Vertices[row / 2, col] != null)
-                    retVal.Add(Vertices[row / 2, col]);
-                if (Vertices[row / 2, col + 1] != null)
-                    retVal.Add(Vertices[row / 2, col + 1]);
+                if (_Vertices[row / 2, col] != null)
+                    retVal.Add(_Vertices[row / 2, col]);
+                if (_Vertices[row / 2, col + 1] != null)
+                    retVal.Add(_Vertices[row / 2, col + 1]);
             }
             else
             {
-                if (Vertices[(row - 1) / 2, col] != null)
-                    retVal.Add(Vertices[(row - 1) / 2, col]);
-                if (Vertices[(row + 1) / 2, col] != null)
-                    retVal.Add(Vertices[(row + 1) / 2, col]);
+                if (_Vertices[(row - 1) / 2, col] != null)
+                    retVal.Add(_Vertices[(row - 1) / 2, col]);
+                if (_Vertices[(row + 1) / 2, col] != null)
+                    retVal.Add(_Vertices[(row + 1) / 2, col]);
             }
+            return retVal;
+        }
+
+        //TODO fix
+        public List<IEdge> getNeighbourEdgesOfEdge(int row, int col)
+        {
+            
+            
+            List<IEdge> retVal = new List<IEdge>();
+
+            getNeighbourVerticesOfEdge(row, col).ForEach(vertex =>
+                {
+                getNeighborEdgesOfVertex(vertex.Row, vertex.Col).ForEach(edge => {
+                    if(!(edge.Row == row && edge.Col == col))
+                        retVal.Add(edge);
+                });
+            });
             return retVal;
         }
         #endregion Getters of board pieces
 
         #region Enumerators
-        public IEnumerable<Hex> GetHexesEnumerable()
+        public IEnumerable<IHex> GetHexesEnumerable()
         {
             for (int row = 0; row < 5; row++)
                 for (int col = 0; col < 5; col++)
                 {
-                    if (Hexes[row, col] == null)
+                    if (_Hexes[row, col] == null)
                         continue;
                     else
-                        yield return Hexes[row, col];
+                        yield return _Hexes[row, col];
                 }
         }
-
-        public IEnumerable<Vertex> GetVerticesEnumerable()
+        public IEnumerable<IVertex> GetVerticesEnumerable()
         {
             for (int row = 0; row < 11; row++)
                 for (int col = 0; col < 11; col++)
                 {
-                    if (Vertices[row, col] == null)
+                    if (_Vertices[row, col] == null)
                         continue;
                     else
-                        yield return Vertices[row, col];
+                        yield return _Vertices[row, col];
                 }
         }
-        public IEnumerable<Edge> GetEdgesEnumerable()
+        public IEnumerable<IEdge> GetEdgesEnumerable()
         {
             for (int row = 0; row < 11; row++)
                 for (int col = 0; col < 11; col++)
                 {
-                    if (Vertices[row, col] == null)
+                    if (_Edges[row, col] == null)
                         continue;
                     else
-                        yield return Edges[row, col];
+                        yield return _Edges[row, col];
                 }
         }
         #endregion
 
         #region Methods 
-        public void distributeResource(int dieValue)
+        public void BuildRoad(int row, int col, PlayerEnum player)
         {
-            for (int row = 0; row < 5; row++)
-            {
-                for (int col = 0; col < 5; col++)
-                {
-                    if (Hexes[row, col] == null || Hexes[row, col].Number != dieValue)
-                        continue;
-
-                    getVerticesOfHex(row, col).ForEach(vertex =>
-                    {
-                        if (vertex.Owner != NotPlayer.Instance)
-                        {
-                            int amount = vertex.Building.amount();
-                            vertex.Owner.AddResource(new Goods(Hexes[row, col].Resource) * amount);
-                        }
-                    });
-                }
-            }
+            _Edges[row, col].Build(player);
         }
 
-        public void buildRoad(int row, int col, IPlayer builder)
+        public void buildSettlement(int row, int col, PlayerEnum player)
         {
-            Edges[row, col].Owner = builder;
-            Edges[row, col].Building = new Road();
+            _Vertices[row, col].Build(player);
         }
 
-        public void buildSettlement(int row, int col, IPlayer builder)
+        public void buildTown(int row, int col, PlayerEnum player)
         {
-            Vertices[row, col].Owner = builder;
-            Vertices[row, col].Building = new Settlement();
-        }
-
-        public void buildTown(int row, int col)
-        {
-            Vertices[row, col].Building = new Town();
-
-        }
-
-        public void buildTown(int row, int col, IPlayer builder)
-        {
-            Vertices[row, col].Owner = builder;
-            Vertices[row, col].Building = new Town();
-
+            if(_Vertices[row, col].Owner == player)
+                _Vertices[row, col].Upgrade();
         }
         #endregion Methods
     }

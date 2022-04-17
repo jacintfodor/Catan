@@ -8,6 +8,6 @@ namespace Catan.Model.Enums
 {
     public enum PlayerEnum
     {
-        Player1, Player2, Player3
+        NotPlayer = -1, Player1, Player2, Player3
     }
 }

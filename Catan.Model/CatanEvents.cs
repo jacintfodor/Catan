@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using Catan.Model.Board.Components;
 using Catan.Model.Events;
 
 namespace Catan.Model
@@ -26,7 +21,26 @@ namespace Catan.Model
 
         public void OnGameStart(CatanContext ctx)
         {
-            GameStart?.Invoke(this, new GameStartEventArgs(ctx.Board.Hexes, ctx.Board.Vertices, ctx.Board.Edges));
+            List<IHex> Hexes = new List<IHex>();
+            List<IVertex> Vertices = new List<IVertex>();
+            List<IEdge> Edges = new List<IEdge>();
+
+            foreach (IHex hex in ctx.Board.GetHexesEnumerable())
+            {
+                Hexes.Add(hex);
+            }
+
+            foreach (IVertex vertex in ctx.Board.GetVerticesEnumerable())
+            {
+                Vertices.Add(vertex);
+            }
+
+            foreach (IEdge edge in ctx.Board.GetEdgesEnumerable())
+            {
+                Edges.Add(edge);
+            }
+
+            GameStart?.Invoke(this, new GameStartEventArgs(Hexes, Vertices, Edges));
         }
 
         public void OnDiceThrown(CatanContext ctx)
