@@ -308,18 +308,7 @@ Background="Firebrick"
                     b = new Button();
                     b.FontSize = 18;
                     string hexColor = "Orange";
-                    for (int iter = 0; iter < vModel.Hexes.Count; iter++)
-                    {
-                        if (vModel.Hexes[iter].Row == j)
-                        {
-                            if((j % 2 == 0 && (vModel.Hexes[iter].Column * 2) == i) ||(j % 2 == 1 && (vModel.Hexes[iter].Column * 2)+1 == i))
-                            {
-                                hexColor = vModel.Hexes[iter].Resource;
-                                name += vModel.Hexes[iter].Number;
-                                name = name == "7" ? "" : name;
-                            }
-                        }
-                    }
+                   
                     b.Template = MakeTemplate(name, Shape.Hexagon, hexColor);
                     name = "";
                     Grid.SetRow(b, j + 1);

@@ -49,8 +49,18 @@ namespace Catan.ViewModel
         public CatanViewModel(CatanGameModel model)
         {
             _model = model;
+            /* Hexes */
             Hexes = new ObservableCollection<HexViewModel>();
+            /* Vertices */
             Vertices = new ObservableCollection<VertexViewModel>();
+            BuildableCommunities = new ObservableCollection<BuildableCommunityViewModel>();
+            /* Edges */
+            Verticals = new ObservableCollection<VerticalViewModel>();
+            LeftSlopes = new ObservableCollection<LeftSlopeViewModel>();
+            RightSlopes = new ObservableCollection<RightSlopeViewModel>();
+            BuildableVerticals = new ObservableCollection<BuildableVerticalViewModel>();
+            BuildableLeftSlopes = new ObservableCollection<BuildableLeftSlopeViewModel>();
+            BuildableRightSlopes = new ObservableCollection<BuildableRightSlopeViewModel>();
 
             _currentPlayersResource = new Dictionary<ResourceEnum, int>();
             _currentPlayersResource.Add(ResourceEnum.Crop, 0);
