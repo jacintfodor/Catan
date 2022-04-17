@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Catan.ViewModel
 {
-    internal class BuildableVertexViewModel
+    public class BuildableCommunityViewModel
     {
     }
 }
