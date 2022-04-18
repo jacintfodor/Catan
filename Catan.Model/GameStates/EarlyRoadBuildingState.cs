@@ -44,7 +44,7 @@ namespace Catan.Model.GameStates
 
             else if (_turnCount == 6)
             {
-                context.SetContext(new MainState());
+                context.SetContext(new RollingState());
             }
             else
             {
