@@ -5,25 +5,55 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Catan.Model.Enums;
+
 namespace Catan.ViewModel
 {
     public class HexViewModel : ViewModelBase
     {
-        private string _resource;
+        private ResourceEnum _resource;
         private int _number;
+        private int _row;
+        private int _col;
 
-        public HexViewModel(int row, int column, string resource, int number)
+        public HexViewModel(ResourceEnum resource, int number, int row, int column)
         {
             Resource = resource;
             Number = number;
-            Row = row;
             Column = column;
+            Row = row;
         }
 
-        public string Resource { get => _resource; set { _resource = value; OnPropertyChanged(); } }
+        public ResourceEnum Resource { get => _resource; set { _resource = value; OnPropertyChanged(); OnPropertyChanged(nameof(Color)); } }
         public int Number { get => _number; set { _number = value; OnPropertyChanged(); } }
-        public int Column { get; set; }
-        public int Row { get; set; }
+        public int Column { get => _col; set { _col = value; OnPropertyChanged(); OnPropertyChanged(nameof(Left)); } }
+        public int Row { get => _row; set { _row = value; OnPropertyChanged(); OnPropertyChanged(nameof(Top)); OnPropertyChanged(nameof(Left)); } }
+        #region converted values
+
+        public String Top
+        {
+            get => (Row * 60).ToString();
+        }
+
+        private int Offset { get => (Row % 2 == 0) ? 0 : 30; }
+
+        public String Left
+        {
+            get => (Offset + Column * 60).ToString();
+        }
+
+        private Dictionary<ResourceEnum, string> _resourceToColor = new Dictionary<ResourceEnum, string>()
+        {
+            {ResourceEnum.Ore, "gray" },
+            {ResourceEnum.Wool, "white" },
+            {ResourceEnum.Brick, "red" },
+            {ResourceEnum.Crop, "orange" },
+            {ResourceEnum.Wood, "brown" },
+            {ResourceEnum.Desert, "black" }
+        };
+        public String Color { get => _resourceToColor[Resource]; }
+
+        #endregion
 
     }
 }
