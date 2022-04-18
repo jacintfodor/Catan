@@ -11,6 +11,8 @@ namespace Catan.ViewModel
         private int _row;
         private int _col;
 
+        public DelegateCommand BuildCommand { get; set; }
+
         public BuildableCommunityViewModel(int row, int column)
         {
             Row = row;
