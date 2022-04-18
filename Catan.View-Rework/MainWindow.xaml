@@ -11,6 +11,7 @@
     <Window.Resources>
         <CollectionViewSource x:Key="HexCollection" Source="{Binding Hexes}"/>
         <CollectionViewSource x:Key="VertexCollection" Source="{Binding Vertices}"/>
+        <CollectionViewSource x:Key="VeticalEdgeCollection" Source="{Binding Verticals}"/>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -35,6 +36,7 @@
                         <CompositeCollection>
                             <CollectionContainer Collection="{Binding Source={StaticResource HexCollection}}"/>
                             <CollectionContainer Collection="{Binding Source={StaticResource VertexCollection}}"/>
+                            <CollectionContainer Collection="{Binding Source={StaticResource VeticalEdgeCollection}}"/>
                         </CompositeCollection>
                     </ItemsControl.ItemsSource>
                     <ItemsControl.ItemsPanel>
@@ -55,6 +57,10 @@
                         <DataTemplate  DataType="{x:Type viewmodel:VertexViewModel}">
                             <Button  Width="12" Height="12" ></Button>
                         </DataTemplate>
+                        <DataTemplate  DataType="{x:Type viewmodel:VerticalViewModel}">
+                            <Button  Width="6" Height="60" ></Button>
+                        </DataTemplate>
+                        
                     </ItemsControl.Resources>
                 </ItemsControl>
             </Grid>
