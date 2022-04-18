@@ -13,6 +13,8 @@ namespace Catan.ViewModel
         private int _row;
         private int _col;
 
+
+        //TODO owner enum, community enum
         public VertexViewModel(int row, int column, string owner, string community)
         {
             Row = row;
