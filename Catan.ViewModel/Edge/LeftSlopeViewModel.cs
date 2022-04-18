@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Catan.Model.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,15 +9,19 @@ namespace Catan.ViewModel
 {
     public class LeftSlopeViewModel : ViewModelBase
     {
-        public LeftSlopeViewModel(int row, int column, string owner)
+        private PlayerEnum _owner;
+        private int _row;
+        private int _col;
+        public LeftSlopeViewModel(int row, int column, PlayerEnum owner)
         {
             Row = row;
             Column = column;
             Owner = owner;
         }
-        public int Row { get; set; }
-        public int Column { get; set; }
-        public string Owner { get; set; }
+
+        public int Column { get => _col; set { _col = value; OnPropertyChanged(); OnPropertyChanged(nameof(Left)); } }
+        public int Row { get => _row; set { _row = value; OnPropertyChanged(); OnPropertyChanged(nameof(Top)); } }
+        public PlayerEnum Owner { get => _owner; set { _owner = value; OnPropertyChanged(); } }
 
         public String Top
         {
@@ -29,5 +34,16 @@ namespace Catan.ViewModel
         {
             get => (Offset + Column * 30).ToString();
         }
+
+        #region Converter
+        private Dictionary<PlayerEnum, string> _ownerToColor = new Dictionary<PlayerEnum, string>()
+        {
+            {PlayerEnum.NotPlayer, "White" },
+            {PlayerEnum.Player1, "Red" },
+            {PlayerEnum.Player2, "Yellow" },
+            {PlayerEnum.Player3, "Blue" },
+        };
+        public string Color { get => _ownerToColor[_owner]; }
+        #endregion
     }
 }

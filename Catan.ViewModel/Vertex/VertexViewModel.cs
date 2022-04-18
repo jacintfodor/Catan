@@ -13,8 +13,7 @@ namespace Catan.ViewModel
         private PlayerEnum _owner;
         private int _row;
         private int _col;
-
-
+        
         //TODO owner enum, community enum
         public VertexViewModel(int row, int column, PlayerEnum owner, CommunityEnum community)
         {
@@ -34,22 +33,25 @@ namespace Catan.ViewModel
         public PlayerEnum Owner { get => _owner; set { _owner = value; OnPropertyChanged(); } }
 
         #region Converters
-        private string _communityToColor()
+        private Dictionary<CommunityEnum, int> _communityToSize = new Dictionary<CommunityEnum, int>()
         {
-            switch(_owner)
-            {
-                case PlayerEnum.Player1:
-                    return _community is CommunityEnum.Settlement ? "Crimson" : "DarkRed";
-                case PlayerEnum.Player2:
-                    return _community is CommunityEnum.Settlement ? "Blue" : "DarkBlue";
-                case PlayerEnum.Player3:
-                    return _community is CommunityEnum.Settlement ? "Lime" : "LimeGreen";  
-                default:
-                    return "white";
-            }
-        }
+            {CommunityEnum.NotBuildableCommunity, 60},
+            {CommunityEnum.BuildableCommunity, 60},
+            {CommunityEnum.Settlement, 60},
+            {CommunityEnum.Town, 90}
+        };
 
-        public string Color { get => _communityToColor(); }
+        private Dictionary<PlayerEnum, string> _ownerToColor = new Dictionary<PlayerEnum, string>()
+        {
+            {PlayerEnum.NotPlayer, "White" },
+            {PlayerEnum.Player1, "Red" },
+            {PlayerEnum.Player2, "Yellow" },
+            {PlayerEnum.Player3, "Blue" },
+        };
+
+        public string Color { get => _ownerToColor[_owner]; }
+
+        public float Size { get => _communityToSize[_community]; }
         #endregion
     }
 }

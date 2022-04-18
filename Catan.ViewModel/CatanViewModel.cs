@@ -102,7 +102,7 @@ namespace Catan.ViewModel
                     {
                         if (vertical.Row == e.Row && vertical.Column == e.Column)
                         {
-                            vertical.Owner = PlayerToString(e.Owner);
+                            vertical.Owner = e.Owner;
                         }
                     }
                     break;
@@ -111,7 +111,7 @@ namespace Catan.ViewModel
                     {
                         if (vertical.Row == e.Row && vertical.Column == e.Column)
                         {
-                            vertical.Owner = PlayerToString(e.Owner);
+                            vertical.Owner = e.Owner;
                         }
                     }
                     break;
@@ -120,7 +120,7 @@ namespace Catan.ViewModel
                     {
                         if (vertical.Row == e.Row && vertical.Column == e.Column)
                         {
-                            vertical.Owner = PlayerToString(e.Owner);
+                            vertical.Owner = e.Owner;
                         }
                     }
                     break;
@@ -183,13 +183,13 @@ namespace Catan.ViewModel
                 switch (GetEdgeOrientation(edge.Row,edge.Col))
                 {
                     case "Vertical":
-                        Verticals.Add(new VerticalViewModel(edge.Row,edge.Col,PlayerToString(PlayerEnum.NotPlayer)));
+                        Verticals.Add(new VerticalViewModel(edge.Row,edge.Col,PlayerEnum.Player1));
                         break;
                     case "LeftSlope":
-                        LeftSlopes.Add(new LeftSlopeViewModel(edge.Row, edge.Col, PlayerToString(PlayerEnum.NotPlayer)));
+                        LeftSlopes.Add(new LeftSlopeViewModel(edge.Row, edge.Col, PlayerEnum.Player3));
                         break;
                     case "RightSlope":
-                        RightSlopes.Add(new RightSlopeViewModel(edge.Row, edge.Col, PlayerToString(PlayerEnum.NotPlayer)));
+                        RightSlopes.Add(new RightSlopeViewModel(edge.Row, edge.Col, PlayerEnum.Player2));
                         break;
                 }
             }
@@ -233,18 +233,6 @@ namespace Catan.ViewModel
         private string PlayerToString(PlayerEnum p)
         {
             string retVal = p.ToString();
-            return retVal;
-        }
-
-        private string CommunityToString(ICommunity community)
-        {
-            string retVal = community.GetType().Name;
-            return retVal;
-        }
-
-        private string ResourceEnumToString(ResourceEnum res)
-        {
-            string retVal = res.ToString();
             return retVal;
         }
     }
