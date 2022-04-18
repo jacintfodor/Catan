@@ -150,7 +150,7 @@ namespace Catan.Model.Board
         public List<IVertex> getNeighborVerticesOfVertex(int row, int col)
         {
             List<IVertex> retVal = new List<IVertex>();
-            int offset = row % 2 == col % 2 ? -1 : 1;
+            int offset = row % 2 == col % 2 ? 1 : -1;
             if (row + offset >= 0 && row + offset < 11) { 
                 if (_Vertices[row + offset, col] != null)
                     retVal.Add(_Vertices[row + offset, col]);
@@ -266,16 +266,19 @@ namespace Catan.Model.Board
             //This method was doing too much stuff, it did not just build a Settlement but also marked the neighbouring vertices as NotBuildable
             //The Board doesnt know how to check the Validity of Build condition it has to be done at the States
             //TODO make the Board able to test it
-            
+
             //if (_Vertices[row, col].IsBuildableByPlayer(player)) { 
-                _Vertices[row, col].Build(player);
-                //getNeighborVerticesOfVertex(row, col).ForEach(vertex => {
-                //    vertex.SetNotBuildableCommunity();
-                //});
-                //getNeighborEdgesOfVertex(row, col).ForEach(edge => {
-                //    edge.AddPotentialBuilder(player);
-                //});
+            _Vertices[row, col].Build(player);
+            //MarkNeighboursNotBuildable(row, col);
             //}
+        }
+
+        public void MarkNeighbouringVerticesNotBuildable(int row, int col)
+        {
+            getNeighborVerticesOfVertex(row, col).ForEach(vertex =>
+            {
+                vertex.SetNotBuildableCommunity();
+            });
         }
 
         public void buildTown(int row, int col, PlayerEnum player)
