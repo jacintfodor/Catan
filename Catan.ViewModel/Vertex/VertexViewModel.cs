@@ -23,6 +23,7 @@ namespace Catan.ViewModel
             Community = community;
             Owner = owner;
         }
+
         public int Column { get => _col; set { _col = value; OnPropertyChanged(); OnPropertyChanged(nameof(Left)); } }
         public int Row { get => _row; set { _row = value; OnPropertyChanged(); OnPropertyChanged(nameof(Top)); } }
 
@@ -31,7 +32,11 @@ namespace Catan.ViewModel
 
         public CommunityEnum Community { get => _community; set { _community = value; OnPropertyChanged(); } }
         public PlayerEnum Owner { get => _owner; set { _owner = value; OnPropertyChanged(); } }
-    
-    
+
+        #region Converters
+
+
+
+        #endregion
     }
 }

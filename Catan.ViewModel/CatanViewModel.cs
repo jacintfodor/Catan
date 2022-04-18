@@ -87,8 +87,8 @@ namespace Catan.ViewModel
         {
             foreach (VertexViewModel vm in Vertices) {
                 if (vm.Row == e.Row && vm.Column == e.Column) {
-                    vm.Community = "Settlement";
-                    vm.Owner = PlayerToString(e.Owner);
+                    vm.Community =  CommunityEnum.Settlement;
+                    vm.Owner = e.Owner;
                 }
             }
         }
@@ -174,7 +174,7 @@ namespace Catan.ViewModel
 
             foreach (IVertex vertex in vertices)
             {
-                var vertexVM = new VertexViewModel(vertex.Row, vertex.Col, PlayerToString(PlayerEnum.NotPlayer), CommunityToString(vertex.GetCommunity()));
+                var vertexVM = new VertexViewModel(vertex.Row, vertex.Col, PlayerEnum.NotPlayer, CommunityEnum.BuildableCommunity);
                 Vertices.Add(vertexVM);
             }
 
