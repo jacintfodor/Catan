@@ -8,6 +8,8 @@ namespace Catan.ViewModel
 {
     public class BuildableCommunityViewModel
     {
+
+
         public BuildableCommunityViewModel(int row, int column)
         {
             Row = row;

@@ -30,14 +30,14 @@ namespace Catan.ViewModel
         public int Row { get => _row; set { _row = value; OnPropertyChanged(); OnPropertyChanged(nameof(Top)); OnPropertyChanged(nameof(Left)); } }
         #region converted values
 
-        public String Top
+        public string Top
         {
             get => (Row * 60).ToString();
         }
 
         private int Offset { get => (Row % 2 == 0) ? 0 : 30; }
 
-        public String Left
+        public string Left
         {
             get => (Offset + Column * 60).ToString();
         }
@@ -51,7 +51,7 @@ namespace Catan.ViewModel
             {ResourceEnum.Wood, "brown" },
             {ResourceEnum.Desert, "black" }
         };
-        public String Color { get => _resourceToColor[Resource]; }
+        public string Color { get => _resourceToColor[Resource]; }
 
         #endregion
 

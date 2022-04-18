@@ -28,7 +28,6 @@ namespace Catan.ViewModel
         public string Left { get => (Column*30 -6).ToString(); }
         public string Top { get => (Row * 60 -6).ToString(); }
 
-
         public string Community { get => _community; set { _community = value; OnPropertyChanged(); } }
         public string Owner { get => _owner; set { _owner = value; OnPropertyChanged(); } }
     
