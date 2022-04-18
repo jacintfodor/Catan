@@ -2,6 +2,6 @@
 {
     enum CommunityEnum
     {
-        NoTBuildableCommunity, BuildableCommunity, Settlement, Town;
+        NoTBuildableCommunity, BuildableCommunity, Settlement, Town
     }
 }
