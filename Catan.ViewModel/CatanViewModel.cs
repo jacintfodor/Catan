@@ -183,13 +183,13 @@ namespace Catan.ViewModel
                 switch (GetEdgeOrientation(edge.Row,edge.Col))
                 {
                     case "Vertical":
-                        Verticals.Add(new VerticalViewModel(edge.Row,edge.Col,PlayerEnum.Player1));
+                        Verticals.Add(new VerticalViewModel(edge.Row,edge.Col,PlayerEnum.NotPlayer));
                         break;
                     case "LeftSlope":
-                        LeftSlopes.Add(new LeftSlopeViewModel(edge.Row, edge.Col, PlayerEnum.Player3));
+                        LeftSlopes.Add(new LeftSlopeViewModel(edge.Row, edge.Col, PlayerEnum.NotPlayer));
                         break;
                     case "RightSlope":
-                        RightSlopes.Add(new RightSlopeViewModel(edge.Row, edge.Col, PlayerEnum.Player2));
+                        RightSlopes.Add(new RightSlopeViewModel(edge.Row, edge.Col, PlayerEnum.NotPlayer));
                         break;
                 }
             }
