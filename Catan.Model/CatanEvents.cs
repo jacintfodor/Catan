@@ -23,6 +23,19 @@ namespace Catan.Model
         public event EventHandler<RoadBuiltEventArgs> RoadBuilt;
         public event EventHandler<SettlementBuiltEventArgs> SettlementBuilt;
 
+        public event EventHandler<RoadBuildingStartedEventArgs> RoadBuildingStarted;
+        public event EventHandler<SettlementBuildingStartedEventArgs> SettlementBuildingStarted;
+
+        public void OnRoadBuildingStarted(List<IEdge> edges)
+        {
+            RoadBuildingStarted?.Invoke(this, new RoadBuildingStartedEventArgs(edges));
+        }
+
+        public void OnSettlementBuildingStarted(List<IVertex> vertices)
+        {
+            SettlementBuildingStarted?.Invoke(this, new SettlementBuildingStartedEventArgs(vertices));
+        }
+
         public void OnGameStart(CatanContext ctx)
         {
             List<IHex> Hexes = new List<IHex>();

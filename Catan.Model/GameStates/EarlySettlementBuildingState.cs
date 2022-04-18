@@ -3,17 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using Catan.Model;
 using Catan.Model.Context;
-using Catan.Model.GameStates;
+using Catan.Model.Board.Components;
 
 namespace Catan.Model.GameStates
 {
-    public class EarlyRollingState : ICatanGameState
+    public class EarlySettlementBuildingState : ICatanGameState
     {
-        private int _rollCount = 0;
+        int _turnCount;
 
-        public bool IsEarlyRollingState => true;
-
+        public EarlySettlementBuildingState(int tCount)
+        {
+            _turnCount = tCount;
+        }
         public void AcceptTrade(CatanContext context)
         {
             throw new NotImplementedException();
@@ -26,7 +30,17 @@ namespace Catan.Model.GameStates
 
         public void BuildSettleMent(CatanContext context, int row, int col)
         {
-            throw new NotImplementedException();
+            //TODO reduce players SettlementCards
+            context.Board.BuildSettlement(row, col, context.CurrentPlayer.ID);
+            context.Events.OnSettlementBuilt(context, row, col, context.CurrentPlayer.ID);
+            
+            context.Board.getNeighborEdgesOfVertex(row, col).ForEach(e => e.AddPotentialBuilder(context.CurrentPlayer.ID));
+            context.Board.getNeighborVerticesOfVertex(row, col).ForEach(v => v.SetNotBuildableCommunity());
+            
+            var list = context.Board.getNeighborEdgesOfVertex(row, col).ToList().Where(e => e.IsBuildableByPlayer(context.CurrentPlayer.ID)).ToList();
+            context.Events.OnRoadBuildingStarted(list);
+
+            context.SetContext(new EarlyRoadBuildingState(_turnCount + 1));
         }
 
         public void Cancel(CatanContext context)
@@ -66,18 +80,7 @@ namespace Catan.Model.GameStates
 
         public void RollDices(CatanContext context)
         {
-            ++_rollCount;
-            context.FirstDice.roll();
-            context.SecondDice.roll();
-
-            context.Events.OnDiceThrown(context);
-            if (_rollCount == 3)
-            {
-                var list = context.Board.GetVerticesEnumerable().ToList().Where(v => v.IsBuildable).ToList();
-                context.Events.OnSettlementBuildingStarted(list);
-
-                context.SetContext(new EarlySettlementBuildingState(0));
-            }
+            throw new NotImplementedException();
         }
 
         public void StartRoadBuilding(CatanContext context)

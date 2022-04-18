@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using Catan.Model;
 using Catan.Model.Context;
-using Catan.Model.GameStates;
 
 namespace Catan.Model.GameStates
 {
-    public class EarlyRollingState : ICatanGameState
+    internal class RollingState : ICatanGameState
     {
-        private int _rollCount = 0;
-
-        public bool IsEarlyRollingState => true;
-
+        public bool IsRollingState => true;
         public void AcceptTrade(CatanContext context)
         {
             throw new NotImplementedException();
@@ -66,18 +64,15 @@ namespace Catan.Model.GameStates
 
         public void RollDices(CatanContext context)
         {
-            ++_rollCount;
             context.FirstDice.roll();
             context.SecondDice.roll();
 
-            context.Events.OnDiceThrown(context);
-            if (_rollCount == 3)
-            {
-                var list = context.Board.GetVerticesEnumerable().ToList().Where(v => v.IsBuildable).ToList();
-                context.Events.OnSettlementBuildingStarted(list);
+            context.DistributeResource(context.RolledSum);
 
-                context.SetContext(new EarlySettlementBuildingState(0));
-            }
+            context.Events.OnDiceThrown(context);
+            context.Events.OnTransactionsHappened(context);
+
+            context.SetContext(new MainState());
         }
 
         public void StartRoadBuilding(CatanContext context)

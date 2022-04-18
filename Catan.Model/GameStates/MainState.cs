@@ -10,6 +10,8 @@ namespace Catan.Model.GameStates
 {
     public class MainState : ICatanGameState
     {
+        public bool IsMainState => true;
+
         public void AcceptTrade(CatanContext context)
         {
             
@@ -42,11 +44,13 @@ namespace Catan.Model.GameStates
 
         public void EndTurn(CatanContext context)
         {
+            //TODO check winner
+
             context.NextPlayer();
-            
             context.Events.OnTransactionsHappened(context);
 
-            context.Events.OnBuildableByPlayer(context);
+            //context.Events.OnBuildableByPlayer(context);
+            context.SetContext(new RollingState());
         }
 
         public void ExchangeWithBank(CatanContext context)
@@ -73,13 +77,7 @@ namespace Catan.Model.GameStates
 
         public void RollDices(CatanContext context)
         {
-            context.FirstDice.roll();
-            context.SecondDice.roll();
-
-            context.DistributeResource(context.RolledSum);
-            
-            context.Events.OnDiceThrown(context);
-            context.Events.OnTransactionsHappened(context);
+            throw new NotImplementedException();
         }
 
         public void StartRoadBuilding(CatanContext context)
@@ -106,7 +104,5 @@ namespace Catan.Model.GameStates
         {
             throw new NotImplementedException();
         }
-
-        public bool IsMainState => true;
     }
 }

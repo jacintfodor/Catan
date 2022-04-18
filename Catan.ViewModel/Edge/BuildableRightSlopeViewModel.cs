@@ -30,5 +30,7 @@ namespace Catan.ViewModel
         {
             get => (Offset + Column * 30).ToString();
         }
+
+        public DelegateCommand BuildCommand { get; set; }
     }
 }

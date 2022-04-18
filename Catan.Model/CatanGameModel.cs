@@ -53,11 +53,11 @@ namespace Catan.Model
         }
         public void BuildRoad(int row, int col)
         {
-            throw new NotImplementedException();
+            _catanContext.BuildRoad(row, col);
         }
         public void BuildSettleMent(int row, int col)
         {
-            throw new NotImplementedException();
+            _catanContext.BuildSettleMent(row, col);
         }
         public void UpgradeSettleMentToTown(int row, int col)
         {

@@ -4,21 +4,13 @@ namespace Catan.Model.Board.Components
 {
     public class BuildableCommunity : ICommunity
     {
-        HashSet<PlayerEnum> _potentialBuilders;
+        HashSet<PlayerEnum> _potentialBuilders = new();
 
-        public BuildableCommunity()
-        {
-            _potentialBuilders = new HashSet<PlayerEnum>();
-            Owner = PlayerEnum.NotPlayer;
-            IsUpgradeable = false;
-            IsBuildableCommunity = true;
-        }
+        public PlayerEnum Owner => PlayerEnum.NotPlayer;
 
-        public PlayerEnum Owner { get; set; }
+        public bool IsUpgradeable => false;
 
-        public bool IsUpgradeable { get; set; }
-
-        public bool IsBuildableCommunity { get; set; }
+        public bool IsBuildableCommunity => true;
 
         public void AddPotentionalBuilder(PlayerEnum player)
         {
