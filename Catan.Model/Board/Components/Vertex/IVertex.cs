@@ -13,5 +13,6 @@ namespace Catan.Model.Board.Components
         public bool IsBuildableByPlayer(PlayerEnum player);
         public void Build(PlayerEnum player);
         public void Upgrade();
+        public void SetNotBuildableCommunity();
     }
 }

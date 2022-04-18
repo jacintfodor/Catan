@@ -47,5 +47,10 @@ namespace Catan.Model.Board.Components
         {
             return _community;
         }
+
+        public void SetNotBuildableCommunity()
+        {
+            _community = NotBuildableCommunity.Instance;
+        }
     }
 }

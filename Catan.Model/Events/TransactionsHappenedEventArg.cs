@@ -8,7 +8,7 @@ using Catan.Model.Context;
 
 namespace Catan.Model.Events
 {
-    public class TransactionsHappenedEventArg
+    public class TransactionsHappenedEventArg : EventArgs
     {
         //Crop, Ore, Wood, Brick, Wool
         public int CropCount { get; private set; }
