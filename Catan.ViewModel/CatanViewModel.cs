@@ -79,7 +79,7 @@ namespace Catan.ViewModel
             _model.Events.SettlementBuildingStarted += Model_Events_SettlementBuildingStarted;
             _model.Events.RoadBuildingStarted +=Model_Events_RoadBuildingStarted;
 
-            ThrowDicesCommand = new DelegateCommand(_ => _model.RollDices(), _ => _model.IsEarlyRollingState || _model.IsMainState);
+            ThrowDicesCommand = new DelegateCommand(_ => _model.RollDices(), _ => _model.IsEarlyRollingState || _model.IsRollingState);
             EndTurnCommand = new DelegateCommand(_ => _model.EndTurn(), _ => _model.IsMainState);
             PurchaseBonusCardCommand = new DelegateCommand(_ => _model.PurchaseBonusCard(), _ => _model.IsMainState);
 
