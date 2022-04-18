@@ -76,11 +76,69 @@ namespace Catan.ViewModel
             _model.Events.RoadBuilt += Model_Events_RoadBuilt;
             _model.Events.SettlementBuilt += Model_Events_SettlementBuilt;
             _model.Events.BuildableByPlayer += Model_Events_BuildableByPlayer;
+            _model.Events.SettlementBuildingStarted += Model_Events_SettlementBuildingStarted;
+            _model.Events.RoadBuildingStarted +=Model_Events_RoadBuildingStarted;
 
             ThrowDicesCommand = new DelegateCommand(_ => _model.RollDices(), _ => _model.IsEarlyRollingState || _model.IsMainState);
             EndTurnCommand = new DelegateCommand(_ => _model.EndTurn(), _ => _model.IsMainState);
             PurchaseBonusCardCommand = new DelegateCommand(_ => _model.PurchaseBonusCard(), _ => _model.IsMainState);
 
+        }
+
+        private void Model_Events_RoadBuildingStarted(object? sender, RoadBuildingStartedEventArgs e)
+        {
+            foreach (IEdge edge in e.Edges)
+            {
+                switch (GetEdgeOrientation(edge.Row, edge.Col))
+                {
+                    case "Vertical":
+                        BuildableVerticalViewModel bvvm = new BuildableVerticalViewModel(edge.Row, edge.Col);
+                        bvvm.BuildCommand = new DelegateCommand(vm => BuildRoad((BuildableVerticalViewModel)vm));
+                        BuildableVerticals.Add(bvvm);
+                        break;
+                    case "LeftSlope":
+                        BuildableLeftSlopeViewModel blvm = new BuildableLeftSlopeViewModel(edge.Row, edge.Col);
+                        blvm.BuildCommand = new DelegateCommand(vm => BuildRoad((BuildableLeftSlopeViewModel)vm));
+                        BuildableLeftSlopes.Add(blvm);
+                        break;
+                    case "RightSlope":
+                        BuildableRightSlopeViewModel brvm = new BuildableRightSlopeViewModel(edge.Row, edge.Col);
+                        brvm.BuildCommand = new DelegateCommand(vm => BuildRoad((BuildableRightSlopeViewModel)vm));
+                        BuildableRightSlopes.Add(brvm);
+                        break;
+                }
+            }
+        }
+
+        private void Model_Events_SettlementBuildingStarted(object? sender, SettlementBuildingStartedEventArgs e)
+        {
+            foreach (IVertex vertex in e.Vertices)
+            {
+                BuildableCommunityViewModel bcvm = new BuildableCommunityViewModel(vertex.Row, vertex.Col);
+                bcvm.BuildCommand = new DelegateCommand(vm => BuildSettlement((BuildableCommunityViewModel)vm));
+                BuildableCommunities.Add(bcvm);
+            }
+        }
+
+        private void BuildSettlement(BuildableCommunityViewModel vm)
+        {
+            _model.BuildSettleMent(vm.Row, vm.Column);
+        }
+
+        //TODO common interface instead of overloading methods
+        private void BuildRoad(BuildableVerticalViewModel vm)
+        {
+            _model.BuildRoad(vm.Row, vm.Column);
+        }
+
+        private void BuildRoad(BuildableLeftSlopeViewModel vm)
+        {
+            _model.BuildRoad(vm.Row, vm.Column);
+        }
+
+        private void BuildRoad(BuildableRightSlopeViewModel vm)
+        {
+            _model.BuildRoad(vm.Row, vm.Column);
         }
 
         private void Model_Events_SettlementBuilt(object? sender, SettlementBuiltEventArgs e)
@@ -91,6 +149,8 @@ namespace Catan.ViewModel
                     vm.Owner = e.Owner;
                 }
             }
+
+            BuildableCommunities.Clear();
         }
 
         private void Model_Events_RoadBuilt(object? sender, RoadBuiltEventArgs e)
@@ -125,6 +185,9 @@ namespace Catan.ViewModel
                     }
                     break;
             }
+            BuildableVerticals.Clear();
+            BuildableLeftSlopes.Clear();
+            BuildableRightSlopes.Clear();
         }
 
         private void Model_Events_TransactionsHappened(object? sender, TransactionsHappenedEventArg e)
