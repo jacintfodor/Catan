@@ -34,9 +34,22 @@ namespace Catan.ViewModel
         public PlayerEnum Owner { get => _owner; set { _owner = value; OnPropertyChanged(); } }
 
         #region Converters
+        private string _communityToColor()
+        {
+            switch(_owner)
+            {
+                case PlayerEnum.Player1:
+                    return _community is CommunityEnum.Settlement ? "Crimson" : "DarkRed";
+                case PlayerEnum.Player2:
+                    return _community is CommunityEnum.Settlement ? "Blue" : "DarkBlue";
+                case PlayerEnum.Player3:
+                    return _community is CommunityEnum.Settlement ? "Lime" : "LimeGreen";  
+                default:
+                    return "white";
+            }
+        }
 
-
-
+        public string Color { get => _communityToColor(); }
         #endregion
     }
 }

@@ -59,7 +59,7 @@
                             <Button Width="60" Height="60" Content="{Binding Number}" Background="{Binding Color}"></Button>
                         </DataTemplate>
                         <DataTemplate  DataType="{x:Type viewmodel:VertexViewModel}">
-                            <Button Width="12" Height="12" ></Button>
+                            <Button Width="12" Height="12" Background="{Binding Color}"></Button>
                         </DataTemplate>
                         <DataTemplate  DataType="{x:Type viewmodel:VerticalViewModel}">
                             <Button Width="6" Height="60" ></Button>
@@ -70,7 +70,6 @@
                         <DataTemplate  DataType="{x:Type viewmodel:RightSlopeViewModel}">
                             <Button Width="30" Height="6" ></Button>
                         </DataTemplate>
-                        
                     </ItemsControl.Resources>
                 </ItemsControl>
             </Grid>
