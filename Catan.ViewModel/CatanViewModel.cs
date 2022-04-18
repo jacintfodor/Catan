@@ -230,10 +230,5 @@ namespace Catan.ViewModel
             }
         }
 
-        private string PlayerToString(PlayerEnum p)
-        {
-            string retVal = p.ToString();
-            return retVal;
-        }
     }
 }
