@@ -102,7 +102,7 @@ namespace Catan.Model
         public bool IsEarlyRoadBuildingState => State.IsEarlyRoadBuildingState;
         public bool IsRollingState => State.IsRollingState;
         public bool IsMainState => State.IsMainState;
-        public bool IsSettlementBuildingState => State. IsSettlementBuildingState;
+        public bool IsSettlementBuildingState => State.IsSettlementBuildingState;
         public bool IsRoadBuildingState => State.IsRoadBuildingState;
         public bool IsSettlementUpgradingState => State.IsSettlementUpgradingState;
         public bool IsWinningState => State.IsWinningState;
