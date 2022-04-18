@@ -1,4 +1,4 @@
-﻿using Catan.Model.Board.Compontents;
+﻿using Catan.Model.Board.Components;
 
 namespace Catan.Model.Events
 {
@@ -6,15 +6,15 @@ namespace Catan.Model.Events
     {
 
 
-        public GameStartEventArgs(Hex[,] hexes, Vertex[,] vertices, Edge[,] edges)
+        public GameStartEventArgs(List<IHex> hexes, List<IVertex> vertices, List<IEdge> edges)
         {
             Hexes = hexes;
             Vertices = vertices;
             Edges = edges;
         }
 
-        public Hex[,] Hexes { get; set; }
-        public Vertex[,] Vertices { get; set; }
-        public Edge[,] Edges { get; set; }
+        public List<IHex> Hexes { get; set; }
+        public List<IVertex> Vertices { get; set; }
+        public List<IEdge> Edges { get; set; }
     }
 }

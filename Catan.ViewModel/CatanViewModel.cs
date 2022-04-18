@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 using Catan.Model;
 using Catan.Model.Board;
-using Catan.Model.Board.Buildings;
-using Catan.Model.Board.Compontents;
+using Catan.Model.Board.Components;
 using Catan.Model.Context;
 using Catan.Model.Context.Players;
 using Catan.Model.Enums;
@@ -76,28 +75,25 @@ namespace Catan.ViewModel
 
         private void Model_Events_NewGame(object? sender, GameStartEventArgs e)
         {
-            Hex[,] hxs = e.Hexes;
-            Vertex[,] vxs = e.Vertices;
-            for (int i = 0; i < 5; i++)
+            List<IHex> hexes = e.Hexes;
+            List<IVertex> vertices = e.Vertices;
+            List<IEdge> edges = e.Edges;
+
+            foreach (IHex hex in hexes)
             {
-                for (int j = 0; j < 5; j++)
-                {
-                    if (hxs[i, j] != null) {
-                        var hex = new HexViewModel(ResourceEnumToString(hxs[i, j].Resource), hxs[i, j].Number, i,j);
-                        Hexes.Add(hex);
-                    }
-                }
+                var hexVM = new HexViewModel(ResourceEnumToString(hex.Resource), hex.Value, hex.Row, hex.Col);
+                Hexes.Add(hexVM);
             }
-            for (int i = 0; i < 11; i++)
+
+            foreach (IVertex vertex in vertices)
             {
-                for (int j = 0; j < 11; j++)
-                {
-                    if (vxs[i, j] != null)
-                    {
-                        var ver = new VertexViewModel("", BuildingToString(vxs[i,j].Building,vxs[i,j].Owner), i, j);
-                        Vertices.Add(ver);
-                    }
-                }
+                var ver = new VertexViewModel("", "", vertex.Row, vertex.Col);
+                Vertices.Add(ver);
+            }
+
+            foreach (IEdge edge in edges)
+            {
+
             }
         }
 
@@ -107,65 +103,9 @@ namespace Catan.ViewModel
             SecondDiceFace = e.SecondDice;
         }
 
-        private string BuildingToString(Building b, IPlayer p)
+        private string CommunityToString(IPlayer p)
         {
             string retVal = "";
-            /*switch (b)
-            {
-                case Settlement:
-                    retVal = "Brown";
-                    break;
-                case Town:
-                    retVal = "Black";
-                    break;
-                default:
-                    retVal = "Moccasin";
-                    break;
-            }*/
-            if (p.ID == null)
-                return "Moccasin";
-            switch (p.ID)
-            {
-                case PlayerEnum.Player1:
-                    switch (b)
-                    {
-                        case Settlement:
-                            retVal = "Red";
-                            break;
-                        case Town:
-                            retVal = "Darkred";
-                            break;
-                    }
-                break;
-                case PlayerEnum.Player2:
-                    switch (b)
-                    {
-                        case Settlement:
-                            retVal = "Blue";
-                            break;
-                        case Town:
-                            retVal = "Indigo";
-                            break;
-                    }
-                    break;
-                case PlayerEnum.Player3:
-                    switch (b)
-                    {
-                        case Settlement:
-                            retVal = "Gray";
-                            break;
-                        case Town:
-                            retVal = "Black";
-                            break;
-                    }
-                    break;
-                default :
-                    retVal = "Black";
-                    break;
-            }
-
-
-
             return retVal;
         }
 

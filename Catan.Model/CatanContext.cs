@@ -11,6 +11,7 @@ using Catan.Model.Board;
 using Catan.Model.Events;
 using Catan.Model.GameStates;
 using Catan.Model.Enums;
+using Catan.Model.Board.Components;
 
 namespace Catan.Model
 {
@@ -33,6 +34,8 @@ namespace Catan.Model
         public CubeDice SecondDice { get; private set; }
         
         public int RolledSum { get => FirstDice.RolledValue + SecondDice.RolledValue; }
+
+        public static Rogue Rogue { get => Rogue.Instance; }
 
         public CatanEvents Events { get => CatanEvents.Instance; }
 
@@ -90,9 +93,9 @@ namespace Catan.Model
                 if (build)
                 {
                     if (isTown)
-                        Board.buildTown(rows[i], cols[i], p);
+                        Board.buildTown(rows[i], cols[i], p.ID);
                     else
-                        Board.buildSettlement(rows[i], cols[i], p);
+                        Board.buildSettlement(rows[i], cols[i], p.ID);
                 }
 
             }
@@ -141,6 +144,61 @@ namespace Catan.Model
         public bool IsRoadBuildingState => State.IsRoadBuildingState;
         public bool IsSettlementUpgradingState => State. IsSettlementUpgradingState;
         public bool IsWinningState => State.IsWinningState;
+        #endregion
+
+        #region methods
+        public void DistributeResource(int dieValue)
+        {
+            foreach (IHex hex in Board.GetHexesEnumerable()) {
+                if (hex.Value != dieValue)
+                    continue;
+                Board.getVerticesOfHex(hex.Row, hex.Col).ForEach(vertex =>
+                {
+                    if (vertex.Owner != PlayerEnum.NotPlayer)
+                    {
+                        int amount = (vertex.GetCommunity() is Town) ? 2 : 1;
+                        foreach (IPlayer player in _players)
+                        {
+                            if(player.ID == vertex.Owner)
+                                player.AddResource(new Goods(hex.Resource) * amount);
+                        }
+                    }
+                });
+            }
+        }
+
+        public int CalculateLongestRoadFromEdge(IEdge edge, PlayerEnum player)
+        {
+            int retVal = 0;
+
+            List<IEdge> processed = new List<IEdge>();
+            List<IEdge> toProcess = new List<IEdge>();
+
+            toProcess.Add(edge);
+            while (toProcess.Any())
+            {
+                IEdge currentlyProccessing = toProcess.First();
+                toProcess.Remove(currentlyProccessing);
+                retVal++;
+
+                
+                List<IEdge> connectedEdges = new List<IEdge>();
+                List<IVertex> connectedVertices = Board.getNeighbourVerticesOfEdge(currentlyProccessing.Row,currentlyProccessing.Col);
+                connectedVertices.ForEach(vertex => {
+                    Board.getNeighborEdgesOfVertex(vertex.Row, vertex.Col).ForEach(edge =>
+                    {
+                        connectedEdges.Add(edge);
+                    });
+                });
+
+                connectedEdges.ForEach(edge => {
+                    if (edge.Owner == player && !toProcess.Contains(edge) && !processed.Contains(edge) && edge != currentlyProccessing)
+                        toProcess.Add(edge);
+                });
+                processed.Add(currentlyProccessing);
+            }
+            return retVal;
+        }
         #endregion
     }
 }

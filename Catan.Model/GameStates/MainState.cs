@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Catan.Model.Context.Players;
-using Catan.Model.Board.Buildings;
 using Catan.Model.Context;
 
 namespace Catan.Model.GameStates
@@ -70,7 +69,7 @@ namespace Catan.Model.GameStates
             context.FirstDice.roll();
             context.SecondDice.roll();
 
-            context.Board.distributeResource(context.RolledSum);
+            context.DistributeResource(context.RolledSum);
             
             context.Events.OnDiceThrown(context);
             context.Events.OnTransactionsHappened(context);

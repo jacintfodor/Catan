@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Catan.Model.Enums
+namespace Catan.ViewModel
 {
-    public enum PlayerEnum
+    internal class BuildableVertexViewModel
     {
-        NotPlayer = -1, Player1, Player2, Player3
     }
 }

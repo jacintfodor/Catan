@@ -19,6 +19,7 @@ namespace Catan.Model.Context
         public Goods AvailableResources { get; set; }
 
         public bool CanAfford(Goods resourcesToAfford);
+        public bool CanAfford(Goods resourcesToAfford, String s);//<*>
 
     }
 }
