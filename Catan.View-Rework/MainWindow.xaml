@@ -67,7 +67,7 @@
                     <Button Content="Település"/>
                     <Button Content="Út"/>
                     <Button Content="Bonus kartya" Command="{Binding PurchaseBonusCardCommand}"/>
-                    <Button Content="Csere" Command="{Binding FakeCommand}"/>
+                    <Button Content="Csere"/>
                 </ListBox>
             </Grid>
         </Grid>
