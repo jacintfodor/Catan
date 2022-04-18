@@ -72,7 +72,12 @@ namespace Catan.Model.GameStates
 
             context.Events.OnDiceThrown(context);
             if (_rollCount == 3)
-                context.SetContext(new MainState());
+            {
+                var list = context.Board.GetVerticesEnumerable().ToList().Where(v => !v.IsNotBuildable).ToList();
+                context.Events.OnSettlementBuildingStarted(list);
+
+                context.SetContext(new EarlySettlementBuildingState(0));
+            }
         }
 
         public void StartRoadBuilding(CatanContext context)
