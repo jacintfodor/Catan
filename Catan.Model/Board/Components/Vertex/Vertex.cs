@@ -51,6 +51,7 @@ namespace Catan.Model.Board.Components
         public void SetNotBuildableCommunity()
         {
             _community = NotBuildableCommunity.Instance;
+            IsNotBuildable = true;
         }
     }
 }
