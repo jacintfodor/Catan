@@ -32,13 +32,14 @@ namespace Catan.ViewModel
         public CommunityEnum Community { get => _community; set { _community = value; OnPropertyChanged(); } }
         public PlayerEnum Owner { get => _owner; set { _owner = value; OnPropertyChanged(); } }
 
+
         #region Converters
         private Dictionary<CommunityEnum, int> _communityToSize = new Dictionary<CommunityEnum, int>()
         {
-            {CommunityEnum.NotBuildableCommunity, 60},
-            {CommunityEnum.BuildableCommunity, 60},
-            {CommunityEnum.Settlement, 60},
-            {CommunityEnum.Town, 90}
+            {CommunityEnum.NotBuildableCommunity, 0},
+            {CommunityEnum.BuildableCommunity, 0},
+            {CommunityEnum.Settlement, 12},
+            {CommunityEnum.Town, 16}
         };
 
         private Dictionary<PlayerEnum, string> _ownerToColor = new Dictionary<PlayerEnum, string>()
@@ -51,7 +52,7 @@ namespace Catan.ViewModel
 
         public string Color { get => _ownerToColor[_owner]; }
 
-        public float Size { get => _communityToSize[_community]; }
+        public String Size { get => _communityToSize[_community].ToString(); }
         #endregion
     }
 }
