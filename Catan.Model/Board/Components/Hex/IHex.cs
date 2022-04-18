@@ -1,4 +1,6 @@
-﻿namespace Catan.Model.Board.Components
+﻿using Catan.Model.Enums;
+
+namespace Catan.Model.Board.Components
 {
     public interface IHex
     {

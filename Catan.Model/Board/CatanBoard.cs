@@ -151,16 +151,22 @@ namespace Catan.Model.Board
         {
             List<IVertex> retVal = new List<IVertex>();
             int offset = row % 2 == col % 2 ? -1 : 1;
+            if (row + offset >= 0 && row + offset < 11) { 
+                if (_Vertices[row + offset, col] != null)
+                    retVal.Add(_Vertices[row + offset, col]);
+            }
 
-            if (_Vertices[row + offset, col] != null)
-                retVal.Add(_Vertices[row + offset, col]);
+            if (col + 1 < 11)
+            {
+                if (_Vertices[row, col + 1] != null)
+                    retVal.Add(_Vertices[row, col + 1]);
+            }
 
-            if (_Vertices[row, col + 1] != null)
-                retVal.Add(_Vertices[row, col + 1]);
-
-            if (_Vertices[row, col - 1] != null)
-                retVal.Add(_Vertices[row, col - 1]);
-
+            if (col - 1 >= 0)
+            {
+                if (_Vertices[row, col - 1] != null)
+                    retVal.Add(_Vertices[row, col - 1]);
+            }
             return retVal;
         }
         //Returns a list of neighbouring Edges of given Vertex index
@@ -206,23 +212,6 @@ namespace Catan.Model.Board
             }
             return retVal;
         }
-
-        //TODO fix
-        public List<IEdge> getNeighbourEdgesOfEdge(int row, int col)
-        {
-            
-            
-            List<IEdge> retVal = new List<IEdge>();
-
-            getNeighbourVerticesOfEdge(row, col).ForEach(vertex =>
-                {
-                getNeighborEdgesOfVertex(vertex.Row, vertex.Col).ForEach(edge => {
-                    if(!(edge.Row == row && edge.Col == col))
-                        retVal.Add(edge);
-                });
-            });
-            return retVal;
-        }
         #endregion Getters of board pieces
 
         #region Enumerators
@@ -264,12 +253,25 @@ namespace Catan.Model.Board
         #region Methods 
         public void BuildRoad(int row, int col, PlayerEnum player)
         {
-            _Edges[row, col].Build(player);
+            if (_Edges[row, col].IsBuildableByPlayer(player)) { 
+                _Edges[row, col].Build(player);
+                getNeighbourVerticesOfEdge(row,col).ForEach(vertex => {
+                    vertex.AddPotentialBuilder(player);
+                });
+            }
         }
 
-        public void buildSettlement(int row, int col, PlayerEnum player)
+        public void BuildSettlement(int row, int col, PlayerEnum player)
         {
-            _Vertices[row, col].Build(player);
+            if (_Vertices[row, col].IsBuildableByPlayer(player)) { 
+                _Vertices[row, col].Build(player);
+                getNeighborVerticesOfVertex(row, col).ForEach(vertex => {
+                    vertex.SetNotBuildableCommunity();
+                });
+                getNeighborEdgesOfVertex(row, col).ForEach(edge => {
+                    edge.AddPotentialBuilder(player);
+                });
+            }
         }
 
         public void buildTown(int row, int col, PlayerEnum player)

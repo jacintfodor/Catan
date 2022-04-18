@@ -1,18 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Catan.View_Rework</RootNamespace>
     <Nullable>enable</Nullable>
-	<UseWPF>true</UseWPF>
+    <UseWPF>true</UseWPF>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Catan.Model\Catan.Model.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Edge\" />
+    <ProjectReference Include="..\Catan.ViewModel\Catan.ViewModel.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,146 @@
+﻿<Window x:Class="Catan.View_Rework.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Catan.View_Rework"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" 
+        xmlns:viewmodel="clr-namespace:Catan.ViewModel;assembly=Catan.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:CatanViewModel}"
+        >
+    <Window.Resources>
+        <CollectionViewSource x:Key="HexCollection" Source="{Binding Hexes}"/>
+        <CollectionViewSource x:Key="VertexCollection" Source="{Binding Vertices}"/>
+        <CollectionViewSource x:Key="BuildableVertexCollection" Source="{Binding BuildableCommunities}"/>
+        <CollectionViewSource x:Key="VerticalEdgeCollection" Source="{Binding Verticals}"/>
+        <CollectionViewSource x:Key="LeftSlopeEdgeCollection" Source="{Binding LeftSlopes}"/>
+        <CollectionViewSource x:Key="RightSlopeEdgeCollection" Source="{Binding RightSlopes}"/>
+        <CollectionViewSource x:Key="BuildableVerticalEdgeCollection" Source="{Binding BuildableVerticals}"/>
+        <CollectionViewSource x:Key="BuildableLeftSlopeEdgeCollection" Source="{Binding BuildableLeftSlopes}"/>
+        <CollectionViewSource x:Key="BuildableRightSlopeEdgeCollection" Source="{Binding BuildableRightSlopes}"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <ItemsControl>
+                    <ItemsControl.ItemsSource>
+                        <CompositeCollection>
+                            <CollectionContainer Collection="{Binding Source={StaticResource HexCollection}}"/>
+                            
+                            <CollectionContainer Collection="{Binding Source={StaticResource VerticalEdgeCollection}}"/>
+                            <CollectionContainer Collection="{Binding Source={StaticResource LeftSlopeEdgeCollection}}"/>
+                            <CollectionContainer Collection="{Binding Source={StaticResource RightSlopeEdgeCollection}}"/>
+
+                            <CollectionContainer Collection="{Binding Source={StaticResource BuildableVerticalEdgeCollection}}"/>
+                            <CollectionContainer Collection="{Binding Source={StaticResource BuildableLeftSlopeEdgeCollection}}"/>
+                            <CollectionContainer Collection="{Binding Source={StaticResource BuildableRightSlopeEdgeCollection}}"/>
+
+                            <CollectionContainer Collection="{Binding Source={StaticResource VertexCollection}}"/>
+                            <CollectionContainer Collection="{Binding Source={StaticResource BuildableVertexCollection}}"/>
+                            
+                        </CompositeCollection>
+                    </ItemsControl.ItemsSource>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Canvas Width="300" Height="300"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="ContentPresenter">
+                            <Setter Property="Canvas.Left" Value="{Binding Left}"/>
+                            <Setter Property="Canvas.Top" Value="{Binding Top}"/>
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                    <ItemsControl.Resources>
+                        <DataTemplate  DataType="{x:Type viewmodel:HexViewModel}">
+                            <Button Width="60" Height="60" Content="{Binding Number}" Background="{Binding Color}"></Button>
+                        </DataTemplate>
+                        <DataTemplate  DataType="{x:Type viewmodel:VertexViewModel}">
+                            <Button Width="{Binding Size}" Height="{Binding Size}" Background="{Binding Color}"></Button>
+                        </DataTemplate>
+                        <DataTemplate  DataType="{x:Type viewmodel:BuildableCommunityViewModel}">
+                            <Button Width="12" Height="12" Background="{Binding Color}"></Button>
+                        </DataTemplate>
+                        <DataTemplate  DataType="{x:Type viewmodel:VerticalViewModel}">
+                            <Button Width="6" Height="60" Background="{Binding Color}"></Button>
+                        </DataTemplate>
+                        <DataTemplate  DataType="{x:Type viewmodel:LeftSlopeViewModel}">
+                            <Button Width="30" Height="6" Background="{Binding Color}" ></Button>
+                        </DataTemplate>
+                        <DataTemplate  DataType="{x:Type viewmodel:RightSlopeViewModel}">
+                            <Button Width="30" Height="6" Background="{Binding Color}"></Button>
+                        </DataTemplate>
+
+                        <DataTemplate  DataType="{x:Type viewmodel:BuildableVerticalViewModel}">
+                            <Button Width="6" Height="60" Background="green"></Button>
+                        </DataTemplate>
+                        <DataTemplate  DataType="{x:Type viewmodel:BuildableLeftSlopeViewModel}">
+                            <Button Width="30" Height="6" Background="green" ></Button>
+                        </DataTemplate>
+                        <DataTemplate  DataType="{x:Type viewmodel:BuildableRightSlopeViewModel}">
+                            <Button Width="30" Height="6" Background="green"></Button>
+                        </DataTemplate>
+                    </ItemsControl.Resources>
+                </ItemsControl>
+            </Grid>
+
+            <Grid Grid.Column="1">
+                <ListBox Width="100" HorizontalAlignment="Right" Background="Beige">
+                    <TextBox Text="{Binding SumOfDices, Mode=OneWay}" />
+                    <Button Content="Dob" Command="{Binding ThrowDicesCommand}"/>
+                    <Button Content="Város"/>
+                    <Button Content="Település"/>
+                    <Button Content="Út"/>
+                    <Button Content="Bonus kartya" Command="{Binding PurchaseBonusCardCommand}"/>
+                    <Button Content="Csere"/>
+                </ListBox>
+            </Grid>
+        </Grid>
+
+        
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width ="100"/>
+                <ColumnDefinition Width="0.2*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="0.2*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="0.2*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="0.2*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="0.2*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="0.2*"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height = "1*"/>
+                <RowDefinition Height = "9*" />
+            </Grid.RowDefinitions>
+            <Button Grid.Column="2"  Grid.Row="1" Content="{Binding CurrentPlayerWood}"      Background="ForestGreen"/>
+            <Button Grid.Column="4"  Grid.Row="1" Content="{Binding CurrentPlayerWool}"  Background="PaleGreen"/>
+            <Button Grid.Column="6"  Grid.Row="1" Content="{Binding CurrentPlayerBrick}"      Background="SlateGray"/>
+            <Button Grid.Column="8"  Grid.Row="1" Content="{Binding CurrentPlayerCrop}"  Background="Goldenrod"/>
+            <Button Grid.Column="10" Grid.Row="1" Content="{Binding CurrentPlayerOre}"   Background="Firebrick"/>
+            <Button Grid.Column="12" Grid.Row="1" Content="Kör Vége" Command="{Binding EndTurnCommand}"/>
+        </Grid>
+
+    </Grid>
+</Window>
