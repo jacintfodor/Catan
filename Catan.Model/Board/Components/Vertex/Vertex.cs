@@ -18,7 +18,7 @@ namespace Catan.Model.Board.Components
         public PlayerEnum Owner { get; set; }
         public int Row { get; set; }
         public int Col { get; set; }
-        public bool IsNotBuildable { get; set; }
+        public bool IsNotBuildable { get; set; } = false;
 
         public void AddPotentialBuilder(PlayerEnum player)
         {
