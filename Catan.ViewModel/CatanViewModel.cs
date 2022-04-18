@@ -168,7 +168,7 @@ namespace Catan.ViewModel
 
             foreach (IHex hex in hexes)
             {
-                var hexVM = new HexViewModel(hex.Row, hex.Col, ResourceEnumToString(hex.Resource), hex.Value);
+                var hexVM = new HexViewModel(hex.Resource, hex.Value, hex.Row, hex.Col);
                 Hexes.Add(hexVM);
             }
 
