@@ -255,23 +255,27 @@ namespace Catan.Model.Board
         {
             if (_Edges[row, col].IsBuildableByPlayer(player)) { 
                 _Edges[row, col].Build(player);
-                getNeighbourVerticesOfEdge(row,col).ForEach(vertex => {
-                    vertex.AddPotentialBuilder(player);
-                });
+                //getNeighbourVerticesOfEdge(row,col).ForEach(vertex => {
+                //    vertex.AddPotentialBuilder(player);
+                //});
             }
         }
 
         public void BuildSettlement(int row, int col, PlayerEnum player)
         {
-            if (_Vertices[row, col].IsBuildableByPlayer(player)) { 
+            //This method was doing too much stuff, it did not just build a Settlement but also marked the neighbouring vertices as NotBuildable
+            //The Board doesnt know how to check the Validity of Build condition it has to be done at the States
+            //TODO make the Board able to test it
+            
+            //if (_Vertices[row, col].IsBuildableByPlayer(player)) { 
                 _Vertices[row, col].Build(player);
-                getNeighborVerticesOfVertex(row, col).ForEach(vertex => {
-                    vertex.SetNotBuildableCommunity();
-                });
-                getNeighborEdgesOfVertex(row, col).ForEach(edge => {
-                    edge.AddPotentialBuilder(player);
-                });
-            }
+                //getNeighborVerticesOfVertex(row, col).ForEach(vertex => {
+                //    vertex.SetNotBuildableCommunity();
+                //});
+                //getNeighborEdgesOfVertex(row, col).ForEach(edge => {
+                //    edge.AddPotentialBuilder(player);
+                //});
+            //}
         }
 
         public void buildTown(int row, int col, PlayerEnum player)

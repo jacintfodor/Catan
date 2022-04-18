@@ -7,15 +7,13 @@ namespace Catan.Model.Board.Components
         public Town(PlayerEnum owner)
         {
             Owner = owner;
-            IsUpgradeable = false;
-            IsBuildableCommunity = false;
         }
 
-        public PlayerEnum Owner { get; set; }
+        public PlayerEnum Owner { get; }
 
-        public bool IsUpgradeable { get; set; }
+        public bool IsUpgradeable => false;
 
-        public bool IsBuildableCommunity { get; set; }
+        public bool IsBuildableCommunity => false;
 
         public void AddPotentionalBuilder(PlayerEnum player) {}
 
