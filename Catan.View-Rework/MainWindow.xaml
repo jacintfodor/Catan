@@ -12,6 +12,8 @@
         <CollectionViewSource x:Key="HexCollection" Source="{Binding Hexes}"/>
         <CollectionViewSource x:Key="VertexCollection" Source="{Binding Vertices}"/>
         <CollectionViewSource x:Key="VeticalEdgeCollection" Source="{Binding Verticals}"/>
+        <CollectionViewSource x:Key="LeftSlopeEdgeCollection" Source="{Binding LeftSlopes}"/>
+        <CollectionViewSource x:Key="RightSlopeEdgeCollection" Source="{Binding RightSlopes}"/>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -35,8 +37,10 @@
                     <ItemsControl.ItemsSource>
                         <CompositeCollection>
                             <CollectionContainer Collection="{Binding Source={StaticResource HexCollection}}"/>
-                            <CollectionContainer Collection="{Binding Source={StaticResource VertexCollection}}"/>
                             <CollectionContainer Collection="{Binding Source={StaticResource VeticalEdgeCollection}}"/>
+                            <CollectionContainer Collection="{Binding Source={StaticResource LeftSlopeEdgeCollection}}"/>
+                            <CollectionContainer Collection="{Binding Source={StaticResource RightSlopeEdgeCollection}}"/>
+                            <CollectionContainer Collection="{Binding Source={StaticResource VertexCollection}}"/>
                         </CompositeCollection>
                     </ItemsControl.ItemsSource>
                     <ItemsControl.ItemsPanel>
@@ -52,13 +56,19 @@
                     </ItemsControl.ItemContainerStyle>
                     <ItemsControl.Resources>
                         <DataTemplate  DataType="{x:Type viewmodel:HexViewModel}">
-                            <Button  Width="60" Height="60" Content="{Binding Number}" Background="{Binding Color}"></Button>
+                            <Button Width="60" Height="60" Content="{Binding Number}" Background="{Binding Color}"></Button>
                         </DataTemplate>
                         <DataTemplate  DataType="{x:Type viewmodel:VertexViewModel}">
-                            <Button  Width="12" Height="12" ></Button>
+                            <Button Width="12" Height="12" ></Button>
                         </DataTemplate>
                         <DataTemplate  DataType="{x:Type viewmodel:VerticalViewModel}">
-                            <Button  Width="6" Height="60" ></Button>
+                            <Button Width="6" Height="60" ></Button>
+                        </DataTemplate>
+                        <DataTemplate  DataType="{x:Type viewmodel:LeftSlopeViewModel}">
+                            <Button Width="30" Height="6" ></Button>
+                        </DataTemplate>
+                        <DataTemplate  DataType="{x:Type viewmodel:RightSlopeViewModel}">
+                            <Button Width="30" Height="6" ></Button>
                         </DataTemplate>
                         
                     </ItemsControl.Resources>
