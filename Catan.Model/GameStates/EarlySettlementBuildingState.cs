@@ -37,7 +37,7 @@ namespace Catan.Model.GameStates
             context.Board.getNeighborEdgesOfVertex(row, col).ForEach(e => e.AddPotentialBuilder(context.CurrentPlayer.ID));
             context.Board.getNeighborVerticesOfVertex(row, col).ForEach(v => v.SetNotBuildableCommunity());
             
-            var list = context.Board.GetEdgesEnumerable().ToList().Where(e => e.IsBuildableByPlayer(context.CurrentPlayer.ID)).ToList();
+            var list = context.Board.getNeighborEdgesOfVertex(row, col).ToList().Where(e => e.IsBuildableByPlayer(context.CurrentPlayer.ID)).ToList();
             context.Events.OnRoadBuildingStarted(list);
 
             context.SetContext(new EarlyRoadBuildingState(_turnCount + 1));

@@ -48,7 +48,7 @@ namespace Catan.Model.GameStates
             }
             else
             {
-                var list = context.Board.GetVerticesEnumerable().ToList().Where(v => !v.IsNotBuildable).ToList();
+                var list = context.Board.GetVerticesEnumerable().ToList().Where(v => v.IsBuildable).ToList();
                 context.Events.OnSettlementBuildingStarted(list);
 
                 context.SetContext(new EarlySettlementBuildingState(_turnCount));

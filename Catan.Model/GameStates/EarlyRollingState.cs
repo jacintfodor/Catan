@@ -73,7 +73,7 @@ namespace Catan.Model.GameStates
             context.Events.OnDiceThrown(context);
             if (_rollCount == 3)
             {
-                var list = context.Board.GetVerticesEnumerable().ToList().Where(v => !v.IsNotBuildable).ToList();
+                var list = context.Board.GetVerticesEnumerable().ToList().Where(v => v.IsBuildable).ToList();
                 context.Events.OnSettlementBuildingStarted(list);
 
                 context.SetContext(new EarlySettlementBuildingState(0));
