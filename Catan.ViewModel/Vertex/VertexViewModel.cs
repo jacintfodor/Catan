@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Catan.Model.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,14 +9,14 @@ namespace Catan.ViewModel
 {
     public class VertexViewModel : ViewModelBase
     {
-        private string _community;
-        private string _owner;
+        private CommunityEnum _community;
+        private PlayerEnum _owner;
         private int _row;
         private int _col;
 
 
         //TODO owner enum, community enum
-        public VertexViewModel(int row, int column, string owner, string community)
+        public VertexViewModel(int row, int column, PlayerEnum owner, CommunityEnum community)
         {
             Row = row;
             Column = column;
@@ -28,8 +29,8 @@ namespace Catan.ViewModel
         public string Left { get => (Column*30 -6).ToString(); }
         public string Top { get => (Row * 60 -6).ToString(); }
 
-        public string Community { get => _community; set { _community = value; OnPropertyChanged(); } }
-        public string Owner { get => _owner; set { _owner = value; OnPropertyChanged(); } }
+        public CommunityEnum Community { get => _community; set { _community = value; OnPropertyChanged(); } }
+        public PlayerEnum Owner { get => _owner; set { _owner = value; OnPropertyChanged(); } }
     
     
     }

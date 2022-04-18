@@ -1,6 +1,6 @@
 ﻿namespace Catan.Model.Enums
 {
-    enum CommunityEnum
+    public enum CommunityEnum
     {
         NoTBuildableCommunity, BuildableCommunity, Settlement, Town
     }
