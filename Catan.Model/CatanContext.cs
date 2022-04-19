@@ -162,7 +162,7 @@ namespace Catan.Model
             return retVal;
         }
 
-        public List<IEdge> GetBuildableRoadByPlayer()
+        public List<IEdge> GetBuildableRoadsByPlayer()
         {
             List<IEdge> retVal = new List<IEdge>();
             foreach (IEdge edge in Board.GetEdgesEnumerable())
@@ -173,7 +173,7 @@ namespace Catan.Model
             
             return retVal;
         }
-        public List<IVertex> GetBuildableSettlementByPlayer()
+        public List<IVertex> GetBuildableSettlementsByPlayer()
         {
             List<IVertex> retVal = new List<IVertex>();
             foreach (IVertex vertex in Board.GetVerticesEnumerable())

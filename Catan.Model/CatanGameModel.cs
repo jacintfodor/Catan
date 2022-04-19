@@ -55,6 +55,10 @@ namespace Catan.Model
         {
             _catanContext.StartRoadBuilding();
         }
+        public void StartSettlementBuilding()
+        {
+            _catanContext.StartSettlementBuilding();
+        }
         public void BuildRoad(int row, int col)
         {
             _catanContext.BuildRoad(row, col);

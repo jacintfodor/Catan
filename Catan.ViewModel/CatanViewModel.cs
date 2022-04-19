@@ -48,6 +48,7 @@ namespace Catan.ViewModel
         public DelegateCommand EndTurnCommand { get; private set; }
         public DelegateCommand PurchaseBonusCardCommand { get; private set; }
         public DelegateCommand BuildRoadCommand { get; private set; }
+        public DelegateCommand BuildSettlementCommand { get; private set; }
 
         public CatanViewModel(CatanGameModel model)
         {
@@ -86,6 +87,7 @@ namespace Catan.ViewModel
             EndTurnCommand = new DelegateCommand(_ => _model.EndTurn(), _ => _model.IsMainState);
             PurchaseBonusCardCommand = new DelegateCommand(_ => _model.PurchaseBonusCard(), _ => _model.IsMainState);
             BuildRoadCommand = new DelegateCommand(_ => _model.StartRoadBuilding(), _ => _model.IsMainState);
+            BuildSettlementCommand = new DelegateCommand(_ => _model.StartSettlementBuilding(), _ => _model.IsMainState);
         }
 
         private void Model_Events_RoadBuildingStarted(object? sender, RoadBuildingStartedEventArgs e)

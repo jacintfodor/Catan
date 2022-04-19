@@ -3,28 +3,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Catan.Model.Context.Players;
+
+using Catan.Model;
 using Catan.Model.Context;
 
 namespace Catan.Model.GameStates
 {
-    public class MainState : ICatanGameState
+    public class SettlementBuildingState : ICatanGameState
     {
-        public bool IsMainState => true;
+        public SettlementBuildingState()
+        {
+
+        }
 
         public void AcceptTrade(CatanContext context)
         {
-            
+            throw new NotImplementedException();
         }
 
         public void BuildRoad(CatanContext context, int row, int col)
         {
-            
+            throw new NotImplementedException();
         }
 
         public void BuildSettleMent(CatanContext context, int row, int col)
         {
-            
+
+            //TODO reduce roadCards, reduce player resources
+            context.Board.BuildSettlement(row, col, context.CurrentPlayer.ID);
+            context.Events.OnSettlementBuilt(context, row, col, context.CurrentPlayer.ID);
+
+            context.Board.getNeighborEdgesOfVertex(row, col).ForEach(e => e.AddPotentialBuilder(context.CurrentPlayer.ID));
+            context.Board.getNeighborVerticesOfVertex(row, col).ForEach(v => v.SetNotBuildableCommunity());
+
+
+            context.SetContext(new MainState());
         }
 
         public void Cancel(CatanContext context)
@@ -34,18 +47,12 @@ namespace Catan.Model.GameStates
 
         public void DenyTrade(CatanContext context)
         {
-            
+            throw new NotImplementedException();
         }
 
         public void EndTurn(CatanContext context)
         {
-            //TODO check winner
-
-            context.NextPlayer();
-            context.Events.OnTransactionsHappened(context);
-
-            //context.Events.OnBuildableByPlayer(context);
-            context.SetContext(new RollingState());
+            throw new NotImplementedException();
         }
 
         public void ExchangeWithBank(CatanContext context)
@@ -63,11 +70,9 @@ namespace Catan.Model.GameStates
             throw new NotImplementedException();
         }
 
-        //Crop, Ore, Wood, Brick, Wool
         public void PurchaseBonusCard(CatanContext context)
         {
-            if (context.CurrentPlayer.CanAfford(new Goods(new List<int> { 1, 1, 0, 0, 1 })))
-                context.CurrentPlayer.ReduceResources(new Goods(new List<int> { 1, 1, 0, 0, 1 }));
+            throw new NotImplementedException();
         }
 
         public void RollDices(CatanContext context)
@@ -77,14 +82,12 @@ namespace Catan.Model.GameStates
 
         public void StartRoadBuilding(CatanContext context)
         {
-            context.Events.OnRoadBuildingStarted(context.GetBuildableRoadsByPlayer());
-            context.SetContext(new RoadBuildingState());
+            throw new NotImplementedException();
         }
 
         public void StartSettlementBuilding(CatanContext context)
         {
-            context.Events.OnSettlementBuildingStarted(context.GetBuildableSettlementsByPlayer());
-            context.SetContext(new SettlementBuildingState());
+            throw new NotImplementedException();
         }
 
         public void StartSettlementUpgrading(CatanContext context)

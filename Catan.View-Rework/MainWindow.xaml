@@ -106,7 +106,7 @@
                     <TextBox Text="{Binding SumOfDices, Mode=OneWay}" />
                     <Button Content="Dob" Command="{Binding ThrowDicesCommand}"/>
                     <Button Content="Város"/>
-                    <Button Content="Település"/>
+                    <Button Content="Település" Command="{Binding BuildSettlementCommand}"/>
                     <Button Content="Út" Command="{Binding BuildRoadCommand}"/>
                     <Button Content="Bonus kartya" Command="{Binding PurchaseBonusCardCommand}"/>
                     <Button Content="Csere"/>
