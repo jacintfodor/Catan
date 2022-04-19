@@ -43,7 +43,7 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel VerticalAlignment="Bottom" Grid.Column="0" Margin="10">
-                <Label FontWeight="Bold">Exchange with bank: To</Label>
+                <Label FontWeight="Bold">Bankkal Csere</Label>
                 <RadioButton IsChecked="{Binding RadioCrop, Mode=TwoWay}">Gabona</RadioButton>
                 <RadioButton IsChecked="{Binding RadioOre, Mode=TwoWay}">Érc</RadioButton>
                 <RadioButton IsChecked="{Binding RadioWood, Mode=TwoWay}">Fa</RadioButton>
