@@ -59,6 +59,10 @@ namespace Catan.Model
         {
             _catanContext.StartSettlementBuilding();
         }
+        public void StartSettlementUpgrading()
+        {
+            _catanContext.StartSettlementUpgrading();
+        }
         public void Cancel()
         {
             _catanContext.Cancel(); 
@@ -73,7 +77,7 @@ namespace Catan.Model
         }
         public void UpgradeSettleMentToTown(int row, int col)
         {
-            throw new NotImplementedException();
+            _catanContext.UpgradeSettleMentToTown(row, col);
         }
         public void StartTrade()
         {

@@ -49,8 +49,8 @@ namespace Catan.ViewModel
         public DelegateCommand PurchaseBonusCardCommand { get; private set; }
         public DelegateCommand BuildRoadCommand { get; private set; }
         public DelegateCommand BuildSettlementCommand { get; private set; }
+        public DelegateCommand UpgradeSettlementCommand { get; private set; }
         public DelegateCommand CancelCommand { get; private set; }
-
         public CatanViewModel(CatanGameModel model)
         {
             _model = model;
@@ -78,11 +78,16 @@ namespace Catan.ViewModel
             _model.Events.DicesThrown += Model_Events_DicesThrown;
             _model.Events.GameStart += Model_Events_NewGame;
             _model.Events.TransactionsHappened += Model_Events_TransactionsHappened;
-            _model.Events.RoadBuilt += Model_Events_RoadBuilt;
-            _model.Events.SettlementBuilt += Model_Events_SettlementBuilt;
-            _model.Events.BuildableByPlayer += Model_Events_BuildableByPlayer;
+
             _model.Events.SettlementBuildingStarted += Model_Events_SettlementBuildingStarted;
-            _model.Events.RoadBuildingStarted +=Model_Events_RoadBuildingStarted;
+            _model.Events.SettlementBuilt += Model_Events_SettlementBuilt;
+
+            _model.Events.SettlementUpgradingStarted += Model_Events_SettlementUpgradingStarted;
+            _model.Events.SettlementUpgraded += Model_Events_SettlementUpgraded;
+
+            _model.Events.RoadBuildingStarted += Model_Events_RoadBuildingStarted;
+            _model.Events.RoadBuilt += Model_Events_RoadBuilt;
+
             _model.Events.Cancel +=Model_Events_Cancel;
 
             ThrowDicesCommand = new DelegateCommand(_ => _model.RollDices(), _ => _model.IsEarlyRollingState || _model.IsRollingState);
@@ -90,7 +95,8 @@ namespace Catan.ViewModel
             PurchaseBonusCardCommand = new DelegateCommand(_ => _model.PurchaseBonusCard(), _ => _model.IsMainState);
             BuildRoadCommand = new DelegateCommand(_ => _model.StartRoadBuilding(), _ => _model.IsMainState);
             BuildSettlementCommand = new DelegateCommand(_ => _model.StartSettlementBuilding(), _ => _model.IsMainState);
-            CancelCommand = new DelegateCommand(_ => _model.Cancel());
+            UpgradeSettlementCommand = new DelegateCommand(_ => _model.StartSettlementUpgrading(), _ => _model.IsMainState);
+            CancelCommand = new DelegateCommand(_ => _model.Cancel(), _=> _model.IsSettlementBuildingState || _model.IsRoadBuildingState || _model.IsSettlementUpgradingState);
         }
 
         private void Model_Events_Cancel(object? sender, CancelEventArgs e)
@@ -136,6 +142,21 @@ namespace Catan.ViewModel
             }
         }
 
+        private void Model_Events_SettlementUpgradingStarted(object? sender, SettlementUpgradingStartedEventArgs e)
+        {
+            foreach (IVertex vertex in e.Vertices)
+            {
+                BuildableCommunityViewModel bcvm = new BuildableCommunityViewModel(vertex.Row, vertex.Col);
+                bcvm.BuildCommand = new DelegateCommand(vm => UpgradeSettlement((BuildableCommunityViewModel)vm));
+                BuildableCommunities.Add(bcvm);
+            }
+        }
+
+        private void UpgradeSettlement(BuildableCommunityViewModel vm)
+        {
+            _model.UpgradeSettleMentToTown(vm.Row, vm.Column);
+        }
+
         private void BuildSettlement(BuildableCommunityViewModel vm)
         {
             _model.BuildSettleMent(vm.Row, vm.Column);
@@ -156,7 +177,18 @@ namespace Catan.ViewModel
         {
             _model.BuildRoad(vm.Row, vm.Column);
         }
+        private void Model_Events_SettlementUpgraded(object? sender, SettlementUpgradedEventArgs e)
+        {
+            foreach (VertexViewModel vm in Vertices)
+            {
+                if (vm.Row == e.Row && vm.Column == e.Column)
+                {
+                    vm.Community = CommunityEnum.Town;
+                }
+            }
 
+            BuildableCommunities.Clear();
+        }
         private void Model_Events_SettlementBuilt(object? sender, SettlementBuiltEventArgs e)
         {
             foreach (VertexViewModel vm in Vertices) {

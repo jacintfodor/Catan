@@ -89,7 +89,8 @@ namespace Catan.Model.GameStates
 
         public void StartSettlementUpgrading(CatanContext context)
         {
-            throw new NotImplementedException();
+            context.Events.OnSettlementUpgradingStarted(context.GetUpgradeableSettlementsByPlayer());
+            context.SetContext(new SettlementUpgradingState());
         }
 
         public void StartTrade(CatanContext context)

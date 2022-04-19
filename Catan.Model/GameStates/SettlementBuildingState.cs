@@ -11,6 +11,9 @@ namespace Catan.Model.GameStates
 {
     public class SettlementBuildingState : ICatanGameState
     {
+
+        public bool IsSettlementBuildingState => true;
+
         public SettlementBuildingState()
         {
 

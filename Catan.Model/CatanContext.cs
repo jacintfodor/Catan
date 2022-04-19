@@ -43,6 +43,8 @@ namespace Catan.Model
         public static LongestRoadOwner LongestRoadOwner { get => LongestRoadOwner.Instance;}
         public IPlayer CurrentPlayer { get => _players.ElementAtOrDefault(0) ?? NotPlayer.Instance;}
         public IPlayer NextPlayerInQueue { get => _players.ElementAtOrDefault(1) ?? NotPlayer.Instance; }
+
+
         public IPlayer NextNextPlayerInQueue { get => _players.ElementAtOrDefault(2) ?? NotPlayer.Instance; }
         public IPlayer Winner { get => CurrentPlayer.CalculateScore() >= 5 ? CurrentPlayer : NotPlayer.Instance;  }
         public void NextPlayer() { _players.Enqueue( _players.Dequeue()); }
@@ -58,9 +60,9 @@ namespace Catan.Model
             _players.Enqueue(new Player(PlayerEnum.Player2));
             _players.Enqueue(new Player(PlayerEnum.Player3));
 
-            CurrentPlayer.AddResource(new Goods(new List<int> { 1, 1, 1, 1, 1 }));
-            NextPlayerInQueue.AddResource(new Goods(new List<int> { 2, 2, 2, 2, 2 }));
-            NextNextPlayerInQueue.AddResource(new Goods(new List<int> { 3, 3, 3, 3, 3 }));
+            /*CurrentPlayer.AddResource(new Goods(new List<int> { 0, 0, 0, 0, 0 }));
+            NextPlayerInQueue.AddResource(new Goods(new List<int> { 0, 0, 0, 0, 0 }));
+            NextNextPlayerInQueue.AddResource(new Goods(new List<int> { 0, 0, 0, 0, 0 }));*/
 
         }
 
@@ -108,12 +110,17 @@ namespace Catan.Model
         public bool IsWinningState => State.IsWinningState;
         #endregion
 
-        #region methods
-        public void DistributeResource(int dieValue)
+        #region Methods
+        
+            
+        public void DistributeResources(int dieValue, bool isEarly = false)
         {
             foreach (IHex hex in Board.GetHexesEnumerable()) {
+                if (isEarly)
+                    goto Early;
                 if (hex.Value != dieValue)
                     continue;
+                Early:
                 Board.GetVerticesOfHex(hex.Row, hex.Col).ForEach(vertex =>
                 {
                     if (vertex.Owner != PlayerEnum.NotPlayer)
@@ -151,7 +158,6 @@ namespace Catan.Model
             }
             return retVal;
         }
-
         public List<IEdge> GetBuildableRoadsByPlayer()
         {
             List<IEdge> retVal = new List<IEdge>();
@@ -169,6 +175,18 @@ namespace Catan.Model
             foreach (IVertex vertex in Board.GetVerticesEnumerable())
             {
                 if (vertex.IsBuildableByPlayer(CurrentPlayer.ID))
+                    retVal.Add(vertex);
+            }
+
+            return retVal;
+        }
+
+        public List<IVertex> GetUpgradeableSettlementsByPlayer()
+        {
+            List<IVertex> retVal = new List<IVertex>();
+            foreach (IVertex vertex in Board.GetVerticesEnumerable())
+            {
+                if (vertex.Owner == CurrentPlayer.ID && vertex.GetCommunity().IsUpgradeable)
                     retVal.Add(vertex);
             }
 

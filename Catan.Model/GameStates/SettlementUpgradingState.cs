@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Catan.Model;
-using Catan.Model.Context;
+﻿using Catan.Model.Context;
 
 namespace Catan.Model.GameStates
 {
-    internal class RollingState : ICatanGameState
+    public class SettlementUpgradingState : ICatanGameState
     {
-        public bool IsRollingState => true;
+        public bool IsSettlementUpgradingState => true;
+
+        public SettlementUpgradingState()
+        {
+
+        }
+
         public void AcceptTrade(CatanContext context)
         {
             throw new NotImplementedException();
@@ -29,7 +28,8 @@ namespace Catan.Model.GameStates
 
         public void Cancel(CatanContext context)
         {
-            throw new NotImplementedException();
+            context.Events.OnCancel();
+            context.SetContext(new MainState());
         }
 
         public void DenyTrade(CatanContext context)
@@ -64,15 +64,7 @@ namespace Catan.Model.GameStates
 
         public void RollDices(CatanContext context)
         {
-            context.FirstDice.roll();
-            context.SecondDice.roll();
-
-            context.DistributeResources(context.RolledSum);
-
-            context.Events.OnDiceThrown(context);
-            context.Events.OnTransactionsHappened(context);
-
-            context.SetContext(new MainState());
+            throw new NotImplementedException();
         }
 
         public void StartRoadBuilding(CatanContext context)
@@ -97,7 +89,12 @@ namespace Catan.Model.GameStates
 
         public void UpgradeSettleMentToTown(CatanContext context, int row, int col)
         {
-            throw new NotImplementedException();
+
+            //TODO reduce townCards, increase settlementCards, reduce player resources, 
+            context.Board.UpgradeSettlement(row, col);
+            context.Events.OnSettlementUpgraded(context, row, col);
+
+            context.SetContext(new MainState());
         }
     }
 }

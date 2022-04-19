@@ -299,10 +299,9 @@ namespace Catan.Model.Board
             });
         }
 
-        public void buildTown(int row, int col, PlayerEnum player)
+        public void UpgradeSettlement(int row, int col)
         {
-            if(_Vertices[row, col].Owner == player)
-                _Vertices[row, col].Upgrade();
+            _Vertices[row, col].Upgrade();
         }
         #endregion Methods
     }
