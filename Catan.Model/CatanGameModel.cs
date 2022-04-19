@@ -100,15 +100,15 @@ namespace Catan.Model
         }
         public bool HasEnoughResourcesToBuildRoad()
         {
-            return _catanContext.CurrentPlayer.CanAfford(Constants.RoadCost);
+            return _catanContext.CurrentPlayer.CanAfford(Constants.RoadCost) && _catanContext.CurrentPlayer.CanBuildRoad();
         }
         public bool HasEnoughResourcesToBuildSettlement()
         {
-            return _catanContext.CurrentPlayer.CanAfford(Constants.SettlementCost);
+            return _catanContext.CurrentPlayer.CanAfford(Constants.SettlementCost) && _catanContext.CurrentPlayer.CanBuildSettlement();
         }
         public bool HasEnoughResourcesToUpgradeSettlementToTown()
         {
-            return _catanContext.CurrentPlayer.CanAfford(Constants.TownCost) && _catanContext.CurrentPlayer.;
+            return _catanContext.CurrentPlayer.CanAfford(Constants.TownCost) && _catanContext.CurrentPlayer.CanBuildTown();
         }
         public bool IsSettlementOwnedByCurrentPlayer(int row, int col)
         {

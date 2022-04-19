@@ -19,7 +19,6 @@ namespace Catan.Model
         public event EventHandler<DicesThrownEventArg> DicesThrown;
         public event EventHandler<GameStartEventArgs> GameStart;
         public event EventHandler<TransactionsHappenedEventArg> TransactionsHappened;
-        public event EventHandler<BuildableByPlayerEventArgs> BuildableByPlayer;
 
         public event EventHandler<SettlementBuildingStartedEventArgs> SettlementBuildingStarted;
         public event EventHandler<SettlementBuiltEventArgs> SettlementBuilt;
