@@ -44,13 +44,13 @@ namespace Catan.ViewModel
         public string Color { get => _color; set { _color = value; OnPropertyChanged(); } }
 
 
-
+        //TODO aggregate this to ViewModels
         private Dictionary<PlayerEnum, string> _playerToColor = new Dictionary<PlayerEnum, string>()
         {
             { PlayerEnum.NotPlayer, "White" },
             { PlayerEnum.Player1, "Red" },
-            { PlayerEnum.Player2, "Blue" },
-            { PlayerEnum.Player3, "Yellow" }
+            { PlayerEnum.Player2, "Yellow" },
+            { PlayerEnum.Player3, "Blue" }
         };
     }
 }
