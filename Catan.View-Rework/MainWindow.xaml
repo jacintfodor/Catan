@@ -107,7 +107,7 @@
                     <Button Content="Dob" Command="{Binding ThrowDicesCommand}"/>
                     <Button Content="Város"/>
                     <Button Content="Település"/>
-                    <Button Content="Út"/>
+                    <Button Content="Út" Command="{Binding BuildRoadCommand}"/>
                     <Button Content="Bonus kartya" Command="{Binding PurchaseBonusCardCommand}"/>
                     <Button Content="Csere"/>
                 </ListBox>

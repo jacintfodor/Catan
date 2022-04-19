@@ -19,17 +19,12 @@ namespace Catan.Model.GameStates
 
         public void BuildRoad(CatanContext context, int row, int col)
         {
-            context.Board.BuildRoad(row, col, context.CurrentPlayer.ID);
-
-            context.Events.OnRoadBuilt(context,row,col,context.CurrentPlayer.ID);
-
+            
         }
 
         public void BuildSettleMent(CatanContext context, int row, int col)
         {
-            context.Board.BuildSettlement(row, col, context.CurrentPlayer.ID);
-
-            context.Events.OnSettlementBuilt(context, row, col, context.CurrentPlayer.ID);
+            
         }
 
         public void Cancel(CatanContext context)
@@ -82,7 +77,8 @@ namespace Catan.Model.GameStates
 
         public void StartRoadBuilding(CatanContext context)
         {
-            throw new NotImplementedException();
+            context.Events.OnRoadBuildingStarted(context.GetBuildableRoadByPlayer());
+            context.SetContext(new RoadBuildingState());
         }
 
         public void StartSettlementBuilding(CatanContext context)

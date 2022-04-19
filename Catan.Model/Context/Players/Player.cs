@@ -91,6 +91,7 @@ namespace Catan.Model.Context.Players
                 return false;
             return balance.Valid;
         }
+
         // még a bónuszkártyához kell máshol is változtatni
         public bool CanAfford(Goods resourcesToSpend)
         {

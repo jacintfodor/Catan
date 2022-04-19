@@ -51,6 +51,10 @@ namespace Catan.Model
         {
             throw new NotImplementedException();
         }
+        public void StartRoadBuilding()
+        {
+            _catanContext.StartRoadBuilding();
+        }
         public void BuildRoad(int row, int col)
         {
             _catanContext.BuildRoad(row, col);

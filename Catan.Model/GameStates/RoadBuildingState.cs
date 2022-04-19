@@ -6,17 +6,14 @@ using System.Threading.Tasks;
 
 using Catan.Model;
 using Catan.Model.Context;
-using Catan.Model.Board.Components;
 
 namespace Catan.Model.GameStates
 {
-    public class EarlySettlementBuildingState : ICatanGameState
+    public class RoadBuildingState : ICatanGameState
     {
-        int _turnCount;
-
-        public EarlySettlementBuildingState(int tCount)
+        public RoadBuildingState()
         {
-            _turnCount = tCount;
+            
         }
 
         public void AcceptTrade(CatanContext context)
@@ -26,22 +23,28 @@ namespace Catan.Model.GameStates
 
         public void BuildRoad(CatanContext context, int row, int col)
         {
-            throw new NotImplementedException();
+            
+
+            //TODO reduce roadCards, reduce player resources
+            context.Board.BuildRoad(row, col, context.CurrentPlayer.ID);
+            context.Events.OnRoadBuilt(context, row, col, context.CurrentPlayer.ID);
+
+            //mark neighbouring vertexes as buildable by current player
+            context.Board.getNeighbourVerticesOfEdge(row, col).ForEach(v => v.AddPotentialBuilder(context.CurrentPlayer.ID));
+
+            //mark neighbouring Edges as Buildable
+            //TODO use getNeighbourEdgesOfEdge later
+            context.Board.getNeighbourVerticesOfEdge(row, col).ForEach(
+                v => context.Board.getNeighborEdgesOfVertex(v.Row, v.Col).ForEach(e => e.AddPotentialBuilder(context.CurrentPlayer.ID))
+            );
+
+            
+            context.SetContext(new MainState());
         }
 
         public void BuildSettleMent(CatanContext context, int row, int col)
         {
-            //TODO reduce players SettlementCards
-            context.Board.BuildSettlement(row, col, context.CurrentPlayer.ID);
-            context.Events.OnSettlementBuilt(context, row, col, context.CurrentPlayer.ID);
-            
-            context.Board.getNeighborEdgesOfVertex(row, col).ForEach(e => e.AddPotentialBuilder(context.CurrentPlayer.ID));
-            context.Board.getNeighborVerticesOfVertex(row, col).ForEach(v => v.SetNotBuildableCommunity());
-            
-            var list = context.Board.getNeighborEdgesOfVertex(row, col).ToList().Where(e => e.IsBuildableByPlayer(context.CurrentPlayer.ID)).ToList();
-            context.Events.OnRoadBuildingStarted(list);
-
-            context.SetContext(new EarlyRoadBuildingState(_turnCount + 1));
+            throw new NotImplementedException();
         }
 
         public void Cancel(CatanContext context)

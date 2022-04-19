@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Catan.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -11,6 +12,7 @@ using Catan.Model.Context;
 using Catan.Model.Context.Players;
 using Catan.Model.Enums;
 using Catan.Model.Events;
+using System.Windows.Input;
 
 namespace Catan.ViewModel
 {
@@ -45,6 +47,7 @@ namespace Catan.ViewModel
         public DelegateCommand ThrowDicesCommand { get; private set; }
         public DelegateCommand EndTurnCommand { get; private set; }
         public DelegateCommand PurchaseBonusCardCommand { get; private set; }
+        public DelegateCommand BuildRoadCommand { get; private set; }
 
         public CatanViewModel(CatanGameModel model)
         {
@@ -82,7 +85,7 @@ namespace Catan.ViewModel
             ThrowDicesCommand = new DelegateCommand(_ => _model.RollDices(), _ => _model.IsEarlyRollingState || _model.IsRollingState);
             EndTurnCommand = new DelegateCommand(_ => _model.EndTurn(), _ => _model.IsMainState);
             PurchaseBonusCardCommand = new DelegateCommand(_ => _model.PurchaseBonusCard(), _ => _model.IsMainState);
-
+            BuildRoadCommand = new DelegateCommand(_ => _model.StartRoadBuilding(), _ => _model.IsMainState);
         }
 
         private void Model_Events_RoadBuildingStarted(object? sender, RoadBuildingStartedEventArgs e)
@@ -292,6 +295,5 @@ namespace Catan.ViewModel
                 }
             }
         }
-
     }
 }

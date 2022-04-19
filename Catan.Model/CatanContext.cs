@@ -161,6 +161,30 @@ namespace Catan.Model
             }
             return retVal;
         }
+
+        public List<IEdge> GetBuildableRoadByPlayer()
+        {
+            List<IEdge> retVal = new List<IEdge>();
+            foreach (IEdge edge in Board.GetEdgesEnumerable())
+            {
+                if (edge.IsBuildableByPlayer(CurrentPlayer.ID))
+                    retVal.Add(edge);
+            }   
+            
+            return retVal;
+        }
+        public List<IVertex> GetBuildableSettlementByPlayer()
+        {
+            List<IVertex> retVal = new List<IVertex>();
+            foreach (IVertex vertex in Board.GetVerticesEnumerable())
+            {
+                if (vertex.IsBuildableByPlayer(CurrentPlayer.ID))
+                    retVal.Add(vertex);
+            }
+
+            return retVal;
+        }
+
         #endregion
     }
 }
