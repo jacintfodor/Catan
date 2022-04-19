@@ -49,7 +49,8 @@ namespace Catan.Model.GameStates
 
         public void Cancel(CatanContext context)
         {
-            throw new NotImplementedException();
+            context.Events.OnCancel();
+            context.SetContext(new MainState());
         }
 
         public void DenyTrade(CatanContext context)

@@ -110,6 +110,7 @@
                     <Button Content="Út" Command="{Binding BuildRoadCommand}"/>
                     <Button Content="Bonus kartya" Command="{Binding PurchaseBonusCardCommand}"/>
                     <Button Content="Csere"/>
+                    <Button Content="Megse" Command="{Binding CancelCommand}"/>
                 </ListBox>
             </Grid>
         </Grid>

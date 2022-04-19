@@ -25,6 +25,7 @@ namespace Catan.Model
 
         public event EventHandler<RoadBuildingStartedEventArgs> RoadBuildingStarted;
         public event EventHandler<SettlementBuildingStartedEventArgs> SettlementBuildingStarted;
+        public event EventHandler<CancelEventArgs> Cancel;
 
         public void OnRoadBuildingStarted(List<IEdge> edges)
         {
@@ -58,6 +59,11 @@ namespace Catan.Model
             }
 
             GameStart?.Invoke(this, new GameStartEventArgs(Hexes, Vertices, Edges));
+        }
+
+        internal void OnCancel()
+        {
+            Cancel?.Invoke(this, new CancelEventArgs());
         }
 
         public void OnDiceThrown(CatanContext ctx)

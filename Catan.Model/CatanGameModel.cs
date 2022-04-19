@@ -59,6 +59,10 @@ namespace Catan.Model
         {
             _catanContext.StartSettlementBuilding();
         }
+        public void Cancel()
+        {
+            _catanContext.Cancel(); 
+        }
         public void BuildRoad(int row, int col)
         {
             _catanContext.BuildRoad(row, col);
@@ -103,7 +107,6 @@ namespace Catan.Model
         {
             throw new NotImplementedException();
         }
-
         public bool IsSettlementOwnedByCurrentPlayer(int row, int col)
         {
             throw new NotImplementedException();

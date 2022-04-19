@@ -49,6 +49,7 @@ namespace Catan.ViewModel
         public DelegateCommand PurchaseBonusCardCommand { get; private set; }
         public DelegateCommand BuildRoadCommand { get; private set; }
         public DelegateCommand BuildSettlementCommand { get; private set; }
+        public DelegateCommand CancelCommand { get; private set; }
 
         public CatanViewModel(CatanGameModel model)
         {
@@ -82,12 +83,22 @@ namespace Catan.ViewModel
             _model.Events.BuildableByPlayer += Model_Events_BuildableByPlayer;
             _model.Events.SettlementBuildingStarted += Model_Events_SettlementBuildingStarted;
             _model.Events.RoadBuildingStarted +=Model_Events_RoadBuildingStarted;
+            _model.Events.Cancel +=Model_Events_Cancel;
 
             ThrowDicesCommand = new DelegateCommand(_ => _model.RollDices(), _ => _model.IsEarlyRollingState || _model.IsRollingState);
             EndTurnCommand = new DelegateCommand(_ => _model.EndTurn(), _ => _model.IsMainState);
             PurchaseBonusCardCommand = new DelegateCommand(_ => _model.PurchaseBonusCard(), _ => _model.IsMainState);
             BuildRoadCommand = new DelegateCommand(_ => _model.StartRoadBuilding(), _ => _model.IsMainState);
             BuildSettlementCommand = new DelegateCommand(_ => _model.StartSettlementBuilding(), _ => _model.IsMainState);
+            CancelCommand = new DelegateCommand(_ => _model.Cancel());
+        }
+
+        private void Model_Events_Cancel(object? sender, CancelEventArgs e)
+        {
+            BuildableCommunities.Clear();
+            BuildableVerticals.Clear();
+            BuildableLeftSlopes.Clear();
+            BuildableRightSlopes.Clear();
         }
 
         private void Model_Events_RoadBuildingStarted(object? sender, RoadBuildingStartedEventArgs e)
