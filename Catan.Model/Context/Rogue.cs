@@ -9,8 +9,8 @@ namespace Catan.Model.Context
 {
     public class Rogue
     {
-        private int Row { get; set; }
-        private int Col { get; set; }
+        public int Row { get; set; }
+        public int Col { get; set; }
         private Rogue() { }
         private static readonly Rogue _instance = new();
         public static Rogue Instance
