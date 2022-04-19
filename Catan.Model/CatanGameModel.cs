@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 using Catan.Model.GameStates;
 using Catan.Model.Events;
+using Catan.Model.Enums;
+using Catan.Model.Context;
 
 namespace Catan.Model
 {
@@ -42,9 +44,9 @@ namespace Catan.Model
         {
             throw new NotImplementedException();
         }
-        public void ExchangeWithBank()
+        public void ExchangeWithBank(ResourceEnum from, ResourceEnum to)
         {
-            throw new NotImplementedException();
+            _catanContext.ExchangeWithBank(from, to);
         }
         public void PurchaseBonusCard()
         {
@@ -117,6 +119,11 @@ namespace Catan.Model
         public bool IsSettlementOwnedByCurrentPlayer(int row, int col)
         {
             throw new NotImplementedException();
+        }
+
+        public bool IsAffordable(Goods g)
+        {
+            return _catanContext.IsAffordable(g);
         }
     }
 }

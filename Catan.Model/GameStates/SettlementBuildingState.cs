@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Catan.Model;
 using Catan.Model.Context;
+using Catan.Model.Enums;
 
 namespace Catan.Model.GameStates
 {
@@ -60,12 +61,12 @@ namespace Catan.Model.GameStates
             throw new NotImplementedException();
         }
 
-        public void ExchangeWithBank(CatanContext context)
+        public void ExchangeWithBank(CatanContext context, ResourceEnum from, ResourceEnum to)
         {
             throw new NotImplementedException();
         }
 
-        public void IsAffordable(CatanContext context, Goods g)
+        public bool IsAffordable(CatanContext context, Goods g)
         {
             throw new NotImplementedException();
         }

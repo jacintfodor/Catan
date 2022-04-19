@@ -55,6 +55,7 @@ namespace Catan.ViewModel
         public DelegateCommand BuildSettlementCommand { get; private set; }
         public DelegateCommand UpgradeSettlementCommand { get; private set; }
         public DelegateCommand CancelCommand { get; private set; }
+        public DelegateCommand ExchangeWithBankCommand { get; private set; }
         public CatanViewModel(CatanGameModel model)
         {
             _model = model;
@@ -97,6 +98,20 @@ namespace Catan.ViewModel
             BuildSettlementCommand = new DelegateCommand(_ => _model.StartSettlementBuilding(), _ => _model.IsMainState && _model.HasEnoughResourcesToBuildSettlement());
             UpgradeSettlementCommand = new DelegateCommand(_ => _model.StartSettlementUpgrading(), _ => _model.IsMainState && _model.HasEnoughResourcesToUpgradeSettlementToTown());
             CancelCommand = new DelegateCommand(_ => _model.Cancel(), _=> _model.IsSettlementBuildingState || _model.IsRoadBuildingState || _model.IsSettlementUpgradingState);
+            //TODO Cost manager rn condition order matters
+            ExchangeWithBankCommand = new DelegateCommand(resource => ExchangeWithBank(resource), resource =>  _model.IsMainState && HasThree(resource));
+        }
+
+        private bool HasThree(object resource)
+        {
+            _ = Enum.TryParse(resource.ToString(), out ResourceEnum from);
+            return _model.IsAffordable((new Goods(from)) *3);
+        }
+
+        private void ExchangeWithBank(object resource)
+        {
+            _ = Enum.TryParse(resource.ToString(), out ResourceEnum from);
+            _model.ExchangeWithBank(from, (ResourceEnum)ResourceToNumber );
         }
 
         private void Model_Events_Cancel(object? sender, CancelEventArgs e)
@@ -323,5 +338,47 @@ namespace Catan.ViewModel
                 }
             }
         }
+        
+        #region radio stuff
+        int _resourceToNumber = 0; 
+        public int ResourceToNumber
+        {
+            get { return _resourceToNumber; }
+            set 
+            { 
+                _resourceToNumber = value; OnPropertyChanged(nameof(RadioCrop)); OnPropertyChanged(nameof(RadioOre)); 
+                OnPropertyChanged(nameof(RadioWood)); OnPropertyChanged(nameof(RadioBrick)); OnPropertyChanged(nameof(RadioWool));
+            }
+        }
+        //Desert = -1, Crop, Ore, Wood, Brick, Wool
+        public bool RadioCrop
+        {
+            get { return ResourceToNumber.Equals(0); }
+            set { ResourceToNumber = 0; }
+        }
+        public bool RadioOre
+        {
+            get { return ResourceToNumber.Equals(1); }
+            set { ResourceToNumber = 1; }
+        }
+        
+        public bool RadioWood {
+            get { return ResourceToNumber.Equals(2); }
+            set { ResourceToNumber = 2; }
+        }
+
+        public bool RadioBrick
+        {
+            get { return ResourceToNumber.Equals(3); }
+            set { ResourceToNumber = 3; }
+        }
+
+        public bool RadioWool
+        {
+            get { return ResourceToNumber.Equals(4); }
+            set { ResourceToNumber = 4; }
+        }
+
+        #endregion
     }
 }

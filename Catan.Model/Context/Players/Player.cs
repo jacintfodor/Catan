@@ -107,7 +107,7 @@ namespace Catan.Model.Context.Players
         public void PurchaseBonusCard(Goods resourcesToSpend)
         {
             Random rnd = new Random();
-            if (rnd.NextDouble() < 0)
+            if (rnd.NextDouble() < .3)
             {
                 _scoreCardCount++;
             }
