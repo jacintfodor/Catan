@@ -17,44 +17,38 @@ namespace Catan.Model.Context.Players
 
         public Goods AvailableResources { get => new Goods(); set => new Goods();}
 
-        public int AvailableSettlementCardCount => 0;
+        public int AvailableSettlementCardCount => -1;
 
-        public int AvailableTownCardCount => 0;
+        public int AvailableTownCardCount => -1;
 
-        public int AvailableRoadCardCount => 0;
+        public int AvailableRoadCardCount => -1;
 
-        public int ScoreCardCount => 0;
+        public int ScoreCardCount => -1;
 
-        public int KnightCardCount => 0;
+        public int KnightCardCount => -1;
+
+        public int LengthOfLongestRoad { get => -1; set =>
+            throw new NotImplementedException(); }
 
         public int CalculateScore()
         {
             return -1;
         }
 
-        public int LengthOfLongestRoad()
+        public void AddResource(Goods resourcesToRemove)
         {
-            return 4;
+            throw new NotImplementedException();
         }
 
-        public int SizeOfArmy()
+        public void ReduceResources(Goods resourcesToReduce)
         {
-            return 2;
+            throw new NotImplementedException();
+
         }
-
-        public void AddResource(Goods resourcesToRemove) { }
-
-        public void ReduceResources(Goods resourcesToReduce) { }
-
         public bool CanAfford(Goods resourcesToAfford)
         {
             return false;
         }
-        public bool CanAfford(Goods resourcesToAfford, String s)
-        {
-            return false;
-        }
-
         public void BuildRoad()
         {
             throw new NotImplementedException();
@@ -91,11 +85,6 @@ namespace Catan.Model.Context.Players
         }
 
         public void AddKnightCard()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetLengthOfMyLongestRoad(int length)
         {
             throw new NotImplementedException();
         }
