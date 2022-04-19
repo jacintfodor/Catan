@@ -35,10 +35,10 @@ namespace Catan.Model.GameStates
             context.Board.BuildSettlement(row, col, context.CurrentPlayer.ID);
             context.Events.OnSettlementBuilt(context, row, col, context.CurrentPlayer.ID);
             
-            context.Board.getNeighborEdgesOfVertex(row, col).ForEach(e => e.AddPotentialBuilder(context.CurrentPlayer.ID));
-            context.Board.getNeighborVerticesOfVertex(row, col).ForEach(v => v.SetNotBuildableCommunity());
+            context.Board.GetNeighborEdgesOfVertex(row, col).ForEach(e => e.AddPotentialBuilder(context.CurrentPlayer.ID));
+            context.Board.GetNeighborVerticesOfVertex(row, col).ForEach(v => v.SetNotBuildableCommunity());
             
-            var list = context.Board.getNeighborEdgesOfVertex(row, col).ToList().Where(e => e.IsBuildableByPlayer(context.CurrentPlayer.ID)).ToList();
+            var list = context.Board.GetNeighborEdgesOfVertex(row, col).ToList().Where(e => e.IsBuildableByPlayer(context.CurrentPlayer.ID)).ToList();
             context.Events.OnRoadBuildingStarted(list);
 
             context.SetContext(new EarlyRoadBuildingState(_turnCount + 1));

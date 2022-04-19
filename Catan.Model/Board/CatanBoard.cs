@@ -132,7 +132,7 @@ namespace Catan.Model.Board
 
         #region Geters of board pieces
         //Returns a list of vertices to a hex from hex's index
-        public List<IVertex> getVerticesOfHex(int row, int col)
+        public List<IVertex> GetVerticesOfHex(int row, int col)
         {
             List<IVertex> retVal = new List<IVertex>();
             int offset = row % 2;
@@ -147,7 +147,7 @@ namespace Catan.Model.Board
         }
 
         //Returns a list of neighbouring Vertices of given Vertex index
-        public List<IVertex> getNeighborVerticesOfVertex(int row, int col)
+        public List<IVertex> GetNeighborVerticesOfVertex(int row, int col)
         {
             List<IVertex> retVal = new List<IVertex>();
             int offset = row % 2 == col % 2 ? 1 : -1;
@@ -170,7 +170,7 @@ namespace Catan.Model.Board
             return retVal;
         }
         //Returns a list of neighbouring Edges of given Vertex index
-        public List<IEdge> getNeighborEdgesOfVertex(int row, int col)
+        public List<IEdge> GetNeighborEdgesOfVertex(int row, int col)
         {
             List<IEdge> retVal = new List<IEdge>();
             int offset = row % 2 == col % 2 ? 1 : -1;
@@ -193,7 +193,7 @@ namespace Catan.Model.Board
             return retVal;
         }
         //Returns a list of end Vertices of given Edge index
-        public List<IVertex> getNeighbourVerticesOfEdge(int row, int col)
+        public List<IVertex> GetNeighbourVerticesOfEdge(int row, int col)
         {
             List<IVertex> retVal = new List<IVertex>();
             if (row % 2 == 0)
@@ -210,6 +210,24 @@ namespace Catan.Model.Board
                 if (_Vertices[(row + 1) / 2, col] != null)
                     retVal.Add(_Vertices[(row + 1) / 2, col]);
             }
+            return retVal;
+        }
+
+        public List<IEdge> GetEdgesofEdge(int row, int col)
+        {
+            List<IEdge> retVal = new List<IEdge>();
+            List<IVertex> vertices = new List<IVertex>();
+
+            GetNeighbourVerticesOfEdge(row, col).ForEach(vertex =>
+            {
+                GetNeighborEdgesOfVertex(vertex.Row, vertex.Col).ForEach(edge =>
+                {
+                    if (!(edge.Row == row && edge.Col == col))
+                    {
+                        retVal.Add(edge);
+                    }
+                });
+            });
             return retVal;
         }
         #endregion Getters of board pieces
@@ -275,7 +293,7 @@ namespace Catan.Model.Board
 
         public void MarkNeighbouringVerticesNotBuildable(int row, int col)
         {
-            getNeighborVerticesOfVertex(row, col).ForEach(vertex =>
+            GetNeighborVerticesOfVertex(row, col).ForEach(vertex =>
             {
                 vertex.SetNotBuildableCommunity();
             });

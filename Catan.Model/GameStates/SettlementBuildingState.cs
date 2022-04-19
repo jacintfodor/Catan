@@ -33,8 +33,8 @@ namespace Catan.Model.GameStates
             context.Board.BuildSettlement(row, col, context.CurrentPlayer.ID);
             context.Events.OnSettlementBuilt(context, row, col, context.CurrentPlayer.ID);
 
-            context.Board.getNeighborEdgesOfVertex(row, col).ForEach(e => e.AddPotentialBuilder(context.CurrentPlayer.ID));
-            context.Board.getNeighborVerticesOfVertex(row, col).ForEach(v => v.SetNotBuildableCommunity());
+            context.Board.GetNeighborEdgesOfVertex(row, col).ForEach(e => e.AddPotentialBuilder(context.CurrentPlayer.ID));
+            context.Board.GetNeighborVerticesOfVertex(row, col).ForEach(v => v.SetNotBuildableCommunity());
 
 
             context.SetContext(new MainState());

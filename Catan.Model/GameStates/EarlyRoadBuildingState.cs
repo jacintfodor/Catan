@@ -31,13 +31,13 @@ namespace Catan.Model.GameStates
             context.Events.OnRoadBuilt(context, row, col, context.CurrentPlayer.ID);
             
             //mark neighbouring vertexes as buildable by current player
-            context.Board.getNeighbourVerticesOfEdge(row, col).ForEach(v => v.AddPotentialBuilder(context.CurrentPlayer.ID));
-            
+            context.Board.GetNeighbourVerticesOfEdge(row, col).ForEach(v => v.AddPotentialBuilder(context.CurrentPlayer.ID));
+
             //mark neighbouring Edges as Buildable
-            //TODO use getNeighbourEdgesOfEdge later
-            context.Board.getNeighbourVerticesOfEdge(row, col).ForEach(
-                v => context.Board.getNeighborEdgesOfVertex(v.Row, v.Col).ForEach(e => e.AddPotentialBuilder(context.CurrentPlayer.ID))
-            );
+            context.Board.GetEdgesofEdge(row, col).ForEach(edge =>
+            {
+                edge.AddPotentialBuilder(context.CurrentPlayer.ID);
+            });
 
             //TODO remove magic number 6
             if (_turnCount > 6 && _turnCount < 0) ; //TODO throw error

@@ -114,7 +114,7 @@ namespace Catan.Model
             foreach (IHex hex in Board.GetHexesEnumerable()) {
                 if (hex.Value != dieValue)
                     continue;
-                Board.getVerticesOfHex(hex.Row, hex.Col).ForEach(vertex =>
+                Board.GetVerticesOfHex(hex.Row, hex.Col).ForEach(vertex =>
                 {
                     if (vertex.Owner != PlayerEnum.NotPlayer)
                     {
@@ -143,17 +143,7 @@ namespace Catan.Model
                 toProcess.Remove(currentlyProccessing);
                 retVal++;
 
-                
-                List<IEdge> connectedEdges = new List<IEdge>();
-                List<IVertex> connectedVertices = Board.getNeighbourVerticesOfEdge(currentlyProccessing.Row,currentlyProccessing.Col);
-                connectedVertices.ForEach(vertex => {
-                    Board.getNeighborEdgesOfVertex(vertex.Row, vertex.Col).ForEach(edge =>
-                    {
-                        connectedEdges.Add(edge);
-                    });
-                });
-
-                connectedEdges.ForEach(edge => {
+                Board.GetEdgesofEdge(currentlyProccessing.Row, currentlyProccessing.Col).ForEach(edge => {
                     if (edge.Owner == player && !toProcess.Contains(edge) && !processed.Contains(edge) && edge != currentlyProccessing)
                         toProcess.Add(edge);
                 });
