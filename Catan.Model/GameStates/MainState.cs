@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Catan.Model.Context.Players;
 using Catan.Model.Context;
+using Catan.Model.Enums;
 
 namespace Catan.Model.GameStates
 {
@@ -48,7 +49,7 @@ namespace Catan.Model.GameStates
             context.SetContext(new RollingState());
         }
 
-        public void ExchangeWithBank(CatanContext context)
+        public void ExchangeWithBank(CatanContext context, ResourceEnum from, ResourceEnum to)
         {
             throw new NotImplementedException();
         }
