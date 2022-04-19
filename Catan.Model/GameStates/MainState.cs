@@ -51,12 +51,15 @@ namespace Catan.Model.GameStates
 
         public void ExchangeWithBank(CatanContext context, ResourceEnum from, ResourceEnum to)
         {
-            throw new NotImplementedException();
+            //TODO handle from=to as invalid
+            context.CurrentPlayer.ReduceResources((new Goods(from) * 3));
+            context.CurrentPlayer.AddResource(new Goods(to));
+            context.Events.OnPlayer(context);
         }
 
-        public void IsAffordable(CatanContext context, Goods g)
+        public bool IsAffordable(CatanContext context, Goods g)
         {
-            throw new NotImplementedException();
+            return context.CurrentPlayer.CanAfford(g);
         }
 
         public void MoveRogue(CatanContext context, int row, int col)
