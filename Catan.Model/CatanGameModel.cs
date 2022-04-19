@@ -24,7 +24,6 @@ namespace Catan.Model
         public bool IsRoadBuildingState => _catanContext.IsRoadBuildingState;
         public bool IsSettlementUpgradingState => _catanContext.IsSettlementUpgradingState;
         public bool IsWinningState => _catanContext.IsWinningState;
-
         public void NewGame()
         {
             _catanContext.reset();
@@ -49,7 +48,23 @@ namespace Catan.Model
         }
         public void PurchaseBonusCard()
         {
-            throw new NotImplementedException();
+            _catanContext.PurchaseBonusCard();
+        }
+        public void StartRoadBuilding()
+        {
+            _catanContext.StartRoadBuilding();
+        }
+        public void StartSettlementBuilding()
+        {
+            _catanContext.StartSettlementBuilding();
+        }
+        public void StartSettlementUpgrading()
+        {
+            _catanContext.StartSettlementUpgrading();
+        }
+        public void Cancel()
+        {
+            _catanContext.Cancel(); 
         }
         public void BuildRoad(int row, int col)
         {
@@ -61,7 +76,7 @@ namespace Catan.Model
         }
         public void UpgradeSettleMentToTown(int row, int col)
         {
-            throw new NotImplementedException();
+            _catanContext.UpgradeSettleMentToTown(row, col);
         }
         public void StartTrade()
         {
@@ -83,19 +98,22 @@ namespace Catan.Model
         {
             throw new NotImplementedException();
         }
+        public bool HasEnoughResourcesToPurchaseCard()
+        {
+            return _catanContext.CurrentPlayer.CanAfford(Constants.BonusCardCost);
+        }
         public bool HasEnoughResourcesToBuildRoad()
         {
-            throw new NotImplementedException();
+            return _catanContext.CurrentPlayer.CanAfford(Constants.RoadCost) && _catanContext.CurrentPlayer.CanBuildRoad();
         }
         public bool HasEnoughResourcesToBuildSettlement()
         {
-            throw new NotImplementedException();
+            return _catanContext.CurrentPlayer.CanAfford(Constants.SettlementCost) && _catanContext.CurrentPlayer.CanBuildSettlement();
         }
         public bool HasEnoughResourcesToUpgradeSettlementToTown()
         {
-            throw new NotImplementedException();
+            return _catanContext.CurrentPlayer.CanAfford(Constants.TownCost) && _catanContext.CurrentPlayer.CanBuildTown();
         }
-
         public bool IsSettlementOwnedByCurrentPlayer(int row, int col)
         {
             throw new NotImplementedException();

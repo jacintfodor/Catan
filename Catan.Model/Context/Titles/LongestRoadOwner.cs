@@ -17,17 +17,14 @@ namespace Catan.Model.Context.Titles
         public static LongestRoadOwner Instance
         { get { return _instance; } }
 
-        public void processOwner(IPlayer titleContester)
+        public void ProcessOwner(IPlayer titleContester)
         {
-            if (titleContester.LengthOfLongestRoad() > Owner.LengthOfLongestRoad())
+            if (titleContester.LengthOfLongestRoad > Owner.LengthOfLongestRoad)
             {
                 Owner = titleContester;
             }
         }
 
-        public int score()
-        {
-            return 2;
-        }
+        public int Score { get { return 2; } }
     }
 }

@@ -17,17 +17,13 @@ namespace Catan.Model.Context.Titles
         public static LargestArmyHolder Instance
         { get { return _instance; } }
 
-        public void processOwner(IPlayer titleContester)
+        public void ProcessOwner(IPlayer titleContester)
         {
-            if (titleContester.SizeOfArmy() > Owner.SizeOfArmy())
+            if (titleContester.KnightCardCount > Owner.KnightCardCount)
             {
                 Owner = titleContester;
             }
         }
-
-        public int score()
-        {
-            return 2;
-        }
+        public int Score { get { return 2; } }
     }
 }

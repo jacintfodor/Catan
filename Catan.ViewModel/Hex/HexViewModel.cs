@@ -44,11 +44,11 @@ namespace Catan.ViewModel
 
         private Dictionary<ResourceEnum, string> _resourceToColor = new Dictionary<ResourceEnum, string>()
         {
-            {ResourceEnum.Ore, "Firebrick" },
-            {ResourceEnum.Wool, "PaleGreen" },
-            {ResourceEnum.Brick, "SlateGray" },
             {ResourceEnum.Crop, "Goldenrod" },
+            {ResourceEnum.Ore, "SlateGray" },
             {ResourceEnum.Wood, "ForestGreen" },
+            {ResourceEnum.Brick, "Firebrick" },
+            {ResourceEnum.Wool, "PaleGreen" },
             {ResourceEnum.Desert, "black" }
         };
         public string Color { get => _resourceToColor[Resource]; }

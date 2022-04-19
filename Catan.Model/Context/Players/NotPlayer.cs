@@ -9,40 +9,81 @@ namespace Catan.Model.Context.Players
         {
         }
 
-        public PlayerEnum ID { get ; set; }
+        public PlayerEnum ID { get => PlayerEnum.NotPlayer; set =>
+            throw new NotImplementedException();
+        }
 
         private static readonly NotPlayer _instance = new NotPlayer();
         public static NotPlayer Instance
         { get { return _instance; } }
 
-        public Goods AvailableResources { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Goods AvailableResources { get => new Goods(); set => new Goods();}
+
+        public int AvailableSettlementCardCount => -1;
+
+        public int AvailableTownCardCount => -1;
+
+        public int AvailableRoadCardCount => -1;
+
+        public int ScoreCardCount => 0;
+
+        public int KnightCardCount => 2;
+
+        public int LengthOfLongestRoad { get => 4; set =>
+            throw new NotImplementedException(); }
 
         public int CalculateScore()
         {
             return -1;
         }
 
-        public int LengthOfLongestRoad()
+        public void AddResource(Goods resourcesToRemove)
         {
-            return 4;
+            throw new NotImplementedException();
         }
 
-        public int SizeOfArmy()
+        public void ReduceResources(Goods resourcesToReduce)
         {
-            return 2;
+            throw new NotImplementedException();
+
         }
-
-        public void AddResource(Goods resourcesToRemove) { }
-
-        public void ReduceResources(Goods resourcesToReduce) { }
-
         public bool CanAfford(Goods resourcesToAfford)
         {
             return false;
         }
-        public bool CanAfford(Goods resourcesToAfford, String s)
+        public void BuildRoad()
         {
-            return false;
+            throw new NotImplementedException();
         }
+
+        public void BuildTown()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void BuildSettlement()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool CanBuildRoad()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool CanBuildTown()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool CanBuildSettlement()
+        {
+            throw new NotImplementedException();
+        }
+        public void PurchaseBonusCard(Goods resourcesToSpend)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
