@@ -29,9 +29,9 @@
 
         <Grid Grid.Row="0">
             <StackPanel Width="100" HorizontalAlignment="Right" Background="{Binding CurrentPlayerColor}">
-                <TextBox Width="10"  Text="{Binding PlayerLongestRoad, Mode=OneWay}"/>
-                <TextBox Width="10"  Text="{Binding PlayerNumberOfKnights, Mode=OneWay}"/>
-                <TextBox Width="10"  Text="{Binding PlayerScore, Mode=OneWay}"/>
+                <TextBox Width="30"  Text="{Binding PlayerLongestRoad, Mode=OneWay}"/>
+                <TextBox Width="30"  Text="{Binding PlayerKnightCardCount, Mode=OneWay}"/>
+                <TextBox Width="30"  Text="{Binding PlayerScore, Mode=OneWay}"/>
             </StackPanel>
         </Grid>
 

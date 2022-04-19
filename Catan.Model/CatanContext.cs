@@ -39,8 +39,8 @@ namespace Catan.Model
 
         public CatanEvents Events { get => CatanEvents.Instance; }
 
-        public static LargestArmyHolder LargestArmyHolder { get => LargestArmyHolder.Instance;}
-        public static LongestRoadOwner LongestRoadOwner { get => LongestRoadOwner.Instance;}
+        public LargestArmyHolder LargestArmyHolder { get => LargestArmyHolder.Instance;}
+        public LongestRoadOwner LongestRoadOwner { get => LongestRoadOwner.Instance;}
         public IPlayer CurrentPlayer { get => _players.ElementAtOrDefault(0) ?? NotPlayer.Instance;}
         public IPlayer NextPlayerInQueue { get => _players.ElementAtOrDefault(1) ?? NotPlayer.Instance; }
         public IPlayer NextNextPlayerInQueue { get => _players.ElementAtOrDefault(2) ?? NotPlayer.Instance; }
@@ -131,7 +131,7 @@ namespace Catan.Model
                 });
             }
         }
-        public int CalculateLongestRoadFromEdge(IEdge edge, PlayerEnum player)
+        public int CalculateLongestRoadFromEdge(IEdge edge)
         {
             int retVal = 0;
 
@@ -146,7 +146,7 @@ namespace Catan.Model
                 retVal++;
 
                 Board.GetEdgesofEdge(currentlyProccessing.Row, currentlyProccessing.Col).ForEach(edge => {
-                    if (edge.Owner == player && !toProcess.Contains(edge) && !processed.Contains(edge) && edge != currentlyProccessing)
+                    if (edge.Owner == CurrentPlayer.ID && !toProcess.Contains(edge) && !processed.Contains(edge) && edge != currentlyProccessing)
                         toProcess.Add(edge);
                 });
                 processed.Add(currentlyProccessing);

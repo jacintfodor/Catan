@@ -66,8 +66,10 @@ namespace Catan.Model.GameStates
         //Crop, Ore, Wood, Brick, Wool
         public void PurchaseBonusCard(CatanContext context)
         {
-            if (context.CurrentPlayer.CanAfford(Constants.BonusCardCost))
-                context.CurrentPlayer.ReduceResources(Constants.BonusCardCost);
+            context.CurrentPlayer.PurchaseBonusCard(Constants.BonusCardCost);
+            context.CurrentPlayer.ReduceResources(Constants.BonusCardCost);
+            context.LargestArmyHolder.ProcessOwner(context.CurrentPlayer);
+            context.Events.OnPlayer(context);
         }
 
         public void RollDices(CatanContext context)

@@ -11,7 +11,7 @@ namespace Catan.ViewModel
         private int _wood;
         private int _brick;
         private int _wool;
-        private int _numberOfKnights;
+        private int _knightCardCount;
         private int _longestRoad;
         private int _score;
         private string _color;   
@@ -25,6 +25,11 @@ namespace Catan.ViewModel
             _brick = player.AvailableResources.Brick;
             _wool = player.AvailableResources.Wool;
             _color = _playerToColor[player.ID];
+            _knightCardCount = player.KnightCardCount;
+            _longestRoad = player.LengthOfLongestRoad;
+            _score = player.CalculateScore();
+
+
         }
 
 
@@ -33,7 +38,7 @@ namespace Catan.ViewModel
         public int Wood { get => _wood; set { _wood = value; OnPropertyChanged(); } }
         public int Brick { get => _brick; set { _brick = value; OnPropertyChanged(); } }
         public int Wool { get => _wool; set { _wool = value; OnPropertyChanged(); } }
-        public int NumberOfKnights { get => _numberOfKnights; set { _numberOfKnights = value; OnPropertyChanged(); } }
+        public int KnightCardCount { get => _knightCardCount; set { _knightCardCount = value; OnPropertyChanged(); } }
         public int LongestRoad { get => _longestRoad; set { _longestRoad = value; OnPropertyChanged(); } }
         public int Score { get => _score; set { _score = value; OnPropertyChanged(); } }
         public string Color { get => _color; set { _color = value; OnPropertyChanged(); } }

@@ -9,7 +9,9 @@ namespace Catan.Model.Context.Players
         {
         }
 
-        public PlayerEnum ID { get ; set; }
+        public PlayerEnum ID { get => PlayerEnum.NotPlayer; set =>
+            throw new NotImplementedException();
+        }
 
         private static readonly NotPlayer _instance = new NotPlayer();
         public static NotPlayer Instance
@@ -23,11 +25,11 @@ namespace Catan.Model.Context.Players
 
         public int AvailableRoadCardCount => -1;
 
-        public int ScoreCardCount => -1;
+        public int ScoreCardCount => 0;
 
-        public int KnightCardCount => -1;
+        public int KnightCardCount => 2;
 
-        public int LengthOfLongestRoad { get => -1; set =>
+        public int LengthOfLongestRoad { get => 4; set =>
             throw new NotImplementedException(); }
 
         public int CalculateScore()
@@ -78,15 +80,10 @@ namespace Catan.Model.Context.Players
         {
             throw new NotImplementedException();
         }
-
-        public void AddScoreCard()
+        public void PurchaseBonusCard(Goods resourcesToSpend)
         {
             throw new NotImplementedException();
         }
 
-        public void AddKnightCard()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

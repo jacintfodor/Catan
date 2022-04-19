@@ -48,7 +48,7 @@ namespace Catan.Model
         }
         public void PurchaseBonusCard()
         {
-            throw new NotImplementedException();
+            _catanContext.PurchaseBonusCard();
         }
         public void StartRoadBuilding()
         {
@@ -97,6 +97,10 @@ namespace Catan.Model
         public bool IsTradeInProgress()
         {
             throw new NotImplementedException();
+        }
+        public bool HasEnoughResourcesToPurchaseCard()
+        {
+            return _catanContext.CurrentPlayer.CanAfford(Constants.BonusCardCost);
         }
         public bool HasEnoughResourcesToBuildRoad()
         {

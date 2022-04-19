@@ -25,7 +25,7 @@ namespace Catan.Model.Context.Players
         public int AvailableSettlementCardCount { get { return _availableSettlementCardCount; } }
         public int AvailableTownCardCount { get { return _availableTownCardCount; } }
         public int AvailableRoadCardCount { get { return _availableRoadCardCount; } }
-        public int LengthOfLongestRoad { get { return _longestRoad; } set { _longestRoad = value; } }
+        public int LengthOfLongestRoad { get { return _longestRoad; } set { _longestRoad = _longestRoad < value ? value : _longestRoad; } }
         public int ScoreCardCount { get { return _scoreCardCount; } }
         public int KnightCardCount { get { return _knightCardCount; } }
         public Goods AvailableResources { get { return _resources; } set { _resources = value; } }
@@ -68,26 +68,23 @@ namespace Catan.Model.Context.Players
         {
             return (_availableRoadCardCount > 0) ? true : false;
         }
-        public void AddScoreCard()
-        {
-            _scoreCardCount++;
-        }
-        public void AddKnightCard()
-        {
-            _knightCardCount++;
-        }
         #endregion
 
         #region Score methods
         public int CalculateScore() 
         {
-            return 15 - (_availableSettlementCardCount + 2 * _availableTownCardCount) + AddPointForTheLongestRoad() + ScoreCardCount + AddPointForGreatestKnightlyPower();
+            int setl = 15 - (_availableSettlementCardCount + 2 * _availableTownCardCount);
+            int longest = LongestRoadTitleScore();
+            int scorcard = ScoreCardCount;
+            int army = LargestArmyTitleScore();
+
+            return setl + longest + scorcard + army ;
         }
-        private int AddPointForTheLongestRoad()
+        private int LongestRoadTitleScore()
         {
             return (LongestRoadOwner.Instance.Owner == this) ? LongestRoadOwner.Instance.Score : 0;
         }
-        private int AddPointForGreatestKnightlyPower()
+        private int LargestArmyTitleScore()
         {
             return (LargestArmyHolder.Instance.Owner == this) ? LargestArmyHolder.Instance.Score : 0;
         }
@@ -106,6 +103,18 @@ namespace Catan.Model.Context.Players
         {
             Goods balance = _resources - resourcesToSpend;
             return balance.Valid;
+        }
+        public void PurchaseBonusCard(Goods resourcesToSpend)
+        {
+            Random rnd = new Random();
+            if (rnd.NextDouble() < 0)
+            {
+                _scoreCardCount++;
+            }
+            else
+            {
+                _knightCardCount++;
+            }
         }
         #endregion
     }

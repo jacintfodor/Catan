@@ -131,6 +131,11 @@ namespace Catan.Model.Board
         #endregion board generation
 
         #region Geters of board pieces
+        public IEdge GetEdge(int row, int col)
+        {
+            return _Edges[row, col];
+        }
+
         //Returns a list of vertices to a hex from hex's index
         public List<IVertex> GetVerticesOfHex(int row, int col)
         {

@@ -23,7 +23,6 @@ namespace Catan.Model.Context
         public bool CanBuildRoad();//checks card counters
         public bool CanBuildTown();//checks card counters
         public bool CanBuildSettlement();//checks card counters
-        public void AddScoreCard();
-        public void AddKnightCard();
+        public void PurchaseBonusCard(Goods resourcesToSpend);
     }
 }

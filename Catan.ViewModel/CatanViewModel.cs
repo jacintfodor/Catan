@@ -45,7 +45,7 @@ namespace Catan.ViewModel
         public int PlayerBrick { get => _currentPlayer.Brick; set { _currentPlayer.Brick = value; OnPropertyChanged(); } }
         public int PlayerWool { get => _currentPlayer.Wool; set { _currentPlayer.Wool = value; OnPropertyChanged(); } }
         public int PlayerLongestRoad { get => _currentPlayer.LongestRoad; set { _currentPlayer.LongestRoad = value; OnPropertyChanged(); } }
-        public int PlayerNumberOfKnights { get => _currentPlayer.NumberOfKnights; set { _currentPlayer.NumberOfKnights = value; OnPropertyChanged(); } }
+        public int PlayerKnightCardCount { get => _currentPlayer.KnightCardCount; set { _currentPlayer.KnightCardCount = value; OnPropertyChanged(); } }
         public int PlayerScore { get => _currentPlayer.Score; set { _currentPlayer.Score = value; OnPropertyChanged(); } }
         public string CurrentPlayerColor { get => _currentPlayer.Color; set { _currentPlayer.Color = value; OnPropertyChanged(); } }
         public DelegateCommand ThrowDicesCommand { get; private set; }
@@ -92,7 +92,7 @@ namespace Catan.ViewModel
 
             ThrowDicesCommand = new DelegateCommand(_ => _model.RollDices(), _ => _model.IsEarlyRollingState || _model.IsRollingState);
             EndTurnCommand = new DelegateCommand(_ => _model.EndTurn(), _ => _model.IsMainState);
-            PurchaseBonusCardCommand = new DelegateCommand(_ => _model.PurchaseBonusCard(), _ => _model.IsMainState);
+            PurchaseBonusCardCommand = new DelegateCommand(_ => _model.PurchaseBonusCard(), _ => _model.IsMainState && _model.HasEnoughResourcesToPurchaseCard());
             BuildRoadCommand = new DelegateCommand(_ => _model.StartRoadBuilding(), _ => _model.IsMainState && _model.HasEnoughResourcesToBuildRoad());
             BuildSettlementCommand = new DelegateCommand(_ => _model.StartSettlementBuilding(), _ => _model.IsMainState && _model.HasEnoughResourcesToBuildSettlement());
             UpgradeSettlementCommand = new DelegateCommand(_ => _model.StartSettlementUpgrading(), _ => _model.IsMainState && _model.HasEnoughResourcesToUpgradeSettlementToTown());
@@ -249,7 +249,7 @@ namespace Catan.ViewModel
             OnPropertyChanged(nameof(PlayerBrick));
             OnPropertyChanged(nameof(PlayerWool));
             OnPropertyChanged(nameof(PlayerLongestRoad));
-            OnPropertyChanged(nameof(PlayerNumberOfKnights));
+            OnPropertyChanged(nameof(PlayerKnightCardCount));
             OnPropertyChanged(nameof(PlayerScore));
             OnPropertyChanged(nameof(CurrentPlayerColor));
         }
