@@ -8,7 +8,7 @@ namespace Catan.Model.Test
     public class RogueTest
     {
         [TestMethod]
-        public void Move()
+        public void MoveTest()
         {
             Rogue.Instance.Move(0, 0);
 
