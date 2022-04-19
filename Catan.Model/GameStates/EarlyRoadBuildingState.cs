@@ -86,7 +86,7 @@ namespace Catan.Model.GameStates
             throw new NotImplementedException();
         }
 
-        public void IsAffordable(CatanContext context, Goods g)
+        public bool IsAffordable(CatanContext context, Goods g)
         {
             throw new NotImplementedException();
         }

@@ -83,7 +83,7 @@ namespace Catan.Model
         public void EndTurn() { State.EndTurn(this); }
         public void RollDices() { State.RollDices(this); }
         public void MoveRogue(int row, int col) { State.MoveRogue(this, row, col); }
-        public void IsAffordable(Goods g) { State.IsAffordable(this, g); }
+        public bool IsAffordable(Goods g) { return State.IsAffordable(this, g); }
         public void ExchangeWithBank(ResourceEnum from, ResourceEnum to) { State.ExchangeWithBank(this, from, to); }
         public void PurchaseBonusCard() { State.PurchaseBonusCard(this); }
         public void StartRoadBuilding() { State.StartRoadBuilding(this); }
