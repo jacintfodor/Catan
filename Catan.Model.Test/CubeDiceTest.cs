@@ -13,7 +13,7 @@ namespace Catan.Model.Test
     public class CubeDiceTest
     {
         [TestMethod]
-        public void Roll()
+        public void RollTest()
         {
             CubeDice dice = new CubeDice(155);
             Assert.AreEqual(1, dice.RolledValue);
