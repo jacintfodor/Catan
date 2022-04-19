@@ -44,11 +44,11 @@
 
             <StackPanel VerticalAlignment="Bottom" Grid.Column="0" Margin="10">
                 <Label FontWeight="Bold">Exchange with bank: To</Label>
-                <RadioButton IsChecked="{Binding RadioCrop, Mode=TwoWay}">Crop</RadioButton>
-                <RadioButton IsChecked="{Binding RadioOre, Mode=TwoWay}">Ore</RadioButton>
-                <RadioButton IsChecked="{Binding RadioWood, Mode=TwoWay}">Wood</RadioButton>
-                <RadioButton IsChecked="{Binding RadioBrick, Mode=TwoWay}">Brick</RadioButton>
-                <RadioButton IsChecked="{Binding RadioWool, Mode=TwoWay}">Wool</RadioButton>
+                <RadioButton IsChecked="{Binding RadioCrop, Mode=TwoWay}">Gabona</RadioButton>
+                <RadioButton IsChecked="{Binding RadioOre, Mode=TwoWay}">Érc</RadioButton>
+                <RadioButton IsChecked="{Binding RadioWood, Mode=TwoWay}">Fa</RadioButton>
+                <RadioButton IsChecked="{Binding RadioBrick, Mode=TwoWay}">Tégla</RadioButton>
+                <RadioButton IsChecked="{Binding RadioWool, Mode=TwoWay}">Gyapjú</RadioButton>
             </StackPanel>
 
             <Grid Grid.Column="1">
@@ -161,11 +161,11 @@
             <Button Grid.Column="8"  Grid.Row="2" Content="{Binding PlayerBrick}" Background="Firebrick"/>
             <Button Grid.Column="10"  Grid.Row="2" Content="{Binding PlayerWool}"  Background="PaleGreen"/>
 
-            <Button Grid.Column="2"  Grid.Row="1" Content="Exchange" Command="{Binding ExchangeWithBankCommand}" CommandParameter="Crop"  Background="Goldenrod"/>
-            <Button Grid.Column="4" Grid.Row="1" Content="Exchange"  Command="{Binding ExchangeWithBankCommand}" CommandParameter="Ore" Background="SlateGray"/>
-            <Button Grid.Column="6"  Grid.Row="1" Content="Exchange" Command="{Binding ExchangeWithBankCommand}" CommandParameter="Wood" Background="ForestGreen"/>
-            <Button Grid.Column="8"  Grid.Row="1" Content="Exchange" Command="{Binding ExchangeWithBankCommand}" CommandParameter="Brick" Background="Firebrick"/>
-            <Button Grid.Column="10"  Grid.Row="1" Content="Exchange" Command="{Binding ExchangeWithBankCommand}" CommandParameter="Wool"  Background="PaleGreen"/>
+            <Button Grid.Column="2"  Grid.Row="1" Content="Csere" Command="{Binding ExchangeWithBankCommand}" CommandParameter="Crop"  Background="Goldenrod"/>
+            <Button Grid.Column="4" Grid.Row="1" Content="Csere"  Command="{Binding ExchangeWithBankCommand}" CommandParameter="Ore" Background="SlateGray"/>
+            <Button Grid.Column="6"  Grid.Row="1" Content="Csere" Command="{Binding ExchangeWithBankCommand}" CommandParameter="Wood" Background="ForestGreen"/>
+            <Button Grid.Column="8"  Grid.Row="1" Content="Csere" Command="{Binding ExchangeWithBankCommand}" CommandParameter="Brick" Background="Firebrick"/>
+            <Button Grid.Column="10"  Grid.Row="1" Content="Csere" Command="{Binding ExchangeWithBankCommand}" CommandParameter="Wool"  Background="PaleGreen"/>
 
             <Button Grid.Column="12" Grid.Row="1" Grid.RowSpan="2" Content="Kör Vége" Command="{Binding EndTurnCommand}"/>
         </Grid>
