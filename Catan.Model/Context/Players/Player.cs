@@ -1,4 +1,5 @@
 ﻿using Catan.Model.Board;
+using Catan.Model.Context.Titles;
 using Catan.Model.Enums;
 
 namespace Catan.Model.Context.Players
@@ -16,11 +17,7 @@ namespace Catan.Model.Context.Players
 
         private int _scoreCardCount = 0;
         private int _knightCardCount = 0;
-        private int _myLongestRoad = 0;
-        
-        private bool _doIHavaTheGreatestKnightlyPower = false;
-
-        private bool _doIHaveTheLongestRoad = false;
+        private int _longestRoad = 0;
         
         #endregion
 
@@ -28,10 +25,9 @@ namespace Catan.Model.Context.Players
         public int AvailableSettlementCardCount { get { return _availableSettlementCardCount; } }
         public int AvailableTownCardCount { get { return _availableTownCardCount; } }
         public int AvailableRoadCardCount { get { return _availableRoadCardCount; } }
-
+        public int LengthOfLongestRoad { get { return _longestRoad; } set { _longestRoad = value; } }
         public int ScoreCardCount { get { return _scoreCardCount; } }
         public int KnightCardCount { get { return _knightCardCount; } }
-        
         public Goods AvailableResources { get { return _resources; } set { _resources = value; } }
         public PlayerEnum ID { get { return _id; } set { _id = value; } }
 
@@ -44,17 +40,6 @@ namespace Catan.Model.Context.Players
             _id = Name;
         }
 
-        #endregion
-
-        #region Getters
-        public int LengthOfLongestRoad()
-        {
-            return _myLongestRoad;
-        }
-        public int SizeOfArmy()
-        {
-            return _knightCardCount;
-        }
         #endregion
 
         #region Card related Methods
@@ -100,19 +85,15 @@ namespace Catan.Model.Context.Players
         }
         private int AddPointForTheLongestRoad()
         {
-            return (_doIHaveTheLongestRoad) ? 2 : 0;
+            return (LongestRoadOwner.Instance.Owner == this) ? LongestRoadOwner.Instance.Score : 0;
         }
         private int AddPointForGreatestKnightlyPower()
         {
-            return (_doIHavaTheGreatestKnightlyPower) ? 2 : 0;
+            return (LargestArmyHolder.Instance.Owner == this) ? LargestArmyHolder.Instance.Score : 0;
         }
         #endregion
         
         #region Methods
-        public void SetLengthOfMyLongestRoad(int length)
-        {
-            _myLongestRoad = length;
-        }
         public void AddResource(Goods resourcesToAdd)
         {
             _resources += resourcesToAdd;
@@ -121,7 +102,6 @@ namespace Catan.Model.Context.Players
         {
             _resources -= resourcesToReduce;
         }
-
         public bool CanAfford(Goods resourcesToSpend)
         {
             Goods balance = _resources - resourcesToSpend;

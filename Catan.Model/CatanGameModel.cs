@@ -108,7 +108,7 @@ namespace Catan.Model
         }
         public bool HasEnoughResourcesToUpgradeSettlementToTown()
         {
-            return _catanContext.CurrentPlayer.CanAfford(Constants.TownCost);
+            return _catanContext.CurrentPlayer.CanAfford(Constants.TownCost) && _catanContext.CurrentPlayer.;
         }
         public bool IsSettlementOwnedByCurrentPlayer(int row, int col)
         {

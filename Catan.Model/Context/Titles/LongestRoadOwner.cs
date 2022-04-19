@@ -19,15 +19,12 @@ namespace Catan.Model.Context.Titles
 
         public void ProcessOwner(IPlayer titleContester)
         {
-            if (titleContester.LengthOfLongestRoad() > Owner.LengthOfLongestRoad())
+            if (titleContester.LengthOfLongestRoad > Owner.LengthOfLongestRoad)
             {
                 Owner = titleContester;
             }
         }
 
-        public int Score()
-        {
-            return 2;
-        }
+        public int Score { get { return 2; } }
     }
 }
