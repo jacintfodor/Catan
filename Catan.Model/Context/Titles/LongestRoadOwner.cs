@@ -17,7 +17,7 @@ namespace Catan.Model.Context.Titles
         public static LongestRoadOwner Instance
         { get { return _instance; } }
 
-        public void processOwner(IPlayer titleContester)
+        public void ProcessOwner(IPlayer titleContester)
         {
             if (titleContester.LengthOfLongestRoad() > Owner.LengthOfLongestRoad())
             {
@@ -25,7 +25,7 @@ namespace Catan.Model.Context.Titles
             }
         }
 
-        public int score()
+        public int Score()
         {
             return 2;
         }
