@@ -25,9 +25,10 @@ namespace Catan.Model.GameStates
 
         public void BuildRoad(CatanContext context, int row, int col)
         {
+
+
             
 
-            //TODO reduce roadCards, reduce player resources
             context.Board.BuildRoad(row, col, context.CurrentPlayer.ID);
             context.Events.OnRoadBuilt(context, row, col, context.CurrentPlayer.ID);
 
@@ -40,7 +41,9 @@ namespace Catan.Model.GameStates
                 edge.AddPotentialBuilder(context.CurrentPlayer.ID);
             });
 
-            
+            context.CurrentPlayer.BuildRoad();
+            context.CurrentPlayer.ReduceResources(Constants.RoadCost);
+            context.Events.OnPlayer(context);
             context.SetContext(new MainState());
         }
 

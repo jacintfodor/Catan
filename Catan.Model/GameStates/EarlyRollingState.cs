@@ -75,7 +75,7 @@ namespace Catan.Model.GameStates
             {
                 var list = context.Board.GetVerticesEnumerable().ToList().Where(v => v.IsBuildable).ToList();
                 context.Events.OnSettlementBuildingStarted(list);
-
+                context.Events.OnPlayer(context);
                 context.SetContext(new EarlySettlementBuildingState(0));
             }
         }

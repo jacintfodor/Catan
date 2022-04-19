@@ -43,8 +43,6 @@ namespace Catan.Model
         public static LongestRoadOwner LongestRoadOwner { get => LongestRoadOwner.Instance;}
         public IPlayer CurrentPlayer { get => _players.ElementAtOrDefault(0) ?? NotPlayer.Instance;}
         public IPlayer NextPlayerInQueue { get => _players.ElementAtOrDefault(1) ?? NotPlayer.Instance; }
-
-
         public IPlayer NextNextPlayerInQueue { get => _players.ElementAtOrDefault(2) ?? NotPlayer.Instance; }
         public IPlayer Winner { get => CurrentPlayer.CalculateScore() >= 5 ? CurrentPlayer : NotPlayer.Instance;  }
         public void NextPlayer() { _players.Enqueue( _players.Dequeue()); }
@@ -60,9 +58,9 @@ namespace Catan.Model
             _players.Enqueue(new Player(PlayerEnum.Player2));
             _players.Enqueue(new Player(PlayerEnum.Player3));
 
-            /*CurrentPlayer.AddResource(new Goods(new List<int> { 0, 0, 0, 0, 0 }));
-            NextPlayerInQueue.AddResource(new Goods(new List<int> { 0, 0, 0, 0, 0 }));
-            NextNextPlayerInQueue.AddResource(new Goods(new List<int> { 0, 0, 0, 0, 0 }));*/
+            CurrentPlayer.AddResource(new Goods(new List<int> { 5, 5, 5, 5, 5 }));
+            NextPlayerInQueue.AddResource(new Goods(new List<int> { 10, 10, 10, 10, 10 }));
+            NextNextPlayerInQueue.AddResource(new Goods(new List<int> { 15, 15, 15, 15, 15 }));
 
         }
 
@@ -111,8 +109,6 @@ namespace Catan.Model
         #endregion
 
         #region Methods
-        
-            
         public void DistributeResources(int dieValue, bool isEarly = false)
         {
             foreach (IHex hex in Board.GetHexesEnumerable()) {
@@ -135,7 +131,6 @@ namespace Catan.Model
                 });
             }
         }
-
         public int CalculateLongestRoadFromEdge(IEdge edge, PlayerEnum player)
         {
             int retVal = 0;
@@ -180,7 +175,6 @@ namespace Catan.Model
 
             return retVal;
         }
-
         public List<IVertex> GetUpgradeableSettlementsByPlayer()
         {
             List<IVertex> retVal = new List<IVertex>();
@@ -192,7 +186,10 @@ namespace Catan.Model
 
             return retVal;
         }
-
+        public List<IPlayer> GetPlayerList()
+        {
+            return _players.ToList();
+        }
         #endregion
     }
 }

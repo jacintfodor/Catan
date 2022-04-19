@@ -42,7 +42,7 @@ namespace Catan.Model.GameStates
             //TODO check winner
 
             context.NextPlayer();
-            context.Events.OnTransactionsHappened(context);
+            context.Events.OnPlayer(context);
 
             //context.Events.OnBuildableByPlayer(context);
             context.SetContext(new RollingState());

@@ -29,6 +29,7 @@ namespace Catan.ViewModel
         public ObservableCollection<BuildableVerticalViewModel> BuildableVerticals { get; set; }
         public ObservableCollection<BuildableLeftSlopeViewModel> BuildableLeftSlopes { get; set; }
         public ObservableCollection<BuildableRightSlopeViewModel> BuildableRightSlopes { get; set; }
+        public ObservableCollection<PlayerViewModel> Players { get; set; }
 
 
         int _firstDiceValue = 1;
@@ -37,13 +38,16 @@ namespace Catan.ViewModel
         public int SecondDiceFace { get => _secondDiceValue; set { _secondDiceValue = value; OnPropertyChanged(); OnPropertyChanged(nameof(SumOfDices)); } }
         public int SumOfDices { get => FirstDiceFace + SecondDiceFace; }
 
-        private Dictionary<ResourceEnum, int> _currentPlayersResource;
-        public int CurrentPlayerCrop { get => _currentPlayersResource[ResourceEnum.Crop]; set { _currentPlayersResource[ResourceEnum.Crop] = value; OnPropertyChanged(); } }
-        public int CurrentPlayerOre { get => _currentPlayersResource[ResourceEnum.Ore]; set { _currentPlayersResource[ResourceEnum.Ore] = value; OnPropertyChanged(); } }
-        public int CurrentPlayerWood { get => _currentPlayersResource[ResourceEnum.Wood]; set { _currentPlayersResource[ResourceEnum.Wood] = value; OnPropertyChanged(); } }
-        public int CurrentPlayerBrick { get => _currentPlayersResource[ResourceEnum.Brick]; set { _currentPlayersResource[ResourceEnum.Brick] = value; OnPropertyChanged(); } }
-        public int CurrentPlayerWool { get => _currentPlayersResource[ResourceEnum.Wool]; set { _currentPlayersResource[ResourceEnum.Wool] = value; OnPropertyChanged(); } }
-
+        private PlayerViewModel _currentPlayer;
+        public int PlayerCrop { get => _currentPlayer.Crop; set {_currentPlayer.Crop = value; OnPropertyChanged(); } }
+        public int PlayerOre { get => _currentPlayer.Ore; set { _currentPlayer.Ore = value; OnPropertyChanged(); } }
+        public int PlayerWood { get => _currentPlayer.Wood; set { _currentPlayer.Wood = value; OnPropertyChanged(); } }
+        public int PlayerBrick { get => _currentPlayer.Brick; set { _currentPlayer.Brick = value; OnPropertyChanged(); } }
+        public int PlayerWool { get => _currentPlayer.Wool; set { _currentPlayer.Wool = value; OnPropertyChanged(); } }
+        public int PlayerLongestRoad { get => _currentPlayer.LongestRoad; set { _currentPlayer.LongestRoad = value; OnPropertyChanged(); } }
+        public int PlayerNumberOfKnights { get => _currentPlayer.NumberOfKnights; set { _currentPlayer.NumberOfKnights = value; OnPropertyChanged(); } }
+        public int PlayerScore { get => _currentPlayer.Score; set { _currentPlayer.Score = value; OnPropertyChanged(); } }
+        public string CurrentPlayerColor { get => _currentPlayer.Color; set { _currentPlayer.Color = value; OnPropertyChanged(); } }
         public DelegateCommand ThrowDicesCommand { get; private set; }
         public DelegateCommand EndTurnCommand { get; private set; }
         public DelegateCommand PurchaseBonusCardCommand { get; private set; }
@@ -66,18 +70,14 @@ namespace Catan.ViewModel
             BuildableVerticals = new ObservableCollection<BuildableVerticalViewModel>();
             BuildableLeftSlopes = new ObservableCollection<BuildableLeftSlopeViewModel>();
             BuildableRightSlopes = new ObservableCollection<BuildableRightSlopeViewModel>();
+            Players = new ObservableCollection<PlayerViewModel>();
 
-            _currentPlayersResource = new Dictionary<ResourceEnum, int>();
-            _currentPlayersResource.Add(ResourceEnum.Crop, 0);
-            _currentPlayersResource.Add(ResourceEnum.Ore, 0);
-            _currentPlayersResource.Add(ResourceEnum.Wood, 0);
-            _currentPlayersResource.Add(ResourceEnum.Brick, 0);
-            _currentPlayersResource.Add(ResourceEnum.Wool, 0);
+            _currentPlayer = new PlayerViewModel(NotPlayer.Instance);
 
 
             _model.Events.DicesThrown += Model_Events_DicesThrown;
             _model.Events.GameStart += Model_Events_NewGame;
-            _model.Events.TransactionsHappened += Model_Events_TransactionsHappened;
+            _model.Events.Player += Model_Events_Player;
 
             _model.Events.SettlementBuildingStarted += Model_Events_SettlementBuildingStarted;
             _model.Events.SettlementBuilt += Model_Events_SettlementBuilt;
@@ -167,12 +167,10 @@ namespace Catan.ViewModel
         {
             _model.BuildRoad(vm.Row, vm.Column);
         }
-
         private void BuildRoad(BuildableLeftSlopeViewModel vm)
         {
             _model.BuildRoad(vm.Row, vm.Column);
         }
-
         private void BuildRoad(BuildableRightSlopeViewModel vm)
         {
             _model.BuildRoad(vm.Row, vm.Column);
@@ -200,7 +198,6 @@ namespace Catan.ViewModel
 
             BuildableCommunities.Clear();
         }
-
         private void Model_Events_RoadBuilt(object? sender, RoadBuiltEventArgs e)
         {
             switch (GetEdgeOrientation(e.Row, e.Column))
@@ -238,37 +235,23 @@ namespace Catan.ViewModel
             BuildableRightSlopes.Clear();
         }
 
-        private void Model_Events_TransactionsHappened(object? sender, TransactionsHappenedEventArg e)
+        private void Model_Events_Player(object? sender, PlayerEventArgs e)
         {
-            CurrentPlayerCrop = e.CropCount;
-            CurrentPlayerBrick = e.BrickCount;
-            CurrentPlayerOre = e.OreCount;
-            CurrentPlayerWood = e.WoodCount;
-            CurrentPlayerWool = e.WoolCount;
-        }
-
-        private void Model_Events_BuildableByPlayer(object? sender, BuildableByPlayerEventArgs e)
-        {
-            foreach (IVertex vertex in e.Vertices)
+            _currentPlayer = new PlayerViewModel(e.Players[0]);
+            foreach (IPlayer player in e.Players)
             {
-                BuildableCommunities.Add(new BuildableCommunityViewModel(vertex.Row,vertex.Col));
+                Players.Add(new PlayerViewModel(player));
             }
 
-            foreach (IEdge edge in e.Edges)
-            {
-                switch (GetEdgeOrientation(edge.Row, edge.Col))
-                {
-                    case "Vertical":
-                        BuildableVerticals.Add(new BuildableVerticalViewModel(edge.Row, edge.Col));
-                        break;
-                    case "LeftSlope":
-                        BuildableLeftSlopes.Add(new BuildableLeftSlopeViewModel(edge.Row, edge.Col));
-                        break;
-                    case "RightSlope":
-                        BuildableRightSlopes.Add(new BuildableRightSlopeViewModel(edge.Row, edge.Col));
-                        break;
-                }
-            }
+            OnPropertyChanged(nameof(PlayerCrop));
+            OnPropertyChanged(nameof(PlayerOre));
+            OnPropertyChanged(nameof(PlayerWood));
+            OnPropertyChanged(nameof(PlayerBrick));
+            OnPropertyChanged(nameof(PlayerWool));
+            OnPropertyChanged(nameof(PlayerLongestRoad));
+            OnPropertyChanged(nameof(PlayerNumberOfKnights));
+            OnPropertyChanged(nameof(PlayerScore));
+            OnPropertyChanged(nameof(CurrentPlayerColor));
         }
 
         private void Model_Events_NewGame(object? sender, GameStartEventArgs e)

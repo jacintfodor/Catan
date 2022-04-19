@@ -31,7 +31,9 @@ namespace Catan.Model.GameStates
 
         public void BuildSettleMent(CatanContext context, int row, int col)
         {
-            //TODO reduce players SettlementCards
+            context.CurrentPlayer.BuildSettlement();
+            context.Events.OnPlayer(context);
+
             context.Board.BuildSettlement(row, col, context.CurrentPlayer.ID);
             context.Events.OnSettlementBuilt(context, row, col, context.CurrentPlayer.ID);
             

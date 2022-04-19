@@ -70,7 +70,7 @@ namespace Catan.Model.GameStates
             context.DistributeResources(context.RolledSum);
 
             context.Events.OnDiceThrown(context);
-            context.Events.OnTransactionsHappened(context);
+            context.Events.OnPlayer(context);
 
             context.SetContext(new MainState());
         }

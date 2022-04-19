@@ -1,4 +1,5 @@
 ﻿using Catan.Model.Board.Components;
+using Catan.Model.Context;
 using Catan.Model.Enums;
 using Catan.Model.Events;
 
@@ -18,7 +19,7 @@ namespace Catan.Model
 
         public event EventHandler<DicesThrownEventArg> DicesThrown;
         public event EventHandler<GameStartEventArgs> GameStart;
-        public event EventHandler<TransactionsHappenedEventArg> TransactionsHappened;
+        public event EventHandler<PlayerEventArgs> Player;
 
         public event EventHandler<SettlementBuildingStartedEventArgs> SettlementBuildingStarted;
         public event EventHandler<SettlementBuiltEventArgs> SettlementBuilt;
@@ -84,11 +85,13 @@ namespace Catan.Model
             ));
         }
 
-        public void OnTransactionsHappened(CatanContext ctx)
+        public void OnPlayer(CatanContext ctx)
         {
-            TransactionsHappened?.Invoke(
+            List<IPlayer> a = new List<IPlayer>();
+
+            Player?.Invoke(
                 this,
-                new TransactionsHappenedEventArg(ctx.CurrentPlayer.AvailableResources)
+                new PlayerEventArgs(ctx.GetPlayerList())
                 );
         }
 

@@ -90,10 +90,12 @@ namespace Catan.Model.GameStates
         public void UpgradeSettleMentToTown(CatanContext context, int row, int col)
         {
 
-            //TODO reduce townCards, increase settlementCards, reduce player resources, 
             context.Board.UpgradeSettlement(row, col);
             context.Events.OnSettlementUpgraded(context, row, col);
 
+            context.CurrentPlayer.BuildTown();
+            context.CurrentPlayer.ReduceResources(Constants.TownCost);
+            context.Events.OnPlayer(context);
             context.SetContext(new MainState());
         }
     }
