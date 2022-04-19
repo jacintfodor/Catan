@@ -8,7 +8,7 @@ namespace Catan.Model.Context
 {
     internal interface ITitle
     {
-        int score();
-        void processOwner(IPlayer titleContester);
+        public int Score { get;  }
+        public void ProcessOwner(IPlayer titleContester);
     }
 }

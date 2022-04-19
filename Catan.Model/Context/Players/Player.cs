@@ -1,4 +1,5 @@
 ﻿using Catan.Model.Board;
+using Catan.Model.Context.Titles;
 using Catan.Model.Enums;
 
 namespace Catan.Model.Context.Players
@@ -15,25 +16,18 @@ namespace Catan.Model.Context.Players
         private int _availableRoadCardCount = 15;
 
         private int _scoreCardCount = 0;
-        private int _horesCardCount = 0;
-        
-        private bool _doIHavaTheGreatestKnightlyPower = false;
-
-        private bool _doIHaveTheLongestRoad = false;
+        private int _knightCardCount = 0;
+        private int _longestRoad = 0;
         
         #endregion
 
         #region Properties
-        public int AvailableSettlementCardCount { get { return _availableSettlementCardCount; } }//set { _availableSettlementCardCount = value; } }
-        public int AvailableTownCardCount { get { return _availableTownCardCount; } }//set { _availableTownCardCount = value; } }
-        public int AvailableRoadCardCount { get { return _availableRoadCardCount; } }//set { _availableRoadCardCount = value; } }
-
+        public int AvailableSettlementCardCount { get { return _availableSettlementCardCount; } }
+        public int AvailableTownCardCount { get { return _availableTownCardCount; } }
+        public int AvailableRoadCardCount { get { return _availableRoadCardCount; } }
+        public int LengthOfLongestRoad { get { return _longestRoad; } set { _longestRoad = _longestRoad < value ? value : _longestRoad; } }
         public int ScoreCardCount { get { return _scoreCardCount; } }
-        public int HoresCardCount { get { return _horesCardCount; } }
-        
-        public bool DoIHavaTheGreatestKnightlyPower { get { return _doIHavaTheGreatestKnightlyPower; } set { _doIHavaTheGreatestKnightlyPower = value; } }
-        public bool DoIHaveTheLongestRoad { get { return _doIHaveTheLongestRoad; } set { _doIHaveTheLongestRoad = value; } }
-        
+        public int KnightCardCount { get { return _knightCardCount; } }
         public Goods AvailableResources { get { return _resources; } set { _resources = value; } }
         public PlayerEnum ID { get { return _id; } set { _id = value; } }
 
@@ -48,78 +42,21 @@ namespace Catan.Model.Context.Players
 
         #endregion
 
-        #region Public methods
-        public int CalculateScore() 
+        #region Card related Methods
+        public void BuildSettlement()
         {
-            return 15 - (_availableSettlementCardCount + 2 * _availableTownCardCount) + AddPointForTheLongestRoad() + ScoreCardCount + AddPointForGreatestKnightlyPower();
+            _availableSettlementCardCount--;
         }
-        public int LengthOfLongestRoad()//nem jó
+        public void BuildTown()
         {
-            // nem tudom hol/hogyan lehetne ezt kiszámolni de addig is 
-            //return 15 - _availableRoadCardCount;
-            throw new NotImplementedException();
+            _availableSettlementCardCount++;
+            _availableTownCardCount--;
         }
-        public int SizeOfArmy()// ua mint a HoresCardCount
+        public void BuildRoad()
         {
-            //return 2;
-            return _horesCardCount;
+            _availableRoadCardCount--;
         }
-        public void AddScoreCard() 
-        {
-            _scoreCardCount++;
-        }
-        public void AddHoresCard()
-        {
-            _horesCardCount++;
-        }
-      
-        public void AddResource(Goods resourcesToAdd)
-        {
-            _resources += resourcesToAdd;
-        }
-        public void ReduceResources(Goods resourcesToReduce)
-        {
-            _resources -= resourcesToReduce;
-        }
-
-        public bool CanAfford(Goods resourcesToSpend, String s) 
-        {
-            Goods balance = _resources - resourcesToSpend;
-            if (CanBuild(s))
-                Build(s);
-            else
-                return false;
-            return balance.Valid;
-        }
-        // még a bónuszkártyához kell máshol is változtatni
-        public bool CanAfford(Goods resourcesToSpend)
-        {
-            Goods balance = _resources - resourcesToSpend;
-            return balance.Valid;
-        }
-
-        #region Talan meg kellhet?
-
-        /*
-        public void BuildSettlement() 
-        {
-            if (CanBuildSettlement())
-                _availableSettlementCardCount--; 
-        }
-        public void BuildTown() 
-        {
-            if (CanBuildTown())
-            {
-                _availableSettlementCardCount++;
-                _availableTownCardCount--;
-            }
-        }
-        public void BuildRoad() 
-        {
-            if(CanBuildRoad())
-                _availableRoadCardCount--; 
-        }
-        public bool CanBuildSettlement() 
+        public bool CanBuildSettlement()
         {
             return (_availableSettlementCardCount > 0) ? true : false;
         }
@@ -131,123 +68,54 @@ namespace Catan.Model.Context.Players
         {
             return (_availableRoadCardCount > 0) ? true : false;
         }
-        public bool CanBuild(String s) 
-        {
-            switch (s)
-            {
-                case "Settlement":
-                    return CanBuildSettlement();
-                
-                case "Town":
-                    return CanBuildTown();
-
-                case "Road":
-                    return CanBuildRoad();
-                
-                case "BonusCard":
-                    return true;
-
-                default:
-                    return false;
-            }
-        }
-        */
-
         #endregion
 
+        #region Score methods
+        public int CalculateScore() 
+        {
+            int setl = 15 - (_availableSettlementCardCount + 2 * _availableTownCardCount);
+            int longest = LongestRoadTitleScore();
+            int scorcard = ScoreCardCount;
+            int army = LargestArmyTitleScore();
+
+            return setl + longest + scorcard + army ;
+        }
+        private int LongestRoadTitleScore()
+        {
+            return (LongestRoadOwner.Instance.Owner == this) ? LongestRoadOwner.Instance.Score : 0;
+        }
+        private int LargestArmyTitleScore()
+        {
+            return (LargestArmyHolder.Instance.Owner == this) ? LargestArmyHolder.Instance.Score : 0;
+        }
         #endregion
-
-        #region Private methods
-        private int AddPointForTheLongestRoad()
+        
+        #region Methods
+        public void AddResource(Goods resourcesToAdd)
         {
-            return (_doIHaveTheLongestRoad) ? 2 : 0;
+            _resources += resourcesToAdd;
         }
-        private int AddPointForGreatestKnightlyPower()
+        public void ReduceResources(Goods resourcesToReduce)
         {
-            return (_doIHavaTheGreatestKnightlyPower) ? 2 : 0;
+            _resources -= resourcesToReduce;
         }
-
-        private void BuildSettlement()
+        public bool CanAfford(Goods resourcesToSpend)
         {
-            if (CanBuildSettlement())
-                _availableSettlementCardCount--;
+            Goods balance = _resources - resourcesToSpend;
+            return balance.Valid;
         }
-        private void BuildTown()
+        public void PurchaseBonusCard(Goods resourcesToSpend)
         {
-            if (CanBuildTown())
+            Random rnd = new Random();
+            if (rnd.NextDouble() < 0)
             {
-                _availableSettlementCardCount++;
-                _availableTownCardCount--;
+                _scoreCardCount++;
             }
-        }
-        private void BuildRoad()
-        {
-            if (CanBuildRoad())
-                _availableRoadCardCount--;
-        }
-        private bool CanBuildSettlement()
-        {
-            return (_availableSettlementCardCount > 0) ? true : false;
-        }
-        private bool CanBuildTown()
-        {
-            return (_availableTownCardCount > 0) ? true : false;
-        }
-        private bool CanBuildRoad()
-        {
-            return (_availableRoadCardCount > 0) ? true : false;
-        }
-        private bool CanBuild(String s)
-        {
-            switch (s)
-            {
-                case "Settlement":
-                    return CanBuildSettlement();
-
-                case "Town":
-                    return CanBuildTown();
-
-                case "Road":
-                    return CanBuildRoad();
-
-                case "BonusCard":
-                    return true;
-
-                default:
-                    return false;
-            }
-        }
-        private void Build(String s)
-        {
-            switch (s)
-            {
-                case "Settlement":
-                    BuildSettlement();
-                    break;
-
-                case "Town":
-                    BuildTown();
-                    break;
-
-                case "Road":
-                    BuildRoad();
-                    break;
-
-                case "BonusCard":
-                    BonusCard(30);
-                    break;
-            }
-        }
-        private void BonusCard(int p) 
-        {
-            Random rand = new Random();
-            int number = rand.Next(0, 100);
-            if (number > p)
-                AddScoreCard();
             else
-                AddHoresCard();
+            {
+                _knightCardCount++;
+            }
         }
         #endregion
-
     }
 }

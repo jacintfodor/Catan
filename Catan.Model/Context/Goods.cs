@@ -14,7 +14,6 @@ namespace Catan.Model.Context
 
         public bool Valid { get; private set; } = true;
 
-
         public Goods(List<int> l)
         {
             if (l.Count != 5) throw new InvalidDataException("mismatching list count");

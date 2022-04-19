@@ -3,49 +3,50 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Catan.Model.Context.Players;
+
+using Catan.Model;
 using Catan.Model.Context;
 
 namespace Catan.Model.GameStates
 {
-    public class MainState : ICatanGameState
+    public class BankState : ICatanGameState
     {
-        public bool IsMainState => true;
+        public bool IsBankState => true;
+
+        public BankState()
+        {
+
+        }
 
         public void AcceptTrade(CatanContext context)
-        {
-            
-        }
-
-        public void BuildRoad(CatanContext context, int row, int col)
-        {
-            
-        }
-
-        public void BuildSettleMent(CatanContext context, int row, int col)
-        {
-            
-        }
-
-        public void Cancel(CatanContext context)
         {
             throw new NotImplementedException();
         }
 
+        public void BuildRoad(CatanContext context, int row, int col)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void BuildSettleMent(CatanContext context, int row, int col)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Cancel(CatanContext context)
+        {
+            context.Events.OnCancel();
+            context.SetContext(new MainState());
+        }
+
         public void DenyTrade(CatanContext context)
         {
-            
+            throw new NotImplementedException();
         }
 
         public void EndTurn(CatanContext context)
         {
-            //TODO check winner
-
-            context.NextPlayer();
-            context.Events.OnPlayer(context);
-
-            //context.Events.OnBuildableByPlayer(context);
-            context.SetContext(new RollingState());
+            throw new NotImplementedException();
         }
 
         public void ExchangeWithBank(CatanContext context)
@@ -63,13 +64,9 @@ namespace Catan.Model.GameStates
             throw new NotImplementedException();
         }
 
-        //Crop, Ore, Wood, Brick, Wool
         public void PurchaseBonusCard(CatanContext context)
         {
-            context.CurrentPlayer.PurchaseBonusCard(Constants.BonusCardCost);
-            context.CurrentPlayer.ReduceResources(Constants.BonusCardCost);
-            context.LargestArmyHolder.ProcessOwner(context.CurrentPlayer);
-            context.Events.OnPlayer(context);
+            throw new NotImplementedException();
         }
 
         public void RollDices(CatanContext context)
@@ -79,20 +76,17 @@ namespace Catan.Model.GameStates
 
         public void StartRoadBuilding(CatanContext context)
         {
-            context.Events.OnRoadBuildingStarted(context.GetBuildableRoadsByPlayer());
-            context.SetContext(new RoadBuildingState());
+            throw new NotImplementedException();
         }
 
         public void StartSettlementBuilding(CatanContext context)
         {
-            context.Events.OnSettlementBuildingStarted(context.GetBuildableSettlementsByPlayer());
-            context.SetContext(new SettlementBuildingState());
+            throw new NotImplementedException();
         }
 
         public void StartSettlementUpgrading(CatanContext context)
         {
-            context.Events.OnSettlementUpgradingStarted(context.GetUpgradeableSettlementsByPlayer());
-            context.SetContext(new SettlementUpgradingState());
+            throw new NotImplementedException();
         }
 
         public void StartTrade(CatanContext context)

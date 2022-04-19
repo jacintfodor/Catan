@@ -39,8 +39,8 @@ namespace Catan.Model
 
         public CatanEvents Events { get => CatanEvents.Instance; }
 
-        public static LargestArmyHolder LargestArmyHolder { get => LargestArmyHolder.Instance;}
-        public static LongestRoadOwner LongestRoadOwner { get => LongestRoadOwner.Instance;}
+        public LargestArmyHolder LargestArmyHolder { get => LargestArmyHolder.Instance;}
+        public LongestRoadOwner LongestRoadOwner { get => LongestRoadOwner.Instance;}
         public IPlayer CurrentPlayer { get => _players.ElementAtOrDefault(0) ?? NotPlayer.Instance;}
         public IPlayer NextPlayerInQueue { get => _players.ElementAtOrDefault(1) ?? NotPlayer.Instance; }
         public IPlayer NextNextPlayerInQueue { get => _players.ElementAtOrDefault(2) ?? NotPlayer.Instance; }
@@ -58,9 +58,9 @@ namespace Catan.Model
             _players.Enqueue(new Player(PlayerEnum.Player2));
             _players.Enqueue(new Player(PlayerEnum.Player3));
 
-            CurrentPlayer.AddResource(new Goods(new List<int> { 1, 1, 1, 1, 1 }));
-            NextPlayerInQueue.AddResource(new Goods(new List<int> { 2, 2, 2, 2, 2 }));
-            NextNextPlayerInQueue.AddResource(new Goods(new List<int> { 3, 3, 3, 3, 3 }));
+            CurrentPlayer.AddResource(new Goods(new List<int> { 5, 5, 5, 5, 5 }));
+            NextPlayerInQueue.AddResource(new Goods(new List<int> { 10, 10, 10, 10, 10 }));
+            NextNextPlayerInQueue.AddResource(new Goods(new List<int> { 15, 15, 15, 15, 15 }));
 
         }
 
@@ -108,13 +108,16 @@ namespace Catan.Model
         public bool IsWinningState => State.IsWinningState;
         #endregion
 
-        #region methods
-        public void DistributeResource(int dieValue)
+        #region Methods
+        public void DistributeResources(int dieValue, bool isEarly = false)
         {
             foreach (IHex hex in Board.GetHexesEnumerable()) {
+                if (isEarly)
+                    goto Early;
                 if (hex.Value != dieValue)
                     continue;
-                Board.getVerticesOfHex(hex.Row, hex.Col).ForEach(vertex =>
+                Early:
+                Board.GetVerticesOfHex(hex.Row, hex.Col).ForEach(vertex =>
                 {
                     if (vertex.Owner != PlayerEnum.NotPlayer)
                     {
@@ -128,8 +131,7 @@ namespace Catan.Model
                 });
             }
         }
-
-        public int CalculateLongestRoadFromEdge(IEdge edge, PlayerEnum player)
+        public int CalculateLongestRoadFromEdge(IEdge edge)
         {
             int retVal = 0;
 
@@ -143,23 +145,50 @@ namespace Catan.Model
                 toProcess.Remove(currentlyProccessing);
                 retVal++;
 
-                
-                List<IEdge> connectedEdges = new List<IEdge>();
-                List<IVertex> connectedVertices = Board.getNeighbourVerticesOfEdge(currentlyProccessing.Row,currentlyProccessing.Col);
-                connectedVertices.ForEach(vertex => {
-                    Board.getNeighborEdgesOfVertex(vertex.Row, vertex.Col).ForEach(edge =>
-                    {
-                        connectedEdges.Add(edge);
-                    });
-                });
-
-                connectedEdges.ForEach(edge => {
-                    if (edge.Owner == player && !toProcess.Contains(edge) && !processed.Contains(edge) && edge != currentlyProccessing)
+                Board.GetEdgesofEdge(currentlyProccessing.Row, currentlyProccessing.Col).ForEach(edge => {
+                    if (edge.Owner == CurrentPlayer.ID && !toProcess.Contains(edge) && !processed.Contains(edge) && edge != currentlyProccessing)
                         toProcess.Add(edge);
                 });
                 processed.Add(currentlyProccessing);
             }
             return retVal;
+        }
+        public List<IEdge> GetBuildableRoadsByPlayer()
+        {
+            List<IEdge> retVal = new List<IEdge>();
+            foreach (IEdge edge in Board.GetEdgesEnumerable())
+            {
+                if (edge.IsBuildableByPlayer(CurrentPlayer.ID))
+                    retVal.Add(edge);
+            }   
+            
+            return retVal;
+        }
+        public List<IVertex> GetBuildableSettlementsByPlayer()
+        {
+            List<IVertex> retVal = new List<IVertex>();
+            foreach (IVertex vertex in Board.GetVerticesEnumerable())
+            {
+                if (vertex.IsBuildableByPlayer(CurrentPlayer.ID))
+                    retVal.Add(vertex);
+            }
+
+            return retVal;
+        }
+        public List<IVertex> GetUpgradeableSettlementsByPlayer()
+        {
+            List<IVertex> retVal = new List<IVertex>();
+            foreach (IVertex vertex in Board.GetVerticesEnumerable())
+            {
+                if (vertex.Owner == CurrentPlayer.ID && vertex.GetCommunity().IsUpgradeable)
+                    retVal.Add(vertex);
+            }
+
+            return retVal;
+        }
+        public List<IPlayer> GetPlayerList()
+        {
+            return _players.ToList();
         }
         #endregion
     }
