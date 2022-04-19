@@ -3,10 +3,10 @@ namespace Catan.Model.Board.Components
 {
     public interface IVertex
     {
-        public PlayerEnum Owner { get; set; }
+        public PlayerEnum Owner { get; }
         public int Row { get; set; }
         public int Col { get; set; }
-        public bool IsNotBuildable { get; set; }
+        public bool IsBuildable { get; }
 
         public ICommunity GetCommunity();
         public void AddPotentialBuilder(PlayerEnum player);

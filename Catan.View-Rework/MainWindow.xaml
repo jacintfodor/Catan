@@ -70,12 +70,14 @@
                         <DataTemplate  DataType="{x:Type viewmodel:HexViewModel}">
                             <Button Width="60" Height="60" Content="{Binding Number}" Background="{Binding Color}"></Button>
                         </DataTemplate>
+                        
                         <DataTemplate  DataType="{x:Type viewmodel:VertexViewModel}">
                             <Button Width="{Binding Size}" Height="{Binding Size}" Background="{Binding Color}"></Button>
                         </DataTemplate>
                         <DataTemplate  DataType="{x:Type viewmodel:BuildableCommunityViewModel}">
-                            <Button Width="12" Height="12" Background="{Binding Color}"></Button>
+                            <Button Width="12" Height="12" Background="Green" Command="{Binding BuildCommand}" CommandParameter="{Binding}"></Button>
                         </DataTemplate>
+                        
                         <DataTemplate  DataType="{x:Type viewmodel:VerticalViewModel}">
                             <Button Width="6" Height="60" Background="{Binding Color}"></Button>
                         </DataTemplate>
@@ -87,13 +89,13 @@
                         </DataTemplate>
 
                         <DataTemplate  DataType="{x:Type viewmodel:BuildableVerticalViewModel}">
-                            <Button Width="6" Height="60" Background="green"></Button>
+                            <Button Width="6" Height="60" Background="green" Command="{Binding BuildCommand}" CommandParameter="{Binding}"></Button>
                         </DataTemplate>
                         <DataTemplate  DataType="{x:Type viewmodel:BuildableLeftSlopeViewModel}">
-                            <Button Width="30" Height="6" Background="green" ></Button>
+                            <Button Width="30" Height="6" Background="green" Command="{Binding BuildCommand}" CommandParameter="{Binding}"></Button>
                         </DataTemplate>
                         <DataTemplate  DataType="{x:Type viewmodel:BuildableRightSlopeViewModel}">
-                            <Button Width="30" Height="6" Background="green"></Button>
+                            <Button Width="30" Height="6" Background="green" Command="{Binding BuildCommand}" CommandParameter="{Binding}"></Button>
                         </DataTemplate>
                     </ItemsControl.Resources>
                 </ItemsControl>

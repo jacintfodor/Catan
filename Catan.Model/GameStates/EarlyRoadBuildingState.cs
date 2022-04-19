@@ -3,16 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using Catan.Model;
 using Catan.Model.Context;
-using Catan.Model.GameStates;
 
 namespace Catan.Model.GameStates
 {
-    public class EarlyRollingState : ICatanGameState
+    public class EarlyRoadBuildingState : ICatanGameState
     {
-        private int _rollCount = 0;
+        int _turnCount = 0;
 
-        public bool IsEarlyRollingState => true;
+        public EarlyRoadBuildingState(int tCount)
+        {
+            _turnCount = tCount;
+        }
 
         public void AcceptTrade(CatanContext context)
         {
@@ -21,7 +25,36 @@ namespace Catan.Model.GameStates
 
         public void BuildRoad(CatanContext context, int row, int col)
         {
-            throw new NotImplementedException();
+            //TODO reduce roadCards
+
+            context.Board.BuildRoad(row, col, context.CurrentPlayer.ID);
+            context.Events.OnRoadBuilt(context, row, col, context.CurrentPlayer.ID);
+            
+            //mark neighbouring vertexes as buildable by current player
+            context.Board.getNeighbourVerticesOfEdge(row, col).ForEach(v => v.AddPotentialBuilder(context.CurrentPlayer.ID));
+            
+            //mark neighbouring Edges as Buildable
+            //TODO use getNeighbourEdgesOfEdge later
+            context.Board.getNeighbourVerticesOfEdge(row, col).ForEach(
+                v => context.Board.getNeighborEdgesOfVertex(v.Row, v.Col).ForEach(e => e.AddPotentialBuilder(context.CurrentPlayer.ID))
+            );
+
+            //TODO remove magic number 6
+            if (_turnCount > 6 && _turnCount < 0) ; //TODO throw error
+
+            else if (_turnCount == 6)
+            {
+                context.SetContext(new RollingState());
+            }
+            else
+            {
+                var list = context.Board.GetVerticesEnumerable().ToList().Where(v => v.IsBuildable).ToList();
+                context.Events.OnSettlementBuildingStarted(list);
+
+                context.SetContext(new EarlySettlementBuildingState(_turnCount));
+            }
+
+            context.NextPlayer();
         }
 
         public void BuildSettleMent(CatanContext context, int row, int col)
@@ -66,18 +99,7 @@ namespace Catan.Model.GameStates
 
         public void RollDices(CatanContext context)
         {
-            ++_rollCount;
-            context.FirstDice.roll();
-            context.SecondDice.roll();
-
-            context.Events.OnDiceThrown(context);
-            if (_rollCount == 3)
-            {
-                var list = context.Board.GetVerticesEnumerable().ToList().Where(v => v.IsBuildable).ToList();
-                context.Events.OnSettlementBuildingStarted(list);
-
-                context.SetContext(new EarlySettlementBuildingState(0));
-            }
+            throw new NotImplementedException();
         }
 
         public void StartRoadBuilding(CatanContext context)

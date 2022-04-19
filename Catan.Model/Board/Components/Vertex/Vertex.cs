@@ -8,17 +8,15 @@ namespace Catan.Model.Board.Components
 
         public Vertex(int row, int col)
         {
-            Owner = PlayerEnum.NotPlayer;
             Row = row;
             Col = col;
-            IsNotBuildable = false;
             _community = new BuildableCommunity();
         }
 
-        public PlayerEnum Owner { get; set; }
+        public PlayerEnum Owner => _community.Owner;
         public int Row { get; set; }
         public int Col { get; set; }
-        public bool IsNotBuildable { get; set; }
+        public bool IsBuildable => _community.IsBuildableCommunity;
 
         public void AddPotentialBuilder(PlayerEnum player)
         {
@@ -32,9 +30,8 @@ namespace Catan.Model.Board.Components
 
         public void Build(PlayerEnum player)
         {
-            IsNotBuildable = true;
+            if (!_community.IsBuildableCommunity) throw new NotImplementedException();
             _community = new Settlement(player);
-            Owner = player;
         }
 
         public void Upgrade()
@@ -50,7 +47,8 @@ namespace Catan.Model.Board.Components
 
         public void SetNotBuildableCommunity()
         {
-            _community = NotBuildableCommunity.Instance;
+            if (_community.IsBuildableCommunity)
+                _community = NotBuildableCommunity.Instance;
         }
     }
 }
