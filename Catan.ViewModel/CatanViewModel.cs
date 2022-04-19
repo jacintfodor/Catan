@@ -93,9 +93,9 @@ namespace Catan.ViewModel
             ThrowDicesCommand = new DelegateCommand(_ => _model.RollDices(), _ => _model.IsEarlyRollingState || _model.IsRollingState);
             EndTurnCommand = new DelegateCommand(_ => _model.EndTurn(), _ => _model.IsMainState);
             PurchaseBonusCardCommand = new DelegateCommand(_ => _model.PurchaseBonusCard(), _ => _model.IsMainState);
-            BuildRoadCommand = new DelegateCommand(_ => _model.StartRoadBuilding(), _ => _model.IsMainState);
-            BuildSettlementCommand = new DelegateCommand(_ => _model.StartSettlementBuilding(), _ => _model.IsMainState);
-            UpgradeSettlementCommand = new DelegateCommand(_ => _model.StartSettlementUpgrading(), _ => _model.IsMainState);
+            BuildRoadCommand = new DelegateCommand(_ => _model.StartRoadBuilding(), _ => _model.IsMainState && _model.HasEnoughResourcesToBuildRoad());
+            BuildSettlementCommand = new DelegateCommand(_ => _model.StartSettlementBuilding(), _ => _model.IsMainState && _model.HasEnoughResourcesToBuildSettlement());
+            UpgradeSettlementCommand = new DelegateCommand(_ => _model.StartSettlementUpgrading(), _ => _model.IsMainState && _model.HasEnoughResourcesToUpgradeSettlementToTown());
             CancelCommand = new DelegateCommand(_ => _model.Cancel(), _=> _model.IsSettlementBuildingState || _model.IsRoadBuildingState || _model.IsSettlementUpgradingState);
         }
 

@@ -15,7 +15,7 @@ namespace Catan.Model.Context.Players
         private int _availableRoadCardCount = 15;
 
         private int _scoreCardCount = 0;
-        private int _horesCardCount = 0;
+        private int _knightCardCount = 0;
         
         private bool _doIHavaTheGreatestKnightlyPower = false;
 
@@ -29,7 +29,7 @@ namespace Catan.Model.Context.Players
         public int AvailableRoadCardCount { get { return _availableRoadCardCount; } }//set { _availableRoadCardCount = value; } }
 
         public int ScoreCardCount { get { return _scoreCardCount; } }
-        public int HoresCardCount { get { return _horesCardCount; } }
+        public int KnightCardCount { get { return _knightCardCount; } }
         
         public bool DoIHavaTheGreatestKnightlyPower { get { return _doIHavaTheGreatestKnightlyPower; } set { _doIHavaTheGreatestKnightlyPower = value; } }
         public bool DoIHaveTheLongestRoad { get { return _doIHaveTheLongestRoad; } set { _doIHaveTheLongestRoad = value; } }
@@ -62,7 +62,7 @@ namespace Catan.Model.Context.Players
         public int SizeOfArmy()// ua mint a HoresCardCount
         {
             //return 2;
-            return _horesCardCount;
+            return _knightCardCount;
         }
         public void AddScoreCard() 
         {
@@ -70,7 +70,7 @@ namespace Catan.Model.Context.Players
         }
         public void AddHoresCard()
         {
-            _horesCardCount++;
+            _knightCardCount++;
         }
       
         public void AddResource(Goods resourcesToAdd)

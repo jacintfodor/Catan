@@ -24,7 +24,6 @@ namespace Catan.Model
         public bool IsRoadBuildingState => _catanContext.IsRoadBuildingState;
         public bool IsSettlementUpgradingState => _catanContext.IsSettlementUpgradingState;
         public bool IsWinningState => _catanContext.IsWinningState;
-
         public void NewGame()
         {
             _catanContext.reset();
@@ -101,15 +100,15 @@ namespace Catan.Model
         }
         public bool HasEnoughResourcesToBuildRoad()
         {
-            throw new NotImplementedException();
+            return _catanContext.CurrentPlayer.CanAfford(Constants.RoadCost);
         }
         public bool HasEnoughResourcesToBuildSettlement()
         {
-            throw new NotImplementedException();
+            return _catanContext.CurrentPlayer.CanAfford(Constants.SettlementCost);
         }
         public bool HasEnoughResourcesToUpgradeSettlementToTown()
         {
-            throw new NotImplementedException();
+            return _catanContext.CurrentPlayer.CanAfford(Constants.TownCost);
         }
         public bool IsSettlementOwnedByCurrentPlayer(int row, int col)
         {
