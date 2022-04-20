@@ -18,6 +18,8 @@
         <CollectionViewSource x:Key="BuildableVerticalEdgeCollection" Source="{Binding BuildableVerticals}"/>
         <CollectionViewSource x:Key="BuildableLeftSlopeEdgeCollection" Source="{Binding BuildableLeftSlopes}"/>
         <CollectionViewSource x:Key="BuildableRightSlopeEdgeCollection" Source="{Binding BuildableRightSlopes}"/>
+        <CollectionViewSource x:Key="RogueMovingNodesCollection" Source="{Binding RogueMovingNodes}"/>
+        <CollectionViewSource x:Key="RogueContainer" Source="{Binding RogueContainer}"/>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -56,6 +58,8 @@
                     <ItemsControl.ItemsSource>
                         <CompositeCollection>
                             <CollectionContainer Collection="{Binding Source={StaticResource HexCollection}}"/>
+                            <CollectionContainer Collection="{Binding Source={StaticResource RogueMovingNodesCollection}}"/>
+                            <CollectionContainer Collection="{Binding Source={StaticResource RogueContainer}}"/>
                             
                             <CollectionContainer Collection="{Binding Source={StaticResource VerticalEdgeCollection}}"/>
                             <CollectionContainer Collection="{Binding Source={StaticResource LeftSlopeEdgeCollection}}"/>
@@ -85,7 +89,15 @@
                         <DataTemplate  DataType="{x:Type viewmodel:HexViewModel}">
                             <Button Width="60" Height="60" Content="{Binding Number}" Background="{Binding Color}"></Button>
                         </DataTemplate>
-                        
+
+                        <DataTemplate  DataType="{x:Type viewmodel:PlaceRogueViewModel}">
+                            <Button Width="20" Height="20" Margin ="-10" Background="Green" Command="{Binding MoveRogueCommand}" CommandParameter="{Binding}"></Button>
+                        </DataTemplate>
+
+                        <DataTemplate  DataType="{x:Type viewmodel:RogueViewModel}">
+                            <Button Width="20" Height="20" Margin ="-10" Background="White"></Button>
+                        </DataTemplate>
+
                         <DataTemplate  DataType="{x:Type viewmodel:VertexViewModel}">
                             <Button Width="{Binding Size}" Height="{Binding Size}" Background="{Binding Color}"></Button>
                         </DataTemplate>
@@ -112,6 +124,7 @@
                         <DataTemplate  DataType="{x:Type viewmodel:BuildableRightSlopeViewModel}">
                             <Button Width="30" Height="6" Background="green" Command="{Binding BuildCommand}" CommandParameter="{Binding}"></Button>
                         </DataTemplate>
+                        
                     </ItemsControl.Resources>
                 </ItemsControl>
             </Grid>
