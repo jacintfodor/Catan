@@ -32,6 +32,19 @@ namespace Catan.Model
 
         public event EventHandler<CancelEventArgs> Cancel;
 
+        public event EventHandler<EventArgs> RogueMovingStarted;
+        public event EventHandler<RogueMovedEventArgs> RogueMoved;
+
+        public void OnRogueMovingStarted()
+        {
+            RogueMovingStarted?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void  OnRogueMoved(int row, int col)
+        {
+            RogueMoved?.Invoke(this, new RogueMovedEventArgs(row, col));
+        }
+
         public void OnRoadBuildingStarted(List<IEdge> edges)
         {
             RoadBuildingStarted?.Invoke(this, new RoadBuildingStartedEventArgs(edges));
@@ -68,7 +81,7 @@ namespace Catan.Model
                 Edges.Add(edge);
             }
 
-            GameStart?.Invoke(this, new GameStartEventArgs(Hexes, Vertices, Edges));
+            GameStart?.Invoke(this, new GameStartEventArgs(Hexes, Vertices, Edges, Context.Rogue.Instance.Row, Context.Rogue.Instance.Col));
         }
 
         internal void OnCancel()
