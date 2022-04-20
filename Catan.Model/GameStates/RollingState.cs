@@ -73,7 +73,12 @@ namespace Catan.Model.GameStates
             context.Events.OnDiceThrown(context);
             context.Events.OnPlayer(context);
 
-            context.SetContext(new MainState());
+            if (context.RolledSum == 7)
+            {
+                context.SetContext(new RogueMovingState());
+                context.Events.OnRogueMovingStarted();
+            }
+            else { context.SetContext(new MainState()); }
         }
 
         public void StartRoadBuilding(CatanContext context)
