@@ -26,6 +26,7 @@ namespace Catan.Model
         public bool IsRoadBuildingState => _catanContext.IsRoadBuildingState;
         public bool IsSettlementUpgradingState => _catanContext.IsSettlementUpgradingState;
         public bool IsWinningState => _catanContext.IsWinningState;
+        public bool IsRogueMovingState => _catanContext.IsRogueMovingState;
         public void NewGame()
         {
             _catanContext.reset();
@@ -42,7 +43,7 @@ namespace Catan.Model
         }
         public void MoveRogue(int row, int col)
         {
-            throw new NotImplementedException();
+            _catanContext.MoveRogue(row, col);
         }
         public void ExchangeWithBank(ResourceEnum from, ResourceEnum to)
         {
