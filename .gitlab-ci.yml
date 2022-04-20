@@ -15,7 +15,6 @@ before_script:
 # Build
 build_model:
   stage: build
-  tags: [windows]
   script:
     - dotnet build Catan.Model
 
