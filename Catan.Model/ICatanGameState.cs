@@ -37,5 +37,6 @@ namespace Catan.Model
         public bool IsRoadBuildingState => false;
         public bool IsSettlementUpgradingState => false;
         public bool IsWinningState => false;
+        public bool IsRogueMovingState => false;
     }
 }
