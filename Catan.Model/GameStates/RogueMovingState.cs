@@ -10,9 +10,10 @@ using Catan.Model.Enums;
 
 namespace Catan.Model.GameStates
 {
-    internal class RollingState : ICatanGameState
+    public class RogueMovingState : ICatanGameState
     {
-        public bool IsRollingState => true;
+
+        public bool IsRogueMovingState => true;
         public void AcceptTrade(CatanContext context)
         {
             throw new NotImplementedException();
@@ -30,7 +31,8 @@ namespace Catan.Model.GameStates
 
         public void Cancel(CatanContext context)
         {
-            throw new NotImplementedException();
+            context.Events.OnCancel();
+            context.SetContext(new MainState());
         }
 
         public void DenyTrade(CatanContext context)
@@ -55,7 +57,10 @@ namespace Catan.Model.GameStates
 
         public void MoveRogue(CatanContext context, int row, int col)
         {
-            throw new NotImplementedException();
+            context.Rogue.Move(row, col);
+            context.Events.OnRogueMoved(row, col);
+
+            context.SetContext(new MainState());
         }
 
         public void PurchaseBonusCard(CatanContext context)
@@ -65,20 +70,7 @@ namespace Catan.Model.GameStates
 
         public void RollDices(CatanContext context)
         {
-            context.FirstDice.roll();
-            context.SecondDice.roll();
-
-            context.DistributeResources(context.RolledSum);
-
-            context.Events.OnDiceThrown(context);
-            context.Events.OnPlayer(context);
-
-            if (context.RolledSum == 7)
-            {
-                context.SetContext(new RogueMovingState());
-                context.Events.OnRogueMovingStarted();
-            }
-            else { context.SetContext(new MainState()); }
+            throw new NotImplementedException();
         }
 
         public void StartRoadBuilding(CatanContext context)

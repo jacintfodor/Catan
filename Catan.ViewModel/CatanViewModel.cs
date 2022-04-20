@@ -30,6 +30,8 @@ namespace Catan.ViewModel
         public ObservableCollection<BuildableLeftSlopeViewModel> BuildableLeftSlopes { get; set; }
         public ObservableCollection<BuildableRightSlopeViewModel> BuildableRightSlopes { get; set; }
         public ObservableCollection<PlayerViewModel> Players { get; set; }
+        public ObservableCollection<PlaceRogueViewModel> RogueMovingNodes { get; set; } = new();
+        public ObservableCollection<RogueViewModel> RogueContainer { get; set; } = new();
 
 
         int _firstDiceValue = 1;
@@ -89,7 +91,10 @@ namespace Catan.ViewModel
             _model.Events.RoadBuildingStarted += Model_Events_RoadBuildingStarted;
             _model.Events.RoadBuilt += Model_Events_RoadBuilt;
 
-            _model.Events.Cancel +=Model_Events_Cancel;
+            _model.Events.Cancel += Model_Events_Cancel;
+
+            _model.Events.RogueMovingStarted += Model_Events_RogueMovingStarted;
+            _model.Events.RogueMoved += Model_Events_RogueMoved;
 
             ThrowDicesCommand = new DelegateCommand(_ => _model.RollDices(), _ => _model.IsEarlyRollingState || _model.IsRollingState);
             EndTurnCommand = new DelegateCommand(_ => _model.EndTurn(), _ => _model.IsMainState);
@@ -97,9 +102,30 @@ namespace Catan.ViewModel
             BuildRoadCommand = new DelegateCommand(_ => _model.StartRoadBuilding(), _ => _model.IsMainState && _model.HasEnoughResourcesToBuildRoad());
             BuildSettlementCommand = new DelegateCommand(_ => _model.StartSettlementBuilding(), _ => _model.IsMainState && _model.HasEnoughResourcesToBuildSettlement());
             UpgradeSettlementCommand = new DelegateCommand(_ => _model.StartSettlementUpgrading(), _ => _model.IsMainState && _model.HasEnoughResourcesToUpgradeSettlementToTown());
-            CancelCommand = new DelegateCommand(_ => _model.Cancel(), _=> _model.IsSettlementBuildingState || _model.IsRoadBuildingState || _model.IsSettlementUpgradingState);
+            CancelCommand = new DelegateCommand(_ => _model.Cancel(), _=> _model.IsSettlementBuildingState || _model.IsRoadBuildingState || _model.IsSettlementUpgradingState || _model.IsRogueMovingState);
             //TODO Cost manager rn condition order matters
             ExchangeWithBankCommand = new DelegateCommand(resource => ExchangeWithBank(resource), resource =>  _model.IsMainState && HasThree(resource));
+        }
+
+        private void Model_Events_RogueMoved(object? sender, RogueMovedEventArgs e)
+        {
+            RogueMovingNodes.Clear();
+            RogueContainer.Clear();
+            RogueContainer.Add(new RogueViewModel(e.Row, e.Column));
+        }
+
+        private void Model_Events_RogueMovingStarted(object? sender, EventArgs e)
+        {
+            Hexes.ToList().ForEach(e => { 
+                var rmn = new PlaceRogueViewModel(e.Row, e.Column);
+                rmn.MoveRogueCommand = new DelegateCommand(vm => MoveRogue((PlaceRogueViewModel)vm));
+                RogueMovingNodes.Add(rmn);
+            });
+        }
+
+        private void MoveRogue(PlaceRogueViewModel p)
+        {
+            _model.MoveRogue(p.Row, p.Column);
         }
 
         private bool HasThree(object resource)
@@ -120,6 +146,8 @@ namespace Catan.ViewModel
             BuildableVerticals.Clear();
             BuildableLeftSlopes.Clear();
             BuildableRightSlopes.Clear();
+
+            RogueMovingNodes.Clear();
         }
 
         private void Model_Events_RoadBuildingStarted(object? sender, RoadBuildingStartedEventArgs e)
@@ -302,6 +330,9 @@ namespace Catan.ViewModel
                         break;
                 }
             }
+
+            RogueContainer.Clear();
+            RogueContainer.Add(new RogueViewModel(e.RogueRow, e.RogueCol));
         }
 
         private void Model_Events_DicesThrown(object? sender, DicesThrownEventArg e)

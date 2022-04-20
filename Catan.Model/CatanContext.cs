@@ -35,7 +35,7 @@ namespace Catan.Model
         
         public int RolledSum { get => FirstDice.RolledValue + SecondDice.RolledValue; }
 
-        public static Rogue Rogue { get => Rogue.Instance; }
+        public Rogue Rogue { get => Rogue.Instance; }
 
         public CatanEvents Events { get => CatanEvents.Instance; }
 
@@ -50,6 +50,10 @@ namespace Catan.Model
         public void init()
         {
             Board = new();
+            var desert = Board.GetHexesEnumerable().SkipWhile(x => x.Resource != ResourceEnum.Desert).ElementAt(0);
+            Rogue.Row = desert.Row;
+            Rogue.Col = desert.Col;
+
             Random rng = new Random();
             FirstDice = new(rng.Next());
             SecondDice = new(rng.Next());
@@ -106,6 +110,7 @@ namespace Catan.Model
         public bool IsRoadBuildingState => State.IsRoadBuildingState;
         public bool IsSettlementUpgradingState => State.IsSettlementUpgradingState;
         public bool IsWinningState => State.IsWinningState;
+        public bool IsRogueMovingState => State.IsRogueMovingState;
         #endregion
 
         #region Methods
