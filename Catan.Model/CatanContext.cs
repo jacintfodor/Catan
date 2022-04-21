@@ -62,10 +62,11 @@ namespace Catan.Model
             _players.Enqueue(new Player(PlayerEnum.Player2));
             _players.Enqueue(new Player(PlayerEnum.Player3));
 
+            /*
             CurrentPlayer.AddResource(new Goods(new List<int> { 5, 5, 5, 5, 5 }));
             NextPlayerInQueue.AddResource(new Goods(new List<int> { 10, 10, 10, 10, 10 }));
             NextNextPlayerInQueue.AddResource(new Goods(new List<int> { 15, 15, 15, 15, 15 }));
-
+            */
         }
 
         public void clear()
@@ -119,7 +120,7 @@ namespace Catan.Model
             foreach (IHex hex in Board.GetHexesEnumerable()) {
                 if (isEarly)
                     goto Early;
-                if (hex.Value != dieValue)
+                if (hex.Value != dieValue || Rogue.Row == hex.Row && Rogue.Col == hex.Col)
                     continue;
                 Early:
                 Board.GetVerticesOfHex(hex.Row, hex.Col).ForEach(vertex =>
