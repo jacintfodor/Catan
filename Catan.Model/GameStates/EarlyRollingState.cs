@@ -12,6 +12,8 @@ namespace Catan.Model.GameStates
     public class EarlyRollingState : ICatanGameState
     {
         private int _rollCount = 0;
+        private Dictionary<PlayerEnum,int> _rolls = new Dictionary<PlayerEnum, int>();
+
 
         public bool IsEarlyRollingState => true;
 
@@ -70,10 +72,15 @@ namespace Catan.Model.GameStates
             ++_rollCount;
             context.FirstDice.roll();
             context.SecondDice.roll();
+            _rolls.Add(context.CurrentPlayer.ID,context.RolledSum);
+            context.NextPlayer();
 
             context.Events.OnDiceThrown(context);
             if (_rollCount == 3)
             {
+                for (int i = 0; i < (int)_rolls.Keys.Max(); i++)
+                    context.NextPlayer();
+
                 var list = context.Board.GetVerticesEnumerable().ToList().Where(v => v.IsBuildable).ToList();
                 context.Events.OnSettlementBuildingStarted(list);
                 context.Events.OnPlayer(context);
