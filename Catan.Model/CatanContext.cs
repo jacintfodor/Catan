@@ -119,7 +119,7 @@ namespace Catan.Model
             foreach (IHex hex in Board.GetHexesEnumerable()) {
                 if (isEarly)
                     goto Early;
-                if (hex.Value != dieValue)
+                if (hex.Value != dieValue || Rogue.Row == hex.Row && Rogue.Col == hex.Col)
                     continue;
                 Early:
                 Board.GetVerticesOfHex(hex.Row, hex.Col).ForEach(vertex =>
