@@ -8,6 +8,7 @@ using Catan.Model.GameStates;
 using Catan.Model.Events;
 using Catan.Model.Enums;
 using Catan.Model.Context;
+using Catan.Model.GameStates.ConcreteStates;
 
 namespace Catan.Model
 {
