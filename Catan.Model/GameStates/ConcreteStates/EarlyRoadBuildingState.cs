@@ -7,18 +7,26 @@ using Catan.Model.Context;
 using Catan.Model.Enums;
 using Catan.Model.GameStates.AbstractStates;
 
-namespace Catan.Model.GameStates
+namespace Catan.Model.GameStates.ConcreteStates
 {
-    internal class RoadBuildingState : AbstractRoadBuildingState
+    internal class EarlyRoadBuildingState : AbstractRoadBuildingState
     {
-        public override sealed bool IsRoadBuildingState => true;
+        int _turnCount = 0;
 
-        public override sealed bool IsEarlyRoadBuildingState => false;
+        public EarlyRoadBuildingState(int tCount)
+        {
+            _turnCount = tCount;
+        }
+
+        public override sealed bool IsRoadBuildingState => false;
+
+        public override sealed bool IsEarlyRoadBuildingState => true;
 
         public override sealed void BuildRoad(CatanContext context, int row, int col)
         {
             context.Board.BuildRoad(row, col, context.CurrentPlayer.ID);
             context.Events.OnRoadBuilt(context, row, col, context.CurrentPlayer.ID);
+
             context.CurrentPlayer.LengthOfLongestRoad = context.CalculateLongestRoadFromEdge(context.Board.GetEdge(row, col));
             context.LongestRoadOwner.ProcessOwner(context.CurrentPlayer);
             //mark neighbouring vertexes as buildable by current player
@@ -30,16 +38,30 @@ namespace Catan.Model.GameStates
                 edge.AddPotentialBuilder(context.CurrentPlayer.ID);
             });
 
+            //TODO remove magic number 6
+            if (_turnCount > 6 && _turnCount < 0) ; //TODO throw error
+
+            else if (_turnCount == 6)
+            {
+                context.DistributeResources(-1, true);
+                context.SetContext(new RollingState());
+            }
+            else
+            {
+                var list = context.Board.GetVerticesEnumerable().ToList().Where(v => v.IsBuildable).ToList();
+                context.Events.OnSettlementBuildingStarted(list);
+
+                context.SetContext(new EarlySettlementBuildingState(_turnCount));
+            }
+
+            context.NextPlayer();
             context.CurrentPlayer.BuildRoad();
-            context.CurrentPlayer.ReduceResources(Constants.RoadCost);
             context.Events.OnPlayer(context);
-            context.SetContext(new MainState());
         }
 
         public override sealed void Cancel(CatanContext context)
         {
-            context.Events.OnCancel();
-            context.SetContext(new MainState());
+            throw new InvalidOperationException("skipping road building is not allowed at this phase");
         }
     }
 }

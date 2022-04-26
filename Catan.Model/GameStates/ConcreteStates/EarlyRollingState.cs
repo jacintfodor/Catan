@@ -7,12 +7,12 @@ using Catan.Model.Context;
 using Catan.Model.Enums;
 using Catan.Model.GameStates.AbstractStates;
 
-namespace Catan.Model.GameStates
+namespace Catan.Model.GameStates.ConcreteStates
 {
     internal class EarlyRollingState : AbstractRollingState
     {
         private int _rollCount = 0;
-        private Dictionary<PlayerEnum,int> _rolls = new Dictionary<PlayerEnum, int>();
+        private Dictionary<PlayerEnum, int> _rolls = new Dictionary<PlayerEnum, int>();
 
         public override sealed bool IsEarlyRollingState => true;
         public override sealed bool IsRollingState => false;
@@ -22,7 +22,7 @@ namespace Catan.Model.GameStates
             ++_rollCount;
             context.FirstDice.roll();
             context.SecondDice.roll();
-            _rolls.Add(context.CurrentPlayer.ID,context.RolledSum);
+            _rolls.Add(context.CurrentPlayer.ID, context.RolledSum);
             context.NextPlayer();
 
             context.Events.OnDiceThrown(context);

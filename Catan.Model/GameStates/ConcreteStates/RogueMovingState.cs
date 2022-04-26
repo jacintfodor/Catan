@@ -7,7 +7,7 @@ using Catan.Model.Context;
 using Catan.Model.Enums;
 using Catan.Model.GameStates.AbstractStates;
 
-namespace Catan.Model.GameStates
+namespace Catan.Model.GameStates.ConcreteStates
 {
     internal class RogueMovingState : AbstractRogueMovingState
     {

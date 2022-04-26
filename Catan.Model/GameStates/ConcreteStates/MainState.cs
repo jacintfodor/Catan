@@ -8,7 +8,7 @@ using Catan.Model.Context;
 using Catan.Model.Enums;
 using Catan.Model.GameStates.AbstractStates;
 
-namespace Catan.Model.GameStates
+namespace Catan.Model.GameStates.ConcreteStates
 {
     internal class MainState : AbstractMainState
     {
@@ -28,7 +28,7 @@ namespace Catan.Model.GameStates
         public override sealed void ExchangeWithBank(CatanContext context, ResourceEnum from, ResourceEnum to)
         {
             //TODO handle from=to as invalid
-            context.CurrentPlayer.ReduceResources((new Goods(from) * 3));
+            context.CurrentPlayer.ReduceResources(new Goods(from) * 3);
             context.CurrentPlayer.AddResource(new Goods(to));
             context.Events.OnPlayer(context);
         }
