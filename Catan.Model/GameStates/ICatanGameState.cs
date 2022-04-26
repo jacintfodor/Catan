@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Catan.Model.Context;
 using Catan.Model.Enums;
 
-namespace Catan.Model
+namespace Catan.Model.GameStates
 {
     public interface ICatanGameState
     {
@@ -28,7 +28,7 @@ namespace Catan.Model
         public void AcceptTrade(CatanContext context);
         public void DenyTrade(CatanContext context);
 
-        public bool IsEarlyRollingState => false; 
+        public bool IsEarlyRollingState => false;
         public bool IsEarlySettlementBuildingState => false;
         public bool IsEarlyRoadBuildingState => false;
         public bool IsRollingState => false;
