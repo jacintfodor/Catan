@@ -1,24 +1,26 @@
-﻿using Catan.Model.Context;
-using Catan.Model.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Catan.Model.Context;
+using Catan.Model.Enums;
+using Catan.Model.GameStates;
 
 namespace Catan.Model.GameStates.AbstractStates
 {
-    internal abstract class AbstractRollingState : ICatanGameState
+    internal abstract class AbstractSettlementBuildingState : ICatanGameState
     {
-        public abstract bool IsEarlyRollingState { get; }
-        public abstract bool IsRollingState { get; }
+        public abstract bool IsEarlySettlementBuildingState { get; }
+        public abstract bool IsSettlementBuildingState { get; }
 
-        public abstract void RollDices(CatanContext context);
+        public abstract void BuildSettleMent(CatanContext context, int row, int col);
+        public abstract void Cancel(CatanContext context);
 
-        public bool IsEarlySettlementBuildingState => false;
+        public bool IsEarlyRollingState => false;
         public bool IsEarlyRoadBuildingState => false;
+        public bool IsRollingState => false;
         public bool IsMainState => false;
-        public bool IsSettlementBuildingState => false;
         public bool IsRoadBuildingState => false;
         public bool IsSettlementUpgradingState => false;
         public bool IsWinningState => false;
@@ -26,14 +28,13 @@ namespace Catan.Model.GameStates.AbstractStates
 
         public void AcceptTrade(CatanContext context) { }
         public void BuildRoad(CatanContext context, int row, int col) { }
-        public void BuildSettleMent(CatanContext context, int row, int col) { }
-        public void Cancel(CatanContext context) { }
         public void DenyTrade(CatanContext context) { }
         public void EndTurn(CatanContext context) { }
         public void ExchangeWithBank(CatanContext context, ResourceEnum from, ResourceEnum to) { }
         public bool IsAffordable(CatanContext context, Goods g) { return false; }
         public void MoveRogue(CatanContext context, int row, int col) { }
-        public void PurchaseBonusCard(CatanContext context) {  }
+        public void PurchaseBonusCard(CatanContext context) { }
+        public void RollDices(CatanContext context) { }
         public void StartRoadBuilding(CatanContext context) { }
         public void StartSettlementBuilding(CatanContext context) { }
         public void StartSettlementUpgrading(CatanContext context) { }
