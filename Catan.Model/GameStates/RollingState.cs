@@ -3,67 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-using Catan.Model;
 using Catan.Model.Context;
 using Catan.Model.Enums;
+using Catan.Model.GameStates.AbstractStates;
 
 namespace Catan.Model.GameStates
 {
-    internal class RollingState : ICatanGameState
+    internal class RollingState : AbstractRollingState
     {
-        public bool IsRollingState => true;
-        public void AcceptTrade(CatanContext context)
-        {
-            throw new NotImplementedException();
-        }
+        public override sealed bool IsEarlyRollingState => false;
 
-        public void BuildRoad(CatanContext context, int row, int col)
-        {
-            throw new NotImplementedException();
-        }
+        public override sealed bool IsRollingState => true;
 
-        public void BuildSettleMent(CatanContext context, int row, int col)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Cancel(CatanContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DenyTrade(CatanContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void EndTurn(CatanContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ExchangeWithBank(CatanContext context, ResourceEnum from, ResourceEnum to)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool IsAffordable(CatanContext context, Goods g)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void MoveRogue(CatanContext context, int row, int col)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void PurchaseBonusCard(CatanContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RollDices(CatanContext context)
+        public override sealed void RollDices(CatanContext context)
         {
             context.FirstDice.roll();
             context.SecondDice.roll();
@@ -79,31 +31,6 @@ namespace Catan.Model.GameStates
                 context.Events.OnRogueMovingStarted();
             }
             else { context.SetContext(new MainState()); }
-        }
-
-        public void StartRoadBuilding(CatanContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void StartSettlementBuilding(CatanContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void StartSettlementUpgrading(CatanContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void StartTrade(CatanContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpgradeSettleMentToTown(CatanContext context, int row, int col)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -5,69 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using Catan.Model.Context;
 using Catan.Model.Enums;
-using Catan.Model.GameStates;
+using Catan.Model.GameStates.AbstractStates;
 
 namespace Catan.Model.GameStates
 {
-    public class EarlyRollingState : ICatanGameState
+    internal class EarlyRollingState : AbstractRollingState
     {
         private int _rollCount = 0;
         private Dictionary<PlayerEnum,int> _rolls = new Dictionary<PlayerEnum, int>();
 
+        public override sealed bool IsEarlyRollingState => true;
+        public override sealed bool IsRollingState => false;
 
-        public bool IsEarlyRollingState => true;
-
-        public void AcceptTrade(CatanContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void BuildRoad(CatanContext context, int row, int col)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void BuildSettleMent(CatanContext context, int row, int col)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Cancel(CatanContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DenyTrade(CatanContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void EndTurn(CatanContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ExchangeWithBank(CatanContext context, ResourceEnum from, ResourceEnum to)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool IsAffordable(CatanContext context, Goods g)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void MoveRogue(CatanContext context, int row, int col)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void PurchaseBonusCard(CatanContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RollDices(CatanContext context)
+        public override sealed void RollDices(CatanContext context)
         {
             ++_rollCount;
             context.FirstDice.roll();
@@ -86,31 +36,6 @@ namespace Catan.Model.GameStates
                 context.Events.OnPlayer(context);
                 context.SetContext(new EarlySettlementBuildingState(0));
             }
-        }
-
-        public void StartRoadBuilding(CatanContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void StartSettlementBuilding(CatanContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void StartSettlementUpgrading(CatanContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void StartTrade(CatanContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpgradeSettleMentToTown(CatanContext context, int row, int col)
-        {
-            throw new NotImplementedException();
         }
     }
 }
