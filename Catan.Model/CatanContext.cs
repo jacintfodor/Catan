@@ -12,6 +12,7 @@ using Catan.Model.Events;
 using Catan.Model.GameStates;
 using Catan.Model.Enums;
 using Catan.Model.Board.Components;
+using Catan.Model.GameStates.ConcreteStates;
 
 namespace Catan.Model
 {
@@ -81,7 +82,7 @@ namespace Catan.Model
         }
 
         //TODO change State to be an instance of EarlyRollingState once we can
-        public ICatanGameState State { get; private set; } = new MainState();
+        public ICatanGameState State { get; private set; } = new EarlyRollingState();
         public void SetContext(ICatanGameState state) { State = state; }
 
         #region state dependent methods
