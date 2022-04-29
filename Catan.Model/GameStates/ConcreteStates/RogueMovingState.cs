@@ -5,21 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 using Catan.Model.Context;
 using Catan.Model.Enums;
-using Catan.Model.GameStates.AbstractStates;
+using Catan.Model.GameStates.Interfaces;
 
 namespace Catan.Model.GameStates.ConcreteStates
 {
-    internal class RogueMovingState : AbstractRogueMovingState
+    internal class RogueMovingState : ICatanGameState, IRogueMovable, ICancellable
     {
-        public override bool IsRogueMovingState => true;
+        public bool IsRogueMovingState => true;
 
-        public override sealed void Cancel(CatanContext context)
+        public void Cancel(CatanContext context)
         {
             context.Events.OnCancel();
             context.SetContext(new MainState());
         }
 
-        public override sealed void MoveRogue(CatanContext context, int row, int col)
+        public void MoveRogue(CatanContext context, int row, int col)
         {
             context.Rogue.Move(row, col);
             context.Events.OnRogueMoved(row, col);

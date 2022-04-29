@@ -6,24 +6,23 @@ using System.Threading.Tasks;
 using Catan.Model.Context;
 using Catan.Model.Board.Components;
 using Catan.Model.Enums;
-using Catan.Model.GameStates.AbstractStates;
+using Catan.Model.GameStates.Interfaces;
 
 namespace Catan.Model.GameStates.ConcreteStates
 {
-    internal class EarlySettlementBuildingState : AbstractSettlementBuildingState
+    internal class EarlySettlementBuildingState : ICatanGameState, ISettlementBuildable
     {
-        int _turnCount;
+        readonly int _turnCount;
 
-        public EarlySettlementBuildingState(int tCount)
+        public EarlySettlementBuildingState(int turnCount)
         {
-            _turnCount = tCount;
+            _turnCount = turnCount;
         }
 
-        public override sealed bool IsEarlySettlementBuildingState => true;
+        public bool IsEarlySettlementBuildingState => true;
 
-        public override sealed bool IsSettlementBuildingState => false;
 
-        public override sealed void BuildSettleMent(CatanContext context, int row, int col)
+        public void BuildSettleMent(CatanContext context, int row, int col)
         {
             context.CurrentPlayer.BuildSettlement();
             context.Events.OnPlayer(context);
@@ -38,11 +37,6 @@ namespace Catan.Model.GameStates.ConcreteStates
             context.Events.OnRoadBuildingStarted(list);
 
             context.SetContext(new EarlyRoadBuildingState(_turnCount + 1));
-        }
-
-        public override sealed void Cancel(CatanContext context)
-        {
-            throw new InvalidOperationException("skipping settlement building is not allowed at this phase");
         }
     }
 }

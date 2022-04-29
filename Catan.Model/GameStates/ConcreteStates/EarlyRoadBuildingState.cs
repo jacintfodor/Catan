@@ -5,24 +5,22 @@ using System.Text;
 using System.Threading.Tasks;
 using Catan.Model.Context;
 using Catan.Model.Enums;
-using Catan.Model.GameStates.AbstractStates;
+using Catan.Model.GameStates.Interfaces;
 
 namespace Catan.Model.GameStates.ConcreteStates
 {
-    internal class EarlyRoadBuildingState : AbstractRoadBuildingState
+    internal class EarlyRoadBuildingState : ICatanGameState, IRoadBuildable
     {
-        int _turnCount = 0;
+        private int _turnCount = 0;
 
-        public EarlyRoadBuildingState(int tCount)
+        public EarlyRoadBuildingState(int turnCount)
         {
-            _turnCount = tCount;
+            _turnCount = turnCount;
         }
 
-        public override sealed bool IsRoadBuildingState => false;
+        public bool IsEarlyRoadBuildingState => true;
 
-        public override sealed bool IsEarlyRoadBuildingState => true;
-
-        public override sealed void BuildRoad(CatanContext context, int row, int col)
+        public void BuildRoad(CatanContext context, int row, int col)
         {
             context.Board.BuildRoad(row, col, context.CurrentPlayer.ID);
             context.Events.OnRoadBuilt(context, row, col, context.CurrentPlayer.ID);
@@ -57,11 +55,6 @@ namespace Catan.Model.GameStates.ConcreteStates
             context.NextPlayer();
             context.CurrentPlayer.BuildRoad();
             context.Events.OnPlayer(context);
-        }
-
-        public override sealed void Cancel(CatanContext context)
-        {
-            throw new InvalidOperationException("skipping road building is not allowed at this phase");
         }
     }
 }

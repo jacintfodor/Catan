@@ -5,17 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Catan.Model.Context;
 using Catan.Model.Enums;
-using Catan.Model.GameStates.AbstractStates;
+using Catan.Model.GameStates.Interfaces;
 
 namespace Catan.Model.GameStates.ConcreteStates
 {
-    internal class RollingState : AbstractRollingState
+    internal class RollingState : ICatanGameState, IRollable
     {
-        public override sealed bool IsEarlyRollingState => false;
+        public bool IsRollingState => true;
 
-        public override sealed bool IsRollingState => true;
-
-        public override sealed void RollDices(CatanContext context)
+        public void RollDices(CatanContext context)
         {
             context.FirstDice.roll();
             context.SecondDice.roll();

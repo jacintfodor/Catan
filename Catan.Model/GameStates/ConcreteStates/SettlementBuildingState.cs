@@ -5,17 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Catan.Model.Context;
 using Catan.Model.Enums;
-using Catan.Model.GameStates.AbstractStates;
+using Catan.Model.GameStates.Interfaces;
 
 namespace Catan.Model.GameStates.ConcreteStates
 {
-    internal class SettlementBuildingState : AbstractSettlementBuildingState
+    internal class SettlementBuildingState : ICatanGameState, ISettlementBuildable, ICancellable
     {
-        public override bool IsEarlySettlementBuildingState => false;
+        public bool IsSettlementBuildingState => true;
 
-        public override bool IsSettlementBuildingState => true;
-
-        public override sealed void BuildSettleMent(CatanContext context, int row, int col)
+        public void BuildSettleMent(CatanContext context, int row, int col)
         {
 
             context.Board.BuildSettlement(row, col, context.CurrentPlayer.ID);
@@ -30,7 +28,7 @@ namespace Catan.Model.GameStates.ConcreteStates
             context.SetContext(new MainState());
         }
 
-        public override sealed void Cancel(CatanContext context)
+        public void Cancel(CatanContext context)
         {
             context.Events.OnCancel();
             context.SetContext(new MainState());

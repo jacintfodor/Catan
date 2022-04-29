@@ -13,6 +13,7 @@ using Catan.Model.GameStates;
 using Catan.Model.Enums;
 using Catan.Model.Board.Components;
 using Catan.Model.GameStates.ConcreteStates;
+using Catan.Model.GameStates.Interfaces;
 
 namespace Catan.Model
 {
@@ -25,7 +26,7 @@ namespace Catan.Model
             Events.OnGameStart(this);
         }
 
-        public CatanContext(ICatanGameState initialState)
+        internal CatanContext(ICatanGameState initialState)
         {
             SetContext(initialState);
             init();
@@ -82,26 +83,74 @@ namespace Catan.Model
         }
 
         //TODO change State to be an instance of EarlyRollingState once we can
-        public ICatanGameState State { get; private set; } = new EarlyRollingState();
-        public void SetContext(ICatanGameState state) { State = state; }
+        internal ICatanGameState State { get; private set; } = new EarlyRollingState();
+        internal void SetContext(ICatanGameState state) { State = state; }
 
         #region state dependent methods
-        public void EndTurn() { State.EndTurn(this); }
-        public void RollDices() { State.RollDices(this); }
-        public void MoveRogue(int row, int col) { State.MoveRogue(this, row, col); }
+        public void EndTurn() 
+        { 
+            var state = State as IMainState;
+            state?.EndTurn(this);
+        }
+        public void RollDices()
+        {
+            var state = State as IRollable;
+            state?.RollDices(this); 
+        }
+        public void MoveRogue(int row, int col) { 
+            var state = State as IRogueMovable;
+            state?.MoveRogue(this, row, col);
+        }
         public bool IsAffordable(Goods g) { return State.IsAffordable(this, g); }
-        public void ExchangeWithBank(ResourceEnum from, ResourceEnum to) { State.ExchangeWithBank(this, from, to); }
-        public void PurchaseBonusCard() { State.PurchaseBonusCard(this); }
-        public void StartRoadBuilding() { State.StartRoadBuilding(this); }
-        public void BuildRoad(int row, int col) { State.BuildRoad(this, row, col); }
-        public void StartSettlementBuilding() { State.StartSettlementBuilding(this); }
-        public void BuildSettleMent(int row, int col) { State.BuildSettleMent(this, row, col); }
-        public void StartSettlementUpgrading() { State.StartSettlementUpgrading(this); }
-        public void UpgradeSettleMentToTown(int row, int col) { State.UpgradeSettleMentToTown(this, row, col); }
-        public void Cancel() { State.Cancel(this); }
-        public void StartTrade() { State.StartTrade(this); }
-        public void AcceptTrade() { State.AcceptTrade(this); }
-        public void DenyTrade() { State.DenyTrade(this); }
+        public void ExchangeWithBank(ResourceEnum from, ResourceEnum to) 
+        {
+            var state = State as IMainState;
+            state?.ExchangeWithBank(this, from, to);
+        }
+        public void PurchaseBonusCard()
+        {
+            var state = State as IMainState;
+            state?.PurchaseBonusCard(this); 
+        }
+        public void StartRoadBuilding() 
+        {
+            var state = State as IMainState;
+            state?.StartRoadBuilding(this); 
+        }
+        public void BuildRoad(int row, int col)
+        {
+            var state = State as IRoadBuildable;
+            state?.BuildRoad(this, row, col); 
+        }
+        public void StartSettlementBuilding() 
+        {
+            var state = State as IMainState;
+            state?.StartSettlementBuilding(this); 
+        }
+        public void BuildSettleMent(int row, int col)
+        {
+            var state = State as ISettlementBuildable;
+            state?.BuildSettleMent(this, row, col);
+        }
+        public void StartSettlementUpgrading()
+        {
+            var state = State as IMainState;
+            state?.StartSettlementUpgrading(this);
+        }
+        public void UpgradeSettleMentToTown(int row, int col)
+        {
+            var state = State as ISettlementUpgradeable;
+            state?.UpgradeSettleMentToTown(this, row, col); 
+        }
+        public void Cancel() 
+        {
+            var state = State as ICancellable;
+            state?.Cancel(this); 
+        }
+        public void StartTrade() { throw new NotImplementedException(); }
+        public void MakeOffer(/* TODO offer vars*/) { throw new NotImplementedException(); }
+        public void AcceptTrade() { throw new NotImplementedException(); }
+        public void DenyTrade() { throw new NotImplementedException(); }
 
         public bool IsEarlyRollingState => State.IsEarlyRollingState;
         public bool IsEarlySettlementBuildingState => State.IsEarlySettlementBuildingState;

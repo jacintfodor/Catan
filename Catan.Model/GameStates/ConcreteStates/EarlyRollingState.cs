@@ -5,19 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using Catan.Model.Context;
 using Catan.Model.Enums;
-using Catan.Model.GameStates.AbstractStates;
+using Catan.Model.GameStates.Interfaces;
 
 namespace Catan.Model.GameStates.ConcreteStates
 {
-    internal class EarlyRollingState : AbstractRollingState
+    internal class EarlyRollingState : ICatanGameState, IRollable
     {
         private int _rollCount = 0;
-        private Dictionary<PlayerEnum, int> _rolls = new Dictionary<PlayerEnum, int>();
+        private readonly Dictionary<PlayerEnum, int> _rolls = new();
 
-        public override sealed bool IsEarlyRollingState => true;
-        public override sealed bool IsRollingState => false;
+        public bool IsEarlyRollingState => true;
 
-        public override sealed void RollDices(CatanContext context)
+        public void RollDices(CatanContext context)
         {
             ++_rollCount;
             context.FirstDice.roll();
