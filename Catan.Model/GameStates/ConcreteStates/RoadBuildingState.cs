@@ -5,17 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Catan.Model.Context;
 using Catan.Model.Enums;
-using Catan.Model.GameStates.AbstractStates;
+using Catan.Model.GameStates.Interfaces;
 
 namespace Catan.Model.GameStates.ConcreteStates
 {
-    internal class RoadBuildingState : AbstractRoadBuildingState
+    internal class RoadBuildingState : ICatanGameState, IRoadBuildable, ICancellable
     {
-        public override sealed bool IsRoadBuildingState => true;
+        public bool IsRoadBuildingState => true;
 
-        public override sealed bool IsEarlyRoadBuildingState => false;
-
-        public override sealed void BuildRoad(CatanContext context, int row, int col)
+        public void BuildRoad(CatanContext context, int row, int col)
         {
             context.Board.BuildRoad(row, col, context.CurrentPlayer.ID);
             context.Events.OnRoadBuilt(context, row, col, context.CurrentPlayer.ID);
@@ -36,7 +34,7 @@ namespace Catan.Model.GameStates.ConcreteStates
             context.SetContext(new MainState());
         }
 
-        public override sealed void Cancel(CatanContext context)
+        public void Cancel(CatanContext context)
         {
             context.Events.OnCancel();
             context.SetContext(new MainState());

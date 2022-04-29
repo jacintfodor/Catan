@@ -1,20 +1,20 @@
 ﻿using Catan.Model.Context;
 using Catan.Model.Enums;
-using Catan.Model.GameStates.AbstractStates;
+using Catan.Model.GameStates.Interfaces;
 
 namespace Catan.Model.GameStates.ConcreteStates
 {
-    internal class SettlementUpgradingState : AbstractSettlementupgradingState
+    internal class SettlementUpgradingState : ICatanGameState, ISettlementUpgradeable, ICancellable
     {
-        public override bool IsSettlementUpgradingState => true;
+        public bool IsSettlementUpgradingState => true;
 
-        public override sealed void Cancel(CatanContext context)
+        public void Cancel(CatanContext context)
         {
             context.Events.OnCancel();
             context.SetContext(new MainState());
         }
 
-        public override sealed void UpgradeSettleMentToTown(CatanContext context, int row, int col)
+        public void UpgradeSettleMentToTown(CatanContext context, int row, int col)
         {
 
             context.Board.UpgradeSettlement(row, col);
