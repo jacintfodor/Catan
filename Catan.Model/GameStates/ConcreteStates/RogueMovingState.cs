@@ -19,9 +19,9 @@ namespace Catan.Model.GameStates.ConcreteStates
             context.SetContext(new MainState());
         }
 
-        public void MoveRogue(CatanContext context, Rogue rogue, int row, int col)
+        public void MoveRogue(CatanContext context, int row, int col)
         {
-            rogue.Move(row, col);
+            context.Rogue.Move(row, col);
             context.OnRogueMoved(row, col);
 
             context.SetContext(new MainState());

@@ -7,7 +7,6 @@ using Catan.Model.Context;
 using Catan.Model.Board.Components;
 using Catan.Model.Enums;
 using Catan.Model.GameStates.Interfaces;
-using Catan.Model.Board;
 
 namespace Catan.Model.GameStates.ConcreteStates
 {
@@ -23,18 +22,18 @@ namespace Catan.Model.GameStates.ConcreteStates
         public bool IsEarlySettlementBuildingState => true;
 
 
-        public void BuildSettleMent(CatanContext context, CatanBoard board, IPlayer currentPlayer, int row, int col)
+        public void BuildSettleMent(CatanContext context, int row, int col)
         {
-            currentPlayer.BuildSettlement();
+            context.CurrentPlayer.BuildSettlement();
             context.OnPlayer(context);
 
-            board.BuildSettlement(row, col, currentPlayer.ID);
-            context.OnSettlementBuilt(context, row, col, currentPlayer.ID);
+            context.Board.BuildSettlement(row, col, context.CurrentPlayer.ID);
+            context.OnSettlementBuilt(context, row, col, context.CurrentPlayer.ID);
 
-            board.GetNeighborEdgesOfVertex(row, col).ForEach(e => e.AddPotentialBuilder(currentPlayer.ID));
-            board.GetNeighborVerticesOfVertex(row, col).ForEach(v => v.SetNotBuildableCommunity());
+            context.Board.GetNeighborEdgesOfVertex(row, col).ForEach(e => e.AddPotentialBuilder(context.CurrentPlayer.ID));
+            context.Board.GetNeighborVerticesOfVertex(row, col).ForEach(v => v.SetNotBuildableCommunity());
 
-            var list = board.GetNeighborEdgesOfVertex(row, col).ToList().Where(e => e.IsBuildableByPlayer(currentPlayer.ID)).ToList();
+            var list = context.Board.GetNeighborEdgesOfVertex(row, col).ToList().Where(e => e.IsBuildableByPlayer(context.CurrentPlayer.ID)).ToList();
             context.OnRoadBuildingStarted(list);
 
             context.SetContext(new EarlyRoadBuildingState(_turnCount + 1));

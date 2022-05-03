@@ -25,25 +25,25 @@ namespace Catan.Model.GameStates.ConcreteStates
             context.SetContext(new RollingState());
         }
 
-        public void ExchangeWithBank(CatanContext context, IPlayer currentPlayer, ResourceEnum from, ResourceEnum to)
+        public void ExchangeWithBank(CatanContext context, ResourceEnum from, ResourceEnum to)
         {
             //TODO handle from=to as invalid
-            currentPlayer.ReduceResources(new Goods(from) * 3);
-            currentPlayer.AddResource(new Goods(to));
+            context.CurrentPlayer.ReduceResources(new Goods(from) * 3);
+            context.CurrentPlayer.AddResource(new Goods(to));
             context.OnPlayer(context);
         }
 
-        public bool IsAffordable(IPlayer currentPlayer, Goods g)
+        public bool IsAffordable(CatanContext context, Goods g)
         {
-            return currentPlayer.CanAfford(g);
+            return context.CurrentPlayer.CanAfford(g);
         }
 
         //Crop, Ore, Wood, Brick, Wool
-        public void PurchaseBonusCard(CatanContext context, IPlayer currentPlayer, ITitle largestArmy)
+        public void PurchaseBonusCard(CatanContext context)
         {
-            currentPlayer.PurchaseBonusCard(Constants.BonusCardCost);
-            currentPlayer.ReduceResources(Constants.BonusCardCost);
-            largestArmy.ProcessOwner(context.CurrentPlayer);
+            context.CurrentPlayer.PurchaseBonusCard(Constants.BonusCardCost);
+            context.CurrentPlayer.ReduceResources(Constants.BonusCardCost);
+            context.LargestArmyHolder.ProcessOwner(context.CurrentPlayer);
             context.OnPlayer(context);
         }
 

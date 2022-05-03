@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Catan.Model.Board;
 using Catan.Model.Context;
 using Catan.Model.Enums;
 using Catan.Model.GameStates.Interfaces;
@@ -14,23 +13,23 @@ namespace Catan.Model.GameStates.ConcreteStates
     {
         public bool IsRoadBuildingState => true;
 
-        public void BuildRoad(CatanContext context, CatanBoard board, IPlayer currentPlayer, ITitle longestRoad, int row, int col)
+        public void BuildRoad(CatanContext context, int row, int col)
         {
-            board.BuildRoad(row, col, currentPlayer.ID);
-            context.OnRoadBuilt(context, row, col, currentPlayer.ID);
-            currentPlayer.LengthOfLongestRoad = context.CalculateLongestRoadFromEdge(board.GetEdge(row, col));
+            context.Board.BuildRoad(row, col, context.CurrentPlayer.ID);
+            context.OnRoadBuilt(context, row, col, context.CurrentPlayer.ID);
+            context.CurrentPlayer.LengthOfLongestRoad = context.CalculateLongestRoadFromEdge(context.Board.GetEdge(row, col));
             context.LongestRoadOwner.ProcessOwner(context.CurrentPlayer);
             //mark neighbouring vertexes as buildable by current player
-            board.GetNeighbourVerticesOfEdge(row, col).ForEach(v => v.AddPotentialBuilder(currentPlayer.ID));
+            context.Board.GetNeighbourVerticesOfEdge(row, col).ForEach(v => v.AddPotentialBuilder(context.CurrentPlayer.ID));
 
             //mark neighbouring Edges as Buildable
-            board.GetEdgesofEdge(row, col).ForEach(edge =>
+            context.Board.GetEdgesofEdge(row, col).ForEach(edge =>
             {
-                edge.AddPotentialBuilder(currentPlayer.ID);
+                edge.AddPotentialBuilder(context.CurrentPlayer.ID);
             });
 
-            currentPlayer.BuildRoad();
-            currentPlayer.ReduceResources(Constants.RoadCost);
+            context.CurrentPlayer.BuildRoad();
+            context.CurrentPlayer.ReduceResources(Constants.RoadCost);
             context.OnPlayer(context);
             context.SetContext(new MainState());
         }
