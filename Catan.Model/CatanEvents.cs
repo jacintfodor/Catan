@@ -5,14 +5,14 @@ using Catan.Model.Events;
 
 namespace Catan.Model
 {
-    public class CatanEvents
+    public class CatanEvents : ICatanEvents
     {
         private CatanEvents()
         {
         }
 
         private static readonly CatanEvents _instance = new();
-        public static CatanEvents Instance
+        internal static CatanEvents Instance
         { get { return _instance; } }
 
         public event EventHandler<DicesThrownEventArg> DicesThrown;
@@ -38,7 +38,7 @@ namespace Catan.Model
             RogueMovingStarted?.Invoke(this, EventArgs.Empty);
         }
 
-        public void  OnRogueMoved(int row, int col)
+        public void OnRogueMoved(int row, int col)
         {
             RogueMoved?.Invoke(this, new RogueMovedEventArgs(row, col));
         }
@@ -110,7 +110,7 @@ namespace Catan.Model
         {
             SettlementBuilt?.Invoke(
                 this,
-                new SettlementBuiltEventArgs(row,col,player)
+                new SettlementBuiltEventArgs(row, col, player)
                 );
         }
 
@@ -118,7 +118,7 @@ namespace Catan.Model
         {
             RoadBuilt?.Invoke(
                 this,
-                new RoadBuiltEventArgs(row,col,player)
+                new RoadBuiltEventArgs(row, col, player)
                 );
         }
 
