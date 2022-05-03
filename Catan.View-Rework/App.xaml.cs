@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 
 using Catan.Model;
+using Catan.Model.GameStates.ConcreteStates;
 using Catan.ViewModel;
 
 namespace Catan.View_Rework
@@ -16,7 +17,7 @@ namespace Catan.View_Rework
     /// </summary>
     public partial class App : Application
     {
-        private CatanGameModel _model;
+        private CatanContext _model;
         private CatanViewModel _viewModel;
         private MainWindow _view;
 
@@ -29,7 +30,8 @@ namespace Catan.View_Rework
         {
             // TODO modell creation
 
-            _model = new();
+
+            _model = new(new EarlyRollingState());
             _viewModel = new(_model);
             _model.NewGame();
 
