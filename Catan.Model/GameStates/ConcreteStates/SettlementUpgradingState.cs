@@ -2,6 +2,8 @@
 using Catan.Model.Enums;
 using Catan.Model.GameStates.Interfaces;
 
+using Catan.Model.Board;
+
 namespace Catan.Model.GameStates.ConcreteStates
 {
     internal class SettlementUpgradingState : ICatanGameState, ISettlementUpgradeable, ICancellable
@@ -14,14 +16,14 @@ namespace Catan.Model.GameStates.ConcreteStates
             context.SetContext(new MainState());
         }
 
-        public void UpgradeSettleMentToTown(CatanContext context, int row, int col)
+        public void UpgradeSettleMentToTown(CatanContext context, CatanBoard board, IPlayer currentPlayer, int row, int col)
         {
 
-            context.Board.UpgradeSettlement(row, col);
+            board.UpgradeSettlement(row, col);
             context.OnSettlementUpgraded(context, row, col);
 
-            context.CurrentPlayer.BuildTown();
-            context.CurrentPlayer.ReduceResources(Constants.TownCost);
+            currentPlayer.BuildTown();
+            currentPlayer.ReduceResources(Constants.TownCost);
             context.OnPlayer(context);
             context.SetContext(new MainState());
         }

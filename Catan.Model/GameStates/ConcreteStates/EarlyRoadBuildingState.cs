@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Catan.Model.Context;
 using Catan.Model.Enums;
 using Catan.Model.GameStates.Interfaces;
+using Catan.Model.Board;
 
 namespace Catan.Model.GameStates.ConcreteStates
 {
@@ -20,20 +21,20 @@ namespace Catan.Model.GameStates.ConcreteStates
 
         public bool IsEarlyRoadBuildingState => true;
 
-        public void BuildRoad(CatanContext context, int row, int col)
+        public void BuildRoad(CatanContext context, CatanBoard board, IPlayer currentPlayer, ITitle longestRoad, int row, int col)
         {
-            context.Board.BuildRoad(row, col, context.CurrentPlayer.ID);
-            context.OnRoadBuilt(context, row, col, context.CurrentPlayer.ID);
+            board.BuildRoad(row, col, currentPlayer.ID);
+            context.OnRoadBuilt(context, row, col, currentPlayer.ID);
 
-            context.CurrentPlayer.LengthOfLongestRoad = context.CalculateLongestRoadFromEdge(context.Board.GetEdge(row, col));
-            context.LongestRoadOwner.ProcessOwner(context.CurrentPlayer);
+            currentPlayer.LengthOfLongestRoad = context.CalculateLongestRoadFromEdge(board.GetEdge(row, col));
+            longestRoad.ProcessOwner(currentPlayer);
             //mark neighbouring vertexes as buildable by current player
-            context.Board.GetNeighbourVerticesOfEdge(row, col).ForEach(v => v.AddPotentialBuilder(context.CurrentPlayer.ID));
+            board.GetNeighbourVerticesOfEdge(row, col).ForEach(v => v.AddPotentialBuilder(currentPlayer.ID));
 
             //mark neighbouring Edges as Buildable
-            context.Board.GetEdgesofEdge(row, col).ForEach(edge =>
+            board.GetEdgesofEdge(row, col).ForEach(edge =>
             {
-                edge.AddPotentialBuilder(context.CurrentPlayer.ID);
+                edge.AddPotentialBuilder(currentPlayer.ID);
             });
 
             //TODO remove magic number 6
@@ -46,14 +47,14 @@ namespace Catan.Model.GameStates.ConcreteStates
             }
             else
             {
-                var list = context.Board.GetVerticesEnumerable().ToList().Where(v => v.IsBuildable).ToList();
+                var list =board.GetVerticesEnumerable().ToList().Where(v => v.IsBuildable).ToList();
                 context.OnSettlementBuildingStarted(list);
 
                 context.SetContext(new EarlySettlementBuildingState(_turnCount));
             }
 
             context.NextPlayer();
-            context.CurrentPlayer.BuildRoad();
+            currentPlayer.BuildRoad();
             context.OnPlayer(context);
         }
     }

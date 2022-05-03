@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Catan.Model.Context;
 using Catan.Model.Enums;
 using Catan.Model.GameStates.Interfaces;
+using Catan.Model.Board;
 
 namespace Catan.Model.GameStates.ConcreteStates
 {
@@ -16,21 +17,24 @@ namespace Catan.Model.GameStates.ConcreteStates
 
         public bool IsEarlyRollingState => true;
 
-        public void RollDices(CatanContext context)
+        public void RollDices(CatanContext context, CatanBoard board, CubeDice firstDice, CubeDice secondDice, IPlayer currentPlayer)
         {
             ++_rollCount;
-            context.FirstDice.roll();
-            context.SecondDice.roll();
-            _rolls.Add(context.CurrentPlayer.ID, context.RolledSum);
+            firstDice.roll();
+            secondDice.roll();
+            _rolls.Add(currentPlayer.ID, context.RolledSum);
             context.NextPlayer();
 
             context.OnDiceThrown(context);
             if (_rollCount == 3)
             {
+                //Im pretty sure thats wrong (int)_rolls.Keys.Max() thats gonna always return p3
                 for (int i = 0; i < (int)_rolls.Keys.Max(); i++)
                     context.NextPlayer();
 
-                var list = context.Board.GetVerticesEnumerable().ToList().Where(v => v.IsBuildable).ToList();
+
+                //TODO put this into context as it has nothing to do with rolls, but first make sure to prepare the code to use IsBuildableByPlayer before using multiple dispatch
+                var list = board.GetVerticesEnumerable().ToList().Where(v => v.IsBuildable).ToList();
                 context.OnSettlementBuildingStarted(list);
                 context.OnPlayer(context);
                 context.SetContext(new EarlySettlementBuildingState(0));

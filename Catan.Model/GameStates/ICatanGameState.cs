@@ -13,7 +13,7 @@ namespace Catan.Model.GameStates
     {
         
         // TODO IsAffordable does not depend on state remove it, once we dont use it anymore
-        public bool IsAffordable(CatanContext context, Goods g) { return false; }
+        public bool IsAffordable(IPlayer currentPlayer, Goods g) { return false; }
 
 
         public bool IsEarlyRollingState => false;
