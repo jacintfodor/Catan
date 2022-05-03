@@ -9,7 +9,7 @@ using Catan.Model.Enums;
 
 namespace Catan.Model.GameStates
 {
-    public interface ICatanGameState
+    internal interface ICatanGameState
     {
         
         // TODO IsAffordable does not depend on state remove it, once we dont use it anymore
