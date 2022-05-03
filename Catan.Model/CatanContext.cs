@@ -44,7 +44,6 @@ namespace Catan.Model
 
         public void NewGame()
         {
-            //TODO actually start a new game
             Events.OnGameStart(this);
         }
 
