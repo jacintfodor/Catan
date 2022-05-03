@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Catan.Model.Context
 {
-    internal interface ITitle
+    public interface ITitle
     {
+        public IPlayer Owner { get; }
         public int Score { get;  }
         public void ProcessOwner(IPlayer titleContester);
     }

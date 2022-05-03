@@ -7,23 +7,24 @@ using Catan.Model.Context.Players;
 
 namespace Catan.Model.Context.Titles
 {
-    public class LargestArmyHolder : ITitle
+    public class LongestRoadOwnerTitle : ITitle
     {
         public IPlayer Owner { get; private set; }
 
-        private LargestArmyHolder() { Owner = NotPlayer.Instance; }
+        private LongestRoadOwnerTitle() { Owner = NotPlayer.Instance; }
 
-        private static readonly LargestArmyHolder _instance = new();
-        public static LargestArmyHolder Instance
+        private static readonly ITitle _instance = new LongestRoadOwnerTitle();
+        public static ITitle Instance
         { get { return _instance; } }
 
         public void ProcessOwner(IPlayer titleContester)
         {
-            if (titleContester.KnightCardCount > Owner.KnightCardCount)
+            if (titleContester.LengthOfLongestRoad > Owner.LengthOfLongestRoad)
             {
                 Owner = titleContester;
             }
         }
+
         public int Score { get { return 2; } }
     }
 }
