@@ -17,23 +17,7 @@ namespace Catan.Model
         public static CatanEvents Instance
         { get { return _instance; } }
 
-        public event EventHandler<DicesThrownEventArg> DicesThrown;
-        public event EventHandler<GameStartEventArgs> GameStart;
-        public event EventHandler<PlayerEventArgs> Player;
-
-        public event EventHandler<SettlementBuildingStartedEventArgs> SettlementBuildingStarted;
-        public event EventHandler<SettlementBuiltEventArgs> SettlementBuilt;
-
-        public event EventHandler<SettlementUpgradingStartedEventArgs> SettlementUpgradingStarted;
-        public event EventHandler<SettlementUpgradedEventArgs> SettlementUpgraded;
-
-        public event EventHandler<RoadBuildingStartedEventArgs> RoadBuildingStarted;
-        public event EventHandler<RoadBuiltEventArgs> RoadBuilt;
-
-        public event EventHandler<CancelEventArgs> Cancel;
-
-        public event EventHandler<EventArgs> RogueMovingStarted;
-        public event EventHandler<RogueMovedEventArgs> RogueMoved;
+        
 
         public void OnRogueMovingStarted()
         {
