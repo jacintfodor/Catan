@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Catan.Model.Board;
 using Catan.Model.Context;
 using Catan.Model.Enums;
 using Catan.Model.GameStates.Interfaces;
@@ -13,24 +14,23 @@ namespace Catan.Model.GameStates.ConcreteStates
     {
         public bool IsSettlementBuildingState => true;
 
-        public void BuildSettleMent(CatanContext context, int row, int col)
+        public void BuildSettleMent(ICatanContext context, ICatanEvents events, ICatanBoard board, IPlayer currentPlayer, int row, int col)
         {
+            board.BuildSettlement(row, col, currentPlayer.ID);
+            events.OnSettlementBuilt(context, row, col, currentPlayer.ID);
 
-            context.Board.BuildSettlement(row, col, context.CurrentPlayer.ID);
-            context.Events.OnSettlementBuilt(context, row, col, context.CurrentPlayer.ID);
+            board.GetNeighborEdgesOfVertex(row, col).ForEach(e => e.AddPotentialBuilder(currentPlayer.ID));
+            board.MarkNeighbouringVerticesNotBuildable(row, col);
 
-            context.Board.GetNeighborEdgesOfVertex(row, col).ForEach(e => e.AddPotentialBuilder(context.CurrentPlayer.ID));
-            context.Board.GetNeighborVerticesOfVertex(row, col).ForEach(v => v.SetNotBuildableCommunity());
-
-            context.CurrentPlayer.BuildSettlement();
-            context.CurrentPlayer.ReduceResources(Constants.SettlementCost);
-            context.Events.OnPlayer(context);
+            currentPlayer.BuildSettlement();
+            currentPlayer.ReduceResources(Constants.SettlementCost);
+            events.OnPlayer(context);
             context.SetContext(new MainState());
         }
 
-        public void Cancel(CatanContext context)
+        public void Cancel(ICatanContext context, ICatanEvents events)
         {
-            context.Events.OnCancel();
+            events.OnCancel();
             context.SetContext(new MainState());
         }
     }

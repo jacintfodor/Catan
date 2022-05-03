@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Catan.Model.Context
 {
-    public class Rogue
+    public class Rogue : IRogue
     {
         public int Row { get; set; }
         public int Col { get; set; }

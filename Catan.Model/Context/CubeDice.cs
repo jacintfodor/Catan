@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Catan.Model.Context
 {
-    public class CubeDice
+    public class CubeDice : ICubeDice
     {
         private int _value;
         Random _randomGenerator;

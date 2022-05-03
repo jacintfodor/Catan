@@ -82,11 +82,11 @@ namespace Catan.Model.Context.Players
         }
         private int LongestRoadTitleScore()
         {
-            return (LongestRoadOwner.Instance.Owner == this) ? LongestRoadOwner.Instance.Score : 0;
+            return (LongestRoadOwnerTitle.Instance.Owner == this) ? LongestRoadOwnerTitle.Instance.Score : 0;
         }
         private int LargestArmyTitleScore()
         {
-            return (LargestArmyHolder.Instance.Owner == this) ? LargestArmyHolder.Instance.Score : 0;
+            return (LargestArmyHolderTitle.Instance.Owner == this) ? LargestArmyHolderTitle.Instance.Score : 0;
         }
         #endregion
         

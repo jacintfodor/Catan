@@ -5,7 +5,7 @@ using Catan.Model.Enums;
 namespace Catan.Model.Board
 {
 
-    public class CatanBoard
+    public class CatanBoard : ICatanBoard
     {
 
         #region Variables
@@ -156,7 +156,8 @@ namespace Catan.Model.Board
         {
             List<IVertex> retVal = new List<IVertex>();
             int offset = row % 2 == col % 2 ? 1 : -1;
-            if (row + offset >= 0 && row + offset < 11) { 
+            if (row + offset >= 0 && row + offset < 11)
+            {
                 if (_Vertices[row + offset, col] != null)
                     retVal.Add(_Vertices[row + offset, col]);
             }
@@ -179,7 +180,8 @@ namespace Catan.Model.Board
         {
             List<IEdge> retVal = new List<IEdge>();
             int offset = row % 2 == col % 2 ? 1 : -1;
-            if (col < 11 && row*2 < 11) {
+            if (col < 11 && row * 2 < 11)
+            {
 
                 if (_Edges[row * 2, col] != null)
                     retVal.Add(_Edges[row * 2, col]);
@@ -190,7 +192,7 @@ namespace Catan.Model.Board
                     retVal.Add(_Edges[row * 2 + offset, col]);
             }
 
-            if (col -1 >= 0 && row*2 < 11)
+            if (col - 1 >= 0 && row * 2 < 11)
             {
                 if (_Edges[row * 2, col - 1] != null)
                     retVal.Add(_Edges[row * 2, col - 1]);
@@ -276,7 +278,8 @@ namespace Catan.Model.Board
         #region Methods 
         public void BuildRoad(int row, int col, PlayerEnum player)
         {
-            if (_Edges[row, col].IsBuildableByPlayer(player)) { 
+            if (_Edges[row, col].IsBuildableByPlayer(player))
+            {
                 _Edges[row, col].Build(player);
                 //getNeighbourVerticesOfEdge(row,col).ForEach(vertex => {
                 //    vertex.AddPotentialBuilder(player);
