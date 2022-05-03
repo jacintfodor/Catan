@@ -17,7 +17,7 @@ using Catan.Model.GameStates.Interfaces;
 
 namespace Catan.Model
 {
-    public class CatanContext
+    internal class CatanContext : ICatanContext
     {
         private Queue<IPlayer> _players = new();
 
@@ -34,20 +34,20 @@ namespace Catan.Model
         public CatanBoard Board { get; private set; }
         public CubeDice FirstDice { get; private set; }
         public CubeDice SecondDice { get; private set; }
-        
+
         public int RolledSum { get => FirstDice.RolledValue + SecondDice.RolledValue; }
 
         public Rogue Rogue { get => Rogue.Instance; }
 
         public CatanEvents Events { get => CatanEvents.Instance; }
 
-        public LargestArmyHolder LargestArmyHolder { get => LargestArmyHolder.Instance;}
-        public LongestRoadOwner LongestRoadOwner { get => LongestRoadOwner.Instance;}
-        public IPlayer CurrentPlayer { get => _players.ElementAtOrDefault(0) ?? NotPlayer.Instance;}
+        public LargestArmyHolder LargestArmyHolder { get => LargestArmyHolder.Instance; }
+        public LongestRoadOwner LongestRoadOwner { get => LongestRoadOwner.Instance; }
+        public IPlayer CurrentPlayer { get => _players.ElementAtOrDefault(0) ?? NotPlayer.Instance; }
         public IPlayer NextPlayerInQueue { get => _players.ElementAtOrDefault(1) ?? NotPlayer.Instance; }
         public IPlayer NextNextPlayerInQueue { get => _players.ElementAtOrDefault(2) ?? NotPlayer.Instance; }
-        public IPlayer Winner { get => CurrentPlayer.CalculateScore() >= 5 ? CurrentPlayer : NotPlayer.Instance;  }
-        public void NextPlayer() { _players.Enqueue( _players.Dequeue()); }
+        public IPlayer Winner { get => CurrentPlayer.CalculateScore() >= 5 ? CurrentPlayer : NotPlayer.Instance; }
+        public void NextPlayer() { _players.Enqueue(_players.Dequeue()); }
 
         public void init()
         {
@@ -83,26 +83,27 @@ namespace Catan.Model
         }
 
         //TODO change State to be an instance of EarlyRollingState once we can
-        internal ICatanGameState State { get; private set; } = new EarlyRollingState();
-        internal void SetContext(ICatanGameState state) { State = state; }
+        private ICatanGameState State { get; set; } = new EarlyRollingState();
+        public void SetContext(ICatanGameState state) { State = state; }
 
         #region state dependent methods
-        public void EndTurn() 
-        { 
+        public void EndTurn()
+        {
             var state = State as IMainState;
             state?.EndTurn(this);
         }
         public void RollDices()
         {
             var state = State as IRollable;
-            state?.RollDices(this); 
+            state?.RollDices(this);
         }
-        public void MoveRogue(int row, int col) { 
+        public void MoveRogue(int row, int col)
+        {
             var state = State as IRogueMovable;
             state?.MoveRogue(this, row, col);
         }
         public bool IsAffordable(Goods g) { return State.IsAffordable(this, g); }
-        public void ExchangeWithBank(ResourceEnum from, ResourceEnum to) 
+        public void ExchangeWithBank(ResourceEnum from, ResourceEnum to)
         {
             var state = State as IMainState;
             state?.ExchangeWithBank(this, from, to);
@@ -110,22 +111,22 @@ namespace Catan.Model
         public void PurchaseBonusCard()
         {
             var state = State as IMainState;
-            state?.PurchaseBonusCard(this); 
+            state?.PurchaseBonusCard(this);
         }
-        public void StartRoadBuilding() 
+        public void StartRoadBuilding()
         {
             var state = State as IMainState;
-            state?.StartRoadBuilding(this); 
+            state?.StartRoadBuilding(this);
         }
         public void BuildRoad(int row, int col)
         {
             var state = State as IRoadBuildable;
-            state?.BuildRoad(this, row, col); 
+            state?.BuildRoad(this, row, col);
         }
-        public void StartSettlementBuilding() 
+        public void StartSettlementBuilding()
         {
             var state = State as IMainState;
-            state?.StartSettlementBuilding(this); 
+            state?.StartSettlementBuilding(this);
         }
         public void BuildSettleMent(int row, int col)
         {
@@ -140,12 +141,12 @@ namespace Catan.Model
         public void UpgradeSettleMentToTown(int row, int col)
         {
             var state = State as ISettlementUpgradeable;
-            state?.UpgradeSettleMentToTown(this, row, col); 
+            state?.UpgradeSettleMentToTown(this, row, col);
         }
-        public void Cancel() 
+        public void Cancel()
         {
             var state = State as ICancellable;
-            state?.Cancel(this); 
+            state?.Cancel(this);
         }
         public void StartTrade() { throw new NotImplementedException(); }
         public void MakeOffer(/* TODO offer vars*/) { throw new NotImplementedException(); }
@@ -167,7 +168,8 @@ namespace Catan.Model
         #region Methods
         public void DistributeResources(int dieValue, bool isEarly = false)
         {
-            foreach (IHex hex in Board.GetHexesEnumerable()) {
+            foreach (IHex hex in Board.GetHexesEnumerable())
+            {
                 if (isEarly)
                     goto Early;
                 if (hex.Value != dieValue || Rogue.Row == hex.Row && Rogue.Col == hex.Col)
@@ -180,7 +182,7 @@ namespace Catan.Model
                         int amount = (vertex.GetCommunity() is Town) ? 2 : 1;
                         foreach (IPlayer player in _players)
                         {
-                            if(player.ID == vertex.Owner)
+                            if (player.ID == vertex.Owner)
                                 player.AddResource(new Goods(hex.Resource) * amount);
                         }
                     }
@@ -201,7 +203,8 @@ namespace Catan.Model
                 toProcess.Remove(currentlyProccessing);
                 retVal++;
 
-                Board.GetEdgesofEdge(currentlyProccessing.Row, currentlyProccessing.Col).ForEach(edge => {
+                Board.GetEdgesofEdge(currentlyProccessing.Row, currentlyProccessing.Col).ForEach(edge =>
+                {
                     if (edge.Owner == CurrentPlayer.ID && !toProcess.Contains(edge) && !processed.Contains(edge) && edge != currentlyProccessing)
                         toProcess.Add(edge);
                 });
@@ -216,8 +219,8 @@ namespace Catan.Model
             {
                 if (edge.IsBuildableByPlayer(CurrentPlayer.ID))
                     retVal.Add(edge);
-            }   
-            
+            }
+
             return retVal;
         }
         public List<IVertex> GetBuildableSettlementsByPlayer()
