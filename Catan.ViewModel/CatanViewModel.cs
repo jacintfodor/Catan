@@ -18,7 +18,7 @@ namespace Catan.ViewModel
 {
     public class CatanViewModel : ViewModelBase
     {
-        private CatanContext _model;
+        private CatanGameModel _model;
 
         public ObservableCollection<HexViewModel> Hexes { get; set; }
         public ObservableCollection<VertexViewModel> Vertices { get; set; }
@@ -58,7 +58,7 @@ namespace Catan.ViewModel
         public DelegateCommand UpgradeSettlementCommand { get; private set; }
         public DelegateCommand CancelCommand { get; private set; }
         public DelegateCommand ExchangeWithBankCommand { get; private set; }
-        public CatanViewModel(CatanContext model)
+        public CatanViewModel(CatanGameModel model)
         {
             _model = model;
             /* Hexes */
@@ -78,23 +78,23 @@ namespace Catan.ViewModel
             _currentPlayer = new PlayerViewModel(NotPlayer.Instance);
 
 
-            _model.DicesThrown += Model_Events_DicesThrown;
-            _model.GameStarted += Model_Events_NewGame;
-            _model.PlayerUpdated += Model_Events_Player;
+            _model.Events.DicesThrown += Model_Events_DicesThrown;
+            _model.Events.GameStart += Model_Events_NewGame;
+            _model.Events.Player += Model_Events_Player;
 
-            _model.SettlementBuildingStarted += Model_Events_SettlementBuildingStarted;
-            _model.SettlementBuilt += Model_Events_SettlementBuilt;
+            _model.Events.SettlementBuildingStarted += Model_Events_SettlementBuildingStarted;
+            _model.Events.SettlementBuilt += Model_Events_SettlementBuilt;
 
-            _model.SettlementUpgradingStarted += Model_Events_SettlementUpgradingStarted;
-            _model.SettlementUpgraded += Model_Events_SettlementUpgraded;
+            _model.Events.SettlementUpgradingStarted += Model_Events_SettlementUpgradingStarted;
+            _model.Events.SettlementUpgraded += Model_Events_SettlementUpgraded;
 
-            _model.RoadBuildingStarted += Model_Events_RoadBuildingStarted;
-            _model.RoadBuilt += Model_Events_RoadBuilt;
+            _model.Events.RoadBuildingStarted += Model_Events_RoadBuildingStarted;
+            _model.Events.RoadBuilt += Model_Events_RoadBuilt;
 
-            _model.Cancelled += Model_Events_Cancel;
+            _model.Events.Cancel += Model_Events_Cancel;
 
-            _model.RogueMovingStarted += Model_Events_RogueMovingStarted;
-            _model.RogueMoved += Model_Events_RogueMoved;
+            _model.Events.RogueMovingStarted += Model_Events_RogueMovingStarted;
+            _model.Events.RogueMoved += Model_Events_RogueMoved;
 
             ThrowDicesCommand = new DelegateCommand(_ => _model.RollDices(), _ => _model.IsEarlyRollingState || _model.IsRollingState);
             EndTurnCommand = new DelegateCommand(_ => _model.EndTurn(), _ => _model.IsMainState);
