@@ -187,6 +187,7 @@ namespace Catan.Model
         #endregion
 
         #region Methods
+        //TODO use multiple dispatch with states instead of goto or any other neater solution
         public void DistributeResources(int dieValue, bool isEarly = false)
         {
             foreach (IHex hex in Board.GetHexesEnumerable()) {
