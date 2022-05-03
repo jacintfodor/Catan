@@ -151,7 +151,7 @@ namespace Catan.Model
         internal CatanContext(ICatanGameState initialState)
         {
             SetContext(initialState);
-            Init();
+            init();
         }
 
         public CatanBoard Board { get; private set; }
@@ -172,7 +172,7 @@ namespace Catan.Model
         public IPlayer Winner { get => CurrentPlayer.CalculateScore() >= 5 ? CurrentPlayer : NotPlayer.Instance;  }
         public void NextPlayer() { _players.Enqueue( _players.Dequeue()); }
 
-        public void Init()
+        public void init()
         {
             Board = new();
             var desert = Board.GetHexesEnumerable().SkipWhile(x => x.Resource != ResourceEnum.Desert).ElementAt(0);
@@ -202,7 +202,7 @@ namespace Catan.Model
         public void reset()
         {
             clear();
-            Init();
+            init();
         }
 
         //TODO change State to be an instance of EarlyRollingState once we can
