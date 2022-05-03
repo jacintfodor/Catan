@@ -9,7 +9,7 @@ namespace Catan.Model
 {
     public interface ICatanContext
     {
-        CatanBoard Board { get; }
+        ICatanBoard Board { get; }
         IPlayer CurrentPlayer { get; }
         ICatanEvents Events { get; }
         CubeDice FirstDice { get; }
@@ -23,8 +23,8 @@ namespace Catan.Model
         bool IsSettlementBuildingState { get; }
         bool IsSettlementUpgradingState { get; }
         bool IsWinningState { get; }
-        LargestArmyHolder LargestArmyHolder { get; }
-        LongestRoadOwner LongestRoadOwner { get; }
+        ITitle LargestArmyHolder { get; }
+        ITitle LongestRoadOwner { get; }
         IPlayer NextNextPlayerInQueue { get; }
         IPlayer NextPlayerInQueue { get; }
         Rogue Rogue { get; }

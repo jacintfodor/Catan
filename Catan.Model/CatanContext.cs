@@ -31,7 +31,7 @@ namespace Catan.Model
             SetContext(initialState);
             init();
         }
-        public CatanBoard Board { get; private set; }
+        public ICatanBoard Board { get; private set; }
         public CubeDice FirstDice { get; private set; }
         public CubeDice SecondDice { get; private set; }
 
@@ -41,8 +41,8 @@ namespace Catan.Model
 
         public ICatanEvents Events { get => CatanEvents.Instance; }
 
-        public LargestArmyHolder LargestArmyHolder { get => LargestArmyHolder.Instance; }
-        public LongestRoadOwner LongestRoadOwner { get => LongestRoadOwner.Instance; }
+        public ITitle LargestArmyHolder { get => LargestArmyHolderTitle.Instance; }
+        public ITitle LongestRoadOwner { get => LongestRoadOwnerTitle.Instance; }
         public IPlayer CurrentPlayer { get => _players.ElementAtOrDefault(0) ?? NotPlayer.Instance; }
         public IPlayer NextPlayerInQueue { get => _players.ElementAtOrDefault(1) ?? NotPlayer.Instance; }
         public IPlayer NextNextPlayerInQueue { get => _players.ElementAtOrDefault(2) ?? NotPlayer.Instance; }
@@ -51,7 +51,7 @@ namespace Catan.Model
 
         public void init()
         {
-            Board = new();
+            Board = new CatanBoard();
             var desert = Board.GetHexesEnumerable().SkipWhile(x => x.Resource != ResourceEnum.Desert).ElementAt(0);
             Rogue.Row = desert.Row;
             Rogue.Col = desert.Col;
