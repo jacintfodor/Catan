@@ -30,7 +30,7 @@ namespace Catan.Model.GameStates.ConcreteStates
             //TODO handle from=to as invalid
             context.CurrentPlayer.ReduceResources(new Goods(from) * 3);
             context.CurrentPlayer.AddResource(new Goods(to));
-            context.OnPlayer(context);
+            context.Events.OnPlayer(context);
         }
 
         public bool IsAffordable(CatanContext context, Goods g)
@@ -44,24 +44,24 @@ namespace Catan.Model.GameStates.ConcreteStates
             context.CurrentPlayer.PurchaseBonusCard(Constants.BonusCardCost);
             context.CurrentPlayer.ReduceResources(Constants.BonusCardCost);
             context.LargestArmyHolder.ProcessOwner(context.CurrentPlayer);
-            context.OnPlayer(context);
+            context.Events.OnPlayer(context);
         }
 
         public void StartRoadBuilding(CatanContext context)
         {
-            context.OnRoadBuildingStarted(context.GetBuildableRoadsByPlayer());
+            context.Events.OnRoadBuildingStarted(context.GetBuildableRoadsByPlayer());
             context.SetContext(new RoadBuildingState());
         }
 
         public void StartSettlementBuilding(CatanContext context)
         {
-            context.OnSettlementBuildingStarted(context.GetBuildableSettlementsByPlayer());
+            context.Events.OnSettlementBuildingStarted(context.GetBuildableSettlementsByPlayer());
             context.SetContext(new SettlementBuildingState());
         }
 
         public void StartSettlementUpgrading(CatanContext context)
         {
-            context.OnSettlementUpgradingStarted(context.GetUpgradeableSettlementsByPlayer());
+            context.Events.OnSettlementUpgradingStarted(context.GetUpgradeableSettlementsByPlayer());
             context.SetContext(new SettlementUpgradingState());
         }
     }
