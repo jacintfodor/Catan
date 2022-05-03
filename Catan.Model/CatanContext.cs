@@ -64,6 +64,7 @@ namespace Catan.Model
             _players.Enqueue(new Player(PlayerEnum.Player2));
             _players.Enqueue(new Player(PlayerEnum.Player3));
 
+            Events.OnPlayer(this);
             /*
             CurrentPlayer.AddResource(new Goods(new List<int> { 5, 5, 5, 5, 5 }));
             NextPlayerInQueue.AddResource(new Goods(new List<int> { 10, 10, 10, 10, 10 }));
