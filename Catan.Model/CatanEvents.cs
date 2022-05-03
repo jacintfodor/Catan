@@ -11,8 +11,6 @@ namespace Catan.Model
         {
         }
 
-        public string Name { get; set; }
-
         private static readonly CatanEvents _instance = new();
         public static CatanEvents Instance
         { get { return _instance; } }
