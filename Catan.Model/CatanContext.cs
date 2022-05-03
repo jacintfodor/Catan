@@ -32,8 +32,8 @@ namespace Catan.Model
             init();
         }
         public ICatanBoard Board { get; private set; }
-        public CubeDice FirstDice { get; private set; }
-        public CubeDice SecondDice { get; private set; }
+        public ICubeDice FirstDice { get; private set; }
+        public ICubeDice SecondDice { get; private set; }
 
         public int RolledSum { get => FirstDice.RolledValue + SecondDice.RolledValue; }
 
@@ -57,8 +57,8 @@ namespace Catan.Model
             Rogue.Col = desert.Col;
 
             Random rng = new Random();
-            FirstDice = new(rng.Next());
-            SecondDice = new(rng.Next());
+            FirstDice = new CubeDice(rng.Next());
+            SecondDice = new CubeDice(rng.Next());
 
             _players.Enqueue(new Player(PlayerEnum.Player1));
             _players.Enqueue(new Player(PlayerEnum.Player2));

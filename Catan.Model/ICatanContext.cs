@@ -12,7 +12,7 @@ namespace Catan.Model
         ICatanBoard Board { get; }
         IPlayer CurrentPlayer { get; }
         ICatanEvents Events { get; }
-        CubeDice FirstDice { get; }
+        ICubeDice FirstDice { get; }
         bool IsEarlyRoadBuildingState { get; }
         bool IsEarlyRollingState { get; }
         bool IsEarlySettlementBuildingState { get; }
@@ -29,7 +29,7 @@ namespace Catan.Model
         IPlayer NextPlayerInQueue { get; }
         Rogue Rogue { get; }
         int RolledSum { get; }
-        CubeDice SecondDice { get; }
+        ICubeDice SecondDice { get; }
         IPlayer Winner { get; }
 
         void AcceptTrade();
