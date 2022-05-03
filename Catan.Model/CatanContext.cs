@@ -148,7 +148,7 @@ namespace Catan.Model
             OnGameStart(this);
         }
 
-        internal CatanContext(ICatanGameState initialState)
+        public CatanContext(ICatanGameState initialState)
         {
             SetContext(initialState);
             Init();
@@ -162,7 +162,6 @@ namespace Catan.Model
 
         public Rogue Rogue { get => Rogue.Instance; }
 
-        public CatanEvents Events { get => CatanEvents.Instance; }
 
         public LargestArmyHolder LargestArmyHolder { get => LargestArmyHolder.Instance;}
         public LongestRoadOwner LongestRoadOwner { get => LongestRoadOwner.Instance;}
@@ -218,22 +217,22 @@ namespace Catan.Model
         public void RollDices()
         {
             var state = State as IRollable;
-            state?.RollDices(this); 
+            state?.RollDices(this, Board, FirstDice, SecondDice, CurrentPlayer); 
         }
         public void MoveRogue(int row, int col) { 
             var state = State as IRogueMovable;
-            state?.MoveRogue(this, row, col);
+            state?.MoveRogue(this, Rogue, row, col);
         }
-        public bool IsAffordable(Goods g) { return State.IsAffordable(this, g); }
+        public bool IsAffordable(Goods g) { return State.IsAffordable(CurrentPlayer, g); }
         public void ExchangeWithBank(ResourceEnum from, ResourceEnum to) 
         {
             var state = State as IMainState;
-            state?.ExchangeWithBank(this, from, to);
+            state?.ExchangeWithBank(this, CurrentPlayer, from, to);
         }
         public void PurchaseBonusCard()
         {
             var state = State as IMainState;
-            state?.PurchaseBonusCard(this); 
+            state?.PurchaseBonusCard(this, CurrentPlayer, LargestArmyHolder); 
         }
         public void StartRoadBuilding() 
         {
@@ -243,7 +242,7 @@ namespace Catan.Model
         public void BuildRoad(int row, int col)
         {
             var state = State as IRoadBuildable;
-            state?.BuildRoad(this, row, col); 
+            state?.BuildRoad(this, Board, CurrentPlayer, LongestRoadOwner, row, col); 
         }
         public void StartSettlementBuilding() 
         {
@@ -253,7 +252,7 @@ namespace Catan.Model
         public void BuildSettleMent(int row, int col)
         {
             var state = State as ISettlementBuildable;
-            state?.BuildSettleMent(this, row, col);
+            state?.BuildSettleMent(this, Board, CurrentPlayer, row, col);
         }
         public void StartSettlementUpgrading()
         {
@@ -263,7 +262,7 @@ namespace Catan.Model
         public void UpgradeSettleMentToTown(int row, int col)
         {
             var state = State as ISettlementUpgradeable;
-            state?.UpgradeSettleMentToTown(this, row, col); 
+            state?.UpgradeSettleMentToTown(this, Board, CurrentPlayer, row, col); 
         }
         public void Cancel() 
         {
@@ -371,5 +370,22 @@ namespace Catan.Model
             return _players.ToList();
         }
         #endregion
+
+        public bool HasEnoughResourcesToPurchaseCard()
+        {
+            return CurrentPlayer.CanAfford(Constants.BonusCardCost);
+        }
+        public bool HasEnoughResourcesToBuildRoad()
+        {
+            return CurrentPlayer.CanAfford(Constants.RoadCost) && CurrentPlayer.CanBuildRoad();
+        }
+        public bool HasEnoughResourcesToBuildSettlement()
+        {
+            return CurrentPlayer.CanAfford(Constants.SettlementCost) && CurrentPlayer.CanBuildSettlement();
+        }
+        public bool HasEnoughResourcesToUpgradeSettlementToTown()
+        {
+            return CurrentPlayer.CanAfford(Constants.TownCost) && CurrentPlayer.CanBuildTown();
+        }
     }
 }
