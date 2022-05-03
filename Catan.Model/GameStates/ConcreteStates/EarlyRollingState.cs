@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Catan.Model.Board;
 using Catan.Model.Context;
 using Catan.Model.Enums;
 using Catan.Model.GameStates.Interfaces;
@@ -16,23 +17,25 @@ namespace Catan.Model.GameStates.ConcreteStates
 
         public bool IsEarlyRollingState => true;
 
-        public void RollDices(ICatanContext context)
+        public void RollDices(ICatanContext context, ICatanEvents events, ICatanBoard board, ICubeDice firstDice, ICubeDice secondDice, IPlayer currentPlayer)
         {
             ++_rollCount;
-            context.FirstDice.roll();
-            context.SecondDice.roll();
-            _rolls.Add(context.CurrentPlayer.ID, context.RolledSum);
+            firstDice.roll();
+            secondDice.roll();
+            _rolls.Add(currentPlayer.ID, context.RolledSum);
             context.NextPlayer();
 
-            context.Events.OnDiceThrown(context);
+            events.OnDiceThrown(context);
             if (_rollCount == 3)
             {
+                //pretty sure this one returns player 3 all the time
                 for (int i = 0; i < (int)_rolls.Keys.Max(); i++)
                     context.NextPlayer();
 
-                var list = context.Board.GetVerticesEnumerable().ToList().Where(v => v.IsBuildable).ToList();
-                context.Events.OnSettlementBuildingStarted(list);
-                context.Events.OnPlayer(context);
+                //TODO move this to elsewhere
+                var list = board.GetVerticesEnumerable().ToList().Where(v => v.IsBuildable).ToList();
+                events.OnSettlementBuildingStarted(list);
+                events.OnPlayer(context);
                 context.SetContext(new EarlySettlementBuildingState(0));
             }
         }

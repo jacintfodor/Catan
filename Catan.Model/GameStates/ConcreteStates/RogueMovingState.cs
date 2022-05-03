@@ -13,16 +13,16 @@ namespace Catan.Model.GameStates.ConcreteStates
     {
         public bool IsRogueMovingState => true;
 
-        public void Cancel(ICatanContext context)
+        public void Cancel(ICatanContext context, ICatanEvents events)
         {
-            context.Events.OnCancel();
+            events.OnCancel();
             context.SetContext(new MainState());
         }
 
-        public void MoveRogue(ICatanContext context, int row, int col)
+        public void MoveRogue(ICatanContext context, ICatanEvents events, IRogue rogue, int row, int col)
         {
-            context.Rogue.Move(row, col);
-            context.Events.OnRogueMoved(row, col);
+            rogue.Move(row, col);
+            events.OnRogueMoved(row, col);
 
             context.SetContext(new MainState());
         }

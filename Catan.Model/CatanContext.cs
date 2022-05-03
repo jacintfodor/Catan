@@ -90,63 +90,63 @@ namespace Catan.Model
         public void EndTurn()
         {
             var state = State as IMainState;
-            state?.EndTurn(this);
+            state?.EndTurn(this, Events);
         }
         public void RollDices()
         {
             var state = State as IRollable;
-            state?.RollDices(this);
+            state?.RollDices(this, Events, Board, FirstDice, SecondDice, CurrentPlayer);
         }
         public void MoveRogue(int row, int col)
         {
             var state = State as IRogueMovable;
-            state?.MoveRogue(this, row, col);
+            state?.MoveRogue(this, Events, Rogue, row, col);
         }
-        public bool IsAffordable(Goods g) { return State.IsAffordable(this, g); }
+        public bool IsAffordable(Goods g) { return State.IsAffordable(this, CurrentPlayer, g); }
         public void ExchangeWithBank(ResourceEnum from, ResourceEnum to)
         {
             var state = State as IMainState;
-            state?.ExchangeWithBank(this, from, to);
+            state?.ExchangeWithBank(this, Events, CurrentPlayer, from, to);
         }
         public void PurchaseBonusCard()
         {
             var state = State as IMainState;
-            state?.PurchaseBonusCard(this);
+            state?.PurchaseBonusCard(this, Events, CurrentPlayer, LargestArmyHolder);
         }
         public void StartRoadBuilding()
         {
             var state = State as IMainState;
-            state?.StartRoadBuilding(this);
+            state?.StartRoadBuilding(this, Events);
         }
         public void BuildRoad(int row, int col)
         {
             var state = State as IRoadBuildable;
-            state?.BuildRoad(this, row, col);
+            state?.BuildRoad(this, Events, Board, LongestRoadOwner, CurrentPlayer, row, col);
         }
         public void StartSettlementBuilding()
         {
             var state = State as IMainState;
-            state?.StartSettlementBuilding(this);
+            state?.StartSettlementBuilding(this, Events);
         }
         public void BuildSettleMent(int row, int col)
         {
             var state = State as ISettlementBuildable;
-            state?.BuildSettleMent(this, row, col);
+            state?.BuildSettleMent(this, Events, Board, CurrentPlayer, row, col);
         }
         public void StartSettlementUpgrading()
         {
             var state = State as IMainState;
-            state?.StartSettlementUpgrading(this);
+            state?.StartSettlementUpgrading(this, Events);
         }
         public void UpgradeSettleMentToTown(int row, int col)
         {
             var state = State as ISettlementUpgradeable;
-            state?.UpgradeSettleMentToTown(this, row, col);
+            state?.UpgradeSettleMentToTown(this, Events, Board, CurrentPlayer, row, col);
         }
         public void Cancel()
         {
             var state = State as ICancellable;
-            state?.Cancel(this);
+            state?.Cancel(this, Events);
         }
         public void StartTrade() { throw new NotImplementedException(); }
         public void MakeOffer(/* TODO offer vars*/) { throw new NotImplementedException(); }
