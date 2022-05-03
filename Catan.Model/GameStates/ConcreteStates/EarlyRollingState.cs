@@ -10,7 +10,7 @@ using Catan.Model.Board;
 
 namespace Catan.Model.GameStates.ConcreteStates
 {
-    internal class EarlyRollingState : ICatanGameState, IRollable
+    public class EarlyRollingState : ICatanGameState, IRollable
     {
         private int _rollCount = 0;
         private readonly Dictionary<PlayerEnum, int> _rolls = new();
