@@ -21,27 +21,6 @@ namespace Catan.Model
     {
         private Queue<IPlayer> _players = new();
 
-
-        #region events
-        public event EventHandler<DicesThrownEventArg> DicesThrown;
-        public event EventHandler<GameStartEventArgs> GameStarted;
-        public event EventHandler<PlayerEventArgs> PlayerChanged;
-
-        public event EventHandler<SettlementBuildingStartedEventArgs> SettlementBuildingStarted;
-        public event EventHandler<SettlementBuiltEventArgs> SettlementBuilt;
-
-        public event EventHandler<SettlementUpgradingStartedEventArgs> SettlementUpgradingStarted;
-        public event EventHandler<SettlementUpgradedEventArgs> SettlementUpgraded;
-
-        public event EventHandler<RoadBuildingStartedEventArgs> RoadBuildingStarted;
-        public event EventHandler<RoadBuiltEventArgs> RoadBuilt;
-
-        public event EventHandler<CancelEventArgs> Cancelled;
-
-        public event EventHandler<EventArgs> RogueMovingStarted;
-        public event EventHandler<RogueMovedEventArgs> RogueMoved;
-        #endregion
-
         public void NewGame()
         {
             Events.OnGameStart(this);
