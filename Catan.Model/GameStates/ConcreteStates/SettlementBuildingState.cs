@@ -17,20 +17,20 @@ namespace Catan.Model.GameStates.ConcreteStates
         {
 
             context.Board.BuildSettlement(row, col, context.CurrentPlayer.ID);
-            context.Events.OnSettlementBuilt(context, row, col, context.CurrentPlayer.ID);
+            context.OnSettlementBuilt(context, row, col, context.CurrentPlayer.ID);
 
             context.Board.GetNeighborEdgesOfVertex(row, col).ForEach(e => e.AddPotentialBuilder(context.CurrentPlayer.ID));
             context.Board.GetNeighborVerticesOfVertex(row, col).ForEach(v => v.SetNotBuildableCommunity());
 
             context.CurrentPlayer.BuildSettlement();
             context.CurrentPlayer.ReduceResources(Constants.SettlementCost);
-            context.Events.OnPlayer(context);
+            context.OnPlayer(context);
             context.SetContext(new MainState());
         }
 
         public void Cancel(CatanContext context)
         {
-            context.Events.OnCancel();
+            context.OnCancel();
             context.SetContext(new MainState());
         }
     }
