@@ -16,7 +16,7 @@ namespace Catan.Model.GameStates.ConcreteStates
 
         public bool IsEarlyRollingState => true;
 
-        public void RollDices(CatanContext context)
+        public void RollDices(ICatanContext context)
         {
             ++_rollCount;
             context.FirstDice.roll();

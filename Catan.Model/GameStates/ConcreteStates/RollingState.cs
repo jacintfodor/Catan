@@ -13,7 +13,7 @@ namespace Catan.Model.GameStates.ConcreteStates
     {
         public bool IsRollingState => true;
 
-        public void RollDices(CatanContext context)
+        public void RollDices(ICatanContext context)
         {
             context.FirstDice.roll();
             context.SecondDice.roll();

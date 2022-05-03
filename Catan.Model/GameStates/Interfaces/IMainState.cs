@@ -10,11 +10,11 @@ namespace Catan.Model.GameStates.Interfaces
 {
     internal interface IMainState
     {
-        public void EndTurn(CatanContext context);
-        public void ExchangeWithBank(CatanContext context, ResourceEnum from, ResourceEnum to);
-        public void PurchaseBonusCard(CatanContext context);
-        public void StartRoadBuilding(CatanContext context);
-        public void StartSettlementBuilding(CatanContext context);
-        public void StartSettlementUpgrading(CatanContext context);
+        public void EndTurn(ICatanContext context);
+        public void ExchangeWithBank(ICatanContext context, ResourceEnum from, ResourceEnum to);
+        public void PurchaseBonusCard(ICatanContext context);
+        public void StartRoadBuilding(ICatanContext context);
+        public void StartSettlementBuilding(ICatanContext context);
+        public void StartSettlementUpgrading(ICatanContext context);
     }
 }

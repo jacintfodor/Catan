@@ -14,7 +14,7 @@ namespace Catan.Model.GameStates.ConcreteStates
     {
         public bool IsMainState => true;
 
-        public void EndTurn(CatanContext context)
+        public void EndTurn(ICatanContext context)
         {
             //TODO check winner
 
@@ -25,7 +25,7 @@ namespace Catan.Model.GameStates.ConcreteStates
             context.SetContext(new RollingState());
         }
 
-        public void ExchangeWithBank(CatanContext context, ResourceEnum from, ResourceEnum to)
+        public void ExchangeWithBank(ICatanContext context, ResourceEnum from, ResourceEnum to)
         {
             //TODO handle from=to as invalid
             context.CurrentPlayer.ReduceResources(new Goods(from) * 3);
@@ -33,13 +33,13 @@ namespace Catan.Model.GameStates.ConcreteStates
             context.Events.OnPlayer(context);
         }
 
-        public bool IsAffordable(CatanContext context, Goods g)
+        public bool IsAffordable(ICatanContext context, Goods g)
         {
             return context.CurrentPlayer.CanAfford(g);
         }
 
         //Crop, Ore, Wood, Brick, Wool
-        public void PurchaseBonusCard(CatanContext context)
+        public void PurchaseBonusCard(ICatanContext context)
         {
             context.CurrentPlayer.PurchaseBonusCard(Constants.BonusCardCost);
             context.CurrentPlayer.ReduceResources(Constants.BonusCardCost);
@@ -47,19 +47,19 @@ namespace Catan.Model.GameStates.ConcreteStates
             context.Events.OnPlayer(context);
         }
 
-        public void StartRoadBuilding(CatanContext context)
+        public void StartRoadBuilding(ICatanContext context)
         {
             context.Events.OnRoadBuildingStarted(context.GetBuildableRoadsByPlayer());
             context.SetContext(new RoadBuildingState());
         }
 
-        public void StartSettlementBuilding(CatanContext context)
+        public void StartSettlementBuilding(ICatanContext context)
         {
             context.Events.OnSettlementBuildingStarted(context.GetBuildableSettlementsByPlayer());
             context.SetContext(new SettlementBuildingState());
         }
 
-        public void StartSettlementUpgrading(CatanContext context)
+        public void StartSettlementUpgrading(ICatanContext context)
         {
             context.Events.OnSettlementUpgradingStarted(context.GetUpgradeableSettlementsByPlayer());
             context.SetContext(new SettlementUpgradingState());

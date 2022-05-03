@@ -8,13 +8,13 @@ namespace Catan.Model.GameStates.ConcreteStates
     {
         public bool IsSettlementUpgradingState => true;
 
-        public void Cancel(CatanContext context)
+        public void Cancel(ICatanContext context)
         {
             context.Events.OnCancel();
             context.SetContext(new MainState());
         }
 
-        public void UpgradeSettleMentToTown(CatanContext context, int row, int col)
+        public void UpgradeSettleMentToTown(ICatanContext context, int row, int col)
         {
 
             context.Board.UpgradeSettlement(row, col);

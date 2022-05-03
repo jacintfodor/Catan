@@ -10,6 +10,6 @@ namespace Catan.Model.GameStates.Interfaces
 {
     internal interface IRollable
     {
-        public void RollDices(CatanContext context);
+        public void RollDices(ICatanContext context);
     }
 }

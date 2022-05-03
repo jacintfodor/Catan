@@ -13,13 +13,13 @@ namespace Catan.Model.GameStates.ConcreteStates
     {
         public bool IsRogueMovingState => true;
 
-        public void Cancel(CatanContext context)
+        public void Cancel(ICatanContext context)
         {
             context.Events.OnCancel();
             context.SetContext(new MainState());
         }
 
-        public void MoveRogue(CatanContext context, int row, int col)
+        public void MoveRogue(ICatanContext context, int row, int col)
         {
             context.Rogue.Move(row, col);
             context.Events.OnRogueMoved(row, col);

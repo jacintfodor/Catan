@@ -20,7 +20,7 @@ namespace Catan.Model.GameStates.ConcreteStates
 
         public bool IsEarlyRoadBuildingState => true;
 
-        public void BuildRoad(CatanContext context, int row, int col)
+        public void BuildRoad(ICatanContext context, int row, int col)
         {
             context.Board.BuildRoad(row, col, context.CurrentPlayer.ID);
             context.Events.OnRoadBuilt(context, row, col, context.CurrentPlayer.ID);

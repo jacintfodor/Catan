@@ -8,6 +8,6 @@ namespace Catan.Model.GameStates.Interfaces
 {
     internal interface ISettlementBuildable
     {
-        public void BuildSettleMent(CatanContext context, int row, int col);
+        public void BuildSettleMent(ICatanContext context, int row, int col);
     }
 }

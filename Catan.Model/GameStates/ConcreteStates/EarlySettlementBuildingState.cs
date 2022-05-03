@@ -22,7 +22,7 @@ namespace Catan.Model.GameStates.ConcreteStates
         public bool IsEarlySettlementBuildingState => true;
 
 
-        public void BuildSettleMent(CatanContext context, int row, int col)
+        public void BuildSettleMent(ICatanContext context, int row, int col)
         {
             context.CurrentPlayer.BuildSettlement();
             context.Events.OnPlayer(context);

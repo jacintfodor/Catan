@@ -13,7 +13,7 @@ namespace Catan.Model.GameStates.ConcreteStates
     {
         public bool IsSettlementBuildingState => true;
 
-        public void BuildSettleMent(CatanContext context, int row, int col)
+        public void BuildSettleMent(ICatanContext context, int row, int col)
         {
 
             context.Board.BuildSettlement(row, col, context.CurrentPlayer.ID);
@@ -28,7 +28,7 @@ namespace Catan.Model.GameStates.ConcreteStates
             context.SetContext(new MainState());
         }
 
-        public void Cancel(CatanContext context)
+        public void Cancel(ICatanContext context)
         {
             context.Events.OnCancel();
             context.SetContext(new MainState());

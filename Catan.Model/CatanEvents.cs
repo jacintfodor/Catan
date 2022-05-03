@@ -58,7 +58,7 @@ namespace Catan.Model
             SettlementUpgradingStarted?.Invoke(this, new SettlementUpgradingStartedEventArgs(vertices));
         }
 
-        public void OnGameStart(CatanContext ctx)
+        public void OnGameStart(ICatanContext ctx)
         {
             List<IHex> Hexes = new List<IHex>();
             List<IVertex> Vertices = new List<IVertex>();
@@ -87,7 +87,7 @@ namespace Catan.Model
             Cancel?.Invoke(this, new CancelEventArgs());
         }
 
-        public void OnDiceThrown(CatanContext ctx)
+        public void OnDiceThrown(ICatanContext ctx)
         {
             DicesThrown?.Invoke(
                 this,
@@ -96,7 +96,7 @@ namespace Catan.Model
             ));
         }
 
-        public void OnPlayer(CatanContext ctx)
+        public void OnPlayer(ICatanContext ctx)
         {
             List<IPlayer> a = new List<IPlayer>();
 
@@ -106,7 +106,7 @@ namespace Catan.Model
                 );
         }
 
-        public void OnSettlementBuilt(CatanContext ctx, int row, int col, PlayerEnum player)
+        public void OnSettlementBuilt(ICatanContext ctx, int row, int col, PlayerEnum player)
         {
             SettlementBuilt?.Invoke(
                 this,
@@ -114,7 +114,7 @@ namespace Catan.Model
                 );
         }
 
-        public void OnRoadBuilt(CatanContext ctx, int row, int col, PlayerEnum player)
+        public void OnRoadBuilt(ICatanContext ctx, int row, int col, PlayerEnum player)
         {
             RoadBuilt?.Invoke(
                 this,
@@ -122,7 +122,7 @@ namespace Catan.Model
                 );
         }
 
-        public void OnSettlementUpgraded(CatanContext ctx, int row, int col)
+        public void OnSettlementUpgraded(ICatanContext ctx, int row, int col)
         {
             SettlementUpgraded?.Invoke(
                 this,

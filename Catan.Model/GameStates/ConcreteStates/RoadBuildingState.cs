@@ -13,7 +13,7 @@ namespace Catan.Model.GameStates.ConcreteStates
     {
         public bool IsRoadBuildingState => true;
 
-        public void BuildRoad(CatanContext context, int row, int col)
+        public void BuildRoad(ICatanContext context, int row, int col)
         {
             context.Board.BuildRoad(row, col, context.CurrentPlayer.ID);
             context.Events.OnRoadBuilt(context, row, col, context.CurrentPlayer.ID);
@@ -34,7 +34,7 @@ namespace Catan.Model.GameStates.ConcreteStates
             context.SetContext(new MainState());
         }
 
-        public void Cancel(CatanContext context)
+        public void Cancel(ICatanContext context)
         {
             context.Events.OnCancel();
             context.SetContext(new MainState());
