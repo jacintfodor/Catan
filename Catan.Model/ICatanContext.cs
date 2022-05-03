@@ -11,7 +11,7 @@ namespace Catan.Model
     {
         CatanBoard Board { get; }
         IPlayer CurrentPlayer { get; }
-        CatanEvents Events { get; }
+        ICatanEvents Events { get; }
         CubeDice FirstDice { get; }
         bool IsEarlyRoadBuildingState { get; }
         bool IsEarlyRollingState { get; }

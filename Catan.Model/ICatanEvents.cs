@@ -4,7 +4,7 @@ using Catan.Model.Events;
 
 namespace Catan.Model
 {
-    internal interface ICatanEvents
+    public interface ICatanEvents
     {
         event EventHandler<CancelEventArgs> Cancel;
         event EventHandler<DicesThrownEventArg> DicesThrown;
@@ -30,5 +30,6 @@ namespace Catan.Model
         void OnSettlementBuilt(ICatanContext ctx, int row, int col, PlayerEnum player);
         void OnSettlementUpgraded(ICatanContext ctx, int row, int col);
         void OnSettlementUpgradingStarted(List<IVertex> vertices);
+        void OnCancel();
     }
 }

@@ -39,7 +39,7 @@ namespace Catan.Model
 
         public Rogue Rogue { get => Rogue.Instance; }
 
-        public CatanEvents Events { get => CatanEvents.Instance; }
+        public ICatanEvents Events { get => CatanEvents.Instance; }
 
         public LargestArmyHolder LargestArmyHolder { get => LargestArmyHolder.Instance; }
         public LongestRoadOwner LongestRoadOwner { get => LongestRoadOwner.Instance; }

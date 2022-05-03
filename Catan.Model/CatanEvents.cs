@@ -11,8 +11,8 @@ namespace Catan.Model
         {
         }
 
-        private static readonly CatanEvents _instance = new();
-        internal static CatanEvents Instance
+        private static readonly ICatanEvents _instance = new CatanEvents();
+        internal static ICatanEvents Instance
         { get { return _instance; } }
 
         public event EventHandler<DicesThrownEventArg> DicesThrown;
@@ -82,7 +82,7 @@ namespace Catan.Model
             GameStart?.Invoke(this, new GameStartEventArgs(Hexes, Vertices, Edges, Context.Rogue.Instance.Row, Context.Rogue.Instance.Col));
         }
 
-        internal void OnCancel()
+        public void OnCancel()
         {
             Cancel?.Invoke(this, new CancelEventArgs());
         }
