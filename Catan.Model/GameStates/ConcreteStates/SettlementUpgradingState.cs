@@ -10,7 +10,7 @@ namespace Catan.Model.GameStates.ConcreteStates
 
         public void Cancel(CatanContext context)
         {
-            context.OnCancel();
+            context.Events.OnCancel();
             context.SetContext(new MainState());
         }
 
@@ -18,11 +18,11 @@ namespace Catan.Model.GameStates.ConcreteStates
         {
 
             context.Board.UpgradeSettlement(row, col);
-            context.OnSettlementUpgraded(context, row, col);
+            context.Events.OnSettlementUpgraded(context, row, col);
 
             context.CurrentPlayer.BuildTown();
             context.CurrentPlayer.ReduceResources(Constants.TownCost);
-            context.OnPlayer(context);
+            context.Events.OnPlayer(context);
             context.SetContext(new MainState());
         }
     }

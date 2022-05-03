@@ -20,13 +20,13 @@ namespace Catan.Model.GameStates.ConcreteStates
 
             context.DistributeResources(context.RolledSum);
 
-            context.OnDiceThrown(context);
-            context.OnPlayer(context);
+            context.Events.OnDiceThrown(context);
+            context.Events.OnPlayer(context);
 
             if (context.RolledSum == 7)
             {
                 context.SetContext(new RogueMovingState());
-                context.OnRogueMovingStarted();
+                context.Events.OnRogueMovingStarted();
             }
             else { context.SetContext(new MainState()); }
         }

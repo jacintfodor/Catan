@@ -24,15 +24,15 @@ namespace Catan.Model.GameStates.ConcreteStates
             _rolls.Add(context.CurrentPlayer.ID, context.RolledSum);
             context.NextPlayer();
 
-            context.OnDiceThrown(context);
+            context.Events.OnDiceThrown(context);
             if (_rollCount == 3)
             {
                 for (int i = 0; i < (int)_rolls.Keys.Max(); i++)
                     context.NextPlayer();
 
                 var list = context.Board.GetVerticesEnumerable().ToList().Where(v => v.IsBuildable).ToList();
-                context.OnSettlementBuildingStarted(list);
-                context.OnPlayer(context);
+                context.Events.OnSettlementBuildingStarted(list);
+                context.Events.OnPlayer(context);
                 context.SetContext(new EarlySettlementBuildingState(0));
             }
         }

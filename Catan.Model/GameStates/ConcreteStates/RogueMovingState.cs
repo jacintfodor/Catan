@@ -15,14 +15,14 @@ namespace Catan.Model.GameStates.ConcreteStates
 
         public void Cancel(CatanContext context)
         {
-            context.OnCancel();
+            context.Events.OnCancel();
             context.SetContext(new MainState());
         }
 
         public void MoveRogue(CatanContext context, int row, int col)
         {
             context.Rogue.Move(row, col);
-            context.OnRogueMoved(row, col);
+            context.Events.OnRogueMoved(row, col);
 
             context.SetContext(new MainState());
         }
