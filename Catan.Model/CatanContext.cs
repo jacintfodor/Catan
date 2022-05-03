@@ -25,7 +25,7 @@ namespace Catan.Model
         #region events
         public event EventHandler<DicesThrownEventArg> DicesThrown;
         public event EventHandler<GameStartEventArgs> GameStarted;
-        public event EventHandler<PlayerEventArgs> PlayerUpdated;
+        public event EventHandler<PlayerEventArgs> PlayerChanged;
 
         public event EventHandler<SettlementBuildingStartedEventArgs> SettlementBuildingStarted;
         public event EventHandler<SettlementBuiltEventArgs> SettlementBuilt;
@@ -89,12 +89,12 @@ namespace Catan.Model
                 Edges.Add(edge);
             }
 
-            GameStarted?.Invoke(this, new GameStartEventArgs(Hexes, Vertices, Edges, Context.Rogue.Instance.Row, Context.Rogue.Instance.Col));
+            GameStart?.Invoke(this, new GameStartEventArgs(Hexes, Vertices, Edges, Context.Rogue.Instance.Row, Context.Rogue.Instance.Col));
         }
 
         internal void OnCancel()
         {
-            Cancelled?.Invoke(this, new CancelEventArgs());
+            Cancel?.Invoke(this, new CancelEventArgs());
         }
 
         public void OnDiceThrown(CatanContext ctx)
@@ -110,7 +110,7 @@ namespace Catan.Model
         {
             List<IPlayer> a = new List<IPlayer>();
 
-            PlayerUpdated?.Invoke(
+            Player?.Invoke(
                 this,
                 new PlayerEventArgs(ctx.GetPlayerList())
                 );
@@ -145,7 +145,7 @@ namespace Catan.Model
         public void NewGame()
         {
             //TODO actually start a new game
-            OnGameStart(this);
+            Events.OnGameStart(this);
         }
 
         internal CatanContext(ICatanGameState initialState)
