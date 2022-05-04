@@ -5,16 +5,14 @@ using Catan.Model.Events;
 
 namespace Catan.Model
 {
-    public class CatanEvents
+    public class CatanEvents : ICatanEvents
     {
         private CatanEvents()
         {
         }
 
-        public string Name { get; set; }
-
-        private static readonly CatanEvents _instance = new();
-        public static CatanEvents Instance
+        private static readonly ICatanEvents _instance = new CatanEvents();
+        internal static ICatanEvents Instance
         { get { return _instance; } }
 
         public event EventHandler<DicesThrownEventArg> DicesThrown;
@@ -40,7 +38,7 @@ namespace Catan.Model
             RogueMovingStarted?.Invoke(this, EventArgs.Empty);
         }
 
-        public void  OnRogueMoved(int row, int col)
+        public void OnRogueMoved(int row, int col)
         {
             RogueMoved?.Invoke(this, new RogueMovedEventArgs(row, col));
         }
@@ -60,7 +58,7 @@ namespace Catan.Model
             SettlementUpgradingStarted?.Invoke(this, new SettlementUpgradingStartedEventArgs(vertices));
         }
 
-        public void OnGameStart(CatanContext ctx)
+        public void OnGameStart(ICatanContext ctx)
         {
             List<IHex> Hexes = new List<IHex>();
             List<IVertex> Vertices = new List<IVertex>();
@@ -84,12 +82,12 @@ namespace Catan.Model
             GameStart?.Invoke(this, new GameStartEventArgs(Hexes, Vertices, Edges, Context.Rogue.Instance.Row, Context.Rogue.Instance.Col));
         }
 
-        internal void OnCancel()
+        public void OnCancel()
         {
             Cancel?.Invoke(this, new CancelEventArgs());
         }
 
-        public void OnDiceThrown(CatanContext ctx)
+        public void OnDiceThrown(ICatanContext ctx)
         {
             DicesThrown?.Invoke(
                 this,
@@ -98,7 +96,7 @@ namespace Catan.Model
             ));
         }
 
-        public void OnPlayer(CatanContext ctx)
+        public void OnPlayer(ICatanContext ctx)
         {
             List<IPlayer> a = new List<IPlayer>();
 
@@ -108,23 +106,23 @@ namespace Catan.Model
                 );
         }
 
-        public void OnSettlementBuilt(CatanContext ctx, int row, int col, PlayerEnum player)
+        public void OnSettlementBuilt(ICatanContext ctx, int row, int col, PlayerEnum player)
         {
             SettlementBuilt?.Invoke(
                 this,
-                new SettlementBuiltEventArgs(row,col,player)
+                new SettlementBuiltEventArgs(row, col, player)
                 );
         }
 
-        public void OnRoadBuilt(CatanContext ctx, int row, int col, PlayerEnum player)
+        public void OnRoadBuilt(ICatanContext ctx, int row, int col, PlayerEnum player)
         {
             RoadBuilt?.Invoke(
                 this,
-                new RoadBuiltEventArgs(row,col,player)
+                new RoadBuiltEventArgs(row, col, player)
                 );
         }
 
-        public void OnSettlementUpgraded(CatanContext ctx, int row, int col)
+        public void OnSettlementUpgraded(ICatanContext ctx, int row, int col)
         {
             SettlementUpgraded?.Invoke(
                 this,

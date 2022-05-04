@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Catan.Model.Board;
 using Catan.Model.Context;
 using Catan.Model.Enums;
 using Catan.Model.GameStates.Interfaces;
@@ -13,30 +14,30 @@ namespace Catan.Model.GameStates.ConcreteStates
     {
         public bool IsRoadBuildingState => true;
 
-        public void BuildRoad(CatanContext context, int row, int col)
+        public void BuildRoad(ICatanContext context, ICatanEvents events, ICatanBoard board, ITitle longestRoad, IPlayer currentPlayer, int row, int col)
         {
-            context.Board.BuildRoad(row, col, context.CurrentPlayer.ID);
-            context.Events.OnRoadBuilt(context, row, col, context.CurrentPlayer.ID);
-            context.CurrentPlayer.LengthOfLongestRoad = context.CalculateLongestRoadFromEdge(context.Board.GetEdge(row, col));
-            context.LongestRoadOwner.ProcessOwner(context.CurrentPlayer);
+            board.BuildRoad(row, col, currentPlayer.ID);
+            events.OnRoadBuilt(context, row, col, currentPlayer.ID);
+            currentPlayer.LengthOfLongestRoad = context.CalculateLongestRoadFromEdge(board.GetEdge(row, col));
+            longestRoad.ProcessOwner(currentPlayer);
             //mark neighbouring vertexes as buildable by current player
-            context.Board.GetNeighbourVerticesOfEdge(row, col).ForEach(v => v.AddPotentialBuilder(context.CurrentPlayer.ID));
+            board.GetNeighbourVerticesOfEdge(row, col).ForEach(v => v.AddPotentialBuilder(currentPlayer.ID));
 
             //mark neighbouring Edges as Buildable
-            context.Board.GetEdgesofEdge(row, col).ForEach(edge =>
+            board.GetEdgesofEdge(row, col).ForEach(edge =>
             {
-                edge.AddPotentialBuilder(context.CurrentPlayer.ID);
+                edge.AddPotentialBuilder(currentPlayer.ID);
             });
 
-            context.CurrentPlayer.BuildRoad();
-            context.CurrentPlayer.ReduceResources(Constants.RoadCost);
-            context.Events.OnPlayer(context);
+            currentPlayer.BuildRoad();
+            currentPlayer.ReduceResources(Constants.RoadCost);
+            events.OnPlayer(context);
             context.SetContext(new MainState());
         }
 
-        public void Cancel(CatanContext context)
+        public void Cancel(ICatanContext context, ICatanEvents events)
         {
-            context.Events.OnCancel();
+            events.OnCancel();
             context.SetContext(new MainState());
         }
     }

@@ -15,7 +15,7 @@ namespace Catan.Model.Test
         [TestMethod]
         public void RollTest()
         {
-            CubeDice dice = new CubeDice(155);
+            ICubeDice dice = new CubeDice(155);
             Assert.AreEqual(1, dice.RolledValue);
             int sum = 0;
             int x = 100000;

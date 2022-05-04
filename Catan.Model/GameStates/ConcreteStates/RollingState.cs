@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Catan.Model.Board;
 using Catan.Model.Context;
 using Catan.Model.Enums;
 using Catan.Model.GameStates.Interfaces;
@@ -13,20 +14,20 @@ namespace Catan.Model.GameStates.ConcreteStates
     {
         public bool IsRollingState => true;
 
-        public void RollDices(CatanContext context)
+        public void RollDices(ICatanContext context, ICatanEvents events, ICatanBoard board, ICubeDice firstDice, ICubeDice secondDice, IPlayer currentPlayer)
         {
-            context.FirstDice.roll();
-            context.SecondDice.roll();
+            firstDice.roll();
+            secondDice.roll();
 
             context.DistributeResources(context.RolledSum);
 
-            context.Events.OnDiceThrown(context);
-            context.Events.OnPlayer(context);
+            events.OnDiceThrown(context);
+            events.OnPlayer(context);
 
             if (context.RolledSum == 7)
             {
                 context.SetContext(new RogueMovingState());
-                context.Events.OnRogueMovingStarted();
+                events.OnRogueMovingStarted();
             }
             else { context.SetContext(new MainState()); }
         }

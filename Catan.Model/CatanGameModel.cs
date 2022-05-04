@@ -14,9 +14,9 @@ namespace Catan.Model
 {
     public class CatanGameModel
     {
-        private CatanContext _catanContext = new(new EarlyRollingState());
+        private ICatanContext _catanContext = new CatanContext(new EarlyRollingState());
 
-        public CatanEvents Events { get => _catanContext .Events; }
+        public ICatanEvents Events { get => _catanContext.Events; }
 
         public bool IsEarlyRollingState => _catanContext.IsEarlyRollingState;
         public bool IsEarlySettlementBuildingState => _catanContext.IsEarlySettlementBuildingState;

@@ -9,11 +9,11 @@ using Catan.Model.Enums;
 
 namespace Catan.Model.GameStates
 {
-    internal interface ICatanGameState
+    public interface ICatanGameState
     {
         
         // TODO IsAffordable does not depend on state remove it, once we dont use it anymore
-        public bool IsAffordable(CatanContext context, Goods g) { return false; }
+        public bool IsAffordable(ICatanContext context, IPlayer currentPlayer, Goods g) { return false; }
 
 
         public bool IsEarlyRollingState => false;
