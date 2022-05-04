@@ -9,37 +9,9 @@ namespace Catan.Model.Test
     public class MapperTest
     {
         [TestMethod]
-        public void MapperEdge()
+        public void MapperTestCase()
         {
-            var configuration = new MapperConfiguration(cfg => cfg.CreateMap<Board.Components.Edge, EdgeDTO>());
-            configuration.AssertConfigurationIsValid();
-        }
-
-        [TestMethod]
-        public void MapperVertex()
-        {
-            var configuration = new MapperConfiguration(cfg => cfg.CreateMap<Board.Components.Vertex, VertexDTO>());
-            configuration.AssertConfigurationIsValid();
-        }
-        
-        [TestMethod]
-        public void MapperHex()
-        {
-            var configuration = new MapperConfiguration(cfg => cfg.CreateMap<Board.Components.Hex, HexDTO>());
-            configuration.AssertConfigurationIsValid();
-        }
-        
-        [TestMethod]
-        public void MapperPlayer()
-        {
-            var configuration = new MapperConfiguration(cfg => cfg.CreateMap<Context.Players.Player, PlayerDTO>());
-            configuration.AssertConfigurationIsValid();
-        }
-        
-        [TestMethod]
-        public void MapperGoods()
-        {
-            var configuration = new MapperConfiguration(cfg => cfg.CreateMap<Context.Goods, GoodsDTO>());
+            var configuration = Mapping.Mapper.ConfigurationProvider;
             configuration.AssertConfigurationIsValid();
         }
     }
