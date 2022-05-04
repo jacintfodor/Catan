@@ -19,17 +19,17 @@ namespace Catan.Model.GameStates.ConcreteStates
 
         public void RollDices(ICatanContext context, ICatanEvents events, ICatanBoard board, ICubeDice firstDice, ICubeDice secondDice, IPlayer currentPlayer)
         {
+            
             ++_rollCount;
             firstDice.roll();
             secondDice.roll();
             _rolls.Add(currentPlayer.ID, context.RolledSum);
             context.NextPlayer();
-
-            events.OnDiceThrown(context);
+            context.Events.OnPlayer(context);
+            context.Events.OnDiceThrown(context);
             if (_rollCount == 3)
             {
-                //pretty sure this one returns player 3 all the time
-                for (int i = 0; i < (int)_rolls.Keys.Max(); i++)
+                for (int i = 0; i < (int)_rolls.First(x => x.Value == _rolls.Values.Max()).Key; i++)
                     context.NextPlayer();
 
                 //TODO move this to elsewhere
