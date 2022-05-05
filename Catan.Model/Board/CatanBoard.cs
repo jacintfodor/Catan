@@ -1,6 +1,7 @@
 ﻿using Catan.Model.Board.Components;
 using Catan.Model.Context;
 using Catan.Model.Enums;
+using Catan.Model.GameStates;
 
 namespace Catan.Model.Board
 {
@@ -287,19 +288,15 @@ namespace Catan.Model.Board
             }
         }
 
-        public void BuildSettlement(int row, int col, PlayerEnum player)
+        public void BuildSettlement(int row, int col, ICatanGameState state, PlayerEnum player)
         {
-            //This method was doing too much stuff, it did not just build a Settlement but also marked the neighbouring vertices as NotBuildable
-            //The Board doesnt know how to check the Validity of Build condition it has to be done at the States
-            //TODO make the Board able to test it
-
-            //if (_Vertices[row, col].IsBuildableByPlayer(player)) { 
-            _Vertices[row, col].Build(player);
-            //MarkNeighboursNotBuildable(row, col);
-            //}
+            if (!_Vertices[row, col].IsBuildableByPlayer(state, player)) throw new InvalidOperationException("NotBuildAbleByPlayer");
+            _Vertices[row, col].Build(state, player);
+            GetNeighborEdgesOfVertex(row, col).ForEach(e => e.AddPotentialBuilder(player));
+            MarkNeighbouringVerticesNotBuildable(row, col);
         }
 
-        public void MarkNeighbouringVerticesNotBuildable(int row, int col)
+        private void MarkNeighbouringVerticesNotBuildable(int row, int col)
         {
             GetNeighborVerticesOfVertex(row, col).ForEach(vertex =>
             {

@@ -32,6 +32,7 @@ namespace Catan.Model
         ICubeDice SecondDice { get; }
         IPlayer Winner { get; }
 
+        public ICatanGameState State { get; set; }
         void AcceptTrade();
         void BuildRoad(int row, int col);
         void BuildSettleMent(int row, int col);

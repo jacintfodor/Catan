@@ -10,7 +10,8 @@ using Catan.Model.GameStates.Interfaces;
 
 namespace Catan.Model.GameStates.ConcreteStates
 {
-    internal class EarlyRollingState : ICatanGameState, IRollable
+    //TODO set internal
+    public class EarlyRollingState : ICatanGameState, IRollable
     {
         private int _rollCount = 0;
         private readonly Dictionary<PlayerEnum, int> _rolls = new();
@@ -34,7 +35,7 @@ namespace Catan.Model.GameStates.ConcreteStates
                     context.NextPlayer();
 
                 //TODO move this to elsewhere
-                var list = context.Board.GetVerticesEnumerable().ToList().Where(v => v.IsBuildable).ToList();
+                var list = context.Board.GetVerticesEnumerable().ToList().Where(v => v.IsBuildableByPlayer(context.State, context.CurrentPlayer.ID)).ToList();
                 context.Events.OnSettlementBuildingStarted(list);
                 context.Events.OnPlayer(context);
                 context.SetContext(new EarlySettlementBuildingState(0));

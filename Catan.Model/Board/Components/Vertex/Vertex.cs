@@ -1,7 +1,10 @@
 ﻿using Catan.Model.Enums;
+using Catan.Model.GameStates;
+using Catan.Model.GameStates.ConcreteStates;
 
 namespace Catan.Model.Board.Components
 {
+    //TODO set internal once we use TDOs in VM
     public class Vertex : IVertex
     {
         private ICommunity _community;
@@ -16,21 +19,21 @@ namespace Catan.Model.Board.Components
         public PlayerEnum Owner => _community.Owner;
         public int Row { get; set; }
         public int Col { get; set; }
-        public bool IsBuildable => _community.IsBuildableCommunity;
 
         public void AddPotentialBuilder(PlayerEnum player)
         {
             _community.AddPotentionalBuilder(player);
         }
 
-        public bool IsBuildableByPlayer(PlayerEnum player)
+        public bool IsBuildableByPlayer(ICatanGameState state, PlayerEnum player)
         {
-            return _community.IsBuildableByPlayer(player);
+            return _community.IsBuildableByPlayer(state, player);
         }
 
-        public void Build(PlayerEnum player)
+        public void Build(ICatanGameState state, PlayerEnum player)
         {
-            if (!_community.IsBuildableCommunity) throw new NotImplementedException();
+            if (!_community.IsBuildableByPlayer(state, player)) throw new InvalidOperationException("NotBuildableByPlayer");
+            
             _community = new Settlement(player);
         }
 
@@ -47,8 +50,9 @@ namespace Catan.Model.Board.Components
 
         public void SetNotBuildableCommunity()
         {
-            if (_community.IsBuildableCommunity)
-                _community = NotBuildableCommunity.Instance;
+            if (_community.Type == CommunityEnum.Town || _community.Type == CommunityEnum.Settlement) throw new InvalidOperationException("BuiltCommunity");
+            
+            _community = NotBuildableCommunity.Instance;
         }
     }
 }

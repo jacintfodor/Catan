@@ -9,7 +9,8 @@ using Catan.Model.GameStates.Interfaces;
 
 namespace Catan.Model.GameStates.ConcreteStates
 {
-    internal class EarlyRoadBuildingState : ICatanGameState, IRoadBuildable
+    //TODO set internal
+    public class EarlyRoadBuildingState : ICatanGameState, IRoadBuildable
     {
         private int _turnCount = 0;
 
@@ -46,7 +47,7 @@ namespace Catan.Model.GameStates.ConcreteStates
             }
             else
             {
-                var list = context.Board.GetVerticesEnumerable().ToList().Where(v => v.IsBuildable).ToList();
+                var list = context.Board.GetVerticesEnumerable().ToList().Where(v => v.IsBuildableByPlayer(context.State, context.CurrentPlayer.ID)).ToList();
                 context.Events.OnSettlementBuildingStarted(list);
 
                 context.SetContext(new EarlySettlementBuildingState(_turnCount));

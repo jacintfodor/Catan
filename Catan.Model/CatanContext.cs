@@ -84,7 +84,7 @@ namespace Catan.Model
         }
 
         //TODO change State to be an instance of EarlyRollingState once we can
-        private ICatanGameState State { get; set; } = new EarlyRollingState();
+        public ICatanGameState State { get; set; } = new EarlyRollingState();
         public void SetContext(ICatanGameState state) { State = state; }
 
         #region state dependent methods
@@ -229,7 +229,7 @@ namespace Catan.Model
             List<IVertex> retVal = new List<IVertex>();
             foreach (IVertex vertex in Board.GetVerticesEnumerable())
             {
-                if (vertex.IsBuildableByPlayer(CurrentPlayer.ID))
+                if (vertex.IsBuildableByPlayer(State ,CurrentPlayer.ID))
                     retVal.Add(vertex);
             }
 
