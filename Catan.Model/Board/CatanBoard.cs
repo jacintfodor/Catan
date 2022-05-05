@@ -308,6 +308,63 @@ namespace Catan.Model.Board
         {
             _Vertices[row, col].Upgrade();
         }
+
+        public int CalculateLongestRoadFromEdge(int row, int col, PlayerEnum id)
+        {
+            int retVal = 0;
+
+            List<IEdge> processed = new List<IEdge>();
+            List<IEdge> toProcess = new List<IEdge>();
+
+            toProcess.Add(GetEdge(row, col));
+            while (toProcess.Any())
+            {
+                IEdge currentlyProccessing = toProcess.First();
+                toProcess.Remove(currentlyProccessing);
+                retVal++;
+
+                GetEdgesofEdge(currentlyProccessing.Row, currentlyProccessing.Col).ForEach(edge =>
+                {
+                    if (edge.Owner == id && !toProcess.Contains(edge) && !processed.Contains(edge) && edge != currentlyProccessing)
+                        toProcess.Add(edge);
+                });
+                processed.Add(currentlyProccessing);
+            }
+            return retVal;
+        }
+        public List<IEdge> GetBuildableRoadsByPlayer(PlayerEnum id)
+        {
+            List<IEdge> retVal = new List<IEdge>();
+            foreach (IEdge edge in GetEdgesEnumerable())
+            {
+                if (edge.IsBuildableByPlayer(id))
+                    retVal.Add(edge);
+            }
+
+            return retVal;
+        }
+        public List<IVertex> GetBuildableSettlementsByPlayer(ICatanGameState state, PlayerEnum id)
+        {
+            List<IVertex> retVal = new List<IVertex>();
+            foreach (IVertex vertex in GetVerticesEnumerable())
+            {
+                if (vertex.IsBuildableByPlayer(state, id))
+                    retVal.Add(vertex);
+            }
+
+            return retVal;
+        }
+        public List<IVertex> GetUpgradeableSettlementsByPlayer(PlayerEnum id)
+        {
+            List<IVertex> retVal = new List<IVertex>();
+            foreach (IVertex vertex in GetVerticesEnumerable())
+            {
+                if (vertex.Owner == id && vertex.GetCommunity().IsUpgradeable)
+                    retVal.Add(vertex);
+            }
+
+            return retVal;
+        }
         #endregion Methods
     }
 }

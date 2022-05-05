@@ -167,6 +167,8 @@ namespace Catan.Model
         #endregion
 
         #region Methods
+
+        //TODO use dynamic dispatch with states or anything else instead of goto
         public void DistributeResources(int dieValue, bool isEarly = false)
         {
             foreach (IHex hex in Board.GetHexesEnumerable())
@@ -190,62 +192,7 @@ namespace Catan.Model
                 });
             }
         }
-        public int CalculateLongestRoadFromEdge(IEdge edge)
-        {
-            int retVal = 0;
-
-            List<IEdge> processed = new List<IEdge>();
-            List<IEdge> toProcess = new List<IEdge>();
-
-            toProcess.Add(edge);
-            while (toProcess.Any())
-            {
-                IEdge currentlyProccessing = toProcess.First();
-                toProcess.Remove(currentlyProccessing);
-                retVal++;
-
-                Board.GetEdgesofEdge(currentlyProccessing.Row, currentlyProccessing.Col).ForEach(edge =>
-                {
-                    if (edge.Owner == CurrentPlayer.ID && !toProcess.Contains(edge) && !processed.Contains(edge) && edge != currentlyProccessing)
-                        toProcess.Add(edge);
-                });
-                processed.Add(currentlyProccessing);
-            }
-            return retVal;
-        }
-        public List<IEdge> GetBuildableRoadsByPlayer()
-        {
-            List<IEdge> retVal = new List<IEdge>();
-            foreach (IEdge edge in Board.GetEdgesEnumerable())
-            {
-                if (edge.IsBuildableByPlayer(CurrentPlayer.ID))
-                    retVal.Add(edge);
-            }
-
-            return retVal;
-        }
-        public List<IVertex> GetBuildableSettlementsByPlayer()
-        {
-            List<IVertex> retVal = new List<IVertex>();
-            foreach (IVertex vertex in Board.GetVerticesEnumerable())
-            {
-                if (vertex.IsBuildableByPlayer(State ,CurrentPlayer.ID))
-                    retVal.Add(vertex);
-            }
-
-            return retVal;
-        }
-        public List<IVertex> GetUpgradeableSettlementsByPlayer()
-        {
-            List<IVertex> retVal = new List<IVertex>();
-            foreach (IVertex vertex in Board.GetVerticesEnumerable())
-            {
-                if (vertex.Owner == CurrentPlayer.ID && vertex.GetCommunity().IsUpgradeable)
-                    retVal.Add(vertex);
-            }
-
-            return retVal;
-        }
+        
         public List<IPlayer> GetPlayerList()
         {
             return _players.ToList();

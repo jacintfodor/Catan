@@ -18,5 +18,14 @@ namespace Catan.Model.Board
         IEnumerable<IVertex> GetVerticesEnumerable();
         List<IVertex> GetVerticesOfHex(int row, int col);
         void UpgradeSettlement(int row, int col);
+
+        int CalculateLongestRoadFromEdge(int row, int col, PlayerEnum id);
+
+        List<IEdge> GetBuildableRoadsByPlayer(PlayerEnum id);
+
+        List<IVertex> GetBuildableSettlementsByPlayer(ICatanGameState state, PlayerEnum id);
+
+        List<IVertex> GetUpgradeableSettlementsByPlayer(PlayerEnum id);
+        
     }
 }

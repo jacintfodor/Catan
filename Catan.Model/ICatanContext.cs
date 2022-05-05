@@ -36,17 +36,13 @@ namespace Catan.Model
         void AcceptTrade();
         void BuildRoad(int row, int col);
         void BuildSettleMent(int row, int col);
-        int CalculateLongestRoadFromEdge(IEdge edge);
         void Cancel();
         void clear();
         void DenyTrade();
         void DistributeResources(int dieValue, bool isEarly = false);
         void EndTurn();
         void ExchangeWithBank(ResourceEnum from, ResourceEnum to);
-        List<IEdge> GetBuildableRoadsByPlayer();
-        List<IVertex> GetBuildableSettlementsByPlayer();
         List<IPlayer> GetPlayerList();
-        List<IVertex> GetUpgradeableSettlementsByPlayer();
         void init();
         bool IsAffordable(Goods g);
         void MakeOffer();

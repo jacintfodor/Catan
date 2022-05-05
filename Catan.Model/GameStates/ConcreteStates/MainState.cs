@@ -49,19 +49,19 @@ namespace Catan.Model.GameStates.ConcreteStates
 
         public void StartRoadBuilding(ICatanContext context)
         {
-            context.Events.OnRoadBuildingStarted(context.GetBuildableRoadsByPlayer());
+            context.Events.OnRoadBuildingStarted(context.Board.GetBuildableRoadsByPlayer(context.CurrentPlayer.ID));
             context.SetContext(new RoadBuildingState());
         }
 
         public void StartSettlementBuilding(ICatanContext context)
         {
-            context.Events.OnSettlementBuildingStarted(context.GetBuildableSettlementsByPlayer());
+            context.Events.OnSettlementBuildingStarted(context.Board.GetBuildableSettlementsByPlayer(context.State, context.CurrentPlayer.ID));
             context.SetContext(new SettlementBuildingState());
         }
 
         public void StartSettlementUpgrading(ICatanContext context)
         {
-            context.Events.OnSettlementUpgradingStarted(context.GetUpgradeableSettlementsByPlayer());
+            context.Events.OnSettlementUpgradingStarted(context.Board.GetUpgradeableSettlementsByPlayer(context.CurrentPlayer.ID));
             context.SetContext(new SettlementUpgradingState());
         }
     }
