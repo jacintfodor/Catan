@@ -29,7 +29,8 @@ namespace Catan.Model.GameStates.ConcreteStates
             context.Events.OnDiceThrown(context);
             if (_rollCount == 3)
             {
-                for (int i = 0; i < (int)_rolls.First(x => x.Value == _rolls.Values.Max()).Key; i++)
+                int turnsNeededToReachLuckyPlayer = (int)_rolls.First(x => x.Value == _rolls.Values.Max()).Key;
+                for (int i = 0; i < turnsNeededToReachLuckyPlayer; i++)
                     context.NextPlayer();
 
                 //TODO move this to elsewhere
