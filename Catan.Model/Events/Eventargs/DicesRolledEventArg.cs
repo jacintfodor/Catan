@@ -8,7 +8,7 @@ using Catan.Model.Context;
 
 namespace Catan.Model.Events.Eventargs
 {
-    public class DicesThrownEventArg : EventArgs
+    public class DicesRolledEventArg : EventArgs
     {
         public int FirstDice { get; private set; }
         public int SecondDice { get; private set; }
@@ -16,7 +16,7 @@ namespace Catan.Model.Events.Eventargs
 
         
 
-        public DicesThrownEventArg(int a, int b)
+        public DicesRolledEventArg(int a, int b)
         {
             FirstDice = a;
             SecondDice = b;

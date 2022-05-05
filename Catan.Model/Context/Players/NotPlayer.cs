@@ -32,10 +32,7 @@ namespace Catan.Model.Context.Players
         public int LengthOfLongestRoad { get => 4; set =>
             throw new NotImplementedException(); }
 
-        public int CalculateScore()
-        {
-            return -1;
-        }
+        public int Score => -1;
 
         public void AddResource(Goods resourcesToRemove)
         {

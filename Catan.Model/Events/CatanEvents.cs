@@ -15,9 +15,9 @@ namespace Catan.Model.Events
         internal static ICatanEvents Instance
         { get { return _instance; } }
 
-        public event EventHandler<DicesThrownEventArg> DicesThrown;
-        public event EventHandler<GameStartEventArgs> GameStart;
-        public event EventHandler<PlayerEventArgs> Player;
+        public event EventHandler<DicesRolledEventArg> DicesThrown;
+        public event EventHandler<GameStartedEventArgs> GameStart;
+        public event EventHandler<PlayerUpdatedEventArgs> Player;
 
         public event EventHandler<SettlementBuildingStartedEventArgs> SettlementBuildingStarted;
         public event EventHandler<SettlementBuiltEventArgs> SettlementBuilt;
@@ -79,7 +79,7 @@ namespace Catan.Model.Events
                 Edges.Add(edge);
             }
 
-            GameStart?.Invoke(this, new GameStartEventArgs(Hexes, Vertices, Edges, Context.Rogue.Instance.Row, Context.Rogue.Instance.Col));
+            GameStart?.Invoke(this, new GameStartedEventArgs(Hexes, Vertices, Edges, Context.Rogue.Instance.Row, Context.Rogue.Instance.Col));
         }
 
         public void OnCancel()
@@ -91,7 +91,7 @@ namespace Catan.Model.Events
         {
             DicesThrown?.Invoke(
                 this,
-                new DicesThrownEventArg(ctx.FirstDice.RolledValue,
+                new DicesRolledEventArg(ctx.FirstDice.RolledValue,
                                          ctx.SecondDice.RolledValue
             ));
         }
@@ -102,7 +102,7 @@ namespace Catan.Model.Events
 
             Player?.Invoke(
                 this,
-                new PlayerEventArgs(ctx.GetPlayerList())
+                new PlayerUpdatedEventArgs(ctx.GetPlayerList())
                 );
         }
 

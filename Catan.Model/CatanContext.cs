@@ -41,12 +41,12 @@ namespace Catan.Model
 
         public ICatanEvents Events { get => CatanEvents.Instance; }
 
-        public ITitle LargestArmyHolder { get => LargestArmyHolderTitle.Instance; }
-        public ITitle LongestRoadOwner { get => LongestRoadOwnerTitle.Instance; }
+        public ITitle LargestArmyHolder { get => LargestArmyTitle.Instance; }
+        public ITitle LongestRoadOwner { get => LongestRoadTitle.Instance; }
         public IPlayer CurrentPlayer { get => _players.ElementAtOrDefault(0) ?? NotPlayer.Instance; }
         public IPlayer NextPlayerInQueue { get => _players.ElementAtOrDefault(1) ?? NotPlayer.Instance; }
         public IPlayer NextNextPlayerInQueue { get => _players.ElementAtOrDefault(2) ?? NotPlayer.Instance; }
-        public IPlayer Winner { get => CurrentPlayer.CalculateScore() >= 5 ? CurrentPlayer : NotPlayer.Instance; }
+        public IPlayer Winner { get => CurrentPlayer.Score>= 5 ? CurrentPlayer : NotPlayer.Instance; }
         public void NextPlayer() { _players.Enqueue(_players.Dequeue()); }
 
         public void init()
@@ -65,11 +65,6 @@ namespace Catan.Model
             _players.Enqueue(new Player(PlayerEnum.Player3));
 
             Events.OnPlayer(this);
-            /*
-            CurrentPlayer.AddResource(new Goods(new List<int> { 5, 5, 5, 5, 5 }));
-            NextPlayerInQueue.AddResource(new Goods(new List<int> { 10, 10, 10, 10, 10 }));
-            NextNextPlayerInQueue.AddResource(new Goods(new List<int> { 15, 15, 15, 15, 15 }));
-            */
         }
 
         public void clear()

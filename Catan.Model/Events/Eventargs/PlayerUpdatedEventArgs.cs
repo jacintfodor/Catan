@@ -8,11 +8,11 @@ using Catan.Model.Context;
 
 namespace Catan.Model.Events.Eventargs
 {
-    public class PlayerEventArgs : EventArgs
+    public class PlayerUpdatedEventArgs : EventArgs
     {
         public List<IPlayer> Players { get; private set; }
 
-        public PlayerEventArgs(List<IPlayer> p)
+        public PlayerUpdatedEventArgs(List<IPlayer> p)
         {
             Players = p;
         }

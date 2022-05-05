@@ -279,7 +279,7 @@ namespace Catan.ViewModel
             BuildableRightSlopes.Clear();
         }
 
-        private void Model_Events_Player(object? sender, PlayerEventArgs e)
+        private void Model_Events_Player(object? sender, PlayerUpdatedEventArgs e)
         {
             _currentPlayer = new PlayerViewModel(e.Players[0]);
             foreach (IPlayer player in e.Players)
@@ -298,7 +298,7 @@ namespace Catan.ViewModel
             OnPropertyChanged(nameof(CurrentPlayerColor));
         }
 
-        private void Model_Events_NewGame(object? sender, GameStartEventArgs e)
+        private void Model_Events_NewGame(object? sender, GameStartedEventArgs e)
         {
             List<IHex> hexes = e.Hexes;
             List<IVertex> vertices = e.Vertices;
@@ -336,7 +336,7 @@ namespace Catan.ViewModel
             RogueContainer.Add(new RogueViewModel(e.RogueRow, e.RogueCol));
         }
 
-        private void Model_Events_DicesThrown(object? sender, DicesThrownEventArg e)
+        private void Model_Events_DicesThrown(object? sender, DicesRolledEventArg e)
         {
             FirstDiceFace = e.FirstDice;
             SecondDiceFace = e.SecondDice;
