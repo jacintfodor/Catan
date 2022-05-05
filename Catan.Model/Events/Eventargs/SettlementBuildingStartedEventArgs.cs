@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using Catan.Model.Board.Components;
 
-namespace Catan.Model.Events
+namespace Catan.Model.Events.Eventargs
 {
     public class SettlementBuildingStartedEventArgs
     {

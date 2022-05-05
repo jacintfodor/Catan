@@ -1,9 +1,9 @@
 ﻿using Catan.Model.Board.Components;
 using Catan.Model.Context;
 using Catan.Model.Enums;
-using Catan.Model.Events;
+using Catan.Model.Events.Eventargs;
 
-namespace Catan.Model
+namespace Catan.Model.Events
 {
     public class CatanEvents : ICatanEvents
     {

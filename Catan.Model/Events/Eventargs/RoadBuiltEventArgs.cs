@@ -1,11 +1,11 @@
 ﻿using Catan.Model.Board.Components;
 using Catan.Model.Enums;
 
-namespace Catan.Model.Events
+namespace Catan.Model.Events.Eventargs
 {
-    public class SettlementBuiltEventArgs : EventArgs
+    public class RoadBuiltEventArgs : EventArgs
     {
-        public SettlementBuiltEventArgs(int row, int column, PlayerEnum owner)
+        public RoadBuiltEventArgs(int row, int column, PlayerEnum owner)
         {
             Row = row;
             Column = column;

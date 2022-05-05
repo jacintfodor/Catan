@@ -4,6 +4,7 @@ using Catan.Model.Context;
 using Catan.Model.Context.Titles;
 using Catan.Model.Enums;
 using Catan.Model.GameStates;
+using Catan.Model.Events;
 
 namespace Catan.Model
 {

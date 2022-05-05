@@ -11,8 +11,9 @@ using Catan.Model.Board.Components;
 using Catan.Model.Context;
 using Catan.Model.Context.Players;
 using Catan.Model.Enums;
-using Catan.Model.Events;
 using System.Windows.Input;
+using Catan.Model.Events.Eventargs;
+using Catan.Model.Events;
 
 namespace Catan.ViewModel
 {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using Catan.Model.Context;
 
-namespace Catan.Model.Events
+namespace Catan.Model.Events.Eventargs
 {
     public class DicesThrownEventArg : EventArgs
     {
