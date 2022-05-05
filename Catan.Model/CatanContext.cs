@@ -103,7 +103,7 @@ namespace Catan.Model
             var state = State as IRogueMovable;
             state?.MoveRogue(this, row, col);
         }
-        public bool IsAffordable(Goods g) { return State.IsAffordable(this, g); }
+        public bool IsAffordable(Goods g) { return CurrentPlayer.CanAfford(g); }
         public void ExchangeWithBank(ResourceEnum from, ResourceEnum to)
         {
             var state = State as IMainState;

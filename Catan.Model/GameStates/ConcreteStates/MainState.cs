@@ -21,7 +21,6 @@ namespace Catan.Model.GameStates.ConcreteStates
             context.NextPlayer();
             context.Events.OnPlayer(context);
 
-            //context.Events.OnBuildableByPlayer(context);
             context.SetContext(new RollingState());
         }
 
@@ -31,11 +30,6 @@ namespace Catan.Model.GameStates.ConcreteStates
             context.CurrentPlayer.ReduceResources(new Goods(from) * 3);
             context.CurrentPlayer.AddResource(new Goods(to));
             context.Events.OnPlayer(context);
-        }
-
-        public bool IsAffordable(ICatanContext context, Goods g)
-        {
-            return context.CurrentPlayer.CanAfford(g);
         }
 
         //Crop, Ore, Wood, Brick, Wool
@@ -49,19 +43,22 @@ namespace Catan.Model.GameStates.ConcreteStates
 
         public void StartRoadBuilding(ICatanContext context)
         {
-            context.Events.OnRoadBuildingStarted(context.Board.GetBuildableRoadsByPlayer(context.CurrentPlayer.ID));
+            var buildableRoadCandidates = context.Board.GetBuildableRoadsByPlayer(context.CurrentPlayer.ID);
+            context.Events.OnRoadBuildingStarted(buildableRoadCandidates);
             context.SetContext(new RoadBuildingState());
         }
 
         public void StartSettlementBuilding(ICatanContext context)
         {
-            context.Events.OnSettlementBuildingStarted(context.Board.GetBuildableSettlementsByPlayer(context.State, context.CurrentPlayer.ID));
+            var buildableSettlementCandidates = context.Board.GetBuildableSettlementsByPlayer(context.State, context.CurrentPlayer.ID);
+            context.Events.OnSettlementBuildingStarted(buildableSettlementCandidates);
             context.SetContext(new SettlementBuildingState());
         }
 
         public void StartSettlementUpgrading(ICatanContext context)
         {
-            context.Events.OnSettlementUpgradingStarted(context.Board.GetUpgradeableSettlementsByPlayer(context.CurrentPlayer.ID));
+            var upgradableSettlements = context.Board.GetUpgradeableSettlementsByPlayer(context.CurrentPlayer.ID);
+            context.Events.OnSettlementUpgradingStarted(upgradableSettlements);
             context.SetContext(new SettlementUpgradingState());
         }
     }
