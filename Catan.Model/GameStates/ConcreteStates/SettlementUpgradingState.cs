@@ -23,6 +23,7 @@ namespace Catan.Model.GameStates.ConcreteStates
             context.CurrentPlayer.BuildTown();
             context.CurrentPlayer.ReduceResources(Constants.TownCost);
             context.Events.OnPlayer(context);
+            
             context.SetContext(new MainState());
         }
     }

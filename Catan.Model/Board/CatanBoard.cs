@@ -279,29 +279,22 @@ namespace Catan.Model.Board
         #region Methods 
         public void BuildRoad(int row, int col, PlayerEnum player)
         {
-            if (_Edges[row, col].IsBuildableByPlayer(player))
-            {
-                _Edges[row, col].Build(player);
-                //getNeighbourVerticesOfEdge(row,col).ForEach(vertex => {
-                //    vertex.AddPotentialBuilder(player);
-                //});
-            }
+            if (!_Edges[row, col].IsBuildableByPlayer(player)) throw new InvalidOperationException("NotBuildAbleByPlayer");
+            _Edges[row, col].Build(player);
+            GetNeighbourVerticesOfEdge(row, col)
+                .ForEach(v => v.AddPotentialBuilder(player));
+            GetEdgesofEdge(row, col)
+                .ForEach(e => e.AddPotentialBuilder(player));
         }
 
         public void BuildSettlement(int row, int col, ICatanGameState state, PlayerEnum player)
         {
             if (!_Vertices[row, col].IsBuildableByPlayer(state, player)) throw new InvalidOperationException("NotBuildAbleByPlayer");
             _Vertices[row, col].Build(state, player);
-            GetNeighborEdgesOfVertex(row, col).ForEach(e => e.AddPotentialBuilder(player));
-            MarkNeighbouringVerticesNotBuildable(row, col);
-        }
-
-        private void MarkNeighbouringVerticesNotBuildable(int row, int col)
-        {
-            GetNeighborVerticesOfVertex(row, col).ForEach(vertex =>
-            {
-                vertex.SetNotBuildableCommunity();
-            });
+            GetNeighborEdgesOfVertex(row, col)
+                .ForEach(e => e.AddPotentialBuilder(player));
+            GetNeighborVerticesOfVertex(row, col)
+                .ForEach(v => v.SetNotBuildableCommunity());
         }
 
         public void UpgradeSettlement(int row, int col)

@@ -34,8 +34,7 @@ namespace Catan.Model.GameStates.ConcreteStates
                 for (int i = 0; i < turnsNeededToReachLuckyPlayer; i++)
                     context.NextPlayer();
 
-                //TODO move this to elsewhere
-                var list = context.Board.GetVerticesEnumerable().ToList().Where(v => v.IsBuildableByPlayer(context.State, context.CurrentPlayer.ID)).ToList();
+                var list = context.Board.GetBuildableSettlementsByPlayer(this, context.CurrentPlayer.ID);
                 context.Events.OnSettlementBuildingStarted(list);
                 context.Events.OnPlayer(context);
                 context.SetContext(new EarlySettlementBuildingState(0));
