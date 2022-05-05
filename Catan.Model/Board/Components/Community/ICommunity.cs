@@ -9,8 +9,6 @@ namespace Catan.Model.Board.Components
 
         public bool IsUpgradeable { get; }
 
-        public CommunityEnum Type { get; }
-
         public void AddPotentionalBuilder(PlayerEnum player);
 
         public bool IsBuildableByPlayer(ICatanGameState state, PlayerEnum player);

@@ -12,8 +12,6 @@ namespace Catan.Model.Board.Components
 
         public PlayerEnum Owner { get; }
 
-        public CommunityEnum Type => CommunityEnum.Town;
-
         public bool IsUpgradeable => false;
 
         public bool IsBuildableCommunity => false;
