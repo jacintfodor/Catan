@@ -7,6 +7,8 @@ namespace Catan.Model.Board.Components
     {
         public PlayerEnum Owner { get; }
 
+        public CommunityEnum Type { get; }
+
         public bool IsUpgradeable { get; }
 
         public void AddPotentionalBuilder(PlayerEnum player);
