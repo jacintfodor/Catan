@@ -168,35 +168,57 @@ namespace Catan.Model
 
         #region Methods
 
-        //TODO use dynamic dispatch with states or anything else instead of goto
-        public void DistributeResources(int dieValue, bool isEarly = false)
+        public void DistributeResources(ICatanGameState state) 
         {
             foreach (IHex hex in Board.GetHexesEnumerable())
             {
-                if (isEarly)
-                    goto Early;
-                if (hex.Value != dieValue || Rogue.Row == hex.Row && Rogue.Col == hex.Col)
-                    continue;
-                Early:
-                Board.GetVerticesOfHex(hex.Row, hex.Col).ForEach(vertex =>
+                if (IsDistributable(state, hex))
                 {
-                    if (vertex.Owner != PlayerEnum.NotPlayer)
+                    foreach( var player in _players)
                     {
-                        int amount = (vertex.GetCommunity() is Town) ? 2 : 1;
-                        foreach (IPlayer player in _players)
-                        {
-                            if (player.ID == vertex.Owner)
-                                player.AddResource(new Goods(hex.Resource) * amount);
-                        }
+
+                        int noSettlementsAtHex = Board.GetVerticesOfHex(hex.Row, hex.Col)
+                            .Where(v => v.Owner == player.ID && v.Type == CommunityEnum.Settlement)
+                            .Count();
+
+                        int noOfTownsAtHex = Board.GetVerticesOfHex(hex.Row, hex.Col)
+                            .Where(v => v.Owner == player.ID && v.Type == CommunityEnum.Town)
+                            .Count();
+
+                        int noOfResourcesEarned = 2 * noOfTownsAtHex + noSettlementsAtHex;
+                        
+                        Goods earned = new Goods(hex.Resource) * noOfResourcesEarned;
+
+                        player.AddResource(earned);
                     }
-                });
+                }
             }
-        }
-        
+        } 
+
         public List<IPlayer> GetPlayerList()
         {
             return _players.ToList();
         }
         #endregion
+
+        private bool IsDistributable(ICatanGameState state, IHex hex)
+        {
+            return IsDistributableSpecialisation(state as dynamic, hex);
+        }
+
+        private bool IsDistributableSpecialisation(ICatanGameState state, IHex hex)
+        {
+            return false;
+        }
+
+        private bool IsDistributableSpecialisation(EarlyRoadBuildingState state, IHex hex)
+        {
+            return true;
+        }
+
+        private bool IsDistributableSpecialisation(RollingState state, IHex hex)
+        {
+            return hex.Value == RolledSum && (Rogue.Row != hex.Row || Rogue.Col == hex.Col);
+        }
     }
 }

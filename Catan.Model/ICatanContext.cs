@@ -39,7 +39,7 @@ namespace Catan.Model
         void Cancel();
         void clear();
         void DenyTrade();
-        void DistributeResources(int dieValue, bool isEarly = false);
+        void DistributeResources(ICatanGameState state);
         void EndTurn();
         void ExchangeWithBank(ResourceEnum from, ResourceEnum to);
         List<IPlayer> GetPlayerList();

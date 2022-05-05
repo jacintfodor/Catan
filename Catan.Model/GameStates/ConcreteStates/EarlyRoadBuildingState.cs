@@ -42,7 +42,7 @@ namespace Catan.Model.GameStates.ConcreteStates
 
             else if (_turnCount == 6)
             {
-                context.DistributeResources(-1, true);
+                context.DistributeResources(this);
                 context.SetContext(new RollingState());
             }
             else
