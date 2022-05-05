@@ -1,4 +1,5 @@
 ﻿using Catan.Model.Enums;
+using Catan.Model.GameStates;
 
 namespace Catan.Model.Board.Components
 {
@@ -6,12 +7,12 @@ namespace Catan.Model.Board.Components
     {
         public PlayerEnum Owner { get; }
 
-        public bool IsUpgradeable { get; }
+        public CommunityEnum Type { get; }
 
-        public bool IsBuildableCommunity { get; }
+        public bool IsUpgradeable { get; }
 
         public void AddPotentionalBuilder(PlayerEnum player);
 
-        public bool IsBuildableByPlayer(PlayerEnum player);
+        public bool IsBuildableByPlayer(ICatanGameState state, PlayerEnum player);
     }
 }

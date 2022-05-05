@@ -7,13 +7,13 @@ using Catan.Model.Context.Players;
 
 namespace Catan.Model.Context.Titles
 {
-    public class LongestRoadOwnerTitle : ITitle
+    public class LongestRoadTitle : ITitle
     {
         public IPlayer Owner { get; private set; }
 
-        private LongestRoadOwnerTitle() { Owner = NotPlayer.Instance; }
+        private LongestRoadTitle() { Owner = NotPlayer.Instance; }
 
-        private static readonly ITitle _instance = new LongestRoadOwnerTitle();
+        private static readonly ITitle _instance = new LongestRoadTitle();
         public static ITitle Instance
         { get { return _instance; } }
 

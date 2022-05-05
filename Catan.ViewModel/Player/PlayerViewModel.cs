@@ -27,7 +27,7 @@ namespace Catan.ViewModel
             _color = _playerToColor[player.ID];
             _knightCardCount = player.KnightCardCount;
             _longestRoad = player.LengthOfLongestRoad;
-            _score = player.CalculateScore();
+            _score = player.Score;
 
 
         }

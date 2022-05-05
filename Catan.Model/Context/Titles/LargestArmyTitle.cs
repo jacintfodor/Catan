@@ -7,13 +7,13 @@ using Catan.Model.Context.Players;
 
 namespace Catan.Model.Context.Titles
 {
-    public class LargestArmyHolderTitle : ITitle
+    public class LargestArmyTitle : ITitle
     {
         public IPlayer Owner { get; private set; }
 
-        private LargestArmyHolderTitle() { Owner = NotPlayer.Instance; }
+        private LargestArmyTitle() { Owner = NotPlayer.Instance; }
 
-        private static readonly ITitle _instance = new LargestArmyHolderTitle();
+        private static readonly ITitle _instance = new LargestArmyTitle();
         public static ITitle Instance
         { get { return _instance; } }
 

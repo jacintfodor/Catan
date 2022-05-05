@@ -15,7 +15,8 @@ namespace Catan.Model.Context
         public int LengthOfLongestRoad { get; set; }
         public void AddResource(Goods resourcesToAdd);
         public void ReduceResources(Goods resourcesToReduce);
-        public int CalculateScore();
+        public int Score { get; }
+
         public bool CanAfford(Goods resourcesToAfford);
         public void BuildRoad();//changes card counters
         public void BuildTown();//changes card counters

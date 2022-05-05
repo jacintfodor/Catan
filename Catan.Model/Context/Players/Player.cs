@@ -71,22 +71,26 @@ namespace Catan.Model.Context.Players
         #endregion
 
         #region Score methods
-        public int CalculateScore() 
+        public int Score
         {
-            int setl = 15 - (_availableSettlementCardCount + 2 * _availableTownCardCount);
-            int longest = LongestRoadTitleScore();
-            int scorcard = ScoreCardCount;
-            int army = LargestArmyTitleScore();
+            get
+            {
+                int setl = 15 - (_availableSettlementCardCount + 2 * _availableTownCardCount);
+                int longest = LongestRoadTitleScore();
+                int scorcard = ScoreCardCount;
+                int army = LargestArmyTitleScore();
 
-            return setl + longest + scorcard + army ;
+                return setl + longest + scorcard + army;
+            }
         }
+
         private int LongestRoadTitleScore()
         {
-            return (LongestRoadOwnerTitle.Instance.Owner == this) ? LongestRoadOwnerTitle.Instance.Score : 0;
+            return (LongestRoadTitle.Instance.Owner == this) ? LongestRoadTitle.Instance.Score : 0;
         }
         private int LargestArmyTitleScore()
         {
-            return (LargestArmyHolderTitle.Instance.Owner == this) ? LargestArmyHolderTitle.Instance.Score : 0;
+            return (LargestArmyTitle.Instance.Owner == this) ? LargestArmyTitle.Instance.Score : 0;
         }
         #endregion
         

@@ -15,7 +15,7 @@ namespace Catan.Model.GameStates.ConcreteStates
 
         public void Cancel(ICatanContext context)
         {
-            context.Events.OnCancel();
+            context.Events.OnCancelled();
             context.SetContext(new MainState());
         }
 

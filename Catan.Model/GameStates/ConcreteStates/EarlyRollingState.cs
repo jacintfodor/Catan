@@ -10,7 +10,8 @@ using Catan.Model.GameStates.Interfaces;
 
 namespace Catan.Model.GameStates.ConcreteStates
 {
-    internal class EarlyRollingState : ICatanGameState, IRollable
+    //TODO set internal
+    public class EarlyRollingState : ICatanGameState, IRollable
     {
         private int _rollCount = 0;
         private readonly Dictionary<PlayerEnum, int> _rolls = new();
@@ -25,18 +26,17 @@ namespace Catan.Model.GameStates.ConcreteStates
             context.SecondDice.roll();
             _rolls.Add(context.CurrentPlayer.ID, context.RolledSum);
             context.NextPlayer();
-            context.Events.OnPlayer(context);
-            context.Events.OnDiceThrown(context);
+            context.Events.OnPlayerUpdated(context);
+            context.Events.OnDicesRolled(context);
             if (_rollCount == 3)
             {
                 int turnsNeededToReachLuckyPlayer = (int)_rolls.First(x => x.Value == _rolls.Values.Max()).Key;
                 for (int i = 0; i < turnsNeededToReachLuckyPlayer; i++)
                     context.NextPlayer();
 
-                //TODO move this to elsewhere
-                var list = context.Board.GetVerticesEnumerable().ToList().Where(v => v.IsBuildable).ToList();
+                var list = context.Board.GetBuildableSettlementsByPlayer(this, context.CurrentPlayer.ID);
                 context.Events.OnSettlementBuildingStarted(list);
-                context.Events.OnPlayer(context);
+                context.Events.OnPlayerUpdated(context);
                 context.SetContext(new EarlySettlementBuildingState(0));
             }
         }

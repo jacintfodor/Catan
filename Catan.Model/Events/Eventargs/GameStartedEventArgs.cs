@@ -1,10 +1,10 @@
 ﻿using Catan.Model.Board.Components;
 
-namespace Catan.Model.Events
+namespace Catan.Model.Events.Eventargs
 {
-    public class GameStartEventArgs : EventArgs
+    public class GameStartedEventArgs : EventArgs
     {
-        public GameStartEventArgs(List<IHex> hexes, List<IVertex> vertices, List<IEdge> edges, int rogueRow, int rogueCol)
+        public GameStartedEventArgs(List<IHex> hexes, List<IVertex> vertices, List<IEdge> edges, int rogueRow, int rogueCol)
         {
             Hexes = hexes;
             Vertices = vertices;

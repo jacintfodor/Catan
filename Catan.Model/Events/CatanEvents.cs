@@ -1,9 +1,9 @@
 ﻿using Catan.Model.Board.Components;
 using Catan.Model.Context;
 using Catan.Model.Enums;
-using Catan.Model.Events;
+using Catan.Model.Events.Eventargs;
 
-namespace Catan.Model
+namespace Catan.Model.Events
 {
     public class CatanEvents : ICatanEvents
     {
@@ -15,9 +15,9 @@ namespace Catan.Model
         internal static ICatanEvents Instance
         { get { return _instance; } }
 
-        public event EventHandler<DicesThrownEventArg> DicesThrown;
-        public event EventHandler<GameStartEventArgs> GameStart;
-        public event EventHandler<PlayerEventArgs> Player;
+        public event EventHandler<DicesRolledEventArg> DicesRolled;
+        public event EventHandler<GameStartedEventArgs> GameStarted;
+        public event EventHandler<PlayerUpdatedEventArgs> PlayerUpdated;
 
         public event EventHandler<SettlementBuildingStartedEventArgs> SettlementBuildingStarted;
         public event EventHandler<SettlementBuiltEventArgs> SettlementBuilt;
@@ -28,7 +28,7 @@ namespace Catan.Model
         public event EventHandler<RoadBuildingStartedEventArgs> RoadBuildingStarted;
         public event EventHandler<RoadBuiltEventArgs> RoadBuilt;
 
-        public event EventHandler<CancelEventArgs> Cancel;
+        public event EventHandler<CancelEventArgs> Cancelled;
 
         public event EventHandler<EventArgs> RogueMovingStarted;
         public event EventHandler<RogueMovedEventArgs> RogueMoved;
@@ -58,7 +58,7 @@ namespace Catan.Model
             SettlementUpgradingStarted?.Invoke(this, new SettlementUpgradingStartedEventArgs(vertices));
         }
 
-        public void OnGameStart(ICatanContext ctx)
+        public void OnGameStarted(ICatanContext ctx)
         {
             List<IHex> Hexes = new List<IHex>();
             List<IVertex> Vertices = new List<IVertex>();
@@ -79,30 +79,30 @@ namespace Catan.Model
                 Edges.Add(edge);
             }
 
-            GameStart?.Invoke(this, new GameStartEventArgs(Hexes, Vertices, Edges, Context.Rogue.Instance.Row, Context.Rogue.Instance.Col));
+            GameStarted?.Invoke(this, new GameStartedEventArgs(Hexes, Vertices, Edges, Context.Rogue.Instance.Row, Context.Rogue.Instance.Col));
         }
 
-        public void OnCancel()
+        public void OnCancelled()
         {
-            Cancel?.Invoke(this, new CancelEventArgs());
+            Cancelled?.Invoke(this, new CancelEventArgs());
         }
 
-        public void OnDiceThrown(ICatanContext ctx)
+        public void OnDicesRolled(ICatanContext ctx)
         {
-            DicesThrown?.Invoke(
+            DicesRolled?.Invoke(
                 this,
-                new DicesThrownEventArg(ctx.FirstDice.RolledValue,
+                new DicesRolledEventArg(ctx.FirstDice.RolledValue,
                                          ctx.SecondDice.RolledValue
             ));
         }
 
-        public void OnPlayer(ICatanContext ctx)
+        public void OnPlayerUpdated(ICatanContext ctx)
         {
             List<IPlayer> a = new List<IPlayer>();
 
-            Player?.Invoke(
+            PlayerUpdated?.Invoke(
                 this,
-                new PlayerEventArgs(ctx.GetPlayerList())
+                new PlayerUpdatedEventArgs(ctx.GetPlayerList())
                 );
         }
 

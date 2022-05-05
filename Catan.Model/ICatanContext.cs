@@ -4,6 +4,7 @@ using Catan.Model.Context;
 using Catan.Model.Context.Titles;
 using Catan.Model.Enums;
 using Catan.Model.GameStates;
+using Catan.Model.Events;
 
 namespace Catan.Model
 {
@@ -32,20 +33,17 @@ namespace Catan.Model
         ICubeDice SecondDice { get; }
         IPlayer Winner { get; }
 
+        public ICatanGameState State { get; set; }
         void AcceptTrade();
         void BuildRoad(int row, int col);
         void BuildSettleMent(int row, int col);
-        int CalculateLongestRoadFromEdge(IEdge edge);
         void Cancel();
         void clear();
         void DenyTrade();
-        void DistributeResources(int dieValue, bool isEarly = false);
+        void DistributeResources(ICatanGameState state);
         void EndTurn();
         void ExchangeWithBank(ResourceEnum from, ResourceEnum to);
-        List<IEdge> GetBuildableRoadsByPlayer();
-        List<IVertex> GetBuildableSettlementsByPlayer();
         List<IPlayer> GetPlayerList();
-        List<IVertex> GetUpgradeableSettlementsByPlayer();
         void init();
         bool IsAffordable(Goods g);
         void MakeOffer();

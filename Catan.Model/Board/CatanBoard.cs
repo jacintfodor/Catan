@@ -1,6 +1,7 @@
 ﻿using Catan.Model.Board.Components;
 using Catan.Model.Context;
 using Catan.Model.Enums;
+using Catan.Model.GameStates;
 
 namespace Catan.Model.Board
 {
@@ -278,38 +279,84 @@ namespace Catan.Model.Board
         #region Methods 
         public void BuildRoad(int row, int col, PlayerEnum player)
         {
-            if (_Edges[row, col].IsBuildableByPlayer(player))
-            {
-                _Edges[row, col].Build(player);
-                //getNeighbourVerticesOfEdge(row,col).ForEach(vertex => {
-                //    vertex.AddPotentialBuilder(player);
-                //});
-            }
+            if (!_Edges[row, col].IsBuildableByPlayer(player)) throw new InvalidOperationException("NotBuildAbleByPlayer");
+            _Edges[row, col].Build(player);
+            GetNeighbourVerticesOfEdge(row, col)
+                .ForEach(v => v.AddPotentialBuilder(player));
+            GetEdgesofEdge(row, col)
+                .ForEach(e => e.AddPotentialBuilder(player));
         }
 
-        public void BuildSettlement(int row, int col, PlayerEnum player)
+        public void BuildSettlement(int row, int col, ICatanGameState state, PlayerEnum player)
         {
-            //This method was doing too much stuff, it did not just build a Settlement but also marked the neighbouring vertices as NotBuildable
-            //The Board doesnt know how to check the Validity of Build condition it has to be done at the States
-            //TODO make the Board able to test it
-
-            //if (_Vertices[row, col].IsBuildableByPlayer(player)) { 
-            _Vertices[row, col].Build(player);
-            //MarkNeighboursNotBuildable(row, col);
-            //}
-        }
-
-        public void MarkNeighbouringVerticesNotBuildable(int row, int col)
-        {
-            GetNeighborVerticesOfVertex(row, col).ForEach(vertex =>
-            {
-                vertex.SetNotBuildableCommunity();
-            });
+            if (!_Vertices[row, col].IsBuildableByPlayer(state, player)) throw new InvalidOperationException("NotBuildAbleByPlayer");
+            _Vertices[row, col].Build(state, player);
+            GetNeighborEdgesOfVertex(row, col)
+                .ForEach(e => e.AddPotentialBuilder(player));
+            GetNeighborVerticesOfVertex(row, col)
+                .ForEach(v => v.SetNotBuildableCommunity());
         }
 
         public void UpgradeSettlement(int row, int col)
         {
             _Vertices[row, col].Upgrade();
+        }
+
+        public int CalculateLongestRoadFromEdge(int row, int col, PlayerEnum id)
+        {
+            int retVal = 0;
+
+            List<IEdge> processed = new List<IEdge>();
+            List<IEdge> toProcess = new List<IEdge>();
+
+            toProcess.Add(GetEdge(row, col));
+            while (toProcess.Any())
+            {
+                IEdge currentlyProccessing = toProcess.First();
+                toProcess.Remove(currentlyProccessing);
+                retVal++;
+
+                GetEdgesofEdge(currentlyProccessing.Row, currentlyProccessing.Col).ForEach(edge =>
+                {
+                    if (edge.Owner == id && !toProcess.Contains(edge) && !processed.Contains(edge) && edge != currentlyProccessing)
+                        toProcess.Add(edge);
+                });
+                processed.Add(currentlyProccessing);
+            }
+            return retVal;
+        }
+        public List<IEdge> GetBuildableRoadsByPlayer(PlayerEnum id)
+        {
+            List<IEdge> retVal = new List<IEdge>();
+            foreach (IEdge edge in GetEdgesEnumerable())
+            {
+                if (edge.IsBuildableByPlayer(id))
+                    retVal.Add(edge);
+            }
+
+            return retVal;
+        }
+        public List<IVertex> GetBuildableSettlementsByPlayer(ICatanGameState state, PlayerEnum id)
+        {
+            List<IVertex> retVal = new List<IVertex>();
+            foreach (IVertex vertex in GetVerticesEnumerable())
+            {
+                if (vertex.IsBuildableByPlayer(state, id))
+                    retVal.Add(vertex);
+            }
+
+            return retVal;
+        }
+        public List<IVertex> GetUpgradeableSettlementsByPlayer(PlayerEnum id)
+        {
+            List<IVertex> retVal = new List<IVertex>();
+            foreach (IVertex vertex in GetVerticesEnumerable())
+            {
+                if (vertex.Owner == id && vertex.GetCommunity().IsUpgradeable)
+                    retVal.Add(vertex);
+            }
+
+            return retVal;
         }
         #endregion Methods
     }

@@ -18,10 +18,10 @@ namespace Catan.Model.GameStates.ConcreteStates
             context.FirstDice.roll();
             context.SecondDice.roll();
 
-            context.DistributeResources(context.RolledSum);
+            context.DistributeResources(this);
 
-            context.Events.OnDiceThrown(context);
-            context.Events.OnPlayer(context);
+            context.Events.OnDicesRolled(context);
+            context.Events.OnPlayerUpdated(context);
 
             if (context.RolledSum == 7)
             {

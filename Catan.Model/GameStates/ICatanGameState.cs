@@ -11,11 +11,6 @@ namespace Catan.Model.GameStates
 {
     public interface ICatanGameState
     {
-
-        // TODO IsAffordable does not depend on state remove it, once we dont use it anymore
-        public bool IsAffordable(ICatanContext context, Goods g) { return false; }
-
-
         public bool IsEarlyRollingState => false;
         public bool IsEarlySettlementBuildingState => false;
         public bool IsEarlyRoadBuildingState => false;
