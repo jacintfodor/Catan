@@ -19,7 +19,7 @@ namespace Catan.Model.GameStates.ConcreteStates
             //TODO check winner
 
             context.NextPlayer();
-            context.Events.OnPlayer(context);
+            context.Events.OnPlayerUpdated(context);
 
             context.SetContext(new RollingState());
         }
@@ -29,7 +29,7 @@ namespace Catan.Model.GameStates.ConcreteStates
             //TODO handle from=to as invalid
             context.CurrentPlayer.ReduceResources(new Goods(from) * 3);
             context.CurrentPlayer.AddResource(new Goods(to));
-            context.Events.OnPlayer(context);
+            context.Events.OnPlayerUpdated(context);
         }
 
         //Crop, Ore, Wood, Brick, Wool
@@ -38,7 +38,7 @@ namespace Catan.Model.GameStates.ConcreteStates
             context.CurrentPlayer.PurchaseBonusCard(Constants.BonusCardCost);
             context.CurrentPlayer.ReduceResources(Constants.BonusCardCost);
             context.LargestArmyHolder.ProcessOwner(context.CurrentPlayer);
-            context.Events.OnPlayer(context);
+            context.Events.OnPlayerUpdated(context);
         }
 
         public void StartRoadBuilding(ICatanContext context)

@@ -23,13 +23,13 @@ namespace Catan.Model.GameStates.ConcreteStates
 
             context.CurrentPlayer.BuildRoad();
             context.CurrentPlayer.ReduceResources(Constants.RoadCost);
-            context.Events.OnPlayer(context);
+            context.Events.OnPlayerUpdated(context);
             context.SetContext(new MainState());
         }
 
         public void Cancel(ICatanContext context)
         {
-            context.Events.OnCancel();
+            context.Events.OnCancelled();
             context.SetContext(new MainState());
         }
     }

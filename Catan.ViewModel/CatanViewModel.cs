@@ -79,9 +79,9 @@ namespace Catan.ViewModel
             _currentPlayer = new PlayerViewModel(NotPlayer.Instance);
 
 
-            _model.Events.DicesThrown += Model_Events_DicesThrown;
-            _model.Events.GameStart += Model_Events_NewGame;
-            _model.Events.Player += Model_Events_Player;
+            _model.Events.DicesRolled += Model_Events_DicesThrown;
+            _model.Events.GameStarted += Model_Events_NewGame;
+            _model.Events.PlayerUpdated += Model_Events_Player;
 
             _model.Events.SettlementBuildingStarted += Model_Events_SettlementBuildingStarted;
             _model.Events.SettlementBuilt += Model_Events_SettlementBuilt;
@@ -92,7 +92,7 @@ namespace Catan.ViewModel
             _model.Events.RoadBuildingStarted += Model_Events_RoadBuildingStarted;
             _model.Events.RoadBuilt += Model_Events_RoadBuilt;
 
-            _model.Events.Cancel += Model_Events_Cancel;
+            _model.Events.Cancelled += Model_Events_Cancel;
 
             _model.Events.RogueMovingStarted += Model_Events_RogueMovingStarted;
             _model.Events.RogueMoved += Model_Events_RogueMoved;

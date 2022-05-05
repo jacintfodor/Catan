@@ -23,7 +23,7 @@ namespace Catan.Model
 
         public void NewGame()
         {
-            Events.OnGameStart(this);
+            Events.OnGameStarted(this);
         }
 
         internal CatanContext(ICatanGameState initialState)
@@ -64,7 +64,7 @@ namespace Catan.Model
             _players.Enqueue(new Player(PlayerEnum.Player2));
             _players.Enqueue(new Player(PlayerEnum.Player3));
 
-            Events.OnPlayer(this);
+            Events.OnPlayerUpdated(this);
         }
 
         public void clear()

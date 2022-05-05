@@ -47,7 +47,7 @@ namespace Catan.Model.GameStates.ConcreteStates
 
             context.NextPlayer();
             context.CurrentPlayer.BuildRoad();
-            context.Events.OnPlayer(context);
+            context.Events.OnPlayerUpdated(context);
         }
     }
 }
