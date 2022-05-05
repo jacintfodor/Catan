@@ -1,5 +1,4 @@
-﻿using Catan.Model.Board;
-using Catan.Model.Context;
+﻿using Catan.Model.Context;
 using Catan.Model.Enums;
 using Catan.Model.GameStates.Interfaces;
 
@@ -9,21 +8,21 @@ namespace Catan.Model.GameStates.ConcreteStates
     {
         public bool IsSettlementUpgradingState => true;
 
-        public void Cancel(ICatanContext context, ICatanEvents events)
+        public void Cancel(ICatanContext context)
         {
-            events.OnCancel();
+            context.Events.OnCancel();
             context.SetContext(new MainState());
         }
 
-        public void UpgradeSettleMentToTown(ICatanContext context, ICatanEvents events, ICatanBoard board, IPlayer currentPlayer, int row, int col)
+        public void UpgradeSettleMentToTown(ICatanContext context, int row, int col)
         {
 
-            board.UpgradeSettlement(row, col);
-            events.OnSettlementUpgraded(context, row, col);
+            context.Board.UpgradeSettlement(row, col);
+            context.Events.OnSettlementUpgraded(context, row, col);
 
-            currentPlayer.BuildTown();
-            currentPlayer.ReduceResources(Constants.TownCost);
-            events.OnPlayer(context);
+            context.CurrentPlayer.BuildTown();
+            context.CurrentPlayer.ReduceResources(Constants.TownCost);
+            context.Events.OnPlayer(context);
             context.SetContext(new MainState());
         }
     }

@@ -14,55 +14,54 @@ namespace Catan.Model.GameStates.ConcreteStates
     {
         public bool IsMainState => true;
 
-        public void EndTurn(ICatanContext context, ICatanEvents events)
+        public void EndTurn(ICatanContext context)
         {
             //TODO check winner
 
             context.NextPlayer();
-            events.OnPlayer(context);
+            context.Events.OnPlayer(context);
 
             //context.Events.OnBuildableByPlayer(context);
             context.SetContext(new RollingState());
         }
 
-        public void ExchangeWithBank(ICatanContext context, ICatanEvents events, IPlayer currentPlayer, ResourceEnum from, ResourceEnum to)
+        public void ExchangeWithBank(ICatanContext context, ResourceEnum from, ResourceEnum to)
         {
             //TODO handle from=to as invalid
-            currentPlayer.ReduceResources(new Goods(from) * 3);
-            currentPlayer.AddResource(new Goods(to));
-            events.OnPlayer(context);
+            context.CurrentPlayer.ReduceResources(new Goods(from) * 3);
+            context.CurrentPlayer.AddResource(new Goods(to));
+            context.Events.OnPlayer(context);
         }
 
-
-        public bool IsAffordable(ICatanContext context, IPlayer currentPlayer, Goods g)
+        public bool IsAffordable(ICatanContext context, Goods g)
         {
-            return currentPlayer.CanAfford(g);
+            return context.CurrentPlayer.CanAfford(g);
         }
 
         //Crop, Ore, Wood, Brick, Wool
-        public void PurchaseBonusCard(ICatanContext context, ICatanEvents events, IPlayer currentPlayer, ITitle largestArmy)
+        public void PurchaseBonusCard(ICatanContext context)
         {
-            currentPlayer.PurchaseBonusCard(Constants.BonusCardCost);
-            currentPlayer.ReduceResources(Constants.BonusCardCost);
-            largestArmy.ProcessOwner(currentPlayer);
-            events.OnPlayer(context);
+            context.CurrentPlayer.PurchaseBonusCard(Constants.BonusCardCost);
+            context.CurrentPlayer.ReduceResources(Constants.BonusCardCost);
+            context.LargestArmyHolder.ProcessOwner(context.CurrentPlayer);
+            context.Events.OnPlayer(context);
         }
 
-        public void StartRoadBuilding(ICatanContext context, ICatanEvents events)
+        public void StartRoadBuilding(ICatanContext context)
         {
-            events.OnRoadBuildingStarted(context.GetBuildableRoadsByPlayer());
+            context.Events.OnRoadBuildingStarted(context.GetBuildableRoadsByPlayer());
             context.SetContext(new RoadBuildingState());
         }
 
-        public void StartSettlementBuilding(ICatanContext context, ICatanEvents events)
+        public void StartSettlementBuilding(ICatanContext context)
         {
-            events.OnSettlementBuildingStarted(context.GetBuildableSettlementsByPlayer());
+            context.Events.OnSettlementBuildingStarted(context.GetBuildableSettlementsByPlayer());
             context.SetContext(new SettlementBuildingState());
         }
 
-        public void StartSettlementUpgrading(ICatanContext context, ICatanEvents events)
+        public void StartSettlementUpgrading(ICatanContext context)
         {
-            events.OnSettlementUpgradingStarted(context.GetUpgradeableSettlementsByPlayer());
+            context.Events.OnSettlementUpgradingStarted(context.GetUpgradeableSettlementsByPlayer());
             context.SetContext(new SettlementUpgradingState());
         }
     }
