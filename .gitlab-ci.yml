@@ -44,13 +44,14 @@ test_model:
 pages:
   stage: deploy
   before_script:
-   - apt-get update -yqq
-   - apt-get install -yqq doxygen graphviz
+    - apt-get update -yqq
+    - apt-get install -yqq doxygen graphviz
   script:
-   - doxygen
+    - doxygen
+    - cp -r doc/html/. public/
   artifacts:
     paths:
-     - public
+      - public
     expire_in: 1 day
   only:
-   - main
+    - main
