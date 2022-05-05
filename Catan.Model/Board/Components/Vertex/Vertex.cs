@@ -17,6 +17,9 @@ namespace Catan.Model.Board.Components
         }
 
         public PlayerEnum Owner => _community.Owner;
+
+        public CommunityEnum Type => _community.Type;
+
         public int Row { get; set; }
         public int Col { get; set; }
 

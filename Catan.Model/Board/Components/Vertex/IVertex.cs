@@ -9,6 +9,8 @@ namespace Catan.Model.Board.Components
         public int Row { get; set; }
         public int Col { get; set; }
 
+        public CommunityEnum Type { get; }
+
         public ICommunity GetCommunity();
         public void AddPotentialBuilder(PlayerEnum player);
         public bool IsBuildableByPlayer(ICatanGameState state, PlayerEnum player);
