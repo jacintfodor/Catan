@@ -1,6 +1,6 @@
 ﻿using Catan.Model.Enums;
 
-namespace Catan.Model.Events.Eventargs
+namespace Catan.Model.Events.EventArguments
 {
     public class SettlementBuiltEventArgs : EventArgs
     {

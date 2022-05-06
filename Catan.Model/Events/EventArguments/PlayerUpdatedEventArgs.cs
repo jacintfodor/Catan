@@ -1,6 +1,6 @@
 ﻿using Catan.Model.DTOs;
 
-namespace Catan.Model.Events.Eventargs
+namespace Catan.Model.Events.EventArguments
 {
     public class PlayerUpdatedEventArgs : EventArgs
     {

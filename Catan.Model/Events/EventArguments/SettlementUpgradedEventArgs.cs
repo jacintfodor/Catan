@@ -1,8 +1,8 @@
-﻿namespace Catan.Model.Events.Eventargs
+﻿namespace Catan.Model.Events.EventArguments
 {
-    public class RogueMovedEventArgs
+    public class SettlementUpgradedEventArgs : EventArgs
     {
-        public RogueMovedEventArgs(int row, int column)
+        public SettlementUpgradedEventArgs(int row, int column)
         {
             Row = row;
             Column = column;

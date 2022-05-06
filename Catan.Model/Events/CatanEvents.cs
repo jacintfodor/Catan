@@ -4,7 +4,7 @@ using Catan.Model.Board.Components.Vertex;
 using Catan.Model.Context;
 using Catan.Model.DTOs;
 using Catan.Model.Enums;
-using Catan.Model.Events.Eventargs;
+using Catan.Model.Events.EventArguments;
 
 namespace Catan.Model.Events
 {
