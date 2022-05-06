@@ -1,7 +1,4 @@
-﻿using Catan.Model.Enums;
-
-
-namespace Catan.Model.Events.Eventargs
+﻿namespace Catan.Model.Events.Eventargs
 {
     public class SettlementUpgradedEventArgs : EventArgs
     {

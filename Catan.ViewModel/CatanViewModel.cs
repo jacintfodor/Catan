@@ -154,7 +154,7 @@ namespace Catan.ViewModel
 
         private void Model_Events_RoadBuildingStarted(object? sender, RoadBuildingStartedEventArgs e)
         {
-            foreach (IEdge edge in e.Edges)
+            foreach (EdgeDTO edge in e.Edges)
             {
                 switch (GetEdgeOrientation(edge.Row, edge.Col))
                 {
@@ -179,7 +179,7 @@ namespace Catan.ViewModel
 
         private void Model_Events_SettlementBuildingStarted(object? sender, SettlementBuildingStartedEventArgs e)
         {
-            foreach (IVertex vertex in e.Vertices)
+            foreach (VertexDTO vertex in e.Vertices)
             {
                 BuildableCommunityViewModel bcvm = new BuildableCommunityViewModel(vertex.Row, vertex.Col);
                 bcvm.BuildCommand = new DelegateCommand(vm => BuildSettlement((BuildableCommunityViewModel)vm));

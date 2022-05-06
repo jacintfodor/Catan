@@ -49,7 +49,7 @@ namespace Catan.Model.Events
             RoadBuildingStarted?.Invoke(this, new RoadBuildingStartedEventArgs(edges));
         }
 
-        public void OnSettlementBuildingStarted(List<IVertex> vertices)
+        public void OnSettlementBuildingStarted(List<VertexDTO> vertices)
         {
             SettlementBuildingStarted?.Invoke(this, new SettlementBuildingStartedEventArgs(vertices));
         }

@@ -27,7 +27,7 @@ namespace Catan.Model.Events
         void OnRoadBuilt(ICatanContext ctx, int row, int col, PlayerEnum player);
         void OnRogueMoved(int row, int col);
         void OnRogueMovingStarted();
-        void OnSettlementBuildingStarted(List<IVertex> vertices);
+        void OnSettlementBuildingStarted(List<VertexDTO> vertices);
         void OnSettlementBuilt(ICatanContext ctx, int row, int col, PlayerEnum player);
         void OnSettlementUpgraded(ICatanContext ctx, int row, int col);
         void OnSettlementUpgradingStarted(List<IVertex> vertices);

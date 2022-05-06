@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Catan.Model.Board.Components;
+﻿using Catan.Model.DTOs;
 
 namespace Catan.Model.Events.Eventargs
 {
     public class SettlementBuildingStartedEventArgs
     {
-        public SettlementBuildingStartedEventArgs(List<IVertex> vertices)
+        public SettlementBuildingStartedEventArgs(List<VertexDTO> vertices)
         {
             Vertices = vertices;
         }
-        public List<IVertex> Vertices { get; private set; }
+        public List<VertexDTO> Vertices { get; private set; }
     }
 }

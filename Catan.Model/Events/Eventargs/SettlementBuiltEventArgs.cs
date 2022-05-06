@@ -1,5 +1,4 @@
-﻿using Catan.Model.Board.Components;
-using Catan.Model.Enums;
+﻿using Catan.Model.Enums;
 
 namespace Catan.Model.Events.Eventargs
 {

@@ -54,7 +54,10 @@ namespace Catan.Model.GameStates.ConcreteStates
 
         public void StartSettlementBuilding(ICatanContext context)
         {
-            var buildableSettlementCandidates = context.Board.GetBuildableSettlementsByPlayer(context.State, context.CurrentPlayer.ID);
+            List<VertexDTO> buildableSettlementCandidates =
+                context.Board.GetBuildableSettlementsByPlayer(context.State, context.CurrentPlayer.ID)
+                .Select(v => Mapping.Mapper.Map<VertexDTO>(v))
+                .ToList();
             context.Events.OnSettlementBuildingStarted(buildableSettlementCandidates);
             context.SetContext(new SettlementBuildingState());
         }

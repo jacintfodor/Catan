@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Catan.Model.Context;
-using Catan.Model.Enums;
-using Catan.Model.GameStates.Interfaces;
+﻿using Catan.Model.DTOs;
 
 namespace Catan.Model.GameStates.ConcreteStates
 {
-    //TODO set internal
-    public class EarlyRoadBuildingState : ICatanGameState, IRoadBuildable
+    internal class EarlyRoadBuildingState : ICatanGameState, IRoadBuildable
     {
         private int _turnCount = 0;
 
@@ -39,7 +31,10 @@ namespace Catan.Model.GameStates.ConcreteStates
             }
             else
             {
-                var list = context.Board.GetBuildableSettlementsByPlayer(this, context.CurrentPlayer.ID);         
+                List<VertexDTO> list =
+                    context.Board.GetBuildableSettlementsByPlayer(this, context.CurrentPlayer.ID)
+                    .Select(v => Mapping.Mapper.Map<VertexDTO>(v))
+                    .ToList();         
                 context.Events.OnSettlementBuildingStarted(list);
 
                 context.SetContext(new EarlySettlementBuildingState(_turnCount));
