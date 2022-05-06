@@ -13,7 +13,7 @@ namespace Catan.Model.Board.Components
 
         public bool IsBuildable => false;
 
-        public void AddPotentialBuilder(PlayerEnum player) { }
+        public void AddPotentialBuilder(PlayerEnum player) { if (player == PlayerEnum.NotPlayer) throw new ArgumentException("InvalidPlayer"); }
         public bool IsBuildableByPlayer(PlayerEnum player) { return false; }
     }
 }
