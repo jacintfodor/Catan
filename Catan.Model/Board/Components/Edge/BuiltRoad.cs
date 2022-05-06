@@ -7,12 +7,11 @@ namespace Catan.Model.Board.Components
         public BuiltRoad(PlayerEnum owner)
         {
             Owner = owner;
-            IsBuildable = false;
         }
 
-        public PlayerEnum Owner { get; set; }
+        public PlayerEnum Owner { get; private set; }
 
-        public bool IsBuildable { get; set; }
+        public bool IsBuildable => false;
 
         public void AddPotentialBuilder(PlayerEnum player) { }
         public bool IsBuildableByPlayer(PlayerEnum player) { return false; }
