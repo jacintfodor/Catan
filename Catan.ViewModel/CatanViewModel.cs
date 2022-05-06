@@ -6,6 +6,11 @@ using Catan.Model.Context.Players;
 using Catan.Model.Enums;
 using Catan.Model.Events.EventArguments;
 using Catan.Model.DTOs;
+using Catan.ViewModel.Edge;
+using Catan.ViewModel.Hex;
+using Catan.ViewModel.Player;
+using Catan.ViewModel.Vertex;
+using Catan.ViewModel.Edge.Factory;
 
 namespace Catan.ViewModel
 {
@@ -19,6 +24,8 @@ namespace Catan.ViewModel
         public ObservableCollection<VerticalViewModel> Verticals { get; set; }
         public ObservableCollection<LeftSlopeViewModel> LeftSlopes { get; set; }
         public ObservableCollection<RightSlopeViewModel> RightSlopes { get; set; }
+        public ObservableCollection<EdgeViewModel> Edges { get; set; }
+        public ObservableCollection<BuildableEdgeViewModel> BuildableEdges { get; set; }
         public ObservableCollection<BuildableVerticalViewModel> BuildableVerticals { get; set; }
         public ObservableCollection<BuildableLeftSlopeViewModel> BuildableLeftSlopes { get; set; }
         public ObservableCollection<BuildableRightSlopeViewModel> BuildableRightSlopes { get; set; }
@@ -34,7 +41,7 @@ namespace Catan.ViewModel
         public int SumOfDices { get => FirstDiceFace + SecondDiceFace; }
 
         private PlayerViewModel _currentPlayer;
-        public int PlayerCrop { get => _currentPlayer.Crop; set {_currentPlayer.Crop = value; OnPropertyChanged(); } }
+        public int PlayerCrop { get => _currentPlayer.Crop; set { _currentPlayer.Crop = value; OnPropertyChanged(); } }
         public int PlayerOre { get => _currentPlayer.Ore; set { _currentPlayer.Ore = value; OnPropertyChanged(); } }
         public int PlayerWood { get => _currentPlayer.Wood; set { _currentPlayer.Wood = value; OnPropertyChanged(); } }
         public int PlayerBrick { get => _currentPlayer.Brick; set { _currentPlayer.Brick = value; OnPropertyChanged(); } }
@@ -63,9 +70,15 @@ namespace Catan.ViewModel
             Verticals = new ObservableCollection<VerticalViewModel>();
             LeftSlopes = new ObservableCollection<LeftSlopeViewModel>();
             RightSlopes = new ObservableCollection<RightSlopeViewModel>();
+
+            Edges = new ObservableCollection<EdgeViewModel>();
+
             BuildableVerticals = new ObservableCollection<BuildableVerticalViewModel>();
             BuildableLeftSlopes = new ObservableCollection<BuildableLeftSlopeViewModel>();
             BuildableRightSlopes = new ObservableCollection<BuildableRightSlopeViewModel>();
+
+            BuildableEdges = new ObservableCollection<BuildableEdgeViewModel>();
+
             Players = new ObservableCollection<PlayerViewModel>();
 
             _currentPlayer = new PlayerViewModel(Mapping.Mapper.Map<PlayerDTO>(NotPlayer.Instance));
@@ -96,9 +109,9 @@ namespace Catan.ViewModel
             BuildRoadCommand = new DelegateCommand(_ => _model.StartRoadBuilding(), _ => _model.IsMainState && _model.HasEnoughResourcesToBuildRoad());
             BuildSettlementCommand = new DelegateCommand(_ => _model.StartSettlementBuilding(), _ => _model.IsMainState && _model.HasEnoughResourcesToBuildSettlement());
             UpgradeSettlementCommand = new DelegateCommand(_ => _model.StartSettlementUpgrading(), _ => _model.IsMainState && _model.HasEnoughResourcesToUpgradeSettlementToTown());
-            CancelCommand = new DelegateCommand(_ => _model.Cancel(), _=> _model.IsSettlementBuildingState || _model.IsRoadBuildingState || _model.IsSettlementUpgradingState || _model.IsRogueMovingState);
+            CancelCommand = new DelegateCommand(_ => _model.Cancel(), _ => _model.IsSettlementBuildingState || _model.IsRoadBuildingState || _model.IsSettlementUpgradingState || _model.IsRogueMovingState);
             //TODO Cost manager rn condition order matters
-            ExchangeWithBankCommand = new DelegateCommand(resource => ExchangeWithBank(resource), resource =>  _model.IsMainState && HasThree(resource));
+            ExchangeWithBankCommand = new DelegateCommand(resource => ExchangeWithBank(resource), resource => _model.IsMainState && HasThree(resource));
         }
 
         private void Model_Events_GameWon(object? sender, GameWonEventArgs e)
@@ -115,7 +128,8 @@ namespace Catan.ViewModel
 
         private void Model_Events_RogueMovingStarted(object? sender, EventArgs e)
         {
-            Hexes.ToList().ForEach(e => { 
+            Hexes.ToList().ForEach(e =>
+            {
                 var rmn = new PlaceRogueViewModel(e.Row, e.Column);
                 rmn.MoveRogueCommand = new DelegateCommand(vm => MoveRogue((PlaceRogueViewModel)vm));
                 RogueMovingNodes.Add(rmn);
@@ -130,13 +144,13 @@ namespace Catan.ViewModel
         private bool HasThree(object resource)
         {
             _ = Enum.TryParse(resource.ToString(), out ResourceEnum from);
-            return _model.IsAffordable((new Goods(from)) *3);
+            return _model.IsAffordable((new Goods(from)) * 3);
         }
 
         private void ExchangeWithBank(object resource)
         {
             _ = Enum.TryParse(resource.ToString(), out ResourceEnum from);
-            _model.ExchangeWithBank(from, (ResourceEnum)ResourceToNumber );
+            _model.ExchangeWithBank(from, (ResourceEnum)ResourceToNumber);
         }
 
         private void Model_Events_Cancel(object? sender, CancelEventArgs e)
@@ -145,6 +159,7 @@ namespace Catan.ViewModel
             BuildableVerticals.Clear();
             BuildableLeftSlopes.Clear();
             BuildableRightSlopes.Clear();
+            BuildableEdges.Clear();
 
             RogueMovingNodes.Clear();
         }
@@ -153,6 +168,7 @@ namespace Catan.ViewModel
         {
             foreach (EdgeDTO edge in e.Edges)
             {
+                /*old*/
                 switch (GetEdgeOrientation(edge.Row, edge.Col))
                 {
                     case "Vertical":
@@ -171,6 +187,9 @@ namespace Catan.ViewModel
                         BuildableRightSlopes.Add(brvm);
                         break;
                 }
+
+
+                BuildableEdges.Add(BuildableEdgeFactory(edge));
             }
         }
 
@@ -217,6 +236,10 @@ namespace Catan.ViewModel
         {
             _model.BuildRoad(vm.Row, vm.Column);
         }
+        private void BuildRoad(BuildableEdgeViewModel vm)
+        {
+            _model.BuildRoad(vm.Row, vm.Column);
+        }
         private void Model_Events_SettlementUpgraded(object? sender, SettlementUpgradedEventArgs e)
         {
             foreach (VertexViewModel vm in Vertices)
@@ -231,9 +254,11 @@ namespace Catan.ViewModel
         }
         private void Model_Events_SettlementBuilt(object? sender, SettlementBuiltEventArgs e)
         {
-            foreach (VertexViewModel vm in Vertices) {
-                if (vm.Row == e.Row && vm.Column == e.Column) {
-                    vm.Community =  CommunityEnum.Settlement;
+            foreach (VertexViewModel vm in Vertices)
+            {
+                if (vm.Row == e.Row && vm.Column == e.Column)
+                {
+                    vm.Community = CommunityEnum.Settlement;
                     vm.Owner = e.Owner;
                 }
             }
@@ -242,6 +267,7 @@ namespace Catan.ViewModel
         }
         private void Model_Events_RoadBuilt(object? sender, RoadBuiltEventArgs e)
         {
+            /*old pop*/
             switch (GetEdgeOrientation(e.Row, e.Column))
             {
                 case "Vertical":
@@ -275,6 +301,15 @@ namespace Catan.ViewModel
             BuildableVerticals.Clear();
             BuildableLeftSlopes.Clear();
             BuildableRightSlopes.Clear();
+
+            foreach (EdgeViewModel edge in Edges)
+            {
+                if (edge.Row == e.Row && edge.Column == e.Column)
+                {
+                    edge.Owner = e.Owner;
+                }
+            }
+            BuildableEdges.Clear();
         }
 
         private void Model_Events_Player(object? sender, PlayerUpdatedEventArgs e)
@@ -316,10 +351,12 @@ namespace Catan.ViewModel
 
             foreach (EdgeDTO edge in edges)
             {
+                Edges.Add(EdgeFactory(edge));
+
                 switch (GetEdgeOrientation(edge.Row, edge.Col))
                 {
                     case "Vertical":
-                        Verticals.Add(new VerticalViewModel(edge.Row,edge.Col,PlayerEnum.NotPlayer));
+                        Verticals.Add(new VerticalViewModel(edge.Row, edge.Col, PlayerEnum.NotPlayer));
                         break;
                     case "LeftSlope":
                         LeftSlopes.Add(new LeftSlopeViewModel(edge.Row, edge.Col, PlayerEnum.NotPlayer));
@@ -340,14 +377,101 @@ namespace Catan.ViewModel
             SecondDiceFace = e.SecondDice;
         }
 
-        private string GetEdgeOrientation(int row, int col) {
+
+
+        #region radio stuff
+        int _resourceToNumber = 0;
+        public int ResourceToNumber
+        {
+            get { return _resourceToNumber; }
+            set
+            {
+                _resourceToNumber = value; OnPropertyChanged(nameof(RadioCrop)); OnPropertyChanged(nameof(RadioOre));
+                OnPropertyChanged(nameof(RadioWood)); OnPropertyChanged(nameof(RadioBrick)); OnPropertyChanged(nameof(RadioWool));
+            }
+        }
+        //Desert = -1, Crop, Ore, Wood, Brick, Wool
+        public bool RadioCrop
+        {
+            get { return ResourceToNumber.Equals(0); }
+            set { ResourceToNumber = 0; }
+        }
+        public bool RadioOre
+        {
+            get { return ResourceToNumber.Equals(1); }
+            set { ResourceToNumber = 1; }
+        }
+
+        public bool RadioWood
+        {
+            get { return ResourceToNumber.Equals(2); }
+            set { ResourceToNumber = 2; }
+        }
+
+        public bool RadioBrick
+        {
+            get { return ResourceToNumber.Equals(3); }
+            set { ResourceToNumber = 3; }
+        }
+
+        public bool RadioWool
+        {
+            get { return ResourceToNumber.Equals(4); }
+            set { ResourceToNumber = 4; }
+        }
+
+        #endregion
+
+        #region factory
+        private BuildableEdgeViewModel BuildableEdgeFactory(EdgeDTO edge)
+        {
+            BuildableEdgeViewModelFactory factory = null;
+
+            switch (GetEdgeOrientation(edge.Row, edge.Col))
+            {
+                case "Vertical":
+                    factory = new BuildableVerticalViewModelFactory(edge.Row, edge.Col);
+                    break;
+                case "LeftSlope":
+                    factory = new BuildableLeftSlopeViewModelFactory(edge.Row, edge.Col);
+                    break;
+                case "RightSlope":
+                    factory = new BuildableRightSlopeViewModelFactory(edge.Row, edge.Col);
+                    break;
+            }
+            BuildableEdgeViewModel bevm = factory.CreateEdge();
+            bevm.BuildCommand = new DelegateCommand(vm => BuildRoad((BuildableEdgeViewModel)vm));
+            BuildableEdges.Add(bevm);
+            return bevm;
+        }
+        private EdgeViewModel EdgeFactory(EdgeDTO edge)
+        {
+            EdgeViewModelFactory factory = null;
+
+            switch (GetEdgeOrientation(edge.Row, edge.Col))
+            {
+                case "Vertical":
+                    factory = new VerticalViewModelFactory(edge.Row, edge.Col,edge.Owner);
+                    break;
+                case "LeftSlope":
+                    factory = new LeftSlopeViewModelFactory(edge.Row, edge.Col, edge.Owner);
+                    break;
+                case "RightSlope":
+                    factory = new RightSlopeViewModelFactory(edge.Row, edge.Col, edge.Owner);
+                    break;
+            }
+            EdgeViewModel evm = factory.CreateEdge();
+            return evm;
+        }
+        private string GetEdgeOrientation(int row, int col)
+        {
             if (row % 2 == 1)
             {
                 return "Vertical";
             }
             else if ((row / 2) % 2 == 0)
             {
-                if(col % 2 == 0)
+                if (col % 2 == 0)
                 {
                     return "LeftSlope";
                 }
@@ -368,47 +492,6 @@ namespace Catan.ViewModel
                 }
             }
         }
-        
-        #region radio stuff
-        int _resourceToNumber = 0; 
-        public int ResourceToNumber
-        {
-            get { return _resourceToNumber; }
-            set 
-            { 
-                _resourceToNumber = value; OnPropertyChanged(nameof(RadioCrop)); OnPropertyChanged(nameof(RadioOre)); 
-                OnPropertyChanged(nameof(RadioWood)); OnPropertyChanged(nameof(RadioBrick)); OnPropertyChanged(nameof(RadioWool));
-            }
-        }
-        //Desert = -1, Crop, Ore, Wood, Brick, Wool
-        public bool RadioCrop
-        {
-            get { return ResourceToNumber.Equals(0); }
-            set { ResourceToNumber = 0; }
-        }
-        public bool RadioOre
-        {
-            get { return ResourceToNumber.Equals(1); }
-            set { ResourceToNumber = 1; }
-        }
-        
-        public bool RadioWood {
-            get { return ResourceToNumber.Equals(2); }
-            set { ResourceToNumber = 2; }
-        }
-
-        public bool RadioBrick
-        {
-            get { return ResourceToNumber.Equals(3); }
-            set { ResourceToNumber = 3; }
-        }
-
-        public bool RadioWool
-        {
-            get { return ResourceToNumber.Equals(4); }
-            set { ResourceToNumber = 4; }
-        }
-
         #endregion
     }
 }

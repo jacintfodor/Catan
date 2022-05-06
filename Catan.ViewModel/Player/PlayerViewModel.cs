@@ -1,8 +1,7 @@
-﻿using Catan.Model.Context;
-using Catan.Model.DTOs;
+﻿using Catan.Model.DTOs;
 using Catan.Model.Enums;
 
-namespace Catan.ViewModel
+namespace Catan.ViewModel.Player
 {
     public class PlayerViewModel : ViewModelBase
     {
@@ -15,7 +14,7 @@ namespace Catan.ViewModel
         private int _knightCardCount;
         private int _longestRoad;
         private int _score;
-        private string _color;   
+        private string _color;
 
         public PlayerViewModel(PlayerDTO player)
         {

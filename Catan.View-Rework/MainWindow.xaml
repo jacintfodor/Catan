@@ -6,18 +6,29 @@
         xmlns:local="clr-namespace:Catan.View_Rework"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" 
-        xmlns:viewmodel="clr-namespace:Catan.ViewModel;assembly=Catan.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:CatanViewModel}"
+        xmlns:viewmodel="clr-namespace:Catan.ViewModel;assembly=Catan.ViewModel"
+        xmlns:hexviewmodel="clr-namespace:Catan.ViewModel.Hex;assembly=Catan.ViewModel"
+        xmlns:vertexviewmodel="clr-namespace:Catan.ViewModel.Vertex;assembly=Catan.ViewModel"
+        xmlns:edgeviewmodel="clr-namespace:Catan.ViewModel.Edge;assembly=Catan.ViewModel"
+        d:DataContext="{d:DesignInstance Type=viewmodel:CatanViewModel}"
         >
     <Window.Resources>
         <CollectionViewSource x:Key="HexCollection" Source="{Binding Hexes}"/>
         <CollectionViewSource x:Key="VertexCollection" Source="{Binding Vertices}"/>
         <CollectionViewSource x:Key="BuildableVertexCollection" Source="{Binding BuildableCommunities}"/>
+        
+        <!--
         <CollectionViewSource x:Key="VerticalEdgeCollection" Source="{Binding Verticals}"/>
         <CollectionViewSource x:Key="LeftSlopeEdgeCollection" Source="{Binding LeftSlopes}"/>
         <CollectionViewSource x:Key="RightSlopeEdgeCollection" Source="{Binding RightSlopes}"/>
         <CollectionViewSource x:Key="BuildableVerticalEdgeCollection" Source="{Binding BuildableVerticals}"/>
         <CollectionViewSource x:Key="BuildableLeftSlopeEdgeCollection" Source="{Binding BuildableLeftSlopes}"/>
         <CollectionViewSource x:Key="BuildableRightSlopeEdgeCollection" Source="{Binding BuildableRightSlopes}"/>
+        -->
+
+        <CollectionViewSource x:Key="EdgeCollection" Source="{Binding Edges}"/>
+        <CollectionViewSource x:Key="BuildableEdgeCollection" Source="{Binding BuildableEdges}"/>
+        
         <CollectionViewSource x:Key="RogueMovingNodesCollection" Source="{Binding RogueMovingNodes}"/>
         <CollectionViewSource x:Key="RogueContainer" Source="{Binding RogueContainer}"/>
     </Window.Resources>
@@ -61,6 +72,7 @@
                             <CollectionContainer Collection="{Binding Source={StaticResource RogueMovingNodesCollection}}"/>
                             <CollectionContainer Collection="{Binding Source={StaticResource RogueContainer}}"/>
                             
+                            <!--
                             <CollectionContainer Collection="{Binding Source={StaticResource VerticalEdgeCollection}}"/>
                             <CollectionContainer Collection="{Binding Source={StaticResource LeftSlopeEdgeCollection}}"/>
                             <CollectionContainer Collection="{Binding Source={StaticResource RightSlopeEdgeCollection}}"/>
@@ -68,6 +80,9 @@
                             <CollectionContainer Collection="{Binding Source={StaticResource BuildableVerticalEdgeCollection}}"/>
                             <CollectionContainer Collection="{Binding Source={StaticResource BuildableLeftSlopeEdgeCollection}}"/>
                             <CollectionContainer Collection="{Binding Source={StaticResource BuildableRightSlopeEdgeCollection}}"/>
+                            -->
+                            <CollectionContainer Collection="{Binding Source={StaticResource EdgeCollection}}"/>
+                            <CollectionContainer Collection="{Binding Source={StaticResource BuildableEdgeCollection}}"/>
 
                             <CollectionContainer Collection="{Binding Source={StaticResource VertexCollection}}"/>
                             <CollectionContainer Collection="{Binding Source={StaticResource BuildableVertexCollection}}"/>
@@ -86,42 +101,42 @@
                         </Style>
                     </ItemsControl.ItemContainerStyle>
                     <ItemsControl.Resources>
-                        <DataTemplate  DataType="{x:Type viewmodel:HexViewModel}">
+                        <DataTemplate  DataType="{x:Type hexviewmodel:HexViewModel}">
                             <Button Width="60" Height="60" Content="{Binding Number}" Background="{Binding Color}"></Button>
                         </DataTemplate>
 
-                        <DataTemplate  DataType="{x:Type viewmodel:PlaceRogueViewModel}">
+                        <DataTemplate  DataType="{x:Type hexviewmodel:PlaceRogueViewModel}">
                             <Button Width="20" Height="20" Margin ="-10" Background="Green" Command="{Binding MoveRogueCommand}" CommandParameter="{Binding}"></Button>
                         </DataTemplate>
 
-                        <DataTemplate  DataType="{x:Type viewmodel:RogueViewModel}">
+                        <DataTemplate  DataType="{x:Type hexviewmodel:RogueViewModel}">
                             <Button Width="20" Height="20" Margin ="-10" Background="White"></Button>
                         </DataTemplate>
 
-                        <DataTemplate  DataType="{x:Type viewmodel:VertexViewModel}">
+                        <DataTemplate  DataType="{x:Type vertexviewmodel:VertexViewModel}">
                             <Button Width="{Binding Size}" Height="{Binding Size}" Background="{Binding Color}"></Button>
                         </DataTemplate>
-                        <DataTemplate  DataType="{x:Type viewmodel:BuildableCommunityViewModel}">
+                        <DataTemplate  DataType="{x:Type vertexviewmodel:BuildableCommunityViewModel}">
                             <Button Width="12" Height="12" Background="Green" Command="{Binding BuildCommand}" CommandParameter="{Binding}"></Button>
                         </DataTemplate>
-                        
-                        <DataTemplate  DataType="{x:Type viewmodel:VerticalViewModel}">
+
+                        <DataTemplate  DataType="{x:Type edgeviewmodel:VerticalViewModel}">
                             <Button Width="6" Height="60" Background="{Binding Color}"></Button>
                         </DataTemplate>
-                        <DataTemplate  DataType="{x:Type viewmodel:LeftSlopeViewModel}">
+                        <DataTemplate  DataType="{x:Type edgeviewmodel:LeftSlopeViewModel}">
                             <Button Width="30" Height="6" Background="{Binding Color}" ></Button>
                         </DataTemplate>
-                        <DataTemplate  DataType="{x:Type viewmodel:RightSlopeViewModel}">
+                        <DataTemplate  DataType="{x:Type edgeviewmodel:RightSlopeViewModel}">
                             <Button Width="30" Height="6" Background="{Binding Color}"></Button>
                         </DataTemplate>
 
-                        <DataTemplate  DataType="{x:Type viewmodel:BuildableVerticalViewModel}">
+                        <DataTemplate  DataType="{x:Type edgeviewmodel:BuildableVerticalViewModel}">
                             <Button Width="6" Height="60" Background="green" Command="{Binding BuildCommand}" CommandParameter="{Binding}"></Button>
                         </DataTemplate>
-                        <DataTemplate  DataType="{x:Type viewmodel:BuildableLeftSlopeViewModel}">
+                        <DataTemplate  DataType="{x:Type edgeviewmodel:BuildableLeftSlopeViewModel}">
                             <Button Width="30" Height="6" Background="green" Command="{Binding BuildCommand}" CommandParameter="{Binding}"></Button>
                         </DataTemplate>
-                        <DataTemplate  DataType="{x:Type viewmodel:BuildableRightSlopeViewModel}">
+                        <DataTemplate  DataType="{x:Type edgeviewmodel:BuildableRightSlopeViewModel}">
                             <Button Width="30" Height="6" Background="green" Command="{Binding BuildCommand}" CommandParameter="{Binding}"></Button>
                         </DataTemplate>
                         

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Catan.ViewModel
+﻿namespace Catan.ViewModel.Hex
 {
     public class PlaceRogueViewModel : ViewModelBase
     {
@@ -23,10 +17,10 @@ namespace Catan.ViewModel
 
         public string Top
         {
-            get => (Row * 60 +30).ToString();
+            get => (Row * 60 + 30).ToString();
         }
 
-        private int Offset { get => (Row % 2 == 0) ? 0 : 30; }
+        private int Offset { get => Row % 2 == 0 ? 0 : 30; }
 
         public string Left
         {

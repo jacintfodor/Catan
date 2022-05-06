@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Catan.ViewModel
+﻿namespace Catan.ViewModel.Edge
 {
-    public class BuildableLeftSlopeViewModel : ViewModelBase
+    public class BuildableLeftSlopeViewModel : BuildableEdgeViewModel
     {
         private int _row;
         private int _col;
@@ -17,21 +11,21 @@ namespace Catan.ViewModel
             Column = column;
         }
 
-        public int Column { get => _col; set { _col = value; OnPropertyChanged(); OnPropertyChanged(nameof(Left)); } }
-        public int Row { get => _row; set { _row = value; OnPropertyChanged(); OnPropertyChanged(nameof(Top)); } }
-        
+        public override int Column { get => _col; set { _col = value; OnPropertyChanged(); OnPropertyChanged(nameof(Left)); } }
+        public override int Row { get => _row; set { _row = value; OnPropertyChanged(); OnPropertyChanged(nameof(Top)); } }
+
         public string Top
         {
             get => (Row * 30 - 3).ToString();
         }
 
-        private int Offset { get => (Row % 2 == 0) ? 0 : 30; }
+        private int Offset { get => Row % 2 == 0 ? 0 : 30; }
 
         public string Left
         {
             get => (Offset + Column * 30).ToString();
         }
 
-        public DelegateCommand BuildCommand { get; set; }
+        public override DelegateCommand BuildCommand { get; set; }
     }
 }

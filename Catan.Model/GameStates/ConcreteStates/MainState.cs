@@ -12,15 +12,18 @@ namespace Catan.Model.GameStates.ConcreteStates
 
         public void EndTurn(ICatanContext context)
         {
-            if (context.Winner == context.CurrentPlayer) { 
+            if (context.Winner == context.CurrentPlayer)
+            {
                 context.Events.OnGameWon(context);
                 context.SetContext(new GameWonState());
             }
+            else
+            {
+                context.NextPlayer();
+                context.Events.OnPlayerUpdated(context);
 
-            context.NextPlayer();
-            context.Events.OnPlayerUpdated(context);
-
-            context.SetContext(new RollingState());
+                context.SetContext(new RollingState());
+            }
         }
 
         public void ExchangeWithBank(ICatanContext context, ResourceEnum from, ResourceEnum to)
