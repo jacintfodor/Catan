@@ -1,5 +1,6 @@
 ﻿using Catan.Model.Enums;
 using Catan.Model.GameStates;
+using Catan.Model.GameStates.ConcreteStates;
 
 namespace Catan.Model.Board.Components
 {
@@ -44,9 +45,22 @@ namespace Catan.Model.Board.Components
         ///         </item>
         ///         <item>
         ///             <term>Main phase</term>
-        ///             <description>In the Main phase the player can build BuildableCommunity,<br>
-        ///                 which cannot have any neghbouring built community.<br>
+        ///             <description>In the Main phase the player can build BuildableCommunity,
+        ///                 which cannot have any neghbouring built community.
         ///                 As well as it must be connected by roads the player owns to other Built Community the said player owns.</description>
+        ///         </item>
+        ///     </list>
+        ///     Those phases are separated into different states.
+        ///     The Early states this logic is concerned about are:
+        ///     <list type="bullet">
+        ///         <item>
+        ///             <term><see cref="EarlyRollingState"/></term>
+        ///         </item>
+        ///         <item>
+        ///             <term><see cref="EarlyRoadBuildingState"/></term>
+        ///         </item>
+        ///         <item>
+        ///             <term><see cref="EarlySettlementBuildingState"/></term>
         ///         </item>
         ///     </list>
         /// </remarks>
