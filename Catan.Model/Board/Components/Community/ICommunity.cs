@@ -51,7 +51,7 @@ namespace Catan.Model.Board.Components
         ///         </item>
         ///     </list>
         ///     Those phases are separated into different states.
-        ///     The Early states this logic is concerned about are:
+        ///     The Early states this logic is concerned about are: (Early phase)
         ///     <list type="bullet">
         ///         <item>
         ///             <term><see cref="EarlyRollingState"/></term>
@@ -63,6 +63,7 @@ namespace Catan.Model.Board.Components
         ///             <term><see cref="EarlySettlementBuildingState"/></term>
         ///         </item>
         ///     </list>
+        ///     On all the other states the logic assumes Main phase behaviour as default
         /// </remarks>
         public bool IsBuildableByPlayer(ICatanGameState state, PlayerEnum player);
     }
