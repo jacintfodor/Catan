@@ -21,14 +21,8 @@ namespace Catan.ViewModel
         public ObservableCollection<HexViewModel> Hexes { get; set; }
         public ObservableCollection<VertexViewModel> Vertices { get; set; }
         public ObservableCollection<BuildableCommunityViewModel> BuildableCommunities { get; set; }
-        public ObservableCollection<VerticalViewModel> Verticals { get; set; }
-        public ObservableCollection<LeftSlopeViewModel> LeftSlopes { get; set; }
-        public ObservableCollection<RightSlopeViewModel> RightSlopes { get; set; }
         public ObservableCollection<EdgeViewModel> Edges { get; set; }
         public ObservableCollection<BuildableEdgeViewModel> BuildableEdges { get; set; }
-        public ObservableCollection<BuildableVerticalViewModel> BuildableVerticals { get; set; }
-        public ObservableCollection<BuildableLeftSlopeViewModel> BuildableLeftSlopes { get; set; }
-        public ObservableCollection<BuildableRightSlopeViewModel> BuildableRightSlopes { get; set; }
         public ObservableCollection<PlayerViewModel> Players { get; set; }
         public ObservableCollection<PlaceRogueViewModel> RogueMovingNodes { get; set; } = new();
         public ObservableCollection<RogueViewModel> RogueContainer { get; set; } = new();
