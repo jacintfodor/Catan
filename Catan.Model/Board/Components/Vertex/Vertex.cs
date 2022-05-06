@@ -20,6 +20,8 @@ namespace Catan.Model.Board.Components
 
         public CommunityEnum Type => _community.Type;
 
+        public bool IsUpgradeable => _community.IsUpgradeable;
+
         public int Row { get; private set; }
         public int Col { get; private set; }
 
@@ -33,22 +35,18 @@ namespace Catan.Model.Board.Components
             return _community.IsBuildableByPlayer(state, player);
         }
 
-        public void Build(ICatanGameState state, PlayerEnum player)
+        public void BuildSettlement(ICatanGameState state, PlayerEnum player)
         {
             if (!_community.IsBuildableByPlayer(state, player)) throw new InvalidOperationException("NotBuildableByPlayer");
             
             _community = new Settlement(player);
         }
-
-        public void Upgrade()
+        
+        public void UpgradeToTown()
         {
-            if (_community.IsUpgradeable)
-                _community = new Town(Owner);
-        }
-
-        public ICommunity GetCommunity()
-        {
-            return _community;
+            if (!_community.IsUpgradeable) throw new InvalidOperationException("NotUpgradableByPlayer");
+                
+            _community = new Town(Owner);
         }
 
         public void SetNotBuildableCommunity()
