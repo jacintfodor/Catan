@@ -2,7 +2,7 @@
 
 namespace Catan.Model.Board.Components.Edge
 {
-    public class Edge : IEdge
+    internal class Edge : IEdge
     {
         private IRoad _road = new BuildableRoad();
 

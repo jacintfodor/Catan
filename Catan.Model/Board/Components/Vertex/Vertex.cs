@@ -4,7 +4,7 @@ using Catan.Model.GameStates;
 namespace Catan.Model.Board.Components.Vertex
 {
     //TODO set internal once we use TDOs in VM
-    public class Vertex : IVertex
+    internal class Vertex : IVertex
     {
         private ICommunity _community = new BuildableCommunity();
 
