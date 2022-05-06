@@ -1,5 +1,6 @@
 ﻿using Catan.Model.Board.Components;
 using Catan.Model.Context;
+using Catan.Model.DTOs;
 using Catan.Model.Enums;
 using Catan.Model.Events.Eventargs;
 
@@ -60,26 +61,26 @@ namespace Catan.Model.Events
 
         public void OnGameStarted(ICatanContext ctx)
         {
-            List<IHex> Hexes = new List<IHex>();
-            List<IVertex> Vertices = new List<IVertex>();
-            List<IEdge> Edges = new List<IEdge>();
+            List<HexDTO> Hexes = new List<HexDTO>();
+            List<VertexDTO> Vertices = new List<VertexDTO>();
+            List<EdgeDTO> Edges = new List<EdgeDTO>();
 
 
             
 
             foreach (IHex hex in ctx.Board.GetHexesEnumerable())
             {
-                Hexes.Add(hex);
+                Hexes.Add(Mapping.Mapper.Map<HexDTO>(hex));
             }
 
             foreach (IVertex vertex in ctx.Board.GetVerticesEnumerable())
             {
-                Vertices.Add(vertex);
+                Vertices.Add(Mapping.Mapper.Map<VertexDTO>(vertex));
             }
 
             foreach (IEdge edge in ctx.Board.GetEdgesEnumerable())
             {
-                Edges.Add(edge);
+                Edges.Add(Mapping.Mapper.Map<EdgeDTO>(edge));
             }
 
             GameStarted?.Invoke(this, new GameStartedEventArgs(Hexes, Vertices, Edges, Context.Rogue.Instance.Row, Context.Rogue.Instance.Col));

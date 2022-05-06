@@ -127,7 +127,7 @@ namespace Catan.ViewModel
 
         private void MoveRogue(PlaceRogueViewModel p)
         {
-            _model.MoveRogue(p.Row, p.Column);
+            _model.MoveRogue(p.Row.GetValueOrDefault(), p.Column.GetValueOrDefault());
         }
 
         private bool HasThree(object resource)
@@ -199,26 +199,26 @@ namespace Catan.ViewModel
 
         private void UpgradeSettlement(BuildableCommunityViewModel vm)
         {
-            _model.UpgradeSettleMentToTown(vm.Row, vm.Column);
+            _model.UpgradeSettleMentToTown(vm.Row.GetValueOrDefault(), vm.Column.GetValueOrDefault());
         }
 
         private void BuildSettlement(BuildableCommunityViewModel vm)
         {
-            _model.BuildSettleMent(vm.Row, vm.Column);
+            _model.BuildSettleMent(vm.Row.GetValueOrDefault(), vm.Column.GetValueOrDefault());
         }
 
         //TODO common interface instead of overloading methods
         private void BuildRoad(BuildableVerticalViewModel vm)
         {
-            _model.BuildRoad(vm.Row, vm.Column);
+            _model.BuildRoad(vm.Row.GetValueOrDefault(), vm.Column.GetValueOrDefault());
         }
         private void BuildRoad(BuildableLeftSlopeViewModel vm)
         {
-            _model.BuildRoad(vm.Row, vm.Column);
+            _model.BuildRoad(vm.Row.GetValueOrDefault(), vm.Column.GetValueOrDefault());
         }
         private void BuildRoad(BuildableRightSlopeViewModel vm)
         {
-            _model.BuildRoad(vm.Row, vm.Column);
+            _model.BuildRoad(vm.Row.GetValueOrDefault(), vm.Column.GetValueOrDefault());
         }
         private void Model_Events_SettlementUpgraded(object? sender, SettlementUpgradedEventArgs e)
         {
@@ -301,25 +301,25 @@ namespace Catan.ViewModel
 
         private void Model_Events_NewGame(object? sender, GameStartedEventArgs e)
         {
-            List<IHex> hexes = e.Hexes;
-            List<IVertex> vertices = e.Vertices;
-            List<IEdge> edges = e.Edges;
+            List<HexDTO> hexes = e.Hexes;
+            List<VertexDTO> vertices = e.Vertices;
+            List<EdgeDTO> edges = e.Edges;
 
-            foreach (IHex hex in hexes)
+            foreach (HexDTO hex in hexes)
             {
                 var hexVM = new HexViewModel(hex.Resource, hex.Value, hex.Row, hex.Col);
                 Hexes.Add(hexVM);
             }
 
-            foreach (IVertex vertex in vertices)
+            foreach (VertexDTO vertex in vertices)
             {
                 var vertexVM = new VertexViewModel(vertex.Row, vertex.Col, PlayerEnum.NotPlayer, CommunityEnum.BuildableCommunity);
                 Vertices.Add(vertexVM);
             }
 
-            foreach (IEdge edge in edges)
+            foreach (EdgeDTO edge in edges)
             {
-                switch (GetEdgeOrientation(edge.Row,edge.Col))
+                switch (GetEdgeOrientation(edge.Row.GetValueOrDefault(), edge.Col.GetValueOrDefault()))
                 {
                     case "Vertical":
                         Verticals.Add(new VerticalViewModel(edge.Row,edge.Col,PlayerEnum.NotPlayer));
