@@ -1,5 +1,4 @@
-﻿using Catan.Model.Board.Components;
-using Catan.Model.DTOs;
+﻿using Catan.Model.DTOs;
 using Catan.Model.Enums;
 using Catan.Model.Events.Eventargs;
 
@@ -30,7 +29,7 @@ namespace Catan.Model.Events
         void OnSettlementBuildingStarted(List<VertexDTO> vertices);
         void OnSettlementBuilt(ICatanContext ctx, int row, int col, PlayerEnum player);
         void OnSettlementUpgraded(ICatanContext ctx, int row, int col);
-        void OnSettlementUpgradingStarted(List<IVertex> vertices);
+        void OnSettlementUpgradingStarted(List<VertexDTO> vertices);
         void OnCancelled();
     }
 }

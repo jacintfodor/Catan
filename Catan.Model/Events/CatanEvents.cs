@@ -54,7 +54,7 @@ namespace Catan.Model.Events
             SettlementBuildingStarted?.Invoke(this, new SettlementBuildingStartedEventArgs(vertices));
         }
 
-        public void OnSettlementUpgradingStarted(List<IVertex> vertices)
+        public void OnSettlementUpgradingStarted(List<VertexDTO> vertices)
         {
             SettlementUpgradingStarted?.Invoke(this, new SettlementUpgradingStartedEventArgs(vertices));
         }

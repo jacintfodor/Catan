@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Catan.Model.GameStates;
-using Catan.Model.Events;
+﻿using Catan.Model.Events;
 using Catan.Model.Enums;
 using Catan.Model.Context;
 using Catan.Model.GameStates.ConcreteStates;

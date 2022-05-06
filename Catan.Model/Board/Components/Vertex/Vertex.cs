@@ -1,6 +1,5 @@
 ﻿using Catan.Model.Enums;
 using Catan.Model.GameStates;
-using Catan.Model.GameStates.ConcreteStates;
 
 namespace Catan.Model.Board.Components
 {

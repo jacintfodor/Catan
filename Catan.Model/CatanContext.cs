@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Catan.Model.Context;
 using Catan.Model.Context.Titles;
 using Catan.Model.Context.Players;

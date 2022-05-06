@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Catan.Model.Context.Players;
+﻿using Catan.Model.Context.Players;
 using Catan.Model.Context;
 using Catan.Model.Enums;
 using Catan.Model.GameStates.Interfaces;
@@ -64,7 +59,10 @@ namespace Catan.Model.GameStates.ConcreteStates
 
         public void StartSettlementUpgrading(ICatanContext context)
         {
-            var upgradableSettlements = context.Board.GetUpgradeableSettlementsByPlayer(context.CurrentPlayer.ID);
+            List<VertexDTO> upgradableSettlements =
+                context.Board.GetUpgradeableSettlementsByPlayer(context.CurrentPlayer.ID)
+                .Select(v => Mapping.Mapper.Map<VertexDTO>(v))
+                .ToList();
             context.Events.OnSettlementUpgradingStarted(upgradableSettlements);
             context.SetContext(new SettlementUpgradingState());
         }

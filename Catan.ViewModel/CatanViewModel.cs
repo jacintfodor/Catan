@@ -189,7 +189,7 @@ namespace Catan.ViewModel
 
         private void Model_Events_SettlementUpgradingStarted(object? sender, SettlementUpgradingStartedEventArgs e)
         {
-            foreach (IVertex vertex in e.Vertices)
+            foreach (VertexDTO vertex in e.Vertices)
             {
                 BuildableCommunityViewModel bcvm = new BuildableCommunityViewModel(vertex.Row, vertex.Col);
                 bcvm.BuildCommand = new DelegateCommand(vm => UpgradeSettlement((BuildableCommunityViewModel)vm));
