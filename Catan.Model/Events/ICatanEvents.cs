@@ -9,6 +9,7 @@ namespace Catan.Model.Events
         event EventHandler<CancelEventArgs> Cancelled;
         event EventHandler<DicesRolledEventArg> DicesRolled;
         event EventHandler<GameStartedEventArgs> GameStarted;
+        event EventHandler<GameWonEventArgs> GameWon;
         event EventHandler<PlayerUpdatedEventArgs> PlayerUpdated;
         event EventHandler<RoadBuildingStartedEventArgs> RoadBuildingStarted;
         event EventHandler<RoadBuiltEventArgs> RoadBuilt;
@@ -21,6 +22,7 @@ namespace Catan.Model.Events
 
         void OnDicesRolled(ICatanContext ctx);
         void OnGameStarted(ICatanContext ctx);
+        void OnGameWon(ICatanContext ctx);
         void OnPlayerUpdated(ICatanContext ctx);
         void OnRoadBuildingStarted(List<EdgeDTO> edges);
         void OnRoadBuilt(ICatanContext ctx, int row, int col, PlayerEnum player);

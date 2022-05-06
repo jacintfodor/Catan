@@ -20,6 +20,7 @@ namespace Catan.Model.Events
 
         public event EventHandler<DicesRolledEventArg> DicesRolled;
         public event EventHandler<GameStartedEventArgs> GameStarted;
+        public event EventHandler<GameWonEventArgs> GameWon;
         public event EventHandler<PlayerUpdatedEventArgs> PlayerUpdated;
 
         public event EventHandler<SettlementBuildingStartedEventArgs> SettlementBuildingStarted;
@@ -67,9 +68,6 @@ namespace Catan.Model.Events
             List<VertexDTO> Vertices = new List<VertexDTO>();
             List<EdgeDTO> Edges = new List<EdgeDTO>();
 
-
-            
-
             foreach (IHex hex in ctx.Board.GetHexesEnumerable())
             {
                 Hexes.Add(Mapping.Mapper.Map<HexDTO>(hex));
@@ -86,6 +84,11 @@ namespace Catan.Model.Events
             }
 
             GameStarted?.Invoke(this, new GameStartedEventArgs(Hexes, Vertices, Edges, Context.Rogue.Instance.Row, Context.Rogue.Instance.Col));
+        }
+
+        public void OnGameWon(ICatanContext context)
+        {
+            GameWon?.Invoke(this, new GameWonEventArgs(context.CurrentPlayer.Score));
         }
 
         public void OnCancelled()

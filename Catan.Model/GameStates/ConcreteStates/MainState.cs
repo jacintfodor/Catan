@@ -12,7 +12,10 @@ namespace Catan.Model.GameStates.ConcreteStates
 
         public void EndTurn(ICatanContext context)
         {
-            //TODO check winner
+            if (context.Winner == context.CurrentPlayer) { 
+                context.Events.OnGameWon(context);
+                context.SetContext(new GameWonState());
+            }
 
             context.NextPlayer();
             context.Events.OnPlayerUpdated(context);

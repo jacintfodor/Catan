@@ -1,19 +1,10 @@
-﻿using Catan.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 
 using Catan.Model;
-using Catan.Model.Board.Components;
 using Catan.Model.Context;
 using Catan.Model.Context.Players;
 using Catan.Model.Enums;
-using System.Windows.Input;
 using Catan.Model.Events.EventArguments;
-using Catan.Model.Events;
 using Catan.Model.DTOs;
 
 namespace Catan.ViewModel
@@ -82,6 +73,7 @@ namespace Catan.ViewModel
 
             _model.Events.DicesRolled += Model_Events_DicesThrown;
             _model.Events.GameStarted += Model_Events_NewGame;
+            _model.Events.GameWon += Model_Events_GameWon;
             _model.Events.PlayerUpdated += Model_Events_Player;
 
             _model.Events.SettlementBuildingStarted += Model_Events_SettlementBuildingStarted;
@@ -107,6 +99,11 @@ namespace Catan.ViewModel
             CancelCommand = new DelegateCommand(_ => _model.Cancel(), _=> _model.IsSettlementBuildingState || _model.IsRoadBuildingState || _model.IsSettlementUpgradingState || _model.IsRogueMovingState);
             //TODO Cost manager rn condition order matters
             ExchangeWithBankCommand = new DelegateCommand(resource => ExchangeWithBank(resource), resource =>  _model.IsMainState && HasThree(resource));
+        }
+
+        private void Model_Events_GameWon(object? sender, GameWonEventArgs e)
+        {
+            throw new Exception("U won mate");
         }
 
         private void Model_Events_RogueMoved(object? sender, RogueMovedEventArgs e)
