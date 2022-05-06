@@ -5,10 +5,10 @@ using Catan.Model.Board;
 using Catan.Model.Events;
 using Catan.Model.GameStates;
 using Catan.Model.Enums;
-using Catan.Model.Board.Components;
 using Catan.Model.GameStates.ConcreteStates;
 using Catan.Model.GameStates.Interfaces;
 using Catan.Model.DTOs;
+using Catan.Model.Board.Components.Hex;
 
 namespace Catan.Model
 {

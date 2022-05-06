@@ -1,6 +1,6 @@
 ﻿using Catan.Model.Enums;
 
-namespace Catan.Model.Board.Components
+namespace Catan.Model.Board.Components.Edge
 {
     public class Edge : IEdge
     {
@@ -25,13 +25,13 @@ namespace Catan.Model.Board.Components
 
         public bool IsBuildableByPlayer(PlayerEnum player)
         {
-            return _road.IsBuildableByPlayer(player);    
+            return _road.IsBuildableByPlayer(player);
         }
 
         public void Build(PlayerEnum player)
         {
             if (!_road.IsBuildableByPlayer(player)) throw new InvalidOperationException("InvalidBuild");
-            
+
             _road = new BuiltRoad(player);
         }
     }

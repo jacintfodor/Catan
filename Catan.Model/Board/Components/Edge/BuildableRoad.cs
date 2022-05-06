@@ -1,6 +1,6 @@
 ﻿using Catan.Model.Enums;
 
-namespace Catan.Model.Board.Components
+namespace Catan.Model.Board.Components.Edge
 {
     public class BuildableRoad : IRoad
     {
@@ -11,7 +11,7 @@ namespace Catan.Model.Board.Components
         public void AddPotentialBuilder(PlayerEnum player)
         {
             if (player == PlayerEnum.NotPlayer) throw new ArgumentException("InvalidPlayer");
-            
+
             _potentialBuilders.Add(player);
         }
         public bool IsBuildableByPlayer(PlayerEnum player)

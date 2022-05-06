@@ -1,4 +1,6 @@
-﻿using Catan.Model.Board.Components;
+﻿using Catan.Model.Board.Components.Edge;
+using Catan.Model.Board.Components.Hex;
+using Catan.Model.Board.Components.Vertex;
 using Catan.Model.Enums;
 using Catan.Model.GameStates;
 

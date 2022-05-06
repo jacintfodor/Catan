@@ -1,7 +1,7 @@
 ﻿using Catan.Model.Enums;
 using Catan.Model.GameStates;
 
-namespace Catan.Model.Board.Components
+namespace Catan.Model.Board.Components.Vertex
 {
     //TODO set internal once we use TDOs in VM
     public class Vertex : IVertex
@@ -37,21 +37,21 @@ namespace Catan.Model.Board.Components
         public void BuildSettlement(ICatanGameState state, PlayerEnum player)
         {
             if (!_community.IsBuildableByPlayer(state, player)) throw new InvalidOperationException("NotBuildableByPlayer");
-            
+
             _community = new Settlement(player);
         }
-        
+
         public void UpgradeToTown()
         {
             if (!_community.IsUpgradeable) throw new InvalidOperationException("NotUpgradableByPlayer");
-                
+
             _community = new Town(Owner);
         }
 
         public void SetNotBuildableCommunity()
         {
             if (_community.Type == CommunityEnum.Town || _community.Type == CommunityEnum.Settlement) throw new InvalidOperationException("BuiltCommunity");
-            
+
             _community = NotBuildableCommunity.Instance;
         }
     }
