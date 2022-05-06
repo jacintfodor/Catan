@@ -290,7 +290,7 @@ namespace Catan.Model.Board
         public void BuildSettlement(int row, int col, ICatanGameState state, PlayerEnum player)
         {
             if (!_Vertices[row, col].IsBuildableByPlayer(state, player)) throw new InvalidOperationException("NotBuildAbleByPlayer");
-            _Vertices[row, col].Build(state, player);
+            _Vertices[row, col].BuildSettlement(state, player);
             GetNeighborEdgesOfVertex(row, col)
                 .ForEach(e => e.AddPotentialBuilder(player));
             GetNeighborVerticesOfVertex(row, col)
@@ -299,7 +299,7 @@ namespace Catan.Model.Board
 
         public void UpgradeSettlement(int row, int col)
         {
-            _Vertices[row, col].Upgrade();
+            _Vertices[row, col].UpgradeToTown();
         }
 
         public int CalculateLongestRoadFromEdge(int row, int col, PlayerEnum id)
@@ -352,7 +352,7 @@ namespace Catan.Model.Board
             List<IVertex> retVal = new List<IVertex>();
             foreach (IVertex vertex in GetVerticesEnumerable())
             {
-                if (vertex.Owner == id && vertex.GetCommunity().IsUpgradeable)
+                if (vertex.Owner == id && vertex.IsUpgradeable)
                     retVal.Add(vertex);
             }
 
