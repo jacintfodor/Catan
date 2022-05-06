@@ -7,21 +7,21 @@ namespace Catan.Model.Board.Components
     //TODO set internal once we use TDOs in VM
     public class Vertex : IVertex
     {
-        private ICommunity _community;
+        private ICommunity _community = new BuildableCommunity();
 
-        public Vertex(int row, int col)
+        public Vertex(int row, int col, ICommunity? community = null)
         {
             Row = row;
             Col = col;
-            _community = new BuildableCommunity();
+            _community ??= community;
         }
 
         public PlayerEnum Owner => _community.Owner;
 
         public CommunityEnum Type => _community.Type;
 
-        public int Row { get; set; }
-        public int Col { get; set; }
+        public int Row { get; private set; }
+        public int Col { get; private set; }
 
         public void AddPotentialBuilder(PlayerEnum player)
         {

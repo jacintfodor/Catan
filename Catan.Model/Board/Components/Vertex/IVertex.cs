@@ -6,8 +6,8 @@ namespace Catan.Model.Board.Components
     public interface IVertex
     {
         public PlayerEnum Owner { get; }
-        public int Row { get; set; }
-        public int Col { get; set; }
+        public int Row { get; }
+        public int Col { get; }
 
         public CommunityEnum Type { get; }
 
