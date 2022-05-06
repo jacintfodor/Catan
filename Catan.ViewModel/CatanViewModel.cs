@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 
 using Catan.Model;
 using Catan.Model.Context;
@@ -147,9 +147,6 @@ namespace Catan.ViewModel
         private void Model_Events_Cancel(object? sender, CancelEventArgs e)
         {
             BuildableCommunities.Clear();
-            BuildableVerticals.Clear();
-            BuildableLeftSlopes.Clear();
-            BuildableRightSlopes.Clear();
             BuildableEdges.Clear();
 
             RogueMovingNodes.Clear();
