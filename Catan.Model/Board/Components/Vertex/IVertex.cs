@@ -40,7 +40,7 @@ namespace Catan.Model.Board.Components
         /// <summary>
         /// Queries whether player can build the Community using <see cref="ICommunity"/>.
         /// </summary>
-        /// <param name="state">The state the game is currently in.</param>
+        /// <param name="state">The <see cref="ICatanGameState"/> the game is currently in.</param>
         /// <param name="player">The enum that identifies the player.</param>
         /// <returns>True if the player can build, otherwise false</returns>
         public bool IsBuildableByPlayer(ICatanGameState state, PlayerEnum player);
@@ -48,7 +48,7 @@ namespace Catan.Model.Board.Components
         /// <summary>
         /// Builds the Settlement on this Vertex using <see cref="ICommunity"/>.
         /// </summary>
-        /// <param name="state">The state the game is currently in.</param>
+        /// <param name="state">The <see cref="ICatanGameState"/> the game is currently in.</param>
         /// <param name="player">The enum that identifies the player.</param>
         /// <exception cref="InvalidOperationException">Throw upon vertex is not buildable</exception>
         public void BuildSettlement(ICatanGameState state, PlayerEnum player);

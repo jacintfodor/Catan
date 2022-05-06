@@ -32,7 +32,7 @@ namespace Catan.Model.Board.Components
         /// <summary>
         /// Queries whether player can build the Community.
         /// </summary>
-        /// <param name="state">The state the game is currently in.</param>
+        /// <param name="state">The <see cref="ICatanGameState"/> the game is currently in.</param>
         /// <param name="player">The enum that identifies the player.></param>
         /// <returns>True if the player can build, otherwise false</returns>
         /// <remarks>

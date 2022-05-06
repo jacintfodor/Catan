@@ -5,7 +5,7 @@ using Catan.Model.GameStates;
 
 namespace Catan.Model.Board
 {
-
+    /// <inheritdoc cref="ICatanBoard"/>
     public class CatanBoard : ICatanBoard
     {
 
@@ -299,6 +299,8 @@ namespace Catan.Model.Board
 
         public void UpgradeSettlement(int row, int col)
         {
+            if (!_Vertices[row, col].IsUpgradeable) throw new InvalidOperationException("NotUpgradable");
+
             _Vertices[row, col].UpgradeToTown();
         }
 
