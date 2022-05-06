@@ -1,4 +1,5 @@
 ﻿using Catan.Model.Context;
+
 namespace Catan.Model
 {
     public static class Constants

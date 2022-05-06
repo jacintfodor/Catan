@@ -1,10 +1,9 @@
 ﻿using Catan.Model.Board;
-using Catan.Model.Board.Components;
 using Catan.Model.Context;
-using Catan.Model.Context.Titles;
 using Catan.Model.Enums;
 using Catan.Model.GameStates;
 using Catan.Model.Events;
+using Catan.Model.DTOs;
 
 namespace Catan.Model
 {
@@ -43,7 +42,7 @@ namespace Catan.Model
         void DistributeResources(ICatanGameState state);
         void EndTurn();
         void ExchangeWithBank(ResourceEnum from, ResourceEnum to);
-        List<IPlayer> GetPlayerList();
+        List<PlayerDTO> GetPlayerList();
         void init();
         bool IsAffordable(Goods g);
         void MakeOffer();

@@ -1,7 +1,10 @@
-﻿using Catan.Model.Board.Components;
+﻿using Catan.Model.Board.Components.Edge;
+using Catan.Model.Board.Components.Hex;
+using Catan.Model.Board.Components.Vertex;
 using Catan.Model.Context;
+using Catan.Model.DTOs;
 using Catan.Model.Enums;
-using Catan.Model.Events.Eventargs;
+using Catan.Model.Events.EventArguments;
 
 namespace Catan.Model.Events
 {
@@ -17,6 +20,7 @@ namespace Catan.Model.Events
 
         public event EventHandler<DicesRolledEventArg> DicesRolled;
         public event EventHandler<GameStartedEventArgs> GameStarted;
+        public event EventHandler<GameWonEventArgs> GameWon;
         public event EventHandler<PlayerUpdatedEventArgs> PlayerUpdated;
 
         public event EventHandler<SettlementBuildingStartedEventArgs> SettlementBuildingStarted;
@@ -43,43 +47,48 @@ namespace Catan.Model.Events
             RogueMoved?.Invoke(this, new RogueMovedEventArgs(row, col));
         }
 
-        public void OnRoadBuildingStarted(List<IEdge> edges)
+        public void OnRoadBuildingStarted(List<EdgeDTO> edges)
         {
             RoadBuildingStarted?.Invoke(this, new RoadBuildingStartedEventArgs(edges));
         }
 
-        public void OnSettlementBuildingStarted(List<IVertex> vertices)
+        public void OnSettlementBuildingStarted(List<VertexDTO> vertices)
         {
             SettlementBuildingStarted?.Invoke(this, new SettlementBuildingStartedEventArgs(vertices));
         }
 
-        public void OnSettlementUpgradingStarted(List<IVertex> vertices)
+        public void OnSettlementUpgradingStarted(List<VertexDTO> vertices)
         {
             SettlementUpgradingStarted?.Invoke(this, new SettlementUpgradingStartedEventArgs(vertices));
         }
 
         public void OnGameStarted(ICatanContext ctx)
         {
-            List<IHex> Hexes = new List<IHex>();
-            List<IVertex> Vertices = new List<IVertex>();
-            List<IEdge> Edges = new List<IEdge>();
+            List<HexDTO> Hexes = new List<HexDTO>();
+            List<VertexDTO> Vertices = new List<VertexDTO>();
+            List<EdgeDTO> Edges = new List<EdgeDTO>();
 
             foreach (IHex hex in ctx.Board.GetHexesEnumerable())
             {
-                Hexes.Add(hex);
+                Hexes.Add(Mapping.Mapper.Map<HexDTO>(hex));
             }
 
             foreach (IVertex vertex in ctx.Board.GetVerticesEnumerable())
             {
-                Vertices.Add(vertex);
+                Vertices.Add(Mapping.Mapper.Map<VertexDTO>(vertex));
             }
 
             foreach (IEdge edge in ctx.Board.GetEdgesEnumerable())
             {
-                Edges.Add(edge);
+                Edges.Add(Mapping.Mapper.Map<EdgeDTO>(edge));
             }
 
             GameStarted?.Invoke(this, new GameStartedEventArgs(Hexes, Vertices, Edges, Context.Rogue.Instance.Row, Context.Rogue.Instance.Col));
+        }
+
+        public void OnGameWon(ICatanContext context)
+        {
+            GameWon?.Invoke(this, new GameWonEventArgs(context.CurrentPlayer.Score));
         }
 
         public void OnCancelled()

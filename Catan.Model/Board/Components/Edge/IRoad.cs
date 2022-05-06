@@ -1,6 +1,6 @@
 ﻿using Catan.Model.Enums;
 
-namespace Catan.Model.Board.Components
+namespace Catan.Model.Board.Components.Edge
 {
     public interface IRoad
     {
@@ -9,7 +9,7 @@ namespace Catan.Model.Board.Components
         /// If no player owns it, it gets NotPlayer
         /// </summary>
         public PlayerEnum Owner { get; }
-        
+
         /// <summary>
         /// Gets whether the road is buildable
         /// </summary>

@@ -4,7 +4,7 @@ using Catan.Model.GameStates.ConcreteStates;
 
 namespace Catan.Model.Board.Components
 {
-    public class BuildableCommunity : ICommunity
+    internal class BuildableCommunity : ICommunity
     {
         HashSet<PlayerEnum> _potentialBuilders = new();
 

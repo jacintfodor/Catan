@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using Catan.Model.Board.Components.Edge;
+using Catan.Model.Board.Components.Hex;
+using Catan.Model.Board.Components.Vertex;
 
 namespace Catan.Model.DTOs
 {
@@ -22,12 +25,13 @@ namespace Catan.Model.DTOs
     {
         public MappingProfile()
         {
-            CreateMap<Board.Components.Edge, EdgeDTO>();
-            CreateMap<Board.Components.Vertex,VertexDTO > ();
-            CreateMap < Board.Components.Hex,HexDTO > ();
+            CreateMap<Edge, EdgeDTO>();
+            CreateMap<Vertex, VertexDTO > ();
+            CreateMap <Hex, HexDTO > ();
             CreateMap<Context.Goods, GoodsDTO>();
             CreateMap < Context.Players.Player,PlayerDTO > ();
-            
+            CreateMap < Context.Players.NotPlayer,PlayerDTO > ();
+
             //CreateMap<Source, Destination>();
             // Additional mappings here...
         }

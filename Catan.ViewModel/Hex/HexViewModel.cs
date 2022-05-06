@@ -1,13 +1,6 @@
-﻿using Catan.Model.Board;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Catan.Model.Enums;
 
-using Catan.Model.Enums;
-
-namespace Catan.ViewModel
+namespace Catan.ViewModel.Hex
 {
     public class HexViewModel : ViewModelBase
     {
@@ -35,7 +28,7 @@ namespace Catan.ViewModel
             get => (Row * 60).ToString();
         }
 
-        private int Offset { get => (Row % 2 == 0) ? 0 : 30; }
+        private int Offset { get => Row % 2 == 0 ? 0 : 30; }
 
         public string Left
         {

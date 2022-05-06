@@ -11,8 +11,4 @@
     <ProjectReference Include="..\Catan.Model\Catan.Model.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Edge\" />
-  </ItemGroup>
-
 </Project>

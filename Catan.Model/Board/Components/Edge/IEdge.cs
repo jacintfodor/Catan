@@ -1,6 +1,6 @@
 ﻿using Catan.Model.Enums;
 
-namespace Catan.Model.Board.Components
+namespace Catan.Model.Board.Components.Edge
 {
     public interface IEdge
     {
@@ -14,7 +14,7 @@ namespace Catan.Model.Board.Components
         /// Gets the Row of edge
         /// </summary>
         public int Row { get; }
-        
+
         /// <summary>
         /// Gets the Column of edge
         /// </summary>

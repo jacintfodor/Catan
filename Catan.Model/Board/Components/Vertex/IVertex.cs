@@ -1,7 +1,7 @@
 ﻿using Catan.Model.Enums;
 using Catan.Model.GameStates;
 
-namespace Catan.Model.Board.Components
+namespace Catan.Model.Board.Components.Vertex
 {
     public interface IVertex
     {

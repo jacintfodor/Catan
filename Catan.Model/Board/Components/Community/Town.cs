@@ -3,7 +3,7 @@ using Catan.Model.GameStates;
 
 namespace Catan.Model.Board.Components
 {
-    public class Town : ICommunity
+    internal class Town : ICommunity
     {
         public Town(PlayerEnum owner)
         {

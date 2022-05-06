@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Catan.Model.Context;
 using Catan.Model.Context.Titles;
 using Catan.Model.Context.Players;
@@ -11,9 +5,10 @@ using Catan.Model.Board;
 using Catan.Model.Events;
 using Catan.Model.GameStates;
 using Catan.Model.Enums;
-using Catan.Model.Board.Components;
 using Catan.Model.GameStates.ConcreteStates;
 using Catan.Model.GameStates.Interfaces;
+using Catan.Model.DTOs;
+using Catan.Model.Board.Components.Hex;
 
 namespace Catan.Model
 {
@@ -190,9 +185,14 @@ namespace Catan.Model
             }
         } 
 
-        public List<IPlayer> GetPlayerList()
+        public List<PlayerDTO> GetPlayerList()
         {
-            return _players.ToList();
+            List<PlayerDTO> playerDTO = new List<PlayerDTO>();
+            foreach (IPlayer p in _players.ToList()) {
+                var dto = Mapping.Mapper.Map<PlayerDTO>(p);
+                playerDTO.Add(dto);
+            }
+            return playerDTO;
         }
         #endregion
 

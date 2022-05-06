@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Catan.Model.Enums;
+﻿using Catan.Model.Enums;
 
 namespace Catan.Model.GameStates.Interfaces
 {

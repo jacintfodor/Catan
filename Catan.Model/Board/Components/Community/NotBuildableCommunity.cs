@@ -3,7 +3,7 @@ using Catan.Model.GameStates;
 
 namespace Catan.Model.Board.Components
 {
-    public class NotBuildableCommunity : ICommunity
+    internal class NotBuildableCommunity : ICommunity
     {
 
         private static readonly NotBuildableCommunity _instance = new NotBuildableCommunity();
