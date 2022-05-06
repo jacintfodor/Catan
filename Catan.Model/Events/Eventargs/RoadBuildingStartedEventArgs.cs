@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
-using Catan.Model.Board.Components;
+using Catan.Model.DTOs;
 
 namespace Catan.Model.Events.Eventargs
 {
     public class RoadBuildingStartedEventArgs
     {
-        public RoadBuildingStartedEventArgs(List<IEdge> edges)
+        public RoadBuildingStartedEventArgs(List<EdgeDTO> edges)
         {
             Edges = edges;
         }
-        public List<IEdge> Edges { get; private set; }
+        public List<EdgeDTO> Edges { get; private set; }
     }
 }

@@ -9,15 +9,15 @@ namespace Catan.ViewModel
 {
     public class BuildableRightSlopeViewModel : ViewModelBase
     {
-        private int? _row;
-        private int? _col;
-        public BuildableRightSlopeViewModel(int? row, int? column)
+        private int _row;
+        private int _col;
+        public BuildableRightSlopeViewModel(int row, int column)
         {
             Row = row;
             Column = column;
         }
-        public int? Column { get => _col; set { _col = value; OnPropertyChanged(); OnPropertyChanged(nameof(Left)); } }
-        public int? Row { get => _row; set { _row = value; OnPropertyChanged(); OnPropertyChanged(nameof(Top)); } }
+        public int Column { get => _col; set { _col = value; OnPropertyChanged(); OnPropertyChanged(nameof(Left)); } }
+        public int Row { get => _row; set { _row = value; OnPropertyChanged(); OnPropertyChanged(nameof(Top)); } }
        
         public string Top
         {

@@ -44,7 +44,7 @@ namespace Catan.Model.Events
             RogueMoved?.Invoke(this, new RogueMovedEventArgs(row, col));
         }
 
-        public void OnRoadBuildingStarted(List<IEdge> edges)
+        public void OnRoadBuildingStarted(List<EdgeDTO> edges)
         {
             RoadBuildingStarted?.Invoke(this, new RoadBuildingStartedEventArgs(edges));
         }

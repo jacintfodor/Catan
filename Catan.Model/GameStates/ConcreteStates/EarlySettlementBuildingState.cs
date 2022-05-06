@@ -7,6 +7,7 @@ using Catan.Model.Context;
 using Catan.Model.Board.Components;
 using Catan.Model.Enums;
 using Catan.Model.GameStates.Interfaces;
+using Catan.Model.DTOs;
 
 namespace Catan.Model.GameStates.ConcreteStates
 {
@@ -30,7 +31,12 @@ namespace Catan.Model.GameStates.ConcreteStates
             context.Board.BuildSettlement(row, col, context.State, context.CurrentPlayer.ID);
             context.Events.OnSettlementBuilt(context, row, col, context.CurrentPlayer.ID);
 
-            var list = context.Board.GetNeighborEdgesOfVertex(row, col).ToList().Where(e => e.IsBuildableByPlayer(context.CurrentPlayer.ID)).ToList();
+            List<EdgeDTO> list =
+                context.Board.GetNeighborEdgesOfVertex(row, col)
+                .Where(e => e.IsBuildableByPlayer(context.CurrentPlayer.ID))
+                .Select(e => Mapping.Mapper.Map<EdgeDTO>(e))
+                .ToList();
+            
             context.Events.OnRoadBuildingStarted(list);
 
             context.SetContext(new EarlyRoadBuildingState(_turnCount + 1));

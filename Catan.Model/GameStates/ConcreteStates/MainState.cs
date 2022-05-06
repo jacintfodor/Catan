@@ -7,6 +7,7 @@ using Catan.Model.Context.Players;
 using Catan.Model.Context;
 using Catan.Model.Enums;
 using Catan.Model.GameStates.Interfaces;
+using Catan.Model.DTOs;
 
 namespace Catan.Model.GameStates.ConcreteStates
 {
@@ -43,7 +44,10 @@ namespace Catan.Model.GameStates.ConcreteStates
 
         public void StartRoadBuilding(ICatanContext context)
         {
-            var buildableRoadCandidates = context.Board.GetBuildableRoadsByPlayer(context.CurrentPlayer.ID);
+            List<EdgeDTO> buildableRoadCandidates =
+                context.Board.GetBuildableRoadsByPlayer(context.CurrentPlayer.ID)
+                .Select(e => Mapping.Mapper.Map<EdgeDTO>(e))
+                .ToList();
             context.Events.OnRoadBuildingStarted(buildableRoadCandidates);
             context.SetContext(new RoadBuildingState());
         }

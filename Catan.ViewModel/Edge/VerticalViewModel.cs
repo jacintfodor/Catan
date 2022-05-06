@@ -5,20 +5,20 @@ namespace Catan.ViewModel
 {
     public class VerticalViewModel : ViewModelBase
     {
-        private PlayerEnum? _owner;
-        private int? _row;
-        private int? _col;
+        private PlayerEnum _owner;
+        private int _row;
+        private int _col;
 
-        public VerticalViewModel(int? row, int? column, PlayerEnum owner)
+        public VerticalViewModel(int row, int column, PlayerEnum owner)
         {
             Row = row;
             Column = column;
             Owner = owner;
         }
 
-        public int? Column { get => _col; set { _col = value; OnPropertyChanged(); OnPropertyChanged(nameof(Left)); } }
-        public int? Row { get => _row; set { _row = value; OnPropertyChanged(); OnPropertyChanged(nameof(Top)); } }
-        public PlayerEnum? Owner { get => _owner; set { _owner = value; OnPropertyChanged(); } }
+        public int Column { get => _col; set { _col = value; OnPropertyChanged(); OnPropertyChanged(nameof(Left)); } }
+        public int Row { get => _row; set { _row = value; OnPropertyChanged(); OnPropertyChanged(nameof(Top)); } }
+        public PlayerEnum Owner { get => _owner; set { _owner = value; OnPropertyChanged(); } }
 
         public string Top
         {
@@ -33,7 +33,7 @@ namespace Catan.ViewModel
         }
 
         #region Converter
-        private Dictionary<PlayerEnum?, string> _ownerToColor = new Dictionary<PlayerEnum?, string>()
+        private Dictionary<PlayerEnum, string> _ownerToColor = new Dictionary<PlayerEnum, string>()
         {
             {PlayerEnum.NotPlayer, "White" },
             {PlayerEnum.Player1, "Red" },

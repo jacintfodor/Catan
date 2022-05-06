@@ -1,4 +1,5 @@
 ﻿using Catan.Model.Board.Components;
+using Catan.Model.DTOs;
 using Catan.Model.Enums;
 using Catan.Model.Events.Eventargs;
 
@@ -22,7 +23,7 @@ namespace Catan.Model.Events
         void OnDicesRolled(ICatanContext ctx);
         void OnGameStarted(ICatanContext ctx);
         void OnPlayerUpdated(ICatanContext ctx);
-        void OnRoadBuildingStarted(List<IEdge> edges);
+        void OnRoadBuildingStarted(List<EdgeDTO> edges);
         void OnRoadBuilt(ICatanContext ctx, int row, int col, PlayerEnum player);
         void OnRogueMoved(int row, int col);
         void OnRogueMovingStarted();

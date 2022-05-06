@@ -12,8 +12,8 @@ namespace Catan.ViewModel
         private int _wood;
         private int _brick;
         private int _wool;
-        private int? _knightCardCount;
-        private int? _longestRoad;
+        private int _knightCardCount;
+        private int _longestRoad;
         private int _score;
         private string _color;   
 
@@ -39,14 +39,14 @@ namespace Catan.ViewModel
         public int Wood { get => _wood; set { _wood = value; OnPropertyChanged(); } }
         public int Brick { get => _brick; set { _brick = value; OnPropertyChanged(); } }
         public int Wool { get => _wool; set { _wool = value; OnPropertyChanged(); } }
-        public int? KnightCardCount { get => _knightCardCount; set { _knightCardCount = value; OnPropertyChanged(); } }
-        public int? LongestRoad { get => _longestRoad; set { _longestRoad = value; OnPropertyChanged(); } }
+        public int KnightCardCount { get => _knightCardCount; set { _knightCardCount = value; OnPropertyChanged(); } }
+        public int LongestRoad { get => _longestRoad; set { _longestRoad = value; OnPropertyChanged(); } }
         public int Score { get => _score; set { _score = value; OnPropertyChanged(); } }
         public string Color { get => _color; set { _color = value; OnPropertyChanged(); } }
 
 
         //TODO aggregate this to ViewModels
-        private Dictionary<PlayerEnum?, string> _playerToColor = new Dictionary<PlayerEnum?, string>()
+        private Dictionary<PlayerEnum, string> _playerToColor = new Dictionary<PlayerEnum, string>()
         {
             { PlayerEnum.NotPlayer, "White" },
             { PlayerEnum.Player1, "Red" },

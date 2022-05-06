@@ -48,8 +48,8 @@ namespace Catan.ViewModel
         public int PlayerWood { get => _currentPlayer.Wood; set { _currentPlayer.Wood = value; OnPropertyChanged(); } }
         public int PlayerBrick { get => _currentPlayer.Brick; set { _currentPlayer.Brick = value; OnPropertyChanged(); } }
         public int PlayerWool { get => _currentPlayer.Wool; set { _currentPlayer.Wool = value; OnPropertyChanged(); } }
-        public int? PlayerLongestRoad { get => _currentPlayer.LongestRoad; set { _currentPlayer.LongestRoad = value; OnPropertyChanged(); } }
-        public int? PlayerKnightCardCount { get => _currentPlayer.KnightCardCount; set { _currentPlayer.KnightCardCount = value; OnPropertyChanged(); } }
+        public int PlayerLongestRoad { get => _currentPlayer.LongestRoad; set { _currentPlayer.LongestRoad = value; OnPropertyChanged(); } }
+        public int PlayerKnightCardCount { get => _currentPlayer.KnightCardCount; set { _currentPlayer.KnightCardCount = value; OnPropertyChanged(); } }
         public int PlayerScore { get => _currentPlayer.Score; set { _currentPlayer.Score = value; OnPropertyChanged(); } }
         public string CurrentPlayerColor { get => _currentPlayer.Color; set { _currentPlayer.Color = value; OnPropertyChanged(); } }
         public DelegateCommand ThrowDicesCommand { get; private set; }
@@ -127,7 +127,7 @@ namespace Catan.ViewModel
 
         private void MoveRogue(PlaceRogueViewModel p)
         {
-            _model.MoveRogue(p.Row.GetValueOrDefault(), p.Column.GetValueOrDefault());
+            _model.MoveRogue(p.Row, p.Column);
         }
 
         private bool HasThree(object resource)
@@ -199,26 +199,26 @@ namespace Catan.ViewModel
 
         private void UpgradeSettlement(BuildableCommunityViewModel vm)
         {
-            _model.UpgradeSettleMentToTown(vm.Row.GetValueOrDefault(), vm.Column.GetValueOrDefault());
+            _model.UpgradeSettleMentToTown(vm.Row, vm.Column);
         }
 
         private void BuildSettlement(BuildableCommunityViewModel vm)
         {
-            _model.BuildSettleMent(vm.Row.GetValueOrDefault(), vm.Column.GetValueOrDefault());
+            _model.BuildSettleMent(vm.Row, vm.Column);
         }
 
         //TODO common interface instead of overloading methods
         private void BuildRoad(BuildableVerticalViewModel vm)
         {
-            _model.BuildRoad(vm.Row.GetValueOrDefault(), vm.Column.GetValueOrDefault());
+            _model.BuildRoad(vm.Row, vm.Column);
         }
         private void BuildRoad(BuildableLeftSlopeViewModel vm)
         {
-            _model.BuildRoad(vm.Row.GetValueOrDefault(), vm.Column.GetValueOrDefault());
+            _model.BuildRoad(vm.Row, vm.Column);
         }
         private void BuildRoad(BuildableRightSlopeViewModel vm)
         {
-            _model.BuildRoad(vm.Row.GetValueOrDefault(), vm.Column.GetValueOrDefault());
+            _model.BuildRoad(vm.Row, vm.Column);
         }
         private void Model_Events_SettlementUpgraded(object? sender, SettlementUpgradedEventArgs e)
         {
@@ -319,7 +319,7 @@ namespace Catan.ViewModel
 
             foreach (EdgeDTO edge in edges)
             {
-                switch (GetEdgeOrientation(edge.Row.GetValueOrDefault(), edge.Col.GetValueOrDefault()))
+                switch (GetEdgeOrientation(edge.Row, edge.Col))
                 {
                     case "Vertical":
                         Verticals.Add(new VerticalViewModel(edge.Row,edge.Col,PlayerEnum.NotPlayer));

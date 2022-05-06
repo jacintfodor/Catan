@@ -8,17 +8,17 @@ namespace Catan.ViewModel
 {
     public class RogueViewModel : ViewModelBase
     {
-        private int? _row = 0;
-        private int? _col = 0;
+        private int _row = 0;
+        private int _col = 0;
 
-        public RogueViewModel(int? row, int? column)
+        public RogueViewModel(int row, int column)
         {
             Column = column;
             Row = row;
         }
 
-        public int? Column { get => _col; set { _col = value; OnPropertyChanged(); OnPropertyChanged(nameof(Left)); } }
-        public int? Row { get => _row; set { _row = value; OnPropertyChanged(); OnPropertyChanged(nameof(Top)); OnPropertyChanged(nameof(Left)); } }
+        public int Column { get => _col; set { _col = value; OnPropertyChanged(); OnPropertyChanged(nameof(Left)); } }
+        public int Row { get => _row; set { _row = value; OnPropertyChanged(); OnPropertyChanged(nameof(Top)); OnPropertyChanged(nameof(Left)); } }
         #region converted values
 
         public string Top
