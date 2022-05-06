@@ -64,6 +64,9 @@ namespace Catan.Model.Events
             List<IVertex> Vertices = new List<IVertex>();
             List<IEdge> Edges = new List<IEdge>();
 
+
+            
+
             foreach (IHex hex in ctx.Board.GetHexesEnumerable())
             {
                 Hexes.Add(hex);

@@ -14,6 +14,7 @@ using Catan.Model.Enums;
 using System.Windows.Input;
 using Catan.Model.Events.Eventargs;
 using Catan.Model.Events;
+using Catan.Model.DTOs;
 
 namespace Catan.ViewModel
 {
@@ -47,8 +48,8 @@ namespace Catan.ViewModel
         public int PlayerWood { get => _currentPlayer.Wood; set { _currentPlayer.Wood = value; OnPropertyChanged(); } }
         public int PlayerBrick { get => _currentPlayer.Brick; set { _currentPlayer.Brick = value; OnPropertyChanged(); } }
         public int PlayerWool { get => _currentPlayer.Wool; set { _currentPlayer.Wool = value; OnPropertyChanged(); } }
-        public int PlayerLongestRoad { get => _currentPlayer.LongestRoad; set { _currentPlayer.LongestRoad = value; OnPropertyChanged(); } }
-        public int PlayerKnightCardCount { get => _currentPlayer.KnightCardCount; set { _currentPlayer.KnightCardCount = value; OnPropertyChanged(); } }
+        public int? PlayerLongestRoad { get => _currentPlayer.LongestRoad; set { _currentPlayer.LongestRoad = value; OnPropertyChanged(); } }
+        public int? PlayerKnightCardCount { get => _currentPlayer.KnightCardCount; set { _currentPlayer.KnightCardCount = value; OnPropertyChanged(); } }
         public int PlayerScore { get => _currentPlayer.Score; set { _currentPlayer.Score = value; OnPropertyChanged(); } }
         public string CurrentPlayerColor { get => _currentPlayer.Color; set { _currentPlayer.Color = value; OnPropertyChanged(); } }
         public DelegateCommand ThrowDicesCommand { get; private set; }
@@ -76,7 +77,7 @@ namespace Catan.ViewModel
             BuildableRightSlopes = new ObservableCollection<BuildableRightSlopeViewModel>();
             Players = new ObservableCollection<PlayerViewModel>();
 
-            _currentPlayer = new PlayerViewModel(NotPlayer.Instance);
+            _currentPlayer = new PlayerViewModel(Mapping.Mapper.Map<PlayerDTO>(NotPlayer.Instance));
 
 
             _model.Events.DicesRolled += Model_Events_DicesThrown;
@@ -282,7 +283,7 @@ namespace Catan.ViewModel
         private void Model_Events_Player(object? sender, PlayerUpdatedEventArgs e)
         {
             _currentPlayer = new PlayerViewModel(e.Players[0]);
-            foreach (IPlayer player in e.Players)
+            foreach (PlayerDTO player in e.Players)
             {
                 Players.Add(new PlayerViewModel(player));
             }

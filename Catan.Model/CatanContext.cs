@@ -14,6 +14,7 @@ using Catan.Model.Enums;
 using Catan.Model.Board.Components;
 using Catan.Model.GameStates.ConcreteStates;
 using Catan.Model.GameStates.Interfaces;
+using Catan.Model.DTOs;
 
 namespace Catan.Model
 {
@@ -190,9 +191,14 @@ namespace Catan.Model
             }
         } 
 
-        public List<IPlayer> GetPlayerList()
+        public List<PlayerDTO> GetPlayerList()
         {
-            return _players.ToList();
+            List<PlayerDTO> playerDTO = new List<PlayerDTO>();
+            foreach (IPlayer p in _players.ToList()) {
+                var dto = Mapping.Mapper.Map<PlayerDTO>(p);
+                playerDTO.Add(dto);
+            }
+            return playerDTO;
         }
         #endregion
 

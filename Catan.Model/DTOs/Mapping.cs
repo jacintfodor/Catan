@@ -27,7 +27,8 @@ namespace Catan.Model.DTOs
             CreateMap < Board.Components.Hex,HexDTO > ();
             CreateMap<Context.Goods, GoodsDTO>();
             CreateMap < Context.Players.Player,PlayerDTO > ();
-            
+            CreateMap < Context.Players.NotPlayer,PlayerDTO > ();
+
             //CreateMap<Source, Destination>();
             // Additional mappings here...
         }
