@@ -17,15 +17,6 @@
         <CollectionViewSource x:Key="VertexCollection" Source="{Binding Vertices}"/>
         <CollectionViewSource x:Key="BuildableVertexCollection" Source="{Binding BuildableCommunities}"/>
         
-        <!--
-        <CollectionViewSource x:Key="VerticalEdgeCollection" Source="{Binding Verticals}"/>
-        <CollectionViewSource x:Key="LeftSlopeEdgeCollection" Source="{Binding LeftSlopes}"/>
-        <CollectionViewSource x:Key="RightSlopeEdgeCollection" Source="{Binding RightSlopes}"/>
-        <CollectionViewSource x:Key="BuildableVerticalEdgeCollection" Source="{Binding BuildableVerticals}"/>
-        <CollectionViewSource x:Key="BuildableLeftSlopeEdgeCollection" Source="{Binding BuildableLeftSlopes}"/>
-        <CollectionViewSource x:Key="BuildableRightSlopeEdgeCollection" Source="{Binding BuildableRightSlopes}"/>
-        -->
-
         <CollectionViewSource x:Key="EdgeCollection" Source="{Binding Edges}"/>
         <CollectionViewSource x:Key="BuildableEdgeCollection" Source="{Binding BuildableEdges}"/>
         
@@ -72,15 +63,6 @@
                             <CollectionContainer Collection="{Binding Source={StaticResource RogueMovingNodesCollection}}"/>
                             <CollectionContainer Collection="{Binding Source={StaticResource RogueContainer}}"/>
                             
-                            <!--
-                            <CollectionContainer Collection="{Binding Source={StaticResource VerticalEdgeCollection}}"/>
-                            <CollectionContainer Collection="{Binding Source={StaticResource LeftSlopeEdgeCollection}}"/>
-                            <CollectionContainer Collection="{Binding Source={StaticResource RightSlopeEdgeCollection}}"/>
-
-                            <CollectionContainer Collection="{Binding Source={StaticResource BuildableVerticalEdgeCollection}}"/>
-                            <CollectionContainer Collection="{Binding Source={StaticResource BuildableLeftSlopeEdgeCollection}}"/>
-                            <CollectionContainer Collection="{Binding Source={StaticResource BuildableRightSlopeEdgeCollection}}"/>
-                            -->
                             <CollectionContainer Collection="{Binding Source={StaticResource EdgeCollection}}"/>
                             <CollectionContainer Collection="{Binding Source={StaticResource BuildableEdgeCollection}}"/>
 

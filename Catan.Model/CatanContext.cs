@@ -41,7 +41,7 @@ namespace Catan.Model
         public IPlayer CurrentPlayer { get => _players.ElementAtOrDefault(0) ?? NotPlayer.Instance; }
         public IPlayer NextPlayerInQueue { get => _players.ElementAtOrDefault(1) ?? NotPlayer.Instance; }
         public IPlayer NextNextPlayerInQueue { get => _players.ElementAtOrDefault(2) ?? NotPlayer.Instance; }
-        public IPlayer Winner { get => CurrentPlayer.Score>= 2 ? CurrentPlayer : NotPlayer.Instance; }
+        public IPlayer Winner { get => CurrentPlayer.Score>= 5 ? CurrentPlayer : NotPlayer.Instance; }
         public void NextPlayer() { _players.Enqueue(_players.Dequeue()); }
 
         public void init()

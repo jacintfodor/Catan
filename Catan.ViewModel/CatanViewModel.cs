@@ -67,16 +67,7 @@ namespace Catan.ViewModel
             Vertices = new ObservableCollection<VertexViewModel>();
             BuildableCommunities = new ObservableCollection<BuildableCommunityViewModel>();
             /* Edges */
-            Verticals = new ObservableCollection<VerticalViewModel>();
-            LeftSlopes = new ObservableCollection<LeftSlopeViewModel>();
-            RightSlopes = new ObservableCollection<RightSlopeViewModel>();
-
             Edges = new ObservableCollection<EdgeViewModel>();
-
-            BuildableVerticals = new ObservableCollection<BuildableVerticalViewModel>();
-            BuildableLeftSlopes = new ObservableCollection<BuildableLeftSlopeViewModel>();
-            BuildableRightSlopes = new ObservableCollection<BuildableRightSlopeViewModel>();
-
             BuildableEdges = new ObservableCollection<BuildableEdgeViewModel>();
 
             Players = new ObservableCollection<PlayerViewModel>();
@@ -168,27 +159,6 @@ namespace Catan.ViewModel
         {
             foreach (EdgeDTO edge in e.Edges)
             {
-                /*old*/
-                switch (GetEdgeOrientation(edge.Row, edge.Col))
-                {
-                    case "Vertical":
-                        BuildableVerticalViewModel bvvm = new BuildableVerticalViewModel(edge.Row, edge.Col);
-                        bvvm.BuildCommand = new DelegateCommand(vm => BuildRoad((BuildableVerticalViewModel)vm));
-                        BuildableVerticals.Add(bvvm);
-                        break;
-                    case "LeftSlope":
-                        BuildableLeftSlopeViewModel blvm = new BuildableLeftSlopeViewModel(edge.Row, edge.Col);
-                        blvm.BuildCommand = new DelegateCommand(vm => BuildRoad((BuildableLeftSlopeViewModel)vm));
-                        BuildableLeftSlopes.Add(blvm);
-                        break;
-                    case "RightSlope":
-                        BuildableRightSlopeViewModel brvm = new BuildableRightSlopeViewModel(edge.Row, edge.Col);
-                        brvm.BuildCommand = new DelegateCommand(vm => BuildRoad((BuildableRightSlopeViewModel)vm));
-                        BuildableRightSlopes.Add(brvm);
-                        break;
-                }
-
-
                 BuildableEdges.Add(BuildableEdgeFactory(edge));
             }
         }
@@ -223,23 +193,11 @@ namespace Catan.ViewModel
             _model.BuildSettleMent(vm.Row, vm.Column);
         }
 
-        //TODO common interface instead of overloading methods
-        private void BuildRoad(BuildableVerticalViewModel vm)
-        {
-            _model.BuildRoad(vm.Row, vm.Column);
-        }
-        private void BuildRoad(BuildableLeftSlopeViewModel vm)
-        {
-            _model.BuildRoad(vm.Row, vm.Column);
-        }
-        private void BuildRoad(BuildableRightSlopeViewModel vm)
-        {
-            _model.BuildRoad(vm.Row, vm.Column);
-        }
         private void BuildRoad(BuildableEdgeViewModel vm)
         {
             _model.BuildRoad(vm.Row, vm.Column);
         }
+
         private void Model_Events_SettlementUpgraded(object? sender, SettlementUpgradedEventArgs e)
         {
             foreach (VertexViewModel vm in Vertices)
@@ -252,6 +210,7 @@ namespace Catan.ViewModel
 
             BuildableCommunities.Clear();
         }
+
         private void Model_Events_SettlementBuilt(object? sender, SettlementBuiltEventArgs e)
         {
             foreach (VertexViewModel vm in Vertices)
@@ -265,43 +224,9 @@ namespace Catan.ViewModel
 
             BuildableCommunities.Clear();
         }
+
         private void Model_Events_RoadBuilt(object? sender, RoadBuiltEventArgs e)
         {
-            /*old pop*/
-            switch (GetEdgeOrientation(e.Row, e.Column))
-            {
-                case "Vertical":
-                    foreach (VerticalViewModel vertical in Verticals)
-                    {
-                        if (vertical.Row == e.Row && vertical.Column == e.Column)
-                        {
-                            vertical.Owner = e.Owner;
-                        }
-                    }
-                    break;
-                case "LeftSlope":
-                    foreach (LeftSlopeViewModel vertical in LeftSlopes)
-                    {
-                        if (vertical.Row == e.Row && vertical.Column == e.Column)
-                        {
-                            vertical.Owner = e.Owner;
-                        }
-                    }
-                    break;
-                case "RightSlope":
-                    foreach (RightSlopeViewModel vertical in RightSlopes)
-                    {
-                        if (vertical.Row == e.Row && vertical.Column == e.Column)
-                        {
-                            vertical.Owner = e.Owner;
-                        }
-                    }
-                    break;
-            }
-            BuildableVerticals.Clear();
-            BuildableLeftSlopes.Clear();
-            BuildableRightSlopes.Clear();
-
             foreach (EdgeViewModel edge in Edges)
             {
                 if (edge.Row == e.Row && edge.Column == e.Column)
@@ -352,19 +277,6 @@ namespace Catan.ViewModel
             foreach (EdgeDTO edge in edges)
             {
                 Edges.Add(EdgeFactory(edge));
-
-                switch (GetEdgeOrientation(edge.Row, edge.Col))
-                {
-                    case "Vertical":
-                        Verticals.Add(new VerticalViewModel(edge.Row, edge.Col, PlayerEnum.NotPlayer));
-                        break;
-                    case "LeftSlope":
-                        LeftSlopes.Add(new LeftSlopeViewModel(edge.Row, edge.Col, PlayerEnum.NotPlayer));
-                        break;
-                    case "RightSlope":
-                        RightSlopes.Add(new RightSlopeViewModel(edge.Row, edge.Col, PlayerEnum.NotPlayer));
-                        break;
-                }
             }
 
             RogueContainer.Clear();
