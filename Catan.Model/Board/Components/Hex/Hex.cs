@@ -1,8 +1,8 @@
 ﻿using Catan.Model.Enums;
 
-namespace Catan.Model.Board.Components
+namespace Catan.Model.Board.Components.Hex
 {
-    public class Hex : IHex
+    internal class Hex : IHex
     {
         public Hex(ResourceEnum resource, int row, int col, int number = 7)
         {

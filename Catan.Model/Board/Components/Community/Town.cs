@@ -3,7 +3,7 @@ using Catan.Model.GameStates;
 
 namespace Catan.Model.Board.Components
 {
-    public class Town : ICommunity
+    internal class Town : ICommunity
     {
         public Town(PlayerEnum owner)
         {
@@ -18,7 +18,7 @@ namespace Catan.Model.Board.Components
 
         public bool IsBuildableCommunity => false;
 
-        public void AddPotentionalBuilder(PlayerEnum player) {}
+        public void AddPotentionalBuilder(PlayerEnum player) { if (player == PlayerEnum.NotPlayer) throw new ArgumentException("InvaldidPlayer"); }
 
         public bool IsBuildableByPlayer(ICatanGameState state, PlayerEnum player)
         {

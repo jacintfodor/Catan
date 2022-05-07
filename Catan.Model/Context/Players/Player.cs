@@ -1,5 +1,4 @@
-﻿using Catan.Model.Board;
-using Catan.Model.Context.Titles;
+﻿using Catan.Model.Context.Titles;
 using Catan.Model.Enums;
 
 namespace Catan.Model.Context.Players

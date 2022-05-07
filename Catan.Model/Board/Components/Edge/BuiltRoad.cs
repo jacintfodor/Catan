@@ -1,20 +1,19 @@
 ﻿using Catan.Model.Enums;
 
-namespace Catan.Model.Board.Components
+namespace Catan.Model.Board.Components.Edge
 {
-    public class BuiltRoad : IRoad
+    internal class BuiltRoad : IRoad
     {
         public BuiltRoad(PlayerEnum owner)
         {
             Owner = owner;
-            IsBuildable = false;
         }
 
-        public PlayerEnum Owner { get; set; }
+        public PlayerEnum Owner { get; private set; }
 
-        public bool IsBuildable { get; set; }
+        public bool IsBuildable => false;
 
-        public void AddPotentialBuilder(PlayerEnum player) { }
+        public void AddPotentialBuilder(PlayerEnum player) { if (player == PlayerEnum.NotPlayer) throw new ArgumentException("InvalidPlayer"); }
         public bool IsBuildableByPlayer(PlayerEnum player) { return false; }
     }
 }

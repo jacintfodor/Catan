@@ -1,9 +1,8 @@
-﻿
-using Catan.Model.Enums;
+﻿using Catan.Model.Enums;
 
-namespace Catan.ViewModel
+namespace Catan.ViewModel.Edge
 {
-    public class VerticalViewModel : ViewModelBase
+    public class VerticalViewModel : EdgeViewModel
     {
         private PlayerEnum _owner;
         private int _row;
@@ -16,20 +15,20 @@ namespace Catan.ViewModel
             Owner = owner;
         }
 
-        public int Column { get => _col; set { _col = value; OnPropertyChanged(); OnPropertyChanged(nameof(Left)); } }
-        public int Row { get => _row; set { _row = value; OnPropertyChanged(); OnPropertyChanged(nameof(Top)); } }
-        public PlayerEnum Owner { get => _owner; set { _owner = value; OnPropertyChanged(); } }
+        public override int Column { get => _col; set { _col = value; OnPropertyChanged(); OnPropertyChanged(nameof(Left)); } }
+        public override int Row { get => _row; set { _row = value; OnPropertyChanged(); OnPropertyChanged(nameof(Top)); } }
+        public override PlayerEnum Owner { get => _owner; set { _owner = value; OnPropertyChanged(); } }
 
         public string Top
         {
             get => (Row * 30 - 30).ToString();
         }
 
-        private int Offset { get => (Row % 2 == 0) ? 0 : 30; }
+        private int Offset { get => Row % 2 == 0 ? 0 : 30; }
 
         public string Left
         {
-            get => (Offset + Column * 30 -30 -3).ToString();
+            get => (Offset + Column * 30 - 30 - 3).ToString();
         }
 
         #region Converter

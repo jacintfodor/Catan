@@ -1,27 +1,28 @@
 ﻿using Catan.Model.Enums;
 using Catan.Model.GameStates;
-using Catan.Model.GameStates.ConcreteStates;
 
-namespace Catan.Model.Board.Components
+namespace Catan.Model.Board.Components.Vertex
 {
     //TODO set internal once we use TDOs in VM
-    public class Vertex : IVertex
+    internal class Vertex : IVertex
     {
-        private ICommunity _community;
+        private ICommunity _community = new BuildableCommunity();
 
-        public Vertex(int row, int col)
+        public Vertex(int row, int col, ICommunity? community = null)
         {
             Row = row;
             Col = col;
-            _community = new BuildableCommunity();
+            _community ??= community;
         }
 
         public PlayerEnum Owner => _community.Owner;
 
         public CommunityEnum Type => _community.Type;
 
-        public int Row { get; set; }
-        public int Col { get; set; }
+        public bool IsUpgradeable => _community.IsUpgradeable;
+
+        public int Row { get; private set; }
+        public int Col { get; private set; }
 
         public void AddPotentialBuilder(PlayerEnum player)
         {
@@ -33,28 +34,24 @@ namespace Catan.Model.Board.Components
             return _community.IsBuildableByPlayer(state, player);
         }
 
-        public void Build(ICatanGameState state, PlayerEnum player)
+        public void BuildSettlement(ICatanGameState state, PlayerEnum player)
         {
             if (!_community.IsBuildableByPlayer(state, player)) throw new InvalidOperationException("NotBuildableByPlayer");
-            
+
             _community = new Settlement(player);
         }
 
-        public void Upgrade()
+        public void UpgradeToTown()
         {
-            if (_community.IsUpgradeable)
-                _community = new Town(Owner);
-        }
+            if (!_community.IsUpgradeable) throw new InvalidOperationException("NotUpgradableByPlayer");
 
-        public ICommunity GetCommunity()
-        {
-            return _community;
+            _community = new Town(Owner);
         }
 
         public void SetNotBuildableCommunity()
         {
             if (_community.Type == CommunityEnum.Town || _community.Type == CommunityEnum.Settlement) throw new InvalidOperationException("BuiltCommunity");
-            
+
             _community = NotBuildableCommunity.Instance;
         }
     }

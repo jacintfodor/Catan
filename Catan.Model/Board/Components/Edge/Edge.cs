@@ -1,22 +1,22 @@
 ﻿using Catan.Model.Enums;
 
-namespace Catan.Model.Board.Components
+namespace Catan.Model.Board.Components.Edge
 {
-    public class Edge : IEdge
+    internal class Edge : IEdge
     {
-        private IRoad _road;
+        private IRoad _road = new BuildableRoad();
 
-        public Edge(int row, int col)
+        public Edge(int row, int col, IRoad? road = null)
         {
-            _road = new BuildableRoad();
-            Owner = PlayerEnum.NotPlayer;
             Row = row;
             Col = col;
+
+            _road ??= road;
         }
 
-        public PlayerEnum Owner { get; set; }
-        public int Row { get; set; }
-        public int Col { get; set; }
+        public PlayerEnum Owner => _road.Owner;
+        public int Row { get; private set; }
+        public int Col { get; private set; }
 
         public void AddPotentialBuilder(PlayerEnum player)
         {
@@ -25,15 +25,14 @@ namespace Catan.Model.Board.Components
 
         public bool IsBuildableByPlayer(PlayerEnum player)
         {
-            return _road.IsBuildableByPlayer(player);    
+            return _road.IsBuildableByPlayer(player);
         }
 
         public void Build(PlayerEnum player)
         {
-            if (_road.IsBuildableByPlayer(player)) {
-                Owner = player;
-                _road = new BuiltRoad(player);
-            }
+            if (!_road.IsBuildableByPlayer(player)) throw new InvalidOperationException("InvalidBuild");
+
+            _road = new BuiltRoad(player);
         }
     }
 }

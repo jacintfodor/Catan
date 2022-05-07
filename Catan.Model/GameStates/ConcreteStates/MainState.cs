@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Catan.Model.Context.Players;
+﻿using Catan.Model.Context.Players;
 using Catan.Model.Context;
 using Catan.Model.Enums;
 using Catan.Model.GameStates.Interfaces;
+using Catan.Model.DTOs;
 
 namespace Catan.Model.GameStates.ConcreteStates
 {
@@ -16,12 +12,18 @@ namespace Catan.Model.GameStates.ConcreteStates
 
         public void EndTurn(ICatanContext context)
         {
-            //TODO check winner
+            if (context.Winner == context.CurrentPlayer)
+            {
+                context.Events.OnGameWon(context);
+                context.SetContext(new GameWonState());
+            }
+            else
+            {
+                context.NextPlayer();
+                context.Events.OnPlayerUpdated(context);
 
-            context.NextPlayer();
-            context.Events.OnPlayerUpdated(context);
-
-            context.SetContext(new RollingState());
+                context.SetContext(new RollingState());
+            }
         }
 
         public void ExchangeWithBank(ICatanContext context, ResourceEnum from, ResourceEnum to)
@@ -43,21 +45,30 @@ namespace Catan.Model.GameStates.ConcreteStates
 
         public void StartRoadBuilding(ICatanContext context)
         {
-            var buildableRoadCandidates = context.Board.GetBuildableRoadsByPlayer(context.CurrentPlayer.ID);
+            List<EdgeDTO> buildableRoadCandidates =
+                context.Board.GetBuildableRoadsByPlayer(context.CurrentPlayer.ID)
+                .Select(e => Mapping.Mapper.Map<EdgeDTO>(e))
+                .ToList();
             context.Events.OnRoadBuildingStarted(buildableRoadCandidates);
             context.SetContext(new RoadBuildingState());
         }
 
         public void StartSettlementBuilding(ICatanContext context)
         {
-            var buildableSettlementCandidates = context.Board.GetBuildableSettlementsByPlayer(context.State, context.CurrentPlayer.ID);
+            List<VertexDTO> buildableSettlementCandidates =
+                context.Board.GetBuildableSettlementsByPlayer(context.State, context.CurrentPlayer.ID)
+                .Select(v => Mapping.Mapper.Map<VertexDTO>(v))
+                .ToList();
             context.Events.OnSettlementBuildingStarted(buildableSettlementCandidates);
             context.SetContext(new SettlementBuildingState());
         }
 
         public void StartSettlementUpgrading(ICatanContext context)
         {
-            var upgradableSettlements = context.Board.GetUpgradeableSettlementsByPlayer(context.CurrentPlayer.ID);
+            List<VertexDTO> upgradableSettlements =
+                context.Board.GetUpgradeableSettlementsByPlayer(context.CurrentPlayer.ID)
+                .Select(v => Mapping.Mapper.Map<VertexDTO>(v))
+                .ToList();
             context.Events.OnSettlementUpgradingStarted(upgradableSettlements);
             context.SetContext(new SettlementUpgradingState());
         }

@@ -1,6 +1,6 @@
 ﻿using Catan.Model.Enums;
 
-namespace Catan.ViewModel
+namespace Catan.ViewModel.Vertex
 {
     public class VertexViewModel : ViewModelBase
     {
@@ -8,7 +8,7 @@ namespace Catan.ViewModel
         private PlayerEnum _owner;
         private int _row;
         private int _col;
-        
+
         //TODO owner enum, community enum
         public VertexViewModel(int row, int column, PlayerEnum owner, CommunityEnum community)
         {
@@ -21,8 +21,8 @@ namespace Catan.ViewModel
         public int Column { get => _col; set { _col = value; OnPropertyChanged(); OnPropertyChanged(nameof(Left)); } }
         public int Row { get => _row; set { _row = value; OnPropertyChanged(); OnPropertyChanged(nameof(Top)); } }
 
-        public string Left { get => (Column*30 -6).ToString(); }
-        public string Top { get => (Row * 60 -6).ToString(); }
+        public string Left { get => (Column * 30 - 6).ToString(); }
+        public string Top { get => (Row * 60 - 6).ToString(); }
 
         public CommunityEnum Community { get => _community; set { _community = value; OnPropertyChanged(); } }
         public PlayerEnum Owner { get => _owner; set { _owner = value; OnPropertyChanged(); } }
@@ -47,7 +47,7 @@ namespace Catan.ViewModel
 
         public string Color { get => _ownerToColor[_owner]; }
 
-        public String Size { get => _communityToSize[_community].ToString(); }
+        public string Size { get => _communityToSize[_community].ToString(); }
         #endregion
     }
 }

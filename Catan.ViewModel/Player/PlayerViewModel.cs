@@ -1,11 +1,11 @@
-﻿using Catan.Model.Context;
+﻿using Catan.Model.DTOs;
 using Catan.Model.Enums;
 
-namespace Catan.ViewModel
+namespace Catan.ViewModel.Player
 {
     public class PlayerViewModel : ViewModelBase
     {
-        private IPlayer _player;
+        private PlayerDTO _player;
         private int _crop;
         private int _ore;
         private int _wood;
@@ -14,9 +14,9 @@ namespace Catan.ViewModel
         private int _knightCardCount;
         private int _longestRoad;
         private int _score;
-        private string _color;   
+        private string _color;
 
-        public PlayerViewModel(IPlayer player)
+        public PlayerViewModel(PlayerDTO player)
         {
             _player = player;
             _crop = player.AvailableResources.Crop;

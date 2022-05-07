@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Catan.Model.Board;
-using Catan.Model.Context;
+﻿using Catan.Model.DTOs;
 using Catan.Model.Enums;
 using Catan.Model.GameStates.Interfaces;
 
 namespace Catan.Model.GameStates.ConcreteStates
 {
-    //TODO set internal
-    public class EarlyRollingState : ICatanGameState, IRollable
+    internal class EarlyRollingState : ICatanGameState, IRollable
     {
         private int _rollCount = 0;
         private readonly Dictionary<PlayerEnum, int> _rolls = new();
@@ -34,7 +27,10 @@ namespace Catan.Model.GameStates.ConcreteStates
                 for (int i = 0; i < turnsNeededToReachLuckyPlayer; i++)
                     context.NextPlayer();
 
-                var list = context.Board.GetBuildableSettlementsByPlayer(this, context.CurrentPlayer.ID);
+                List<VertexDTO> list =
+                    context.Board.GetBuildableSettlementsByPlayer(this, context.CurrentPlayer.ID)
+                    .Select(v => Mapping.Mapper.Map<VertexDTO>(v))
+                    .ToList();
                 context.Events.OnSettlementBuildingStarted(list);
                 context.Events.OnPlayerUpdated(context);
                 context.SetContext(new EarlySettlementBuildingState(0));

@@ -1,12 +1,13 @@
-﻿using Catan.Model.Board.Components;
-using Catan.Model.Context;
+﻿using Catan.Model.Board.Components.Edge;
+using Catan.Model.Board.Components.Hex;
+using Catan.Model.Board.Components.Vertex;
 using Catan.Model.Enums;
 using Catan.Model.GameStates;
 
 namespace Catan.Model.Board
 {
-
-    public class CatanBoard : ICatanBoard
+    /// <inheritdoc cref="ICatanBoard"/>
+    internal class CatanBoard : ICatanBoard
     {
 
         #region Variables
@@ -19,14 +20,14 @@ namespace Catan.Model.Board
         #region Constructor
         public CatanBoard()
         {
-            generateHexMap();
-            generateEdgeMap();
-            generateVertexMap();
+            GenerateHexMap();
+            GenerateEdgeMap();
+            GenerateVertexMap();
         }
         #endregion Constructor
 
         #region Board Generation
-        private void generateEdgeMap()
+        private void GenerateEdgeMap()
         {
             for (int i = 0; i < 5; i++)
             {
@@ -34,14 +35,14 @@ namespace Catan.Model.Board
                 {
                     if (_Hexes[i, j] == null)
                         continue;
-                    getEdgeLocationOfHex(i, j).ForEach(x =>
+                    GetEdgeLocationOfHex(i, j).ForEach(x =>
                     {
                         _Edges[x[0], x[1]] = new Edge(x[0], x[1]);
                     });
                 }
             }
         }
-        private void generateVertexMap()
+        private void GenerateVertexMap()
         {
             var rnd = new Random();
 
@@ -51,14 +52,14 @@ namespace Catan.Model.Board
                 {
                     if (_Hexes[i, j] == null)
                         continue;
-                    getVertexLocationsOfHex(i, j).ForEach(x =>
+                    GetVertexLocationsOfHex(i, j).ForEach(x =>
                     {
                         _Vertices[x[0], x[1]] = new Vertex(x[0], x[1]);
                     });
                 }
             }
         }
-        private List<int[]> getEmptyHexes()
+        private List<int[]> GetEmptyHexes()
         {
             List<int[]> retVal = new List<int[]>();
             for (int i = 0; i < 5; i++)
@@ -72,18 +73,18 @@ namespace Catan.Model.Board
             }
             return retVal;
         }
-        private void generateHexMap()
+        private void GenerateHexMap()
         {
-            List<int[]> emptyHexes = getEmptyHexes();
+            List<int[]> emptyHexes = GetEmptyHexes();
 
-            generateHexes(4, ResourceEnum.Crop, emptyHexes);
-            generateHexes(4, ResourceEnum.Wood, emptyHexes);
-            generateHexes(4, ResourceEnum.Wool, emptyHexes);
-            generateHexes(3, ResourceEnum.Brick, emptyHexes);
-            generateHexes(3, ResourceEnum.Ore, emptyHexes);
-            generateHexes(1, ResourceEnum.Desert, emptyHexes);
+            GenerateHexes(4, ResourceEnum.Crop, emptyHexes);
+            GenerateHexes(4, ResourceEnum.Wood, emptyHexes);
+            GenerateHexes(4, ResourceEnum.Wool, emptyHexes);
+            GenerateHexes(3, ResourceEnum.Brick, emptyHexes);
+            GenerateHexes(3, ResourceEnum.Ore, emptyHexes);
+            GenerateHexes(1, ResourceEnum.Desert, emptyHexes);
         }
-        private void generateHexes(int amount, ResourceEnum resource, List<int[]> emptyHexes)
+        private void GenerateHexes(int amount, ResourceEnum resource, List<int[]> emptyHexes)
         {
             var rand = new Random();
 
@@ -103,7 +104,7 @@ namespace Catan.Model.Board
                 }
             }
         }
-        private List<int[]> getEdgeLocationOfHex(int row, int col)
+        private List<int[]> GetEdgeLocationOfHex(int row, int col)
         {
             List<int[]> retVal = new List<int[]>();
             int offset = row % 2;
@@ -116,7 +117,7 @@ namespace Catan.Model.Board
             retVal.Add(new int[] { 2 * row + 2, 2 * (col - offset) + 1 + offset });
             return retVal;
         }
-        private List<int[]> getVertexLocationsOfHex(int row, int col)
+        private List<int[]> GetVertexLocationsOfHex(int row, int col)
         {
             List<int[]> retVal = new List<int[]>();
             int offset = row % 2;
@@ -290,7 +291,7 @@ namespace Catan.Model.Board
         public void BuildSettlement(int row, int col, ICatanGameState state, PlayerEnum player)
         {
             if (!_Vertices[row, col].IsBuildableByPlayer(state, player)) throw new InvalidOperationException("NotBuildAbleByPlayer");
-            _Vertices[row, col].Build(state, player);
+            _Vertices[row, col].BuildSettlement(state, player);
             GetNeighborEdgesOfVertex(row, col)
                 .ForEach(e => e.AddPotentialBuilder(player));
             GetNeighborVerticesOfVertex(row, col)
@@ -299,7 +300,9 @@ namespace Catan.Model.Board
 
         public void UpgradeSettlement(int row, int col)
         {
-            _Vertices[row, col].Upgrade();
+            if (!_Vertices[row, col].IsUpgradeable) throw new InvalidOperationException("NotUpgradable");
+
+            _Vertices[row, col].UpgradeToTown();
         }
 
         public int CalculateLongestRoadFromEdge(int row, int col, PlayerEnum id)
@@ -352,7 +355,7 @@ namespace Catan.Model.Board
             List<IVertex> retVal = new List<IVertex>();
             foreach (IVertex vertex in GetVerticesEnumerable())
             {
-                if (vertex.Owner == id && vertex.GetCommunity().IsUpgradeable)
+                if (vertex.Owner == id && vertex.IsUpgradeable)
                     retVal.Add(vertex);
             }
 
