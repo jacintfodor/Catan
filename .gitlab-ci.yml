@@ -1,9 +1,6 @@
 # Default image (https://hub.docker.com/_/microsoft-dotnet-core-sdk/)
 image: mcr.microsoft.com/dotnet/sdk:6.0
 
-#include:
-#  - template: Code-Quality.gitlab-ci.yml
-
 stages:
   - build
   - test
@@ -34,11 +31,13 @@ test_model:
   script:
     - dotnet test Catan.Model.Test
 
-#code_quality:
-#  before_script:
-#  - ''
-#  artifacts:
-#    paths: [gl-code-quality-report.json]
+# Code quality
+include:
+  - template: Code-Quality.gitlab-ci.yml
+
+code_quality:
+  artifacts:
+    paths: [gl-code-quality-report.json]
 
 #Documentation
 pages:
