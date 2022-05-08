@@ -7,7 +7,7 @@ using Catan.Model.GameStates;
 namespace Catan.Model.Board
 {
     /// <inheritdoc cref="ICatanBoard"/>
-    internal class CatanBoard : ICatanBoard
+    public class CatanBoard : ICatanBoard
     {
 
         #region Variables

@@ -1,4 +1,4 @@
-﻿using Catan.Model.Board.Components;
+﻿using Catan.Model.Board.Components.Community;
 using Catan.Model.Enums;
 using Catan.Model.GameStates;
 using Catan.Model.GameStates.ConcreteStates;

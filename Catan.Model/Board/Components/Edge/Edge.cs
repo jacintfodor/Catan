@@ -2,16 +2,18 @@
 
 namespace Catan.Model.Board.Components.Edge
 {
-    internal class Edge : IEdge
+    public class Edge : IEdge
     {
-        private IRoad _road = new BuildableRoad();
+        private IRoad _road;
 
         public Edge(int row, int col, IRoad? road = null)
         {
             Row = row;
             Col = col;
 
-            _road ??= road;
+            if (road == null)
+                road = new BuildableRoad();
+           _road = road;
         }
 
         public PlayerEnum Owner => _road.Owner;

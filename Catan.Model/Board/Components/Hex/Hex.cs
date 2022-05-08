@@ -2,7 +2,7 @@
 
 namespace Catan.Model.Board.Components.Hex
 {
-    internal class Hex : IHex
+    public class Hex : IHex
     {
         public Hex(ResourceEnum resource, int row, int col, int number = 7)
         {

@@ -2,7 +2,7 @@
 
 namespace Catan.Model.Board.Components.Edge
 {
-    internal class BuildableRoad : IRoad
+    public class BuildableRoad : IRoad
     {
         HashSet<PlayerEnum> _potentialBuilders = new();
 

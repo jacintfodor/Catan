@@ -1,18 +1,20 @@
-﻿using Catan.Model.Enums;
+﻿using Catan.Model.Board.Components.Community;
+using Catan.Model.Enums;
 using Catan.Model.GameStates;
 
 namespace Catan.Model.Board.Components.Vertex
 {
-    //TODO set internal once we use TDOs in VM
-    internal class Vertex : IVertex
+    public class Vertex : IVertex
     {
-        private ICommunity _community = new BuildableCommunity();
+        private ICommunity _community;
 
         public Vertex(int row, int col, ICommunity? community = null)
         {
             Row = row;
             Col = col;
-            _community ??= community;
+            if(community == null)
+                community = new BuildableCommunity();
+            _community = community;
         }
 
         public PlayerEnum Owner => _community.Owner;
