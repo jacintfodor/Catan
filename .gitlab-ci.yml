@@ -32,12 +32,12 @@ test_model:
     - dotnet test Catan.Model.Test
 
 # Code quality
-include:
-  - template: Code-Quality.gitlab-ci.yml
+# include:
+#   - template: Code-Quality.gitlab-ci.yml
 
-code_quality:
-  variables:
-    CODE_QUALITY_IMAGE: "sonarqube"
+# code_quality:
+#   variables:
+#     CODE_QUALITY_IMAGE: "sonarqube"
 #   artifacts:
 #     paths: [gl-code-quality-report.json]
 
