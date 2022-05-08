@@ -2,7 +2,7 @@
 
 namespace Catan.Model.Board.Components.Edge
 {
-    internal class BuiltRoad : IRoad
+    public class BuiltRoad : IRoad
     {
         public BuiltRoad(PlayerEnum owner)
         {
