@@ -24,12 +24,11 @@ namespace Catan.Model.Test.Board.Components.Vertex
 
         }
 
-        private Model.Board.Components.Vertex.Vertex CreateVertex(ICommunity c = null)
+        private Model.Board.Components.Vertex.Vertex CreateVertex()
         {
             return new Model.Board.Components.Vertex.Vertex(
                 0,
-                0,
-                c);
+                0);
         }
 
         [TestMethod]
@@ -41,7 +40,11 @@ namespace Catan.Model.Test.Board.Components.Vertex
             PlayerEnum invalidPlayer = default(global::Catan.Model.Enums.PlayerEnum) + 1;
 
             IVertex vertex = this.CreateVertex();
-            IVertex vertexSettlement = this.CreateVertex(new Settlement(player));
+            IVertex vertexSettlement = this.CreateVertex();
+
+            vertexSettlement.AddPotentialBuilder(
+                player);
+            vertexSettlement.BuildSettlement(s,player);
 
             // Act
             vertex.AddPotentialBuilder(
@@ -67,7 +70,10 @@ namespace Catan.Model.Test.Board.Components.Vertex
             PlayerEnum invalidPlayer = default(global::Catan.Model.Enums.PlayerEnum) + 1;
 
             var vertex = this.CreateVertex();
-            var vertexCommunity = this.CreateVertex(new Settlement(player));
+            var vertexSettlement = this.CreateVertex();
+
+            vertexSettlement.AddPotentialBuilder(player);
+            vertexSettlement.BuildSettlement(state, player);
 
             vertex.AddPotentialBuilder(player);
             // Act
@@ -77,10 +83,10 @@ namespace Catan.Model.Test.Board.Components.Vertex
             var resultInvalid = vertex.IsBuildableByPlayer(
                     state,
                     invalidPlayer);
-            var resultInvalidOnwer = vertexCommunity.IsBuildableByPlayer(
+            var resultInvalidOnwer = vertexSettlement.IsBuildableByPlayer(
                 state,
                 player);
-            var resultInvalidNonOwner = vertexCommunity.IsBuildableByPlayer(
+            var resultInvalidNonOwner = vertexSettlement.IsBuildableByPlayer(
                     state,
                     invalidPlayer);
 
@@ -122,8 +128,10 @@ namespace Catan.Model.Test.Board.Components.Vertex
             ICatanGameState state = this.mockState.Object;
             PlayerEnum player = default(global::Catan.Model.Enums.PlayerEnum);
 
-            var vertex = this.CreateVertex(new Settlement(player));
-
+            var vertex = this.CreateVertex();
+            vertex.AddPotentialBuilder(
+               player);
+            vertex.BuildSettlement(state, player);
 
             // Act
             vertex.UpgradeToTown();

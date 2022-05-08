@@ -19,85 +19,64 @@ namespace Catan.Model.Test.Board.Components.Edge
 
         }
 
-        private Model.Board.Components.Edge.Edge CreateEdge(IRoad road = null)
+        private Model.Board.Components.Edge.Edge CreateEdge()
         {
             return new Model.Board.Components.Edge.Edge(
                 0,
-                0,
-                road);
+                0);
         }
 
         [TestMethod]
-        public void AddPotentialBuilderWithoutRoad_StateUnderTest_ExpectedBehavior()
+        public void AddPotentialBuilder_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
             PlayerEnum player = default(global::Catan.Model.Enums.PlayerEnum);
             IEdge edge = this.CreateEdge();
+            IEdge edgeRoad = this.CreateEdge();
 
+            edgeRoad.AddPotentialBuilder(
+                player);
+            edgeRoad.Build(player);
             // Act
             edge.AddPotentialBuilder(
+                player);
+            edgeRoad.AddPotentialBuilder(
                 player);
 
             // Assert
             Assert.IsTrue(edge.IsBuildableByPlayer(player));
+            Assert.IsFalse(edgeRoad.IsBuildableByPlayer(player));
             this.mockRepository.VerifyAll();
         }
 
         [TestMethod]
-        public void AddPotentialBuilderWithRoad_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            PlayerEnum player = default(global::Catan.Model.Enums.PlayerEnum);
-            IEdge edge = this.CreateEdge(new BuiltRoad(player));
-
-            // Act
-            edge.AddPotentialBuilder(
-                player);
-
-            // Assert
-            Assert.IsFalse(edge.IsBuildableByPlayer(player));
-            this.mockRepository.VerifyAll();
-        }
-
-        [TestMethod]
-        public void IsBuildableByPlayerWithoutRoad_StateUnderTest_ExpectedBehavior()
+        public void IsBuildableByPlayer_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
             PlayerEnum player = default(global::Catan.Model.Enums.PlayerEnum);
             PlayerEnum invalidPlayer = default(global::Catan.Model.Enums.PlayerEnum) + 1;
+
+            IEdge edgeRoad = this.CreateEdge();
             IEdge edge = this.CreateEdge();
+
             edge.AddPotentialBuilder(player);
+            edgeRoad.AddPotentialBuilder(player);
+            edgeRoad.Build(player);
+
 
             // Act
             var resultTrue = edge.IsBuildableByPlayer(
                 player);
             var resultFalse = edge.IsBuildableByPlayer(
                 invalidPlayer);
+            var resultOwner = edgeRoad.IsBuildableByPlayer(
+                player);
+            var resultNonOwner = edgeRoad.IsBuildableByPlayer(
+                invalidPlayer);
 
             // Assert
             Assert.IsTrue(resultTrue);
             Assert.IsFalse(resultFalse);
-            this.mockRepository.VerifyAll();
-        }
-
-        [TestMethod]
-        public void IsBuildableByPlayerWithRoad_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            PlayerEnum potentialPlayer = default(global::Catan.Model.Enums.PlayerEnum);
-            PlayerEnum player = default(global::Catan.Model.Enums.PlayerEnum) + 1;
-
-            IEdge edge = this.CreateEdge(new BuiltRoad(potentialPlayer));
-
-            edge.AddPotentialBuilder(potentialPlayer);
-
-            // Act
-            var resultOwner = edge.IsBuildableByPlayer(
-                potentialPlayer);
-            var resultNonOwner = edge.IsBuildableByPlayer(
-                player);
-
-            // Assert
             Assert.IsFalse(resultNonOwner);
             Assert.IsFalse(resultOwner);
             this.mockRepository.VerifyAll();
@@ -108,6 +87,7 @@ namespace Catan.Model.Test.Board.Components.Edge
         {
             // Arrange
             PlayerEnum player = default(global::Catan.Model.Enums.PlayerEnum);
+            PlayerEnum invalidPlayer = default(global::Catan.Model.Enums.PlayerEnum) + 1;
 
             IEdge edge = this.CreateEdge();
 
@@ -119,40 +99,8 @@ namespace Catan.Model.Test.Board.Components.Edge
 
             // Assert
             Assert.IsTrue(edge.Owner == player);
-            this.mockRepository.VerifyAll();
-        }
-
-        [TestMethod]
-        public void BuildWithoutPermission_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            PlayerEnum player = default(global::Catan.Model.Enums.PlayerEnum);
-
-            IEdge edge = this.CreateEdge();
-
-            // Act
-            // Assert
             Assert.ThrowsException<InvalidOperationException>(() => edge.Build(player));
-            
-            this.mockRepository.VerifyAll();
-        }
-
-        [TestMethod]
-        public void BuildOnRoad_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            PlayerEnum player = default(global::Catan.Model.Enums.PlayerEnum);
-
-            IEdge edge = this.CreateEdge();
-
-            edge.AddPotentialBuilder(player);
-
-            // Act
-            edge.Build(
-                player);
-
-            // Assert
-            Assert.ThrowsException<InvalidOperationException>(() => edge.Build(player));
+            Assert.ThrowsException<InvalidOperationException>(() => edge.Build(invalidPlayer));
             this.mockRepository.VerifyAll();
         }
     }
