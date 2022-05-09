@@ -9,12 +9,28 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\HexTiles\clayHex.png" />
+    <None Remove="Resources\HexTiles\desertHex.png" />
+    <None Remove="Resources\HexTiles\oreHex.png" />
+    <None Remove="Resources\HexTiles\sheepHex.png" />
+    <None Remove="Resources\HexTiles\waterHex.png" />
+    <None Remove="Resources\HexTiles\wheatHex.png" />
+    <None Remove="Resources\HexTiles\woodHex.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Catan.Model\Catan.Model.csproj" />
     <ProjectReference Include="..\Catan.ViewModel\Catan.ViewModel.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Resources\HexTiles\" />
+    <Resource Include="Resources\HexTiles\clayHex.png" />
+    <Resource Include="Resources\HexTiles\desertHex.png" />
+    <Resource Include="Resources\HexTiles\oreHex.png" />
+    <Resource Include="Resources\HexTiles\sheepHex.png" />
+    <Resource Include="Resources\HexTiles\waterHex.png" />
+    <Resource Include="Resources\HexTiles\wheatHex.png" />
+    <Resource Include="Resources\HexTiles\woodHex.png" />
   </ItemGroup>
 
 </Project>
