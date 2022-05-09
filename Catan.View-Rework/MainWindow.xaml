@@ -16,7 +16,8 @@
         <CollectionViewSource x:Key="HexCollection" Source="{Binding Hexes}"/>
         <CollectionViewSource x:Key="VertexCollection" Source="{Binding Vertices}"/>
         <CollectionViewSource x:Key="BuildableVertexCollection" Source="{Binding BuildableCommunities}"/>
-        
+        <CollectionViewSource x:Key="TownVertexCollection" Source="{Binding TownCommunities}" />
+
         <CollectionViewSource x:Key="EdgeCollection" Source="{Binding Edges}"/>
         <CollectionViewSource x:Key="BuildableEdgeCollection" Source="{Binding BuildableEdges}"/>
         
@@ -78,7 +79,8 @@
 
                             <CollectionContainer Collection="{Binding Source={StaticResource VertexCollection}}"/>
                             <CollectionContainer Collection="{Binding Source={StaticResource BuildableVertexCollection}}"/>
-                            
+                            <CollectionContainer Collection="{Binding Source={StaticResource TownVertexCollection}}" />
+
                         </CompositeCollection>
                     </ItemsControl.ItemsSource>
                     <ItemsControl.ItemsPanel>
@@ -182,6 +184,25 @@
                                            Path=ActualWidth, 
                                            ConverterParameter=-0.02}" 
                                     Background="Green" Command="{Binding BuildCommand}" CommandParameter="{Binding}"></Button>
+                        </DataTemplate>
+
+                        <DataTemplate  DataType="{x:Type vertexviewmodel:TownViewModel}">
+                            <Button Width="{Binding 
+                                           Converter={StaticResource PercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualWidth, 
+                                           ConverterParameter=0.06}" 
+                                    Height="{Binding 
+                                           Converter={StaticResource PercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualHeight, 
+                                           ConverterParameter=0.06}" 
+                                    Margin ="{Binding 
+                                           Converter={StaticResource PercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualWidth, 
+                                           ConverterParameter=-0.03}" 
+                                    Background="{Binding Color}"></Button>
                         </DataTemplate>
 
                         <DataTemplate  DataType="{x:Type edgeviewmodel:VerticalViewModel}">

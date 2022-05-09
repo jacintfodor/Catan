@@ -21,6 +21,7 @@ namespace Catan.ViewModel
         public ObservableCollection<HexViewModel> Hexes { get; set; } = new();
         public ObservableCollection<VertexViewModel> Vertices { get; set; } = new();
         public ObservableCollection<BuildableCommunityViewModel> BuildableCommunities { get; set; } = new();
+        public ObservableCollection<TownViewModel> TownCommunities { get; set; } = new();
         public ObservableCollection<EdgeViewModel> Edges { get; set; } = new();
         public ObservableCollection<BuildableEdgeViewModel> BuildableEdges { get; set; } = new();
         public ObservableCollection<PlayerViewModel> Players { get; set; } = new();
@@ -179,13 +180,16 @@ namespace Catan.ViewModel
 
         private void Model_Events_SettlementUpgraded(object? sender, SettlementUpgradedEventArgs e)
         {
+            VertexViewModel? toBeRemoved = null;
             foreach (VertexViewModel vm in Vertices)
             {
                 if (vm.Row == e.Row && vm.Column == e.Column)
                 {
-                    vm.Community = CommunityEnum.Town;
+                    toBeRemoved = vm;
+                    TownCommunities.Add(new TownViewModel(vm.Row, vm.Column, vm.Owner, vm.Community));
                 }
             }
+            if (toBeRemoved != null) { Vertices.Remove(toBeRemoved); }
 
             BuildableCommunities.Clear();
         }
