@@ -24,6 +24,7 @@
         <CollectionViewSource x:Key="RogueContainer" Source="{Binding RogueContainer}"/>
 
         <local:PercentageConverter x:Key="PercentageConverter"/>
+        <local:MarginPercentageConverter x:Key="MarginPercentageConverter"/>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -75,18 +76,19 @@
                     </ItemsControl.ItemsSource>
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <local:RelativeCanvas Name="canvas" Background="Black"/>
+                            <local:RelativeCanvas x:Name="canvas" Background="Black"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemContainerStyle>
                         <Style TargetType="ContentPresenter">
                             <Setter Property="local:RelativeCanvas.XRatio" Value="{Binding Left}"/>
                             <Setter Property="local:RelativeCanvas.YRatio" Value="{Binding Top}"/>
+                            <Setter Property="Panel.ZIndex" Value="{Binding ZIndex}"/>
                         </Style>
                     </ItemsControl.ItemContainerStyle>
                     <ItemsControl.Resources>
                         <DataTemplate  DataType="{x:Type hexviewmodel:HexViewModel}">
-                            <Button Width="{Binding 
+                            <Button Canvas.ZIndex="10" Width="{Binding 
                                            Converter={StaticResource PercentageConverter}, 
                                            ElementName=canvas, 
                                            Path=ActualWidth, 
@@ -101,38 +103,190 @@
                         </DataTemplate>
 
                         <DataTemplate  DataType="{x:Type hexviewmodel:PlaceRogueViewModel}">
-                            <Button Width="20" Height="20" Margin ="-10" Background="Green" Command="{Binding MoveRogueCommand}" CommandParameter="{Binding}"></Button>
+                            <Button Width="{Binding 
+                                           Converter={StaticResource PercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualWidth, 
+                                           ConverterParameter=0.06}" 
+                                    Height="{Binding 
+                                           Converter={StaticResource PercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualHeight, 
+                                           ConverterParameter=0.06}" 
+                                    Margin ="{Binding 
+                                           Converter={StaticResource PercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualWidth, 
+                                           ConverterParameter=-0.03}" 
+                                    Background="Green" Command="{Binding MoveRogueCommand}" CommandParameter="{Binding}"></Button>
                         </DataTemplate>
 
                         <DataTemplate  DataType="{x:Type hexviewmodel:RogueViewModel}">
-                            <Button Width="20" Height="20" Margin ="-10" Background="White"></Button>
+                            <Button Width="{Binding 
+                                           Converter={StaticResource PercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualWidth, 
+                                           ConverterParameter=0.06}" 
+                                    Height="{Binding 
+                                           Converter={StaticResource PercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualHeight, 
+                                           ConverterParameter=0.06}" 
+                                    Margin ="{Binding 
+                                           Converter={StaticResource PercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualWidth, 
+                                           ConverterParameter=-0.03}" 
+                                    Background="White"></Button>
                         </DataTemplate>
 
                         <DataTemplate  DataType="{x:Type vertexviewmodel:VertexViewModel}">
-                            <Button Width="{Binding Size}" Height="{Binding Size}" Background="{Binding Color}"></Button>
+                            <Button Width="{Binding 
+                                           Converter={StaticResource PercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualWidth, 
+                                           ConverterParameter=0.04}" 
+                                    Height="{Binding 
+                                           Converter={StaticResource PercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualHeight, 
+                                           ConverterParameter=0.04}" 
+                                    Margin ="{Binding 
+                                           Converter={StaticResource PercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualWidth, 
+                                           ConverterParameter=-0.02}" 
+                                    Background="{Binding Color}"></Button>
                         </DataTemplate>
                         <DataTemplate  DataType="{x:Type vertexviewmodel:BuildableCommunityViewModel}">
-                            <Button Width="12" Height="12" Background="Green" Command="{Binding BuildCommand}" CommandParameter="{Binding}"></Button>
+                            <Button Width="{Binding 
+                                           Converter={StaticResource PercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualWidth, 
+                                           ConverterParameter=0.04}" 
+                                    Height="{Binding 
+                                           Converter={StaticResource PercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualHeight, 
+                                           ConverterParameter=0.04}" 
+                                    Margin ="{Binding 
+                                           Converter={StaticResource PercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualWidth, 
+                                           ConverterParameter=-0.02}" 
+                                    Background="Green" Command="{Binding BuildCommand}" CommandParameter="{Binding}"></Button>
                         </DataTemplate>
 
                         <DataTemplate  DataType="{x:Type edgeviewmodel:VerticalViewModel}">
-                            <Button Width="6" Height="60" Background="{Binding Color}"></Button>
+                            <Button Width="{Binding 
+                                           Converter={StaticResource PercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualWidth, 
+                                           ConverterParameter=0.02}" 
+                                    Height="{Binding 
+                                           Converter={StaticResource PercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualHeight, 
+                                           ConverterParameter=0.2}" 
+                                    Margin ="{Binding 
+                                           Converter={StaticResource MarginPercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualWidth, 
+                                           ConverterParameter='-0.01 0 0 0'}" 
+                                    
+                                    Background="{Binding Color}"></Button>
                         </DataTemplate>
                         <DataTemplate  DataType="{x:Type edgeviewmodel:LeftSlopeViewModel}">
-                            <Button Width="30" Height="6" Background="{Binding Color}" ></Button>
+                            <Button Width="{Binding 
+                                           Converter={StaticResource PercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualWidth, 
+                                           ConverterParameter=0.1}" 
+                                    Height="{Binding 
+                                           Converter={StaticResource PercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualHeight, 
+                                           ConverterParameter=0.02}" 
+                                    Margin ="{Binding 
+                                           Converter={StaticResource MarginPercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualWidth, 
+                                           ConverterParameter='0 -0.01 0 0'}"
+                                    Background="{Binding Color}" ></Button>
                         </DataTemplate>
                         <DataTemplate  DataType="{x:Type edgeviewmodel:RightSlopeViewModel}">
-                            <Button Width="30" Height="6" Background="{Binding Color}"></Button>
+                            <Button Width="{Binding 
+                                           Converter={StaticResource PercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualWidth, 
+                                           ConverterParameter=0.1}" 
+                                    Height="{Binding 
+                                           Converter={StaticResource PercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualHeight, 
+                                           ConverterParameter=0.02}" 
+                                    Margin ="{Binding 
+                                           Converter={StaticResource MarginPercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualWidth, 
+                                           ConverterParameter='0 -0.01 0 0'}" 
+                                    Background="{Binding Color}" ></Button>
                         </DataTemplate>
 
                         <DataTemplate  DataType="{x:Type edgeviewmodel:BuildableVerticalViewModel}">
-                            <Button Width="6" Height="60" Background="green" Command="{Binding BuildCommand}" CommandParameter="{Binding}"></Button>
+                            <Button Width="{Binding 
+                                           Converter={StaticResource PercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualWidth, 
+                                           ConverterParameter=0.02}" 
+                                    Height="{Binding 
+                                           Converter={StaticResource PercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualHeight, 
+                                           ConverterParameter=0.2}" 
+                                    Margin ="{Binding 
+                                           Converter={StaticResource MarginPercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualWidth, 
+                                           ConverterParameter='-0.01 0 0 0'}" 
+                                    
+                                    Background="green" Command="{Binding BuildCommand}" CommandParameter="{Binding}"></Button>
                         </DataTemplate>
                         <DataTemplate  DataType="{x:Type edgeviewmodel:BuildableLeftSlopeViewModel}">
-                            <Button Width="30" Height="6" Background="green" Command="{Binding BuildCommand}" CommandParameter="{Binding}"></Button>
+                            <Button Width="{Binding 
+                                           Converter={StaticResource PercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualWidth, 
+                                           ConverterParameter=0.1}" 
+                                    Height="{Binding 
+                                           Converter={StaticResource PercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualHeight, 
+                                           ConverterParameter=0.02}" 
+                                    Margin ="{Binding 
+                                           Converter={StaticResource MarginPercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualWidth, 
+                                           ConverterParameter='0 -0.01 0 0'}" 
+                                    Background="green" Command="{Binding BuildCommand}" CommandParameter="{Binding}"></Button>
                         </DataTemplate>
                         <DataTemplate  DataType="{x:Type edgeviewmodel:BuildableRightSlopeViewModel}">
-                            <Button Width="30" Height="6" Background="green" Command="{Binding BuildCommand}" CommandParameter="{Binding}"></Button>
+                            <Button Width="{Binding 
+                                           Converter={StaticResource PercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualWidth, 
+                                           ConverterParameter=0.1}" 
+                                    Height="{Binding 
+                                           Converter={StaticResource PercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualHeight, 
+                                           ConverterParameter=0.02}" 
+                                    Margin ="{Binding 
+                                           Converter={StaticResource MarginPercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualWidth, 
+                                           ConverterParameter='0 -0.01 0 0'}" 
+                                    Background="green" Command="{Binding BuildCommand}" CommandParameter="{Binding}"></Button>
                         </DataTemplate>
                         
                     </ItemsControl.Resources>

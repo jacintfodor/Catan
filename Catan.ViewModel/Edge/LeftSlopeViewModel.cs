@@ -18,17 +18,19 @@ namespace Catan.ViewModel.Edge
         public override int Row { get => _row; set { _row = value; OnPropertyChanged(); OnPropertyChanged(nameof(Top)); } }
         public override PlayerEnum Owner { get => _owner; set { _owner = value; OnPropertyChanged(); } }
 
-        public string Top
+        public double Top
         {
-            get => (Row * 30 - 3).ToString();
+            get => (Row * 30 / 300.0);
         }
 
         private int Offset { get => Row % 2 == 0 ? 0 : 30; }
 
-        public string Left
+        public double Left
         {
-            get => (Offset + Column * 30).ToString();
+            get => ((Offset + Column * 30) / 300.0);
         }
+
+        public int ZIndex { get => 2; }
 
         #region Converter
         private Dictionary<PlayerEnum, string> _ownerToColor = new Dictionary<PlayerEnum, string>()

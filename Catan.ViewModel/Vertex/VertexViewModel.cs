@@ -21,8 +21,8 @@ namespace Catan.ViewModel.Vertex
         public int Column { get => _col; set { _col = value; OnPropertyChanged(); OnPropertyChanged(nameof(Left)); } }
         public int Row { get => _row; set { _row = value; OnPropertyChanged(); OnPropertyChanged(nameof(Top)); } }
 
-        public string Left { get => (Column * 30 - 6).ToString(); }
-        public string Top { get => (Row * 60 - 6).ToString(); }
+        public string Left { get => (Column * 30 /300.0).ToString(); }
+        public string Top { get => (Row * 60 /300.0).ToString(); }
 
         public CommunityEnum Community { get => _community; set { _community = value; OnPropertyChanged(); } }
         public PlayerEnum Owner { get => _owner; set { _owner = value; OnPropertyChanged(); } }
@@ -48,6 +48,8 @@ namespace Catan.ViewModel.Vertex
         public string Color { get => _ownerToColor[_owner]; }
 
         public string Size { get => _communityToSize[_community].ToString(); }
+
+        public int ZIndex { get => 5; }
         #endregion
     }
 }

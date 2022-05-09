@@ -13,6 +13,7 @@
 
         public int Column { get => _col; set { _col = value; OnPropertyChanged(); OnPropertyChanged(nameof(Left)); } }
         public int Row { get => _row; set { _row = value; OnPropertyChanged(); OnPropertyChanged(nameof(Top)); OnPropertyChanged(nameof(Left)); } }
+        public int ZIndex { get => 2; }
         #region converted values
 
         public string Top

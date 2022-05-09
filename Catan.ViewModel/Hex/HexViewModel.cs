@@ -46,6 +46,8 @@ namespace Catan.ViewModel.Hex
         };
         public string Color { get => _resourceToColor[Resource]; }
 
+        public int ZIndex { get => 0; }
+
         #endregion
 
     }
