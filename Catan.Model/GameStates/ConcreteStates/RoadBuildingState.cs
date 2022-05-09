@@ -2,7 +2,7 @@
 
 namespace Catan.Model.GameStates.ConcreteStates
 {
-    internal class RoadBuildingState : ICatanGameState, IRoadBuildable, ICancellable
+    public class RoadBuildingState : ICatanGameState, IRoadBuildable, ICancellable
     {
         public bool IsRoadBuildingState => true;
 

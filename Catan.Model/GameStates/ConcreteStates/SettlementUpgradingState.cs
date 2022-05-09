@@ -4,7 +4,7 @@ using Catan.Model.GameStates.Interfaces;
 
 namespace Catan.Model.GameStates.ConcreteStates
 {
-    internal class SettlementUpgradingState : ICatanGameState, ISettlementUpgradeable, ICancellable
+    public class SettlementUpgradingState : ICatanGameState, ISettlementUpgradeable, ICancellable
     {
         public bool IsSettlementUpgradingState => true;
 

@@ -2,7 +2,7 @@
 
 namespace Catan.Model.GameStates.ConcreteStates
 {
-    internal class EarlyRoadBuildingState : ICatanGameState, IRoadBuildable
+    public class EarlyRoadBuildingState : ICatanGameState, IRoadBuildable
     {
         private int _turnCount = 0;
 

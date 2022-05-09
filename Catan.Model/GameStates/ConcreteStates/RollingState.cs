@@ -2,7 +2,7 @@
 
 namespace Catan.Model.GameStates.ConcreteStates
 {
-    internal class RollingState : ICatanGameState, IRollable
+    public class RollingState : ICatanGameState, IRollable
     {
         public bool IsRollingState => true;
 

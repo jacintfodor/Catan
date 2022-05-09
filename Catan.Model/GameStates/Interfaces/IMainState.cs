@@ -2,7 +2,7 @@
 
 namespace Catan.Model.GameStates.Interfaces
 {
-    internal interface IMainState
+    public interface IMainState
     {
         public void EndTurn(ICatanContext context);
         public void ExchangeWithBank(ICatanContext context, ResourceEnum from, ResourceEnum to);
