@@ -25,12 +25,19 @@
 
         <local:PercentageConverter x:Key="PercentageConverter"/>
         <local:MarginPercentageConverter x:Key="MarginPercentageConverter"/>
+
+        <BitmapImage x:Key="BrickField" UriSource="/Resources/HexTiles/clayHex.png"/>
+        <BitmapImage x:Key="DesertField" UriSource="/Resources/HexTiles/desertHex.png"/>
+        <BitmapImage x:Key="OreField" UriSource="/Resources/HexTiles/oreHex.png"/>
+        <BitmapImage x:Key="WoolField" UriSource="/Resources/HexTiles/sheepHex.png"/>
+        <BitmapImage x:Key="CropField" UriSource="/Resources/HexTiles/wheatHex.png"/>
+        <BitmapImage x:Key="WoodField" UriSource="/Resources/HexTiles/wheatHex.png"/>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
             <RowDefinition Height="1*" />
-            <RowDefinition Height="50" />
+            <RowDefinition Height="100" />
         </Grid.RowDefinitions>
 
 
