@@ -27,12 +27,13 @@
         <local:PercentageConverter x:Key="PercentageConverter"/>
         <local:MarginPercentageConverter x:Key="MarginPercentageConverter"/>
 
-        <BitmapImage x:Key="BrickField" UriSource="/Resources/HexTiles/clayHex.png"/>
-        <BitmapImage x:Key="DesertField" UriSource="/Resources/HexTiles/desertHex.png"/>
-        <BitmapImage x:Key="OreField" UriSource="/Resources/HexTiles/oreHex.png"/>
-        <BitmapImage x:Key="WoolField" UriSource="/Resources/HexTiles/sheepHex.png"/>
-        <BitmapImage x:Key="CropField" UriSource="/Resources/HexTiles/wheatHex.png"/>
-        <BitmapImage x:Key="WoodField" UriSource="/Resources/HexTiles/wheatHex.png"/>
+        <BitmapImage x:Key="BrickField" UriSource="Resources/HexTiles/clayHex.png"/>
+        <BitmapImage x:Key="DesertField" UriSource="Resources/HexTiles/desertHex.png"/>
+        <BitmapImage x:Key="OreField" UriSource="Resources/HexTiles/oreHex.png"/>
+        <BitmapImage x:Key="WoolField" UriSource="Resources/HexTiles/sheepHex.png"/>
+        <BitmapImage x:Key="CropField" UriSource="Resources/HexTiles/wheatHex.png"/>
+        <BitmapImage x:Key="WoodField" UriSource="Resources/HexTiles/woodHex.png"/>
+        <BitmapImage x:Key="SeaField" UriSource="Resources/HexTiles/waterHex.png" />
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -85,7 +86,10 @@
                     </ItemsControl.ItemsSource>
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <local:RelativeCanvas x:Name="canvas" Background="Black"/>
+                            <local:RelativeCanvas x:Name="canvas" Margin="15 30 15 30" Background="Black" 
+                                                  Width="{Binding ElementName=canvas, Path=ActualHeight, 
+                                                        Converter={StaticResource PercentageConverter}, 
+                                                        ConverterParameter=1.0693359375}"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemContainerStyle>
@@ -97,18 +101,39 @@
                     </ItemsControl.ItemContainerStyle>
                     <ItemsControl.Resources>
                         <DataTemplate  DataType="{x:Type hexviewmodel:HexViewModel}">
-                            <Button Canvas.ZIndex="10" Width="{Binding 
-                                           Converter={StaticResource PercentageConverter}, 
-                                           ElementName=canvas, 
-                                           Path=ActualWidth, 
-                                           ConverterParameter=0.2}" 
+                            <Image  
                                     Height="{Binding 
                                            Converter={StaticResource PercentageConverter}, 
                                            ElementName=canvas, 
                                            Path=ActualHeight, 
-                                           ConverterParameter=0.2}" 
-                                    Content="{Binding Number}" Background="{Binding Color}">
-                            </Button>
+                                           ConverterParameter=0.25}" 
+                                    >
+                                <Image.Style>
+                                    <Style TargetType="{x:Type Image}">
+                                        <Setter Property="Source" Value="{Binding Source={StaticResource SeaField}}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Value="Goldenrod" Binding="{Binding Color}">
+                                                <Setter Property="Source" Value="{Binding Source={StaticResource CropField}}"/>
+                                            </DataTrigger>
+                                            <DataTrigger Value="SlateGray" Binding="{Binding Color}">
+                                                <Setter Property="Source" Value="{Binding Source={StaticResource OreField}}"/>
+                                            </DataTrigger>
+                                            <DataTrigger Value="ForestGreen" Binding="{Binding Color}">
+                                                <Setter Property="Source" Value="{Binding Source={StaticResource WoodField}}"/>
+                                            </DataTrigger>
+                                            <DataTrigger Value="Firebrick" Binding="{Binding Color}">
+                                                <Setter Property="Source" Value="{Binding Source={StaticResource BrickField}}"/>
+                                            </DataTrigger>
+                                            <DataTrigger Value="PaleGreen" Binding="{Binding Color}">
+                                                <Setter Property="Source" Value="{Binding Source={StaticResource WoolField}}"/>
+                                            </DataTrigger>
+                                            <DataTrigger Value="black" Binding="{Binding Color}">
+                                                <Setter Property="Source" Value="{Binding Source={StaticResource DesertField}}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Style>
+                            </Image>
                         </DataTemplate>
 
                         <DataTemplate  DataType="{x:Type hexviewmodel:PlaceRogueViewModel}">
@@ -206,25 +231,76 @@
                         </DataTemplate>
 
                         <DataTemplate  DataType="{x:Type edgeviewmodel:VerticalViewModel}">
-                            <Button Width="{Binding 
+                            <Button RenderTransformOrigin="0.5, 0.5"
+                                    Width="{Binding 
                                            Converter={StaticResource PercentageConverter}, 
                                            ElementName=canvas, 
                                            Path=ActualWidth, 
-                                           ConverterParameter=0.02}" 
+                                           ConverterParameter=0.1}" 
                                     Height="{Binding 
                                            Converter={StaticResource PercentageConverter}, 
                                            ElementName=canvas, 
                                            Path=ActualHeight, 
-                                           ConverterParameter=0.2}" 
+                                           ConverterParameter=0.02}" 
                                     Margin ="{Binding 
                                            Converter={StaticResource MarginPercentageConverter}, 
                                            ElementName=canvas, 
                                            Path=ActualWidth, 
-                                           ConverterParameter='-0.01 0 0 0'}" 
-                                    
-                                    Background="{Binding Color}"></Button>
+                                           ConverterParameter='0 -0.02 0 0'}"
+                                    Background="{Binding Color}" >
+                                <Button.RenderTransform>
+                                    <RotateTransform Angle="90"/>
+                                </Button.RenderTransform>
+                            </Button>
                         </DataTemplate>
                         <DataTemplate  DataType="{x:Type edgeviewmodel:LeftSlopeViewModel}">
+                            <Button RenderTransformOrigin="0.5, 0.5"
+                                    Width="{Binding 
+                                           Converter={StaticResource PercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualWidth, 
+                                           ConverterParameter=0.1}" 
+                                    Height="{Binding 
+                                           Converter={StaticResource PercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualHeight, 
+                                           ConverterParameter=0.02}" 
+                                    Margin ="{Binding 
+                                           Converter={StaticResource MarginPercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualWidth, 
+                                           ConverterParameter='0 -0.02 0 0'}"
+                                    Background="{Binding Color}" >
+                                <Button.RenderTransform>
+                                    <RotateTransform Angle="330"/>
+                                </Button.RenderTransform>
+                            </Button>
+                        </DataTemplate>
+                        <DataTemplate  DataType="{x:Type edgeviewmodel:RightSlopeViewModel}">
+                            <Button RenderTransformOrigin="0.5, 0.5"
+                                    Width="{Binding 
+                                           Converter={StaticResource PercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualWidth, 
+                                           ConverterParameter=0.1}" 
+                                    Height="{Binding 
+                                           Converter={StaticResource PercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualHeight, 
+                                           ConverterParameter=0.02}" 
+                                    Margin ="{Binding 
+                                           Converter={StaticResource MarginPercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualWidth, 
+                                           ConverterParameter='0 -0.02 0 0'}"
+                                    Background="{Binding Color}" >
+                                <Button.RenderTransform>
+                                    <RotateTransform Angle="30"/>
+                                </Button.RenderTransform>
+                            </Button>
+                        </DataTemplate>
+
+                        <DataTemplate  DataType="{x:Type edgeviewmodel:BuildableVerticalViewModel}">
                             <Button Width="{Binding 
                                            Converter={StaticResource PercentageConverter}, 
                                            ElementName=canvas, 
@@ -240,43 +316,6 @@
                                            ElementName=canvas, 
                                            Path=ActualWidth, 
                                            ConverterParameter='0 -0.01 0 0'}"
-                                    Background="{Binding Color}" ></Button>
-                        </DataTemplate>
-                        <DataTemplate  DataType="{x:Type edgeviewmodel:RightSlopeViewModel}">
-                            <Button Width="{Binding 
-                                           Converter={StaticResource PercentageConverter}, 
-                                           ElementName=canvas, 
-                                           Path=ActualWidth, 
-                                           ConverterParameter=0.1}" 
-                                    Height="{Binding 
-                                           Converter={StaticResource PercentageConverter}, 
-                                           ElementName=canvas, 
-                                           Path=ActualHeight, 
-                                           ConverterParameter=0.02}" 
-                                    Margin ="{Binding 
-                                           Converter={StaticResource MarginPercentageConverter}, 
-                                           ElementName=canvas, 
-                                           Path=ActualWidth, 
-                                           ConverterParameter='0 -0.01 0 0'}" 
-                                    Background="{Binding Color}" ></Button>
-                        </DataTemplate>
-
-                        <DataTemplate  DataType="{x:Type edgeviewmodel:BuildableVerticalViewModel}">
-                            <Button Width="{Binding 
-                                           Converter={StaticResource PercentageConverter}, 
-                                           ElementName=canvas, 
-                                           Path=ActualWidth, 
-                                           ConverterParameter=0.02}" 
-                                    Height="{Binding 
-                                           Converter={StaticResource PercentageConverter}, 
-                                           ElementName=canvas, 
-                                           Path=ActualHeight, 
-                                           ConverterParameter=0.2}" 
-                                    Margin ="{Binding 
-                                           Converter={StaticResource MarginPercentageConverter}, 
-                                           ElementName=canvas, 
-                                           Path=ActualWidth, 
-                                           ConverterParameter='-0.01 0 0 0'}" 
                                     
                                     Background="green" Command="{Binding BuildCommand}" CommandParameter="{Binding}"></Button>
                         </DataTemplate>
@@ -330,6 +369,7 @@
                     <Button Content="Út" Command="{Binding BuildRoadCommand}"/>
                     <Button Content="Bonus kartya" Command="{Binding PurchaseBonusCardCommand}"/>
                     <Button Content="Csere"/>
+                    <Image Source="{StaticResource SeaField}"></Image>
                     <Button Content="Megse" Command="{Binding CancelCommand}"/>
                 </ListBox>
             </Grid>
@@ -365,6 +405,7 @@
             <Button Grid.Column="6"  Grid.Row="2" Content="{Binding PlayerWood}"  Background="ForestGreen"/>
             <Button Grid.Column="8"  Grid.Row="2" Content="{Binding PlayerBrick}" Background="Firebrick"/>
             <Button Grid.Column="10"  Grid.Row="2" Content="{Binding PlayerWool}"  Background="PaleGreen"/>
+            
 
             <Button Grid.Column="2"  Grid.Row="1" Content="Csere" Command="{Binding ExchangeWithBankCommand}" CommandParameter="Crop"  Background="Goldenrod"/>
             <Button Grid.Column="4" Grid.Row="1" Content="Csere"  Command="{Binding ExchangeWithBankCommand}" CommandParameter="Ore" Background="SlateGray"/>
