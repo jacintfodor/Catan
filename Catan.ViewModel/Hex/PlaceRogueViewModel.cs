@@ -20,7 +20,7 @@
 
         public double Top
         {
-            get => (Row * 60 + 30)/300.0;
+            get => 1 / 8.0 + 1 / 4.0 * Row;
         }
 
         private int Offset { get => Row % 2 == 0 ? 0 : 30; }

@@ -301,7 +301,8 @@
                         </DataTemplate>
 
                         <DataTemplate  DataType="{x:Type edgeviewmodel:BuildableVerticalViewModel}">
-                            <Button Width="{Binding 
+                            <Button RenderTransformOrigin="0.5, 0.5"
+                                    Width="{Binding 
                                            Converter={StaticResource PercentageConverter}, 
                                            ElementName=canvas, 
                                            Path=ActualWidth, 
@@ -315,12 +316,16 @@
                                            Converter={StaticResource MarginPercentageConverter}, 
                                            ElementName=canvas, 
                                            Path=ActualWidth, 
-                                           ConverterParameter='0 -0.01 0 0'}"
-                                    
-                                    Background="green" Command="{Binding BuildCommand}" CommandParameter="{Binding}"></Button>
+                                           ConverterParameter='0 -0.02 0 0'}"
+                                    Background="green" Command="{Binding BuildCommand}" CommandParameter="{Binding}" >
+                                <Button.RenderTransform>
+                                    <RotateTransform Angle="90"/>
+                                </Button.RenderTransform>
+                            </Button>
                         </DataTemplate>
                         <DataTemplate  DataType="{x:Type edgeviewmodel:BuildableLeftSlopeViewModel}">
-                            <Button Width="{Binding 
+                            <Button RenderTransformOrigin="0.5, 0.5"
+                                    Width="{Binding 
                                            Converter={StaticResource PercentageConverter}, 
                                            ElementName=canvas, 
                                            Path=ActualWidth, 
@@ -334,11 +339,16 @@
                                            Converter={StaticResource MarginPercentageConverter}, 
                                            ElementName=canvas, 
                                            Path=ActualWidth, 
-                                           ConverterParameter='0 -0.01 0 0'}" 
-                                    Background="green" Command="{Binding BuildCommand}" CommandParameter="{Binding}"></Button>
+                                           ConverterParameter='0 -0.02 0 0'}"
+                                    Background="green" Command="{Binding BuildCommand}" CommandParameter="{Binding}" >
+                                <Button.RenderTransform>
+                                    <RotateTransform Angle="330"/>
+                                </Button.RenderTransform>
+                            </Button>
                         </DataTemplate>
                         <DataTemplate  DataType="{x:Type edgeviewmodel:BuildableRightSlopeViewModel}">
-                            <Button Width="{Binding 
+                            <Button RenderTransformOrigin="0.5, 0.5"
+                                    Width="{Binding 
                                            Converter={StaticResource PercentageConverter}, 
                                            ElementName=canvas, 
                                            Path=ActualWidth, 
@@ -352,8 +362,12 @@
                                            Converter={StaticResource MarginPercentageConverter}, 
                                            ElementName=canvas, 
                                            Path=ActualWidth, 
-                                           ConverterParameter='0 -0.01 0 0'}" 
-                                    Background="green" Command="{Binding BuildCommand}" CommandParameter="{Binding}"></Button>
+                                           ConverterParameter='0 -0.02 0 0'}"
+                                    Background="green" Command="{Binding BuildCommand}" CommandParameter="{Binding}" >
+                                <Button.RenderTransform>
+                                    <RotateTransform Angle="30"/>
+                                </Button.RenderTransform>
+                            </Button>
                         </DataTemplate>
                         
                     </ItemsControl.Resources>
