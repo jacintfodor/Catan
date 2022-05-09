@@ -2,7 +2,7 @@
 
 namespace Catan.Model.GameStates.ConcreteStates
 {
-    internal class GameWonState : ICatanGameState, IGameWon
+    public class GameWonState : ICatanGameState, IGameWon
     {
         
     }

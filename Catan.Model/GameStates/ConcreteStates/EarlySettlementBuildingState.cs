@@ -3,7 +3,7 @@ using Catan.Model.DTOs;
 
 namespace Catan.Model.GameStates.ConcreteStates
 {
-    internal class EarlySettlementBuildingState : ICatanGameState, ISettlementBuildable
+    public class EarlySettlementBuildingState : ICatanGameState, ISettlementBuildable
     {
         readonly int _turnCount;
 

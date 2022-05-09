@@ -15,7 +15,9 @@
         public int Column { get => _col; set { _col = value; OnPropertyChanged(); OnPropertyChanged(nameof(Left)); } }
         public int Row { get => _row; set { _row = value; OnPropertyChanged(); OnPropertyChanged(nameof(Top)); } }
 
-        public string Left { get => (Column * 30 - 6).ToString(); }
-        public string Top { get => (Row * 60 - 6).ToString(); }
+        public double Left { get => (Column * 30 /300.0 ); }
+        public double Top { get => (Row * 60 /300.0); }
+
+        public int ZIndex { get => 6; }
     }
 }

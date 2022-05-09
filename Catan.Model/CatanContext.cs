@@ -12,7 +12,7 @@ using Catan.Model.Board.Components.Hex;
 
 namespace Catan.Model
 {
-    internal class CatanContext : ICatanContext
+    public class CatanContext : ICatanContext
     {
         private Queue<IPlayer> _players = new();
 

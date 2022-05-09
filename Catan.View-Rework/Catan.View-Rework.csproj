@@ -13,4 +13,8 @@
     <ProjectReference Include="..\Catan.ViewModel\Catan.ViewModel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Resources\HexTiles\" />
+  </ItemGroup>
+
 </Project>

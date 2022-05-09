@@ -2,7 +2,7 @@
 
 namespace Catan.Model.GameStates.ConcreteStates
 {
-    internal class RogueMovingState : ICatanGameState, IRogueMovable, ICancellable
+    public class RogueMovingState : ICatanGameState, IRogueMovable, ICancellable
     {
         public bool IsRogueMovingState => true;
 

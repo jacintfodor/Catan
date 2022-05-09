@@ -18,12 +18,13 @@ namespace Catan.ViewModel
     {
         private CatanGameModel _model;
 
-        public ObservableCollection<HexViewModel> Hexes { get; set; }
-        public ObservableCollection<VertexViewModel> Vertices { get; set; }
-        public ObservableCollection<BuildableCommunityViewModel> BuildableCommunities { get; set; }
-        public ObservableCollection<EdgeViewModel> Edges { get; set; }
-        public ObservableCollection<BuildableEdgeViewModel> BuildableEdges { get; set; }
-        public ObservableCollection<PlayerViewModel> Players { get; set; }
+        public ObservableCollection<HexViewModel> Hexes { get; set; } = new();
+        public ObservableCollection<VertexViewModel> Vertices { get; set; } = new();
+        public ObservableCollection<BuildableCommunityViewModel> BuildableCommunities { get; set; } = new();
+        public ObservableCollection<TownViewModel> TownCommunities { get; set; } = new();
+        public ObservableCollection<EdgeViewModel> Edges { get; set; } = new();
+        public ObservableCollection<BuildableEdgeViewModel> BuildableEdges { get; set; } = new();
+        public ObservableCollection<PlayerViewModel> Players { get; set; } = new();
         public ObservableCollection<PlaceRogueViewModel> RogueMovingNodes { get; set; } = new();
         public ObservableCollection<RogueViewModel> RogueContainer { get; set; } = new();
 
@@ -55,19 +56,7 @@ namespace Catan.ViewModel
         public CatanViewModel(CatanGameModel model)
         {
             _model = model;
-            /* Hexes */
-            Hexes = new ObservableCollection<HexViewModel>();
-            /* Vertices */
-            Vertices = new ObservableCollection<VertexViewModel>();
-            BuildableCommunities = new ObservableCollection<BuildableCommunityViewModel>();
-            /* Edges */
-            Edges = new ObservableCollection<EdgeViewModel>();
-            BuildableEdges = new ObservableCollection<BuildableEdgeViewModel>();
-
-            Players = new ObservableCollection<PlayerViewModel>();
-
             _currentPlayer = new PlayerViewModel(Mapping.Mapper.Map<PlayerDTO>(NotPlayer.Instance));
-
 
             _model.Events.DicesRolled += Model_Events_DicesThrown;
             _model.Events.GameStarted += Model_Events_NewGame;
@@ -88,15 +77,14 @@ namespace Catan.ViewModel
             _model.Events.RogueMovingStarted += Model_Events_RogueMovingStarted;
             _model.Events.RogueMoved += Model_Events_RogueMoved;
 
-            ThrowDicesCommand = new DelegateCommand(_ => _model.RollDices(), _ => _model.IsEarlyRollingState || _model.IsRollingState);
-            EndTurnCommand = new DelegateCommand(_ => _model.EndTurn(), _ => _model.IsMainState);
-            PurchaseBonusCardCommand = new DelegateCommand(_ => _model.PurchaseBonusCard(), _ => _model.IsMainState && _model.HasEnoughResourcesToPurchaseCard());
-            BuildRoadCommand = new DelegateCommand(_ => _model.StartRoadBuilding(), _ => _model.IsMainState && _model.HasEnoughResourcesToBuildRoad());
-            BuildSettlementCommand = new DelegateCommand(_ => _model.StartSettlementBuilding(), _ => _model.IsMainState && _model.HasEnoughResourcesToBuildSettlement());
-            UpgradeSettlementCommand = new DelegateCommand(_ => _model.StartSettlementUpgrading(), _ => _model.IsMainState && _model.HasEnoughResourcesToUpgradeSettlementToTown());
-            CancelCommand = new DelegateCommand(_ => _model.Cancel(), _ => _model.IsSettlementBuildingState || _model.IsRoadBuildingState || _model.IsSettlementUpgradingState || _model.IsRogueMovingState);
-            //TODO Cost manager rn condition order matters
-            ExchangeWithBankCommand = new DelegateCommand(resource => ExchangeWithBank(resource), resource => _model.IsMainState && HasThree(resource));
+            ThrowDicesCommand = new DelegateCommand(_ => _model.RollDices(), _ => _model.IsRollValid);
+            EndTurnCommand = new DelegateCommand(_ => _model.EndTurn(), _ => _model.IsEndTurnValid);
+            PurchaseBonusCardCommand = new DelegateCommand(_ => _model.PurchaseBonusCard(), _ => _model.IsPurchaseBonusCardValid);
+            BuildRoadCommand = new DelegateCommand(_ => _model.StartRoadBuilding(), _ => _model.IsRoadBuildingValid);
+            BuildSettlementCommand = new DelegateCommand(_ => _model.StartSettlementBuilding(), _ => _model.IsSettlementBuildingValid);
+            UpgradeSettlementCommand = new DelegateCommand(_ => _model.StartSettlementUpgrading(), _ => _model.IsTownBuildingValid);
+            CancelCommand = new DelegateCommand(_ => _model.Cancel(), _ => _model.IsCancelValid);
+            ExchangeWithBankCommand = new DelegateCommand(resource => ExchangeWithBank(resource), resource => IsExchangeWithBankValid(resource));
         }
 
         private void Model_Events_GameWon(object? sender, GameWonEventArgs e)
@@ -126,10 +114,11 @@ namespace Catan.ViewModel
             _model.MoveRogue(p.Row, p.Column);
         }
 
-        private bool HasThree(object resource)
+        private bool IsExchangeWithBankValid(object resource)
         {
+            var to = (ResourceEnum)ResourceToNumber;
             _ = Enum.TryParse(resource.ToString(), out ResourceEnum from);
-            return _model.IsAffordable((new Goods(from)) * 3);
+            return _model.IsExchangeWithBankValid(from, to);
         }
 
         private void ExchangeWithBank(object resource)
@@ -191,13 +180,16 @@ namespace Catan.ViewModel
 
         private void Model_Events_SettlementUpgraded(object? sender, SettlementUpgradedEventArgs e)
         {
+            VertexViewModel? toBeRemoved = null;
             foreach (VertexViewModel vm in Vertices)
             {
                 if (vm.Row == e.Row && vm.Column == e.Column)
                 {
-                    vm.Community = CommunityEnum.Town;
+                    toBeRemoved = vm;
+                    TownCommunities.Add(new TownViewModel(vm.Row, vm.Column, vm.Owner, vm.Community));
                 }
             }
+            if (toBeRemoved != null) { Vertices.Remove(toBeRemoved); }
 
             BuildableCommunities.Clear();
         }

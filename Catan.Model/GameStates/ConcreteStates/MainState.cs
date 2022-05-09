@@ -6,7 +6,7 @@ using Catan.Model.DTOs;
 
 namespace Catan.Model.GameStates.ConcreteStates
 {
-    internal class MainState : ICatanGameState, IMainState
+    public class MainState : ICatanGameState, IMainState
     {
         public bool IsMainState => true;
 

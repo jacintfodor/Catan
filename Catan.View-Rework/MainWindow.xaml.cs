@@ -24,5 +24,10 @@ namespace Catan.View_Rework
         {
             InitializeComponent();
         }
+
+        private void Canvas_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+
+        }
     }
 }

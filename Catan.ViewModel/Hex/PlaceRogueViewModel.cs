@@ -13,18 +13,21 @@
 
         public int Column { get => _col; set { _col = value; OnPropertyChanged(); OnPropertyChanged(nameof(Left)); } }
         public int Row { get => _row; set { _row = value; OnPropertyChanged(); OnPropertyChanged(nameof(Top)); OnPropertyChanged(nameof(Left)); } }
+
+        public int ZIndex { get => 1; }
+
         #region converted values
 
-        public string Top
+        public double Top
         {
-            get => (Row * 60 + 30).ToString();
+            get => (Row * 60 + 30)/300.0;
         }
 
         private int Offset { get => Row % 2 == 0 ? 0 : 30; }
 
-        public string Left
+        public double Left
         {
-            get => (Offset + Column * 60 + 30).ToString();
+            get => (Offset + Column * 60 + 30)/300.0;
         }
 
         public DelegateCommand MoveRogueCommand { get; set; }

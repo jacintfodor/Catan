@@ -2,6 +2,7 @@
 using Catan.Model.Enums;
 using Catan.Model.Context;
 using Catan.Model.GameStates.ConcreteStates;
+using Catan.Model.GameStates.Interfaces;
 
 namespace Catan.Model
 {
@@ -11,16 +12,39 @@ namespace Catan.Model
 
         public ICatanEvents Events { get => _catanContext.Events; }
 
-        public bool IsEarlyRollingState => _catanContext.IsEarlyRollingState;
-        public bool IsEarlySettlementBuildingState => _catanContext.IsEarlySettlementBuildingState;
-        public bool IsEarlyRoadBuildingState => _catanContext.IsEarlyRoadBuildingState;
-        public bool IsRollingState => _catanContext.IsRollingState;
-        public bool IsMainState => _catanContext.IsMainState;
-        public bool IsSettlementBuildingState => _catanContext.IsSettlementBuildingState;
-        public bool IsRoadBuildingState => _catanContext.IsRoadBuildingState;
-        public bool IsSettlementUpgradingState => _catanContext.IsSettlementUpgradingState;
-        public bool IsWinningState => _catanContext.IsWinningState;
-        public bool IsRogueMovingState => _catanContext.IsRogueMovingState;
+        public bool IsRollValid => _catanContext.State is IRollable;
+
+        public bool IsSettlementBuildingValid =>
+            _catanContext.State is IMainState && 
+            _catanContext.CurrentPlayer.CanAfford(Constants.SettlementCost) && 
+            _catanContext.CurrentPlayer.CanBuildSettlement();
+
+        public bool IsTownBuildingValid =>
+            _catanContext.State is IMainState &&
+            _catanContext.CurrentPlayer.CanAfford(Constants.TownCost) &&
+            _catanContext.CurrentPlayer.CanBuildTown();
+
+        public bool IsEndTurnValid => _catanContext.IsMainState;
+
+        public bool IsPurchaseBonusCardValid =>
+            _catanContext.State is IMainState &&
+            _catanContext.CurrentPlayer.CanAfford(Constants.BonusCardCost);
+
+        public bool IsRoadBuildingValid =>
+            _catanContext.State is IMainState &&
+            _catanContext.CurrentPlayer.CanAfford(Constants.RoadCost) &&
+            _catanContext.CurrentPlayer.CanBuildRoad();
+
+        public bool IsCancelValid =>
+            _catanContext.State is ICancellable;
+
+        public bool IsExchangeWithBankValid(ResourceEnum from, ResourceEnum to)
+        {
+            return _catanContext.State is IMainState &&
+                from != to &&
+                _catanContext.CurrentPlayer.CanAfford(new Goods(from) * 3);
+        }
+
         public void NewGame()
         {
             _catanContext.reset();
@@ -86,39 +110,6 @@ namespace Catan.Model
         public void DenyTrade()
         {
             throw new NotImplementedException();
-        }
-        public bool IsGameInProgress()
-        {
-            throw new NotImplementedException();
-        }
-        public bool IsTradeInProgress()
-        {
-            throw new NotImplementedException();
-        }
-        public bool HasEnoughResourcesToPurchaseCard()
-        {
-            return _catanContext.CurrentPlayer.CanAfford(Constants.BonusCardCost);
-        }
-        public bool HasEnoughResourcesToBuildRoad()
-        {
-            return _catanContext.CurrentPlayer.CanAfford(Constants.RoadCost) && _catanContext.CurrentPlayer.CanBuildRoad();
-        }
-        public bool HasEnoughResourcesToBuildSettlement()
-        {
-            return _catanContext.CurrentPlayer.CanAfford(Constants.SettlementCost) && _catanContext.CurrentPlayer.CanBuildSettlement();
-        }
-        public bool HasEnoughResourcesToUpgradeSettlementToTown()
-        {
-            return _catanContext.CurrentPlayer.CanAfford(Constants.TownCost) && _catanContext.CurrentPlayer.CanBuildTown();
-        }
-        public bool IsSettlementOwnedByCurrentPlayer(int row, int col)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool IsAffordable(Goods g)
-        {
-            return _catanContext.IsAffordable(g);
         }
     }
 }

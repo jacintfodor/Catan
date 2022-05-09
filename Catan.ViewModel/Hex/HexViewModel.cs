@@ -23,16 +23,16 @@ namespace Catan.ViewModel.Hex
         public int Row { get => _row; set { _row = value; OnPropertyChanged(); OnPropertyChanged(nameof(Top)); OnPropertyChanged(nameof(Left)); } }
         #region converted values
 
-        public string Top
+        public double Top
         {
-            get => (Row * 60).ToString();
+            get => (Row * 60 /300.0);
         }
 
         private int Offset { get => Row % 2 == 0 ? 0 : 30; }
 
-        public string Left
+        public double Left
         {
-            get => (Offset + Column * 60).ToString();
+            get => ((Offset + Column * 60)/300.0);
         }
 
         private Dictionary<ResourceEnum, string> _resourceToColor = new Dictionary<ResourceEnum, string>()
@@ -45,6 +45,8 @@ namespace Catan.ViewModel.Hex
             {ResourceEnum.Desert, "black" }
         };
         public string Color { get => _resourceToColor[Resource]; }
+
+        public int ZIndex { get => 0; }
 
         #endregion
 
