@@ -27,7 +27,7 @@ namespace Catan.Model
         ITitle LongestRoadOwner { get; }
         IPlayer NextNextPlayerInQueue { get; }
         IPlayer NextPlayerInQueue { get; }
-        Rogue Rogue { get; }
+        IRogue Rogue { get; }
         int RolledSum { get; }
         ICubeDice SecondDice { get; }
         IPlayer Winner { get; }
