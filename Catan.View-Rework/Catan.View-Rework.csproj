@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Background\seascape.jpg" />
     <None Remove="Resources\HexTiles\clayHex.png" />
     <None Remove="Resources\HexTiles\desertHex.png" />
     <None Remove="Resources\HexTiles\oreHex.png" />
@@ -19,11 +20,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Catan.Model\Catan.Model.csproj" />
     <ProjectReference Include="..\Catan.ViewModel\Catan.ViewModel.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\Background\seascape.jpg" />
     <Resource Include="Resources\HexTiles\clayHex.png" />
     <Resource Include="Resources\HexTiles\desertHex.png" />
     <Resource Include="Resources\HexTiles\oreHex.png" />
