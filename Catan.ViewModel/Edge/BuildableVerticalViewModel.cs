@@ -23,7 +23,7 @@
             get => ((Offset + Column * 30 - 15) / 300.0);
         }
 
-        public int ZIndex { get => 3; }
+        public int ZIndex { get => 4; }
 
         public override DelegateCommand BuildCommand { get; set; }
 

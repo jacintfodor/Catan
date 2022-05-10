@@ -32,7 +32,7 @@ namespace Catan.ViewModel.Edge
             get => ((Offset + Column * 30) / 300.0);
         }
 
-        public int ZIndex { get => 2; }
+        public int ZIndex { get => 3; }
 
         #region Converter
         private Dictionary<PlayerEnum, string> _ownerToColor = new Dictionary<PlayerEnum, string>()
