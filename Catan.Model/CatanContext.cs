@@ -12,10 +12,16 @@ using Catan.Model.Board.Components.Hex;
 
 namespace Catan.Model
 {
-    public class CatanContext : ICatanContext
+    internal class CatanContext : ICatanContext
     {
         private Queue<IPlayer> _players = new();
-
+        private ICatanBoard _board = new CatanBoard();
+        private ICubeDice _firstDice;
+        private ICubeDice _secondDice;
+        private IRogue _rogue = Context.Rogue.Instance;
+        private ICatanEvents _events = CatanEvents.Instance;
+        private ITitle _largestArmy = LargestArmyTitle.Instance;
+        private ITitle _longestRoad = LongestRoadTitle.Instance;
         public void NewGame()
         {
             Events.OnGameStarted(this);
@@ -26,22 +32,41 @@ namespace Catan.Model
             SetContext(initialState);
             init();
         }
-        public ICatanBoard Board { get; private set; }
-        public ICubeDice FirstDice { get; private set; }
-        public ICubeDice SecondDice { get; private set; }
+
+        internal CatanContext(ICatanGameState initialState,
+            ICatanBoard board, ICubeDice firstDice, ICubeDice secondDice,
+            IRogue rogue, ICatanEvents events, ITitle largestArmy, ITitle longestRoad,
+            IPlayer playerOne, IPlayer playerTwo, IPlayer playerThree)
+        {
+            SetContext(initialState);
+            _players.Enqueue(playerOne);
+            _players.Enqueue(playerTwo);
+            _players.Enqueue(playerThree);
+            _board = board;
+            _firstDice = firstDice;
+            _secondDice = secondDice;
+            _rogue = rogue;
+            _events = events;
+            _largestArmy = largestArmy;
+            _longestRoad = longestRoad;
+        }
+
+        public ICatanBoard Board { get => _board; private set => _board = value; }
+        public ICubeDice FirstDice { get => _firstDice; private set => _firstDice = value; }
+        public ICubeDice SecondDice { get => _secondDice; private set => _secondDice = value; }
 
         public int RolledSum { get => FirstDice.RolledValue + SecondDice.RolledValue; }
 
-        public Rogue Rogue { get => Rogue.Instance; }
+        public IRogue Rogue { get => _rogue; }
 
-        public ICatanEvents Events { get => CatanEvents.Instance; }
+        public ICatanEvents Events { get => _events; }
 
-        public ITitle LargestArmyHolder { get => LargestArmyTitle.Instance; }
-        public ITitle LongestRoadOwner { get => LongestRoadTitle.Instance; }
+        public ITitle LargestArmyHolder { get => _largestArmy; }
+        public ITitle LongestRoadOwner { get => _longestRoad; }
         public IPlayer CurrentPlayer { get => _players.ElementAtOrDefault(0) ?? NotPlayer.Instance; }
         public IPlayer NextPlayerInQueue { get => _players.ElementAtOrDefault(1) ?? NotPlayer.Instance; }
         public IPlayer NextNextPlayerInQueue { get => _players.ElementAtOrDefault(2) ?? NotPlayer.Instance; }
-        public IPlayer Winner { get => CurrentPlayer.Score>= 5 ? CurrentPlayer : NotPlayer.Instance; }
+        public IPlayer Winner { get => CurrentPlayer.Score >= 5 ? CurrentPlayer : NotPlayer.Instance; }
         public void NextPlayer() { _players.Enqueue(_players.Dequeue()); }
 
         public void init()
@@ -158,13 +183,13 @@ namespace Catan.Model
 
         #region Methods
 
-        public void DistributeResources(ICatanGameState state) 
+        public void DistributeResources(ICatanGameState state)
         {
             foreach (IHex hex in Board.GetHexesEnumerable())
             {
                 if (IsDistributable(state, hex))
                 {
-                    foreach( var player in _players)
+                    foreach (var player in _players)
                     {
 
                         int noSettlementsAtHex = Board.GetVerticesOfHex(hex.Row, hex.Col)
@@ -176,19 +201,20 @@ namespace Catan.Model
                             .Count();
 
                         int noOfResourcesEarned = 2 * noOfTownsAtHex + noSettlementsAtHex;
-                        
+
                         Goods earned = new Goods(hex.Resource) * noOfResourcesEarned;
 
                         player.AddResource(earned);
                     }
                 }
             }
-        } 
+        }
 
         public List<PlayerDTO> GetPlayerList()
         {
             List<PlayerDTO> playerDTO = new List<PlayerDTO>();
-            foreach (IPlayer p in _players.ToList()) {
+            foreach (IPlayer p in _players.ToList())
+            {
                 var dto = Mapping.Mapper.Map<PlayerDTO>(p);
                 playerDTO.Add(dto);
             }
