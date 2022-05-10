@@ -216,12 +216,8 @@
                                            ElementName=canvas, 
                                            Path=ActualWidth, 
                                            ConverterParameter=0.12}"
-                                         Command="{Binding MoveRogueCommand}" CommandParameter="{Binding}" Background="Transparent">
-                                    <Image Height="{Binding 
-                                           Converter={StaticResource PercentageConverter}, 
-                                           ElementName=canvas, 
-                                           Path=ActualHeight, 
-                                           ConverterParameter=0.25}"
+                                         Command="{Binding MoveRogueCommand}" CommandParameter="{Binding}" Background="Transparent" BorderThickness="0">
+                                    <Image 
 
                                        Source="{Binding Source={StaticResource PlaceableRogue}}">
 
