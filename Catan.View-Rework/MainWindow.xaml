@@ -44,28 +44,12 @@
             <ImageBrush ImageSource="{Binding Source={StaticResource Background}}" Stretch="UniformToFill"/>
         </Grid.Background>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50" />
             <RowDefinition Height="1*" />
             <RowDefinition Height="100" />
         </Grid.RowDefinitions>
 
 
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-            </Grid.ColumnDefinitions>
-
-
-            <!--<StackPanel  Width="100" HorizontalAlignment="Right" Background="{Binding CurrentPlayerColor}">
-                <TextBox Width="30"  Text="{Binding PlayerLongestRoad, Mode=OneWay}"/>
-                <TextBox Width="30"  Text="{Binding PlayerKnightCardCount, Mode=OneWay}"/>
-                <TextBox Width="30"  Text="{Binding PlayerScore, Mode=OneWay}"/>
-            </StackPanel>-->
-        </Grid>
-
-        <Grid Grid.Row="1" ShowGridLines="True">
+        <Grid Grid.Row="0" ShowGridLines="True">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="1*"/>
@@ -109,7 +93,7 @@
                                                            Converter={StaticResource MarginPercentageConverter}, 
                                                            RelativeSource={RelativeSource Self}, 
                                                            Path=ActualWidth, 
-                                                           ConverterParameter='0 0 0 0.02'}" 
+                                                           ConverterParameter='0 0.03 0 0.03'}" 
                                                   Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight, 
                                                            Converter={StaticResource PercentageConverter}, 
                                                            ConverterParameter=1.0693359375}"/>
@@ -457,7 +441,7 @@
 
 
 
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width ="100"/>
                 <!--<ColumnDefinition Width="0.2*"/>-->
