@@ -34,8 +34,13 @@
         <BitmapImage x:Key="CropField" UriSource="Resources/HexTiles/wheatHex.png"/>
         <BitmapImage x:Key="WoodField" UriSource="Resources/HexTiles/woodHex.png"/>
         <BitmapImage x:Key="SeaField" UriSource="Resources/HexTiles/waterHex.png" />
+
+        <BitmapImage x:Key="Background" UriSource="Resources/Background/seascape.jpg" />
     </Window.Resources>
     <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="{Binding Source={StaticResource Background}}" Stretch="UniformToFill"/>
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
             <RowDefinition Height="1*" />
@@ -44,11 +49,18 @@
 
 
         <Grid Grid.Row="0">
-            <StackPanel  Width="100" HorizontalAlignment="Right" Background="{Binding CurrentPlayerColor}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            
+            
+            <!--<StackPanel  Width="100" HorizontalAlignment="Right" Background="{Binding CurrentPlayerColor}">
                 <TextBox Width="30"  Text="{Binding PlayerLongestRoad, Mode=OneWay}"/>
                 <TextBox Width="30"  Text="{Binding PlayerKnightCardCount, Mode=OneWay}"/>
                 <TextBox Width="30"  Text="{Binding PlayerScore, Mode=OneWay}"/>
-            </StackPanel>
+            </StackPanel>-->
         </Grid>
 
         <Grid Grid.Row="1">
@@ -86,10 +98,14 @@
                     </ItemsControl.ItemsSource>
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <local:RelativeCanvas x:Name="canvas" Margin="15 30 15 30" Background="Black" 
+                            <local:RelativeCanvas x:Name="canvas" Margin="{Binding 
+                                                           Converter={StaticResource MarginPercentageConverter}, 
+                                                           ElementName=canvas, 
+                                                           Path=ActualWidth, 
+                                                           ConverterParameter='0 0 0 0.02'}" 
                                                   Width="{Binding ElementName=canvas, Path=ActualHeight, 
-                                                        Converter={StaticResource PercentageConverter}, 
-                                                        ConverterParameter=1.0693359375}"/>
+                                                           Converter={StaticResource PercentageConverter}, 
+                                                           ConverterParameter=1.0693359375}"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemContainerStyle>
@@ -414,11 +430,148 @@
             </Grid.RowDefinitions>
 
             <!--Desert = -1, Crop, Ore, Wood, Brick, Wool-->
-            <Button Grid.Column="2"  Grid.Row="2" Content="{Binding PlayerCrop}"   Background="Goldenrod"/>
-            <Button Grid.Column="4" Grid.Row="2" Content="{Binding PlayerOre}"   Background="SlateGray"/>
-            <Button Grid.Column="6"  Grid.Row="2" Content="{Binding PlayerWood}"  Background="ForestGreen"/>
-            <Button Grid.Column="8"  Grid.Row="2" Content="{Binding PlayerBrick}" Background="Firebrick"/>
-            <Button Grid.Column="10"  Grid.Row="2" Content="{Binding PlayerWool}"  Background="PaleGreen"/>
+            <Grid Grid.Column="2"  Grid.Row="2" >
+                <Grid.Background>
+                    <ImageBrush ImageSource="{Binding Source={StaticResource CropField}}" Stretch="UniformToFill"/>
+                </Grid.Background>
+                <Border HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        CornerRadius="50"
+                        Width="{Binding 
+                                Converter={StaticResource PercentageConverter}, 
+                                RelativeSource={RelativeSource AncestorType=Grid}, 
+                                Path=ActualHeight, 
+                                ConverterParameter=0.5}" 
+                        Height="{Binding 
+                                Converter={StaticResource PercentageConverter}, 
+                                RelativeSource={RelativeSource AncestorType=Grid}, 
+                                Path=ActualHeight, 
+                                ConverterParameter=0.5}" 
+                        Margin ="{Binding 
+                                Converter={StaticResource MarginPercentageConverter}, 
+                                RelativeSource={RelativeSource AncestorType=Grid},
+                                Path=ActualHeight, 
+                                ConverterParameter='0.06 0.06 0 0'}"
+                        Background="Wheat"
+                        BorderBrush="Red"
+                        BorderThickness="1">
+                    <Label Padding="0 0 0 1" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" Content="{Binding PlayerCrop}" Foreground="Red"/>
+                </Border>
+            </Grid>
+            <Grid Grid.Column="4"  Grid.Row="2" >
+                <Grid.Background>
+                    <ImageBrush ImageSource="{Binding Source={StaticResource OreField}}" Stretch="UniformToFill"/>
+                </Grid.Background>
+                <Border HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        CornerRadius="50"
+                        Width="{Binding 
+                                Converter={StaticResource PercentageConverter}, 
+                                RelativeSource={RelativeSource AncestorType=Grid}, 
+                                Path=ActualHeight, 
+                                ConverterParameter=0.5}" 
+                        Height="{Binding 
+                                Converter={StaticResource PercentageConverter}, 
+                                RelativeSource={RelativeSource AncestorType=Grid}, 
+                                Path=ActualHeight, 
+                                ConverterParameter=0.5}" 
+                        Margin ="{Binding 
+                                Converter={StaticResource MarginPercentageConverter}, 
+                                RelativeSource={RelativeSource AncestorType=Grid},
+                                Path=ActualHeight, 
+                                ConverterParameter='0.06 0.06 0 0'}"
+                        Background="Wheat"
+                        BorderBrush="Red"
+                        BorderThickness="1">
+                    <Label Padding="0 0 0 1" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" Content="{Binding PlayerOre}" Foreground="Red"/>
+                </Border>
+            </Grid>
+            <Grid Grid.Column="6"  Grid.Row="2" >
+                <Grid.Background>
+                    <ImageBrush ImageSource="{Binding Source={StaticResource WoodField}}" Stretch="UniformToFill"/>
+                </Grid.Background>
+                <Border HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        CornerRadius="50"
+                        Width="{Binding 
+                                Converter={StaticResource PercentageConverter}, 
+                                RelativeSource={RelativeSource AncestorType=Grid}, 
+                                Path=ActualHeight, 
+                                ConverterParameter=0.5}" 
+                        Height="{Binding 
+                                Converter={StaticResource PercentageConverter}, 
+                                RelativeSource={RelativeSource AncestorType=Grid}, 
+                                Path=ActualHeight, 
+                                ConverterParameter=0.5}" 
+                        Margin ="{Binding 
+                                Converter={StaticResource MarginPercentageConverter}, 
+                                RelativeSource={RelativeSource AncestorType=Grid},
+                                Path=ActualHeight, 
+                                ConverterParameter='0.06 0.06 0 0'}"
+                        Background="Wheat"
+                        BorderBrush="Red"
+                        BorderThickness="1">
+                    <Label Padding="0 0 0 1" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" Content="{Binding PlayerWood}" Foreground="Red"/>
+                </Border>
+            </Grid>
+            <Grid Grid.Column="8"  Grid.Row="2" >
+                <Grid.Background>
+                    <ImageBrush ImageSource="{Binding Source={StaticResource BrickField}}" Stretch="UniformToFill"/>
+                </Grid.Background>
+                <Border HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        CornerRadius="50"
+                        Width="{Binding 
+                                Converter={StaticResource PercentageConverter}, 
+                                RelativeSource={RelativeSource AncestorType=Grid}, 
+                                Path=ActualHeight, 
+                                ConverterParameter=0.5}" 
+                        Height="{Binding 
+                                Converter={StaticResource PercentageConverter}, 
+                                RelativeSource={RelativeSource AncestorType=Grid}, 
+                                Path=ActualHeight, 
+                                ConverterParameter=0.5}" 
+                        Margin ="{Binding 
+                                Converter={StaticResource MarginPercentageConverter}, 
+                                RelativeSource={RelativeSource AncestorType=Grid},
+                                Path=ActualHeight, 
+                                ConverterParameter='0.06 0.06 0 0'}"
+                        Background="Wheat"
+                        BorderBrush="Red"
+                        BorderThickness="1">
+                    <Label Padding="0 0 0 1" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" Content="{Binding PlayerBrick}" Foreground="Red"/>
+                </Border>
+            </Grid>
+            <Grid Grid.Column="10"  Grid.Row="2"  >
+                <Grid.Background>
+                    <ImageBrush ImageSource="{Binding Source={StaticResource WoolField}}" Stretch="UniformToFill"/>
+                </Grid.Background>
+                <Border HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        CornerRadius="50"
+                        Width="{Binding 
+                                Converter={StaticResource PercentageConverter}, 
+                                RelativeSource={RelativeSource AncestorType=Grid}, 
+                                Path=ActualHeight, 
+                                ConverterParameter=0.5}" 
+                        Height="{Binding 
+                                Converter={StaticResource PercentageConverter}, 
+                                RelativeSource={RelativeSource AncestorType=Grid}, 
+                                Path=ActualHeight, 
+                                ConverterParameter=0.5}" 
+                        Margin ="{Binding 
+                                Converter={StaticResource MarginPercentageConverter}, 
+                                RelativeSource={RelativeSource AncestorType=Grid},
+                                Path=ActualHeight, 
+                                ConverterParameter='0.06 0.06 0 0'}"
+                        Background="Wheat"
+                        BorderBrush="Red"
+                        BorderThickness="1">
+                    <Label Padding="0 0 0 1" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" Content="{Binding PlayerWool}" Foreground="Red"/>
+                </Border>
+
+                
+            </Grid>
             
 
             <Button Grid.Column="2"  Grid.Row="1" Content="Csere" Command="{Binding ExchangeWithBankCommand}" CommandParameter="Crop"  Background="Goldenrod"/>
