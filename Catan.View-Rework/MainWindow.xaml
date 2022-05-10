@@ -10,7 +10,7 @@
         xmlns:hexviewmodel="clr-namespace:Catan.ViewModel.Hex;assembly=Catan.ViewModel"
         xmlns:vertexviewmodel="clr-namespace:Catan.ViewModel.Vertex;assembly=Catan.ViewModel"
         xmlns:edgeviewmodel="clr-namespace:Catan.ViewModel.Edge;assembly=Catan.ViewModel"
-        d:DataContext="{d:DesignInstance Type=viewmodel:CatanViewModel}"
+        d:DataContext="{d:DesignInstance Type=viewmodel:CatanViewModel}" MinHeight="400" MinWidth="600"
         >
     <Window.Resources>
         <CollectionViewSource x:Key="HexCollection" Source="{Binding Hexes}"/>
@@ -20,7 +20,7 @@
 
         <CollectionViewSource x:Key="EdgeCollection" Source="{Binding Edges}"/>
         <CollectionViewSource x:Key="BuildableEdgeCollection" Source="{Binding BuildableEdges}"/>
-        
+
         <CollectionViewSource x:Key="RogueMovingNodesCollection" Source="{Binding RogueMovingNodes}"/>
         <CollectionViewSource x:Key="RogueContainer" Source="{Binding RogueContainer}"/>
 
@@ -33,9 +33,11 @@
         <BitmapImage x:Key="WoolField" UriSource="Resources/HexTiles/sheepHex.png"/>
         <BitmapImage x:Key="CropField" UriSource="Resources/HexTiles/wheatHex.png"/>
         <BitmapImage x:Key="WoodField" UriSource="Resources/HexTiles/woodHex.png"/>
-        <BitmapImage x:Key="SeaField" UriSource="Resources/HexTiles/waterHex.png" />
+        <BitmapImage x:Key="SeaField" UriSource="Resources/HexTiles/waterHex.png"/>
 
-        <BitmapImage x:Key="Background" UriSource="Resources/Background/seascape.jpg" />
+        <BitmapImage x:Key="Background" UriSource="Resources/Background/seascape.jpg"/>
+        <BitmapImage x:Key="PlacedRogue" UriSource="Resources/HexTiles/bandits.png" />
+        <BitmapImage x:Key="PlaceableRogue" UriSource="Resources/HexTiles/whiteBandits.png" />
     </Window.Resources>
     <Grid>
         <Grid.Background>
@@ -54,8 +56,8 @@
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            
-            
+
+
             <!--<StackPanel  Width="100" HorizontalAlignment="Right" Background="{Binding CurrentPlayerColor}">
                 <TextBox Width="30"  Text="{Binding PlayerLongestRoad, Mode=OneWay}"/>
                 <TextBox Width="30"  Text="{Binding PlayerKnightCardCount, Mode=OneWay}"/>
@@ -63,9 +65,9 @@
             </StackPanel>-->
         </Grid>
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" ShowGridLines="True">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
@@ -80,13 +82,18 @@
             </StackPanel>
 
             <Grid Grid.Column="1">
-                <ItemsControl>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="149*"/>
+                    <ColumnDefinition Width="47*"/>
+                    <ColumnDefinition Width="4*"/>
+                </Grid.ColumnDefinitions>
+                <ItemsControl Grid.ColumnSpan="3">
                     <ItemsControl.ItemsSource>
                         <CompositeCollection>
                             <CollectionContainer Collection="{Binding Source={StaticResource HexCollection}}"/>
                             <CollectionContainer Collection="{Binding Source={StaticResource RogueMovingNodesCollection}}"/>
                             <CollectionContainer Collection="{Binding Source={StaticResource RogueContainer}}"/>
-                            
+
                             <CollectionContainer Collection="{Binding Source={StaticResource EdgeCollection}}"/>
                             <CollectionContainer Collection="{Binding Source={StaticResource BuildableEdgeCollection}}"/>
 
@@ -100,10 +107,10 @@
                         <ItemsPanelTemplate>
                             <local:RelativeCanvas x:Name="canvas" Margin="{Binding 
                                                            Converter={StaticResource MarginPercentageConverter}, 
-                                                           ElementName=canvas, 
+                                                           RelativeSource={RelativeSource Self}, 
                                                            Path=ActualWidth, 
                                                            ConverterParameter='0 0 0 0.02'}" 
-                                                  Width="{Binding ElementName=canvas, Path=ActualHeight, 
+                                                  Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight, 
                                                            Converter={StaticResource PercentageConverter}, 
                                                            ConverterParameter=1.0693359375}"/>
                         </ItemsPanelTemplate>
@@ -117,77 +124,124 @@
                     </ItemsControl.ItemContainerStyle>
                     <ItemsControl.Resources>
                         <DataTemplate  DataType="{x:Type hexviewmodel:HexViewModel}">
-                            <Image  
+                            <Grid>
+                                <Image  
                                     Height="{Binding 
                                            Converter={StaticResource PercentageConverter}, 
                                            ElementName=canvas, 
                                            Path=ActualHeight, 
                                            ConverterParameter=0.25}" 
                                     >
-                                <Image.Style>
-                                    <Style TargetType="{x:Type Image}">
-                                        <Setter Property="Source" Value="{Binding Source={StaticResource SeaField}}" />
-                                        <Style.Triggers>
-                                            <DataTrigger Value="Goldenrod" Binding="{Binding Color}">
-                                                <Setter Property="Source" Value="{Binding Source={StaticResource CropField}}"/>
-                                            </DataTrigger>
-                                            <DataTrigger Value="SlateGray" Binding="{Binding Color}">
-                                                <Setter Property="Source" Value="{Binding Source={StaticResource OreField}}"/>
-                                            </DataTrigger>
-                                            <DataTrigger Value="ForestGreen" Binding="{Binding Color}">
-                                                <Setter Property="Source" Value="{Binding Source={StaticResource WoodField}}"/>
-                                            </DataTrigger>
-                                            <DataTrigger Value="Firebrick" Binding="{Binding Color}">
-                                                <Setter Property="Source" Value="{Binding Source={StaticResource BrickField}}"/>
-                                            </DataTrigger>
-                                            <DataTrigger Value="PaleGreen" Binding="{Binding Color}">
-                                                <Setter Property="Source" Value="{Binding Source={StaticResource WoolField}}"/>
-                                            </DataTrigger>
-                                            <DataTrigger Value="black" Binding="{Binding Color}">
-                                                <Setter Property="Source" Value="{Binding Source={StaticResource DesertField}}"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Image.Style>
-                            </Image>
+                                    <Image.Style>
+                                        <Style TargetType="{x:Type Image}">
+                                            <Setter Property="Source" Value="{Binding Source={StaticResource SeaField}}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Value="Goldenrod" Binding="{Binding Color}">
+                                                    <Setter Property="Source" Value="{Binding Source={StaticResource CropField}}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Value="SlateGray" Binding="{Binding Color}">
+                                                    <Setter Property="Source" Value="{Binding Source={StaticResource OreField}}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Value="ForestGreen" Binding="{Binding Color}">
+                                                    <Setter Property="Source" Value="{Binding Source={StaticResource WoodField}}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Value="Firebrick" Binding="{Binding Color}">
+                                                    <Setter Property="Source" Value="{Binding Source={StaticResource BrickField}}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Value="PaleGreen" Binding="{Binding Color}">
+                                                    <Setter Property="Source" Value="{Binding Source={StaticResource WoolField}}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Value="black" Binding="{Binding Color}">
+                                                    <Setter Property="Source" Value="{Binding Source={StaticResource DesertField}}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
+                                </Image>
+                                <Border CornerRadius="50"
+                                    Width="{Binding 
+                                            Converter={StaticResource PercentageConverter}, 
+                                            ElementName=canvas, 
+                                            Path=ActualHeight, 
+                                            ConverterParameter=0.05}" 
+                                    Height="{Binding 
+                                            Converter={StaticResource PercentageConverter}, 
+                                            ElementName=canvas, 
+                                            Path=ActualHeight, 
+                                            ConverterParameter=0.05}" 
+                                    Margin ="{Binding 
+                                            Converter={StaticResource MarginPercentageConverter}, 
+                                            ElementName=canvas,
+                                            Path=ActualHeight, 
+                                            ConverterParameter='0 0 0 0'}"
+                                    Background="Wheat"
+                                    BorderBrush="Red"
+                                    BorderThickness="1">
+                                    <Label FontSize="{Binding 
+                                            Converter={StaticResource PercentageConverter}, 
+                                            ElementName=canvas, 
+                                            Path=ActualHeight, 
+                                            ConverterParameter=0.035}"  
+                                           Padding="{Binding 
+                                            Converter={StaticResource MarginPercentageConverter}, 
+                                            ElementName=canvas,
+                                            Path=ActualHeight, 
+                                            ConverterParameter='0 0 0 0.0'}" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" Content="{Binding Number}" Foreground="Red">
+
+                                    </Label>
+                                </Border>
+                            </Grid>
                         </DataTemplate>
 
                         <DataTemplate  DataType="{x:Type hexviewmodel:PlaceRogueViewModel}">
-                            <Button Width="{Binding 
-                                           Converter={StaticResource PercentageConverter}, 
-                                           ElementName=canvas, 
-                                           Path=ActualWidth, 
-                                           ConverterParameter=0.06}" 
-                                    Height="{Binding 
+                            <Grid Height="{Binding 
                                            Converter={StaticResource PercentageConverter}, 
                                            ElementName=canvas, 
                                            Path=ActualHeight, 
-                                           ConverterParameter=0.06}" 
-                                    Margin ="{Binding 
+                                           ConverterParameter=0.25}" 
+                                    
+                                  Width="{Binding 
                                            Converter={StaticResource PercentageConverter}, 
                                            ElementName=canvas, 
                                            Path=ActualWidth, 
-                                           ConverterParameter=-0.03}" 
-                                    Background="Green" Command="{Binding MoveRogueCommand}" CommandParameter="{Binding}"></Button>
+                                           ConverterParameter=0.20}">
+                                <Button Height="{Binding 
+                                           Converter={StaticResource PercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualHeight, 
+                                           ConverterParameter=0.15}" 
+                                    
+                                         Width="{Binding 
+                                           Converter={StaticResource PercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualWidth, 
+                                           ConverterParameter=0.12}"
+                                         Command="{Binding MoveRogueCommand}" CommandParameter="{Binding}" Background="Transparent">
+                                    <Image Height="{Binding 
+                                           Converter={StaticResource PercentageConverter}, 
+                                           ElementName=canvas, 
+                                           Path=ActualHeight, 
+                                           ConverterParameter=0.25}"
+
+                                       Source="{Binding Source={StaticResource PlaceableRogue}}">
+
+                                    </Image>
+                                </Button>
+                            </Grid>
+
                         </DataTemplate>
 
                         <DataTemplate  DataType="{x:Type hexviewmodel:RogueViewModel}">
-                            <Button Width="{Binding 
-                                           Converter={StaticResource PercentageConverter}, 
-                                           ElementName=canvas, 
-                                           Path=ActualWidth, 
-                                           ConverterParameter=0.06}" 
+                            <Image 
                                     Height="{Binding 
                                            Converter={StaticResource PercentageConverter}, 
                                            ElementName=canvas, 
                                            Path=ActualHeight, 
-                                           ConverterParameter=0.06}" 
-                                    Margin ="{Binding 
-                                           Converter={StaticResource PercentageConverter}, 
-                                           ElementName=canvas, 
-                                           Path=ActualWidth, 
-                                           ConverterParameter=-0.03}" 
-                                    Background="White"></Button>
+                                           ConverterParameter=0.25}"
+
+                                   Source="{Binding Source={StaticResource PlacedRogue}}">
+
+                            </Image>
                         </DataTemplate>
 
                         <DataTemplate  DataType="{x:Type vertexviewmodel:VertexViewModel}">
@@ -385,7 +439,7 @@
                                 </Button.RenderTransform>
                             </Button>
                         </DataTemplate>
-                        
+
                     </ItemsControl.Resources>
                 </ItemsControl>
             </Grid>
@@ -405,22 +459,22 @@
             </Grid>
         </Grid>
 
-        
+
 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width ="100"/>
-                <ColumnDefinition Width="0.2*"/>
+                <!--<ColumnDefinition Width="0.2*"/>-->
                 <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="0.2*"/>
+                <!--<ColumnDefinition Width="0.2*"/>-->
                 <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="0.2*"/>
+                <!--<ColumnDefinition Width="0.2*"/>-->
                 <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="0.2*"/>
+                <!--<ColumnDefinition Width="0.2*"/>-->
                 <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="0.2*"/>
+                <!--<ColumnDefinition Width="0.2*"/>-->
                 <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="0.2*"/>
+                <!--<ColumnDefinition Width="0.2*"/>-->
                 <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -430,7 +484,7 @@
             </Grid.RowDefinitions>
 
             <!--Desert = -1, Crop, Ore, Wood, Brick, Wool-->
-            <Grid Grid.Column="2"  Grid.Row="2" >
+            <Grid Grid.Column="1"  Grid.Row="2" >
                 <Grid.Background>
                     <ImageBrush ImageSource="{Binding Source={StaticResource CropField}}" Stretch="UniformToFill"/>
                 </Grid.Background>
@@ -458,7 +512,7 @@
                     <Label Padding="0 0 0 1" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" Content="{Binding PlayerCrop}" Foreground="Red"/>
                 </Border>
             </Grid>
-            <Grid Grid.Column="4"  Grid.Row="2" >
+            <Grid Grid.Column="2"  Grid.Row="2" >
                 <Grid.Background>
                     <ImageBrush ImageSource="{Binding Source={StaticResource OreField}}" Stretch="UniformToFill"/>
                 </Grid.Background>
@@ -486,7 +540,7 @@
                     <Label Padding="0 0 0 1" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" Content="{Binding PlayerOre}" Foreground="Red"/>
                 </Border>
             </Grid>
-            <Grid Grid.Column="6"  Grid.Row="2" >
+            <Grid Grid.Column="3"  Grid.Row="2" >
                 <Grid.Background>
                     <ImageBrush ImageSource="{Binding Source={StaticResource WoodField}}" Stretch="UniformToFill"/>
                 </Grid.Background>
@@ -514,7 +568,7 @@
                     <Label Padding="0 0 0 1" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" Content="{Binding PlayerWood}" Foreground="Red"/>
                 </Border>
             </Grid>
-            <Grid Grid.Column="8"  Grid.Row="2" >
+            <Grid Grid.Column="4"  Grid.Row="2" >
                 <Grid.Background>
                     <ImageBrush ImageSource="{Binding Source={StaticResource BrickField}}" Stretch="UniformToFill"/>
                 </Grid.Background>
@@ -542,7 +596,7 @@
                     <Label Padding="0 0 0 1" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" Content="{Binding PlayerBrick}" Foreground="Red"/>
                 </Border>
             </Grid>
-            <Grid Grid.Column="10"  Grid.Row="2"  >
+            <Grid Grid.Column="5"  Grid.Row="2"  >
                 <Grid.Background>
                     <ImageBrush ImageSource="{Binding Source={StaticResource WoolField}}" Stretch="UniformToFill"/>
                 </Grid.Background>
@@ -570,15 +624,15 @@
                     <Label Padding="0 0 0 1" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" Content="{Binding PlayerWool}" Foreground="Red"/>
                 </Border>
 
-                
-            </Grid>
-            
 
-            <Button Grid.Column="2"  Grid.Row="1" Content="Csere" Command="{Binding ExchangeWithBankCommand}" CommandParameter="Crop"  Background="Goldenrod"/>
-            <Button Grid.Column="4" Grid.Row="1" Content="Csere"  Command="{Binding ExchangeWithBankCommand}" CommandParameter="Ore" Background="SlateGray"/>
-            <Button Grid.Column="6"  Grid.Row="1" Content="Csere" Command="{Binding ExchangeWithBankCommand}" CommandParameter="Wood" Background="ForestGreen"/>
-            <Button Grid.Column="8"  Grid.Row="1" Content="Csere" Command="{Binding ExchangeWithBankCommand}" CommandParameter="Brick" Background="Firebrick"/>
-            <Button Grid.Column="10"  Grid.Row="1" Content="Csere" Command="{Binding ExchangeWithBankCommand}" CommandParameter="Wool"  Background="PaleGreen"/>
+            </Grid>
+
+
+            <Button Grid.Column="1"  Grid.Row="1" Content="Csere" Command="{Binding ExchangeWithBankCommand}" CommandParameter="Crop"  Background="Goldenrod"/>
+            <Button Grid.Column="2" Grid.Row="1" Content="Csere"  Command="{Binding ExchangeWithBankCommand}" CommandParameter="Ore" Background="SlateGray"/>
+            <Button Grid.Column="3"  Grid.Row="1" Content="Csere" Command="{Binding ExchangeWithBankCommand}" CommandParameter="Wood" Background="ForestGreen"/>
+            <Button Grid.Column="4"  Grid.Row="1" Content="Csere" Command="{Binding ExchangeWithBankCommand}" CommandParameter="Brick" Background="Firebrick"/>
+            <Button Grid.Column="5"  Grid.Row="1" Content="Csere" Command="{Binding ExchangeWithBankCommand}" CommandParameter="Wool"  Background="PaleGreen"/>
 
             <Button Grid.Column="12" Grid.Row="1" Grid.RowSpan="2" Content="Kör Vége" Command="{Binding EndTurnCommand}"/>
         </Grid>
