@@ -72,7 +72,6 @@ namespace Catan.Model.Test
                 this.mockPlayerTwo.Object,
                 this.mockPlayerThree.Object);
         }
-        #region
         [TestMethod]
         public void EndTurn_ValidStateCall_EndTurnInvoked()
         {
@@ -111,8 +110,8 @@ namespace Catan.Model.Test
             var catanContext = this.CreateCatanContext();
             var rogueMovingState = new Mock<ICatanGameState>();
             int row = 0;
-            int col = 0; 
-            rogueMovingState.As<IRogueMovable>().Setup(m => m.MoveRogue(catanContext,row,col)).Verifiable();
+            int col = 0;
+            rogueMovingState.As<IRogueMovable>().Setup(m => m.MoveRogue(catanContext, row, col)).Verifiable();
             catanContext.SetContext(rogueMovingState.Object);
 
             // Act
@@ -134,7 +133,7 @@ namespace Catan.Model.Test
 
             ResourceEnum from = default(global::Catan.Model.Enums.ResourceEnum);
             ResourceEnum to = default(global::Catan.Model.Enums.ResourceEnum);
-            mainState.As<IMainState>().Setup(m => m.ExchangeWithBank(catanContext,from,to)).Verifiable();
+            mainState.As<IMainState>().Setup(m => m.ExchangeWithBank(catanContext, from, to)).Verifiable();
             catanContext.SetContext(mainState.Object);
             // Act
             catanContext.ExchangeWithBank(
@@ -184,7 +183,7 @@ namespace Catan.Model.Test
             var roadBuildingState = new Mock<ICatanGameState>();
             int row = 0;
             int col = 0;
-            roadBuildingState.As<IRoadBuildable>().Setup(m => m.BuildRoad(catanContext,row,col)).Verifiable();
+            roadBuildingState.As<IRoadBuildable>().Setup(m => m.BuildRoad(catanContext, row, col)).Verifiable();
             catanContext.SetContext(roadBuildingState.Object);
 
             // Act
@@ -221,7 +220,7 @@ namespace Catan.Model.Test
             catanContext.SetContext(settlementBuildingState.Object);
 
             // Act
-            catanContext.BuildSettleMent(row,col);
+            catanContext.BuildSettleMent(row, col);
 
             // Assert
             settlementBuildingState.As<ISettlementBuildable>().Verify(m => m.BuildSettleMent(catanContext, row, col), Times.Once);
@@ -252,9 +251,9 @@ namespace Catan.Model.Test
             int col = 0;
             settlementUpgradingState.As<ISettlementUpgradeable>().Setup(m => m.UpgradeSettleMentToTown(catanContext, row, col)).Verifiable();
             catanContext.SetContext(settlementUpgradingState.Object);
-            
+
             // Act
-            catanContext.UpgradeSettleMentToTown(row,col);
+            catanContext.UpgradeSettleMentToTown(row, col);
 
             // Assert
             settlementUpgradingState.As<ISettlementUpgradeable>().Verify(m => m.UpgradeSettleMentToTown(catanContext, row, col), Times.Once);
