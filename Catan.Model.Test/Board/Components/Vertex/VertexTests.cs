@@ -2,7 +2,6 @@
 using Catan.Model.Board.Components.Vertex;
 using Catan.Model.Enums;
 using Catan.Model.GameStates;
-using Catan.Model.GameStates.ConcreteStates;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -15,48 +14,42 @@ namespace Catan.Model.Test.Board.Components.Vertex
         private MockRepository mockRepository;
         private Mock<ICatanGameState> mockState;
 
-
         [TestInitialize]
         public void TestInitialize()
         {
             this.mockRepository = new MockRepository(MockBehavior.Strict);
             mockState = this.mockRepository.Create<ICatanGameState>();
-
         }
 
-        private Model.Board.Components.Vertex.Vertex CreateVertex()
+        private Model.Board.Components.Vertex.Vertex CreateVertex(ICommunity c = null)
         {
             return new Model.Board.Components.Vertex.Vertex(
                 0,
-                0);
+                0,
+                c);
         }
 
         [TestMethod]
-        public void AddPotentialBuilder_StateUnderTest_ExpectedBehavior()
+        [DataRow(PlayerEnum.Player1, PlayerEnum.Player2)]
+        public void AddPotentialBuilder_StateUnderTest_ExpectedBehavior(PlayerEnum potentialPlayer, PlayerEnum invalidPlayer)
         {
             // Arrange
-            ICatanGameState s = this.mockState.Object;
-            PlayerEnum player = default(global::Catan.Model.Enums.PlayerEnum);
-            PlayerEnum invalidPlayer = default(global::Catan.Model.Enums.PlayerEnum) + 1;
-
+            ICatanGameState state = this.mockState.Object;
+           
             IVertex vertex = this.CreateVertex();
-            IVertex vertexSettlement = this.CreateVertex();
-
-            vertexSettlement.AddPotentialBuilder(
-                player);
-            vertexSettlement.BuildSettlement(s,player);
+            IVertex vertexSettlement = this.CreateVertex(new Settlement(potentialPlayer));
 
             // Act
             vertex.AddPotentialBuilder(
-                player);
+                potentialPlayer);
             vertexSettlement.AddPotentialBuilder(
-                player);
+                potentialPlayer);
 
             // Assert
-            Assert.IsTrue(vertex.IsBuildableByPlayer(s, player));
-            Assert.IsFalse(vertex.IsBuildableByPlayer(s, invalidPlayer));
-            Assert.IsFalse(vertexSettlement.IsBuildableByPlayer(s, player));
-            Assert.IsFalse(vertexSettlement.IsBuildableByPlayer(s, invalidPlayer));
+            Assert.IsTrue(vertex.IsBuildableByPlayer(state, potentialPlayer));
+            Assert.IsFalse(vertex.IsBuildableByPlayer(state, invalidPlayer));
+            Assert.IsFalse(vertexSettlement.IsBuildableByPlayer(state, potentialPlayer));
+            Assert.IsFalse(vertexSettlement.IsBuildableByPlayer(state, invalidPlayer));
             this.mockRepository.VerifyAll();
         }
 
@@ -66,8 +59,8 @@ namespace Catan.Model.Test.Board.Components.Vertex
         {
             // Arrange
             ICatanGameState state = this.mockState.Object;
-            PlayerEnum player = default(global::Catan.Model.Enums.PlayerEnum);
-            PlayerEnum invalidPlayer = default(global::Catan.Model.Enums.PlayerEnum) + 1;
+            PlayerEnum player = default(PlayerEnum);
+            PlayerEnum invalidPlayer = default(PlayerEnum) + 1;
 
             var vertex = this.CreateVertex();
             var vertexSettlement = this.CreateVertex();
@@ -103,8 +96,8 @@ namespace Catan.Model.Test.Board.Components.Vertex
         {
             // Arrange
             ICatanGameState state = this.mockState.Object;
-            PlayerEnum player = default(global::Catan.Model.Enums.PlayerEnum);
-            PlayerEnum invalidPlayer = default(global::Catan.Model.Enums.PlayerEnum) + 1;
+            PlayerEnum player = default(PlayerEnum);
+            PlayerEnum invalidPlayer = default(PlayerEnum) + 1;
 
             var vertex = this.CreateVertex();
             vertex.AddPotentialBuilder(
@@ -126,7 +119,7 @@ namespace Catan.Model.Test.Board.Components.Vertex
         {
             // Arrange
             ICatanGameState state = this.mockState.Object;
-            PlayerEnum player = default(global::Catan.Model.Enums.PlayerEnum);
+            PlayerEnum player = default(PlayerEnum);
 
             var vertex = this.CreateVertex();
             vertex.AddPotentialBuilder(
@@ -146,9 +139,7 @@ namespace Catan.Model.Test.Board.Components.Vertex
         public void SetNotBuildableCommunity_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            ICatanGameState state = this.mockState.Object;
-
-            var vertex = this.CreateVertex();
+            IVertex vertex = this.CreateVertex();
 
             // Act
             vertex.SetNotBuildableCommunity();
