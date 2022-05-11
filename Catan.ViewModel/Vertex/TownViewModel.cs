@@ -27,7 +27,12 @@ namespace Catan.ViewModel.Vertex
         public int Row { get => _row; set { _row = value; OnPropertyChanged(); OnPropertyChanged(nameof(Top)); } }
 
         public string Left { get => (Column * 30 / 300.0).ToString(); }
-        public string Top { get => (Row * 60 / 300.0).ToString(); }
+
+        public double Offset { get => (Column + Row) % 2 == 0 ? 1.0 : 0.0; }
+        public double Top
+        {
+            get => Row * 0.1875 + Offset * 0.0625;
+        }
 
         public CommunityEnum Community { get => _community; set { _community = value; OnPropertyChanged(); } }
         public PlayerEnum Owner { get => _owner; set { _owner = value; OnPropertyChanged(); } }

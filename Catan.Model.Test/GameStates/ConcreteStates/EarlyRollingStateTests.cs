@@ -45,6 +45,7 @@ namespace Catan.Model.Test.GameStates.ConcreteStates
             this.mockContext.Setup(m => m.CurrentPlayer.ID).Returns(PlayerEnum.Player1);
             this.mockContext.Setup(m => m.RolledSum).Returns(12);
 
+            this.mockContext.SetupProperty(m => m.CurrentPlayer.FirstRoll);
             this.mockContext.Setup(m => m.NextPlayer()).Verifiable();
             
             this.mockContext.Setup(m => m.Events.OnPlayerUpdated(context)).Verifiable();
@@ -87,8 +88,13 @@ namespace Catan.Model.Test.GameStates.ConcreteStates
 
             this.mockContext.SetupSequence(m => m.RolledSum)
                 .Returns(rollP1)
+                .Returns(rollP1)
                 .Returns(rollP2)
+                .Returns(rollP2)
+                .Returns(rollP3)
                 .Returns(rollP3);
+
+            this.mockContext.SetupProperty(m => m.CurrentPlayer.FirstRoll);
 
             this.mockContext.Setup(m => m.NextPlayer()).Verifiable();
 

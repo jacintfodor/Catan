@@ -1,4 +1,4 @@
-﻿using Catan.Model.Enums;
+using Catan.Model.Enums;
 
 namespace Catan.Model.Context
 {
@@ -50,6 +50,13 @@ namespace Catan.Model.Context
         /// The Score of this player
         /// </summary>
         public int Score { get; }
+
+        public int FirstRoll { get; set; }
+
+        public bool HasLargestArmy { get; }
+
+        public bool HasLongestRoad { get; }
+
         /// <summary>
         /// If the player can affor returns true
         /// </summary>

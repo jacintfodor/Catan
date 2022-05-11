@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Catan.View_Rework
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for PlayerControl.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class PlayerControl : UserControl
     {
-        public MainWindow()
+        public PlayerControl()
         {
             InitializeComponent();
         }

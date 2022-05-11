@@ -20,14 +20,14 @@
 
         public double Top
         {
-            get => (Row * 60 + 30)/300.0;
+            get => (Row * 0.1875);
         }
 
         private int Offset { get => Row % 2 == 0 ? 0 : 30; }
 
         public double Left
         {
-            get => (Offset + Column * 60 + 30)/300.0;
+            get => ((Offset + Column * 60) / 300.0);
         }
 
         public DelegateCommand MoveRogueCommand { get; set; }

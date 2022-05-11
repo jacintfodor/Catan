@@ -1,4 +1,5 @@
-﻿using Catan.Model.Enums;
+﻿using Catan.Model.Context.Titles;
+using Catan.Model.Enums;
 
 namespace Catan.Model.Context.Players
 {
@@ -32,6 +33,12 @@ namespace Catan.Model.Context.Players
             throw new NotImplementedException(); }
 
         public int Score => -1;
+
+        public int FirstRoll { get => -1; set  { } }
+
+        public bool HasLargestArmy => LargestArmyTitle.Instance.Owner == this;
+
+        public bool HasLongestRoad => LongestRoadTitle.Instance.Owner == this;
 
         public void AddResource(Goods resourcesToRemove)
         {

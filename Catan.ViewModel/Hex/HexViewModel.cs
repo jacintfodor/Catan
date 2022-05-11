@@ -25,7 +25,7 @@ namespace Catan.ViewModel.Hex
 
         public double Top
         {
-            get => (Row * 60 /300.0);
+            get => (Row * 0.1875);
         }
 
         private int Offset { get => Row % 2 == 0 ? 0 : 30; }

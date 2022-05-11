@@ -18,6 +18,8 @@ namespace Catan.Model.Context.Players
         private int _knightCardCount = 0;
         private int _longestRoad = 0;
         
+        private int _firstRoll;
+        
         #endregion
 
         #region Properties
@@ -29,6 +31,11 @@ namespace Catan.Model.Context.Players
         public int KnightCardCount { get { return _knightCardCount; } }
         public Goods AvailableResources { get { return _resources; } set { _resources = value; } }
         public PlayerEnum ID { get { return _id; } set { _id = value; } }
+        public int FirstRoll { get { return _firstRoll; } set { _firstRoll = value; } }
+
+        public bool HasLargestArmy => LargestArmyTitle.Instance.Owner == this;
+
+        public bool HasLongestRoad => LongestRoadTitle.Instance.Owner == this;
 
         #endregion
 
