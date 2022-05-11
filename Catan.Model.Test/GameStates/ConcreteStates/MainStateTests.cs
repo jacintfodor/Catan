@@ -1,4 +1,7 @@
-﻿using Catan.Model.Context;
+﻿using Catan.Model.Board.Components;
+using Catan.Model.Board.Components.Edge;
+using Catan.Model.Board.Components.Vertex;
+using Catan.Model.Context;
 using Catan.Model.Context.Players;
 using Catan.Model.DTOs;
 using Catan.Model.Enums;
@@ -7,7 +10,6 @@ using Catan.Model.GameStates.ConcreteStates;
 using Catan.Model.GameStates.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,7 +20,7 @@ namespace Catan.Model.Test.GameStates.ConcreteStates
     {
         private MockRepository mockRepository;
         private Mock<ICatanContext> mockContext;
-        private Mock<ICatanGameState> mockState;
+        private Mock<IPlayer> mockPlayer;
 
 
 
@@ -27,7 +29,7 @@ namespace Catan.Model.Test.GameStates.ConcreteStates
         {
             this.mockRepository = new MockRepository(MockBehavior.Loose);
             this.mockContext = mockRepository.Create<ICatanContext>();
-            this.mockState = mockRepository.Create<ICatanGameState>();
+            this.mockPlayer = mockRepository.Create<IPlayer>();
 
         }
 
@@ -40,16 +42,17 @@ namespace Catan.Model.Test.GameStates.ConcreteStates
         public void EndTurn_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            IMainState mainState = this.CreateMainState();
+            ICatanGameState mainState = this.CreateMainState();
             ICatanContext context = this.mockContext.Object;
 
-            this.mockContext.Setup(m => m.Winner).Returns(NotPlayer.Instance);
+            this.mockContext.Setup(m => m.Winner).Returns(NotPlayer.Instance).Verifiable();
             this.mockContext.Setup(m => m.NextPlayer()).Verifiable();
             this.mockContext.Setup(m => m.Events.OnPlayerUpdated(context)).Verifiable();
-            
-        
+            this.mockContext.Setup(m => m.SetContext(It.IsAny<RollingState>())).Verifiable();
+
+
             // Act
-            mainState.EndTurn(
+            (mainState as IMainState)?.EndTurn(
                 context);
 
             // Assert
@@ -57,28 +60,50 @@ namespace Catan.Model.Test.GameStates.ConcreteStates
         }
 
         [TestMethod]
-        public void ExchangeWithBank_StateUnderTest_ExpectedBehavior()
+        public void EndTurn_GameWon_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            IMainState mainState = this.CreateMainState();
-            ICatanContext context = new CatanContext(this.mockState.Object);
-            ResourceEnum from = default(ResourceEnum);
-            ResourceEnum to = default(ResourceEnum) + 1;
+            ICatanGameState mainState = this.CreateMainState();
+            ICatanContext context = this.mockContext.Object;
+            IPlayer player = this.mockPlayer.Object;
 
-
-
-            //this.mockContext.Setup(m => m.CurrentPlayer.ReduceResources(new Goods(from) * 3)).Verifiable();
-            //this.mockContext.Setup(m => m.CurrentPlayer.AddResource(new Goods(to))).Verifiable();
-            //this.mockContext.Setup(m => m.Events.OnPlayerUpdated(context)).Verifiable();
+            this.mockContext.Setup(m => m.Winner).Returns(player).Verifiable();
+            this.mockContext.Setup(m => m.CurrentPlayer).Returns(player).Verifiable();
+            this.mockContext.Setup(m => m.Events.OnGameWon(context)).Verifiable();
+            this.mockContext.Setup(m => m.SetContext(It.IsAny<GameWonState>())).Verifiable();
 
 
             // Act
-            mainState.ExchangeWithBank(
+            (mainState as IMainState)?.EndTurn(
+                context);
+
+            // Assert
+            this.mockRepository.VerifyAll();
+        }
+
+        [TestMethod]
+        [DataRow(ResourceEnum.Ore, ResourceEnum.Brick)]
+        [DataRow(ResourceEnum.Wood, ResourceEnum.Brick)]
+        [DataRow(ResourceEnum.Crop, ResourceEnum.Wool)]
+        public void ExchangeWithBank_StateUnderTest_ExpectedBehavior(ResourceEnum from, ResourceEnum to)
+        {
+            // Arrange
+            ICatanGameState mainState = this.CreateMainState();
+            ICatanContext context = this.mockContext.Object;
+
+
+            this.mockContext.Setup(m => m.CurrentPlayer.ReduceResources(It.IsAny<Goods>())).Verifiable();
+            this.mockContext.Setup(m => m.CurrentPlayer.AddResource(It.IsAny<Goods>())).Verifiable();
+            this.mockContext.Setup(m => m.Events.OnPlayerUpdated(context)).Verifiable();
+            // Act
+            var o = mainState as IMainState;
+            o?.ExchangeWithBank(
                 context,
                 from,
                 to);
 
             // Assert
+            this.mockContext.Verify();
             this.mockRepository.VerifyAll();
         }
 
@@ -86,7 +111,7 @@ namespace Catan.Model.Test.GameStates.ConcreteStates
         public void PurchaseBonusCard_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            IMainState mainState = this.CreateMainState();
+            ICatanGameState mainState = this.CreateMainState();
             ICatanContext context = this.mockContext.Object;
 
             this.mockContext.Setup(m => m.CurrentPlayer.PurchaseBonusCard(Constants.BonusCardCost)).Verifiable();
@@ -95,7 +120,7 @@ namespace Catan.Model.Test.GameStates.ConcreteStates
             this.mockContext.Setup(m => m.Events.OnPlayerUpdated(context)).Verifiable();
 
             // Act
-            mainState.PurchaseBonusCard(
+            (mainState as IMainState).PurchaseBonusCard(
                 context);
 
             // Assert
@@ -103,55 +128,85 @@ namespace Catan.Model.Test.GameStates.ConcreteStates
         }
 
         [TestMethod]
-        public void StartRoadBuilding_StateUnderTest_ExpectedBehavior()
+        [DataRow(PlayerEnum.Player1)]
+        public void StartRoadBuilding_StateUnderTest_ExpectedBehavior(PlayerEnum player)
         {
             // Arrange
-            var mainState = this.CreateMainState();
+            ICatanGameState mainState = this.CreateMainState();
             ICatanContext context = this.mockContext.Object;
 
-            /*this.mockContext.Setup(m => m.init());
-            this.mockContext.Setup(m => m.Events.OnRoadBuildingStarted(new List<EdgeDTO>()));
-            this.mockContext.Setup(m => m.SetContext(new RoadBuildingState()));*/
+            this.mockContext.Setup(m => m.CurrentPlayer.ID).Returns(player);
+            var list = new List<IEdge>() { new Edge(1, 2) };
+            list[0].AddPotentialBuilder(player);
+            this.mockContext.Setup(m =>
+                m.Board.GetBuildableRoadsByPlayer(player))
+                .Returns(list);
+            var listDTO = list.Select(x => Mapping.Mapper.Map<EdgeDTO>(x)).ToList();
+
+            this.mockContext.Setup(m => m.Events.OnRoadBuildingStarted(listDTO)).Verifiable();
+            this.mockContext.Setup(m => m.SetContext(It.IsAny<RoadBuildingState>())).Verifiable();
+
 
             // Act
-            var o = new CatanContext(mainState);
-            o?.init();
-            mainState.StartRoadBuilding(
-                o);
+            var o = mainState as IMainState;
+            o?.StartRoadBuilding(
+                context);
 
             // Assert
             this.mockRepository.VerifyAll();
         }
 
         [TestMethod]
-        public void StartSettlementBuilding_StateUnderTest_ExpectedBehavior()
+        [DataRow(PlayerEnum.Player1)]
+        public void StartSettlementBuilding_StateUnderTest_ExpectedBehavior(PlayerEnum player)
         {
             // Arrange
-            var mainState = this.CreateMainState();
+            ICatanGameState mainState = this.CreateMainState();
             ICatanContext context = this.mockContext.Object;
 
+            this.mockContext.Setup(m => m.CurrentPlayer.ID).Returns(player);
+            this.mockContext.Setup(m => m.State).Returns(mainState);
+            var list = new List<IVertex>() { new Vertex(1, 2) };
+            list[0].AddPotentialBuilder(player);
+            this.mockContext.Setup(m =>
+                m.Board.GetBuildableSettlementsByPlayer(mainState, player))
+                .Returns(list);
+            var listDTO = list.Select(x => Mapping.Mapper.Map<VertexDTO>(x)).ToList();
+
+            this.mockContext.Setup(m => m.Events.OnSettlementBuildingStarted(listDTO)).Verifiable();
+            this.mockContext.Setup(m => m.SetContext(It.IsAny<SettlementBuildingState>())).Verifiable();
+
             // Act
-            var o = new CatanContext(mainState);
-            o?.init();
-            mainState.StartSettlementBuilding(
-                o);
+            var o = mainState as IMainState;
+            o.StartSettlementBuilding(
+                context);
 
             // Assert
             this.mockRepository.VerifyAll();
         }
 
         [TestMethod]
-        public void StartSettlementUpgrading_StateUnderTest_ExpectedBehavior()
+        [DataRow(PlayerEnum.Player1)]
+        public void StartSettlementUpgrading_StateUnderTest_ExpectedBehavior(PlayerEnum player)
         {
             // Arrange
-            var mainState = this.CreateMainState();
+            ICatanGameState mainState = this.CreateMainState();
             ICatanContext context = this.mockContext.Object;
 
+            this.mockContext.Setup(m => m.CurrentPlayer.ID).Returns(player);
+            var list = new List<IVertex>() { new Vertex(1, 2, new Settlement(player)) };
+            this.mockContext.Setup(m =>
+                m.Board.GetUpgradeableSettlementsByPlayer(player))
+                .Returns(list);
+            var listDTO = list.Select(x => Mapping.Mapper.Map<VertexDTO>(x)).ToList();
+
+            this.mockContext.Setup(m => m.Events.OnSettlementUpgradingStarted(listDTO)).Verifiable();
+            this.mockContext.Setup(m => m.SetContext(It.IsAny<SettlementUpgradingState>())).Verifiable();
+
             // Act
-            var o = new CatanContext(mainState);
-            o?.init();
-            mainState.StartSettlementUpgrading(
-                o);
+            var o = mainState as IMainState;
+            o?.StartSettlementUpgrading(
+                context);
 
             // Assert
             this.mockRepository.VerifyAll();
