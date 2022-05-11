@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Catan.View_Rework"
         mc:Ignorable="d"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         Title="MainWindow" Height="450" Width="800" 
         xmlns:viewmodel="clr-namespace:Catan.ViewModel;assembly=Catan.ViewModel"
         xmlns:hexviewmodel="clr-namespace:Catan.ViewModel.Hex;assembly=Catan.ViewModel"
@@ -45,33 +46,31 @@
         </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
-            <RowDefinition Height="100" />
+            <RowDefinition Height="150" />
         </Grid.RowDefinitions>
 
 
         <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="100"/>
+            <Grid.ColumnDefinitions >
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="200"/>
             </Grid.ColumnDefinitions>
 
-            <StackPanel VerticalAlignment="Bottom" Grid.Column="0" Margin="10">
-                <Label FontWeight="Bold">Bankkal Csere</Label>
-                <RadioButton IsChecked="{Binding RadioCrop, Mode=TwoWay}">Gabona</RadioButton>
-                <RadioButton IsChecked="{Binding RadioOre, Mode=TwoWay}">Érc</RadioButton>
-                <RadioButton IsChecked="{Binding RadioWood, Mode=TwoWay}">Fa</RadioButton>
-                <RadioButton IsChecked="{Binding RadioBrick, Mode=TwoWay}">Tégla</RadioButton>
-                <RadioButton IsChecked="{Binding RadioWool, Mode=TwoWay}">Gyapjú</RadioButton>
-            </StackPanel>
+            <Grid Grid.Column="0" Background="Wheat">
+                <StackPanel VerticalAlignment="Bottom" Margin="0" >
+                    <Label FontWeight="Bold">Bankkal Csere</Label>
+                    <RadioButton IsChecked="{Binding RadioCrop, Mode=TwoWay}">Gabona</RadioButton>
+                    <RadioButton IsChecked="{Binding RadioOre, Mode=TwoWay}">Érc</RadioButton>
+                    <RadioButton IsChecked="{Binding RadioWood, Mode=TwoWay}">Fa</RadioButton>
+                    <RadioButton IsChecked="{Binding RadioBrick, Mode=TwoWay}">Tégla</RadioButton>
+                    <RadioButton IsChecked="{Binding RadioWool, Mode=TwoWay}">Gyapjú</RadioButton>
+                </StackPanel>
+            </Grid>
+            
 
-            <Grid Grid.Column="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="149*"/>
-                    <ColumnDefinition Width="47*"/>
-                    <ColumnDefinition Width="4*"/>
-                </Grid.ColumnDefinitions>
-                <ItemsControl Grid.ColumnSpan="3">
+            <Grid Grid.Column="1" HorizontalAlignment="Center">
+                <ItemsControl>
                     <ItemsControl.ItemsSource>
                         <CompositeCollection>
                             <CollectionContainer Collection="{Binding Source={StaticResource HexCollection}}"/>
@@ -425,17 +424,24 @@
             </Grid>
 
             <Grid Grid.Column="2">
-                <ListBox Width="100" HorizontalAlignment="Right" Background="Beige">
-                    <TextBox Text="{Binding SumOfDices, Mode=OneWay}" />
-                    <Button Content="Dob" Command="{Binding ThrowDicesCommand}"/>
-                    <Button Content="Város" Command="{Binding UpgradeSettlementCommand}"/>
-                    <Button Content="Település" Command="{Binding BuildSettlementCommand}"/>
-                    <Button Content="Út" Command="{Binding BuildRoadCommand}"/>
-                    <Button Content="Bonus kartya" Command="{Binding PurchaseBonusCardCommand}"/>
-                    <Button Content="Csere"/>
-                    <Image Source="{StaticResource SeaField}"></Image>
-                    <Button Content="Megse" Command="{Binding CancelCommand}"/>
-                </ListBox>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+
+                <TextBox Grid.Row="0" Text="{Binding SumOfDices, Mode=OneWay}" />
+                <Button Grid.Row="1" Content="Dob" Command="{Binding ThrowDicesCommand}"/>
+                <Button Grid.Row="2" Content="Város" Command="{Binding UpgradeSettlementCommand}"/>
+                <Button Grid.Row="3" Content="Település" Command="{Binding BuildSettlementCommand}"/>
+                <Button Grid.Row="4" Content="Út" Command="{Binding BuildRoadCommand}"/>
+                <Button Grid.Row="5" Content="Bonus kartya" Command="{Binding PurchaseBonusCardCommand}"/>
+                <Button Grid.Row="6" Content="Megse" Command="{Binding CancelCommand}"/>
             </Grid>
         </Grid>
 
@@ -443,7 +449,7 @@
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width ="100"/>
+                <ColumnDefinition Width ="2*"/>
                 <!--<ColumnDefinition Width="0.2*"/>-->
                 <ColumnDefinition Width="1*"/>
                 <!--<ColumnDefinition Width="0.2*"/>-->
@@ -455,7 +461,7 @@
                 <!--<ColumnDefinition Width="0.2*"/>-->
                 <ColumnDefinition Width="1*"/>
                 <!--<ColumnDefinition Width="0.2*"/>-->
-                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="200"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height = "1*"/>
@@ -608,13 +614,15 @@
             </Grid>
 
 
+            <local:PlayerControl Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" DataContext="{Binding CurrentPlayer}" />
+
             <Button Grid.Column="1"  Grid.Row="1" Content="Csere" Command="{Binding ExchangeWithBankCommand}" CommandParameter="Crop"  Background="Goldenrod"/>
             <Button Grid.Column="2" Grid.Row="1" Content="Csere"  Command="{Binding ExchangeWithBankCommand}" CommandParameter="Ore" Background="SlateGray"/>
             <Button Grid.Column="3"  Grid.Row="1" Content="Csere" Command="{Binding ExchangeWithBankCommand}" CommandParameter="Wood" Background="ForestGreen"/>
             <Button Grid.Column="4"  Grid.Row="1" Content="Csere" Command="{Binding ExchangeWithBankCommand}" CommandParameter="Brick" Background="Firebrick"/>
             <Button Grid.Column="5"  Grid.Row="1" Content="Csere" Command="{Binding ExchangeWithBankCommand}" CommandParameter="Wool"  Background="PaleGreen"/>
 
-            <Button Grid.Column="12" Grid.Row="1" Grid.RowSpan="2" Content="Kör Vége" Command="{Binding EndTurnCommand}"/>
+            <Button Grid.Column="6" Grid.Row="1" Grid.RowSpan="2" Content="Kör Vége" Command="{Binding EndTurnCommand}"/>
         </Grid>
 
     </Grid>
