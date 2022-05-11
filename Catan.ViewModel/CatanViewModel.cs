@@ -36,15 +36,20 @@ namespace Catan.ViewModel
         public int SumOfDices { get => FirstDiceFace + SecondDiceFace; }
 
         private PlayerViewModel _currentPlayer;
-        public int PlayerCrop { get => _currentPlayer.Crop; set { _currentPlayer.Crop = value; OnPropertyChanged(); } }
-        public int PlayerOre { get => _currentPlayer.Ore; set { _currentPlayer.Ore = value; OnPropertyChanged(); } }
-        public int PlayerWood { get => _currentPlayer.Wood; set { _currentPlayer.Wood = value; OnPropertyChanged(); } }
-        public int PlayerBrick { get => _currentPlayer.Brick; set { _currentPlayer.Brick = value; OnPropertyChanged(); } }
-        public int PlayerWool { get => _currentPlayer.Wool; set { _currentPlayer.Wool = value; OnPropertyChanged(); } }
-        public int PlayerLongestRoad { get => _currentPlayer.LongestRoad; set { _currentPlayer.LongestRoad = value; OnPropertyChanged(); } }
-        public int PlayerKnightCardCount { get => _currentPlayer.KnightCardCount; set { _currentPlayer.KnightCardCount = value; OnPropertyChanged(); } }
-        public int PlayerScore { get => _currentPlayer.Score; set { _currentPlayer.Score = value; OnPropertyChanged(); } }
-        public string CurrentPlayerColor { get => _currentPlayer.Color; set { _currentPlayer.Color = value; OnPropertyChanged(); } }
+        private PlayerViewModel _nextPlayer;
+        private PlayerViewModel _nextNextPlayer;
+        public PlayerViewModel CurrentPlayer { get => _currentPlayer; }
+        public PlayerViewModel NextPlayer { get => _nextPlayer; }
+        public PlayerViewModel NextNextPlayer { get => _nextNextPlayer; }
+
+        public int PlayerCrop { get => _currentPlayer.Crop; }
+        public int PlayerOre { get => _currentPlayer.Ore; }
+        public int PlayerWood { get => _currentPlayer.Wood; }
+        public int PlayerBrick { get => _currentPlayer.Brick; }
+        public int PlayerWool { get => _currentPlayer.Wool; }
+        public int PlayerScore { get => _currentPlayer.Score; }
+        public string CurrentPlayerColor { get => _currentPlayer.Color; }
+
         public DelegateCommand ThrowDicesCommand { get; private set; }
         public DelegateCommand EndTurnCommand { get; private set; }
         public DelegateCommand PurchaseBonusCardCommand { get; private set; }
@@ -57,6 +62,9 @@ namespace Catan.ViewModel
         {
             _model = model;
             _currentPlayer = new PlayerViewModel(Mapping.Mapper.Map<PlayerDTO>(NotPlayer.Instance));
+            _nextPlayer = new PlayerViewModel(Mapping.Mapper.Map<PlayerDTO>(NotPlayer.Instance));
+            _nextNextPlayer = new PlayerViewModel(Mapping.Mapper.Map<PlayerDTO>(NotPlayer.Instance));
+
 
             _model.Events.DicesRolled += Model_Events_DicesThrown;
             _model.Events.GameStarted += Model_Events_NewGame;
@@ -222,7 +230,9 @@ namespace Catan.ViewModel
 
         private void Model_Events_Player(object? sender, PlayerUpdatedEventArgs e)
         {
-            _currentPlayer = new PlayerViewModel(e.Players[0]);
+            _currentPlayer.SetPlayer(e.Players[0]);
+            _nextPlayer.SetPlayer(e.Players[1]);
+            _nextNextPlayer.SetPlayer(e.Players[2]);
             foreach (PlayerDTO player in e.Players)
             {
                 Players.Add(new PlayerViewModel(player));
@@ -233,10 +243,11 @@ namespace Catan.ViewModel
             OnPropertyChanged(nameof(PlayerWood));
             OnPropertyChanged(nameof(PlayerBrick));
             OnPropertyChanged(nameof(PlayerWool));
-            OnPropertyChanged(nameof(PlayerLongestRoad));
-            OnPropertyChanged(nameof(PlayerKnightCardCount));
             OnPropertyChanged(nameof(PlayerScore));
             OnPropertyChanged(nameof(CurrentPlayerColor));
+            OnPropertyChanged(nameof(CurrentPlayer));
+            OnPropertyChanged(nameof(NextPlayer));
+            OnPropertyChanged(nameof(NextNextPlayer));
         }
 
         private void Model_Events_NewGame(object? sender, GameStartedEventArgs e)
