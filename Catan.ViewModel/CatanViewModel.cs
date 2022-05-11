@@ -18,6 +18,14 @@ namespace Catan.ViewModel
     {
         private CatanGameModel _model;
 
+        public event EventHandler<BankConfirmEventArgs> BankConfirmRequested;
+
+        public event EventHandler<EventArgs> WinnerRequested;
+
+        private void onWinnerRequested() { WinnerRequested?.Invoke(this, EventArgs.Empty); }
+
+        private void onConfirmRequested(string s, ResourceEnum from, ResourceEnum to) { BankConfirmRequested?.Invoke(this, new BankConfirmEventArgs(s, from, to)); }
+
         public ObservableCollection<HexViewModel> Hexes { get; set; } = new();
         public ObservableCollection<VertexViewModel> Vertices { get; set; } = new();
         public ObservableCollection<BuildableCommunityViewModel> BuildableCommunities { get; set; } = new();
@@ -97,7 +105,7 @@ namespace Catan.ViewModel
 
         private void Model_Events_GameWon(object? sender, GameWonEventArgs e)
         {
-            throw new Exception("U won mate");
+            onWinnerRequested();
         }
 
         private void Model_Events_RogueMoved(object? sender, RogueMovedEventArgs e)
@@ -131,8 +139,9 @@ namespace Catan.ViewModel
 
         private void ExchangeWithBank(object resource)
         {
+            var to = (ResourceEnum)ResourceToNumber;
             _ = Enum.TryParse(resource.ToString(), out ResourceEnum from);
-            _model.ExchangeWithBank(from, (ResourceEnum)ResourceToNumber);
+            onConfirmRequested($"Trading 3 {from} for 1 {to}.", from, to);
         }
 
         private void Model_Events_Cancel(object? sender, CancelEventArgs e)
