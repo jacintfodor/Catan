@@ -1,48 +1,56 @@
 ﻿using Catan.Model.DTOs;
 using Catan.Model.Enums;
+using Catan.Model.Context.Players;
 
 namespace Catan.ViewModel.Player
 {
     public class PlayerViewModel : ViewModelBase
     {
         private PlayerDTO _player;
-        private int _crop;
-        private int _ore;
-        private int _wood;
-        private int _brick;
-        private int _wool;
-        private int _knightCardCount;
-        private int _longestRoad;
-        private int _score;
-        private string _color;
 
         public PlayerViewModel(PlayerDTO player)
         {
+            SetPlayer(player);
+        }
+
+        public void SetPlayer(PlayerDTO player)
+        {
             _player = player;
-            _crop = player.AvailableResources.Crop;
-            _ore = player.AvailableResources.Ore;
-            _wood = player.AvailableResources.Wood;
-            _brick = player.AvailableResources.Brick;
-            _wool = player.AvailableResources.Wool;
-            _color = _playerToColor[player.ID];
-            _knightCardCount = player.KnightCardCount;
-            _longestRoad = player.LengthOfLongestRoad;
-            _score = player.Score;
-
-
+            OnPropertyChanged(nameof(Crop));
+            OnPropertyChanged(nameof(Ore));
+            OnPropertyChanged(nameof(Wood));
+            OnPropertyChanged(nameof(Brick));
+            OnPropertyChanged(nameof(Wool));
+            OnPropertyChanged(nameof(Score));
+            OnPropertyChanged(nameof(Color));
+            OnPropertyChanged(nameof(ID));
+            OnPropertyChanged(nameof(SumOfFirstRoll));
+            OnPropertyChanged(nameof(SumOfResources));
+            OnPropertyChanged(nameof(SettlementCardCount));
+            OnPropertyChanged(nameof(TownCardCount));
+            OnPropertyChanged(nameof(RoadCardCount));
+            OnPropertyChanged(nameof(HasLongestRoad));
+            OnPropertyChanged(nameof(HasLargestArmy));
         }
 
 
-        public int Crop { get => _crop; set { _crop = value; OnPropertyChanged(); } }
-        public int Ore { get => _ore; set { _ore = value; OnPropertyChanged(); } }
-        public int Wood { get => _wood; set { _wood = value; OnPropertyChanged(); } }
-        public int Brick { get => _brick; set { _brick = value; OnPropertyChanged(); } }
-        public int Wool { get => _wool; set { _wool = value; OnPropertyChanged(); } }
-        public int KnightCardCount { get => _knightCardCount; set { _knightCardCount = value; OnPropertyChanged(); } }
-        public int LongestRoad { get => _longestRoad; set { _longestRoad = value; OnPropertyChanged(); } }
-        public int Score { get => _score; set { _score = value; OnPropertyChanged(); } }
-        public string Color { get => _color; set { _color = value; OnPropertyChanged(); } }
+        public int Crop { get => _player.AvailableResources.Crop; }
+        public int Ore { get => _player.AvailableResources.Ore; }
+        public int Wood { get => _player.AvailableResources.Wood; }
+        public int Brick { get => _player.AvailableResources.Brick; }
+        public int Wool { get => _player.AvailableResources.Wool; }
+        public int Score { get => _player.Score; }
+        public string Color { get => _playerToColor.GetValueOrDefault(_player.ID) ?? "Black"; }
+        public PlayerEnum ID { get => _player.ID; }
 
+        public int SumOfFirstRoll { get => _player.FirstRoll; }
+        public int SumOfResources { get => Crop + Ore + Wood + Brick + Wool; }
+        public int SettlementCardCount { get => _player.AvailableSettlementCardCount; }
+        public int TownCardCount { get => _player.AvailableTownCardCount; }
+        public int RoadCardCount { get => _player.AvailableRoadCardCount; }
+
+        public string HasLongestRoad { get => _player.HasLongestRoad ? "Igen" : "Nem"; }
+        public string HasLargestArmy { get => _player.HasLargestArmy ? "Igen" : "Nem"; }
 
         //TODO aggregate this to ViewModels
         private Dictionary<PlayerEnum, string> _playerToColor = new Dictionary<PlayerEnum, string>()
