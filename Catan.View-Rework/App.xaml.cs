@@ -31,12 +31,29 @@ namespace Catan.View_Rework
 
             _model = new();
             _viewModel = new(_model);
+            _viewModel.BankConfirmRequested += _viewModel_BankConfirmRequested;
+            _viewModel.WinnerRequested += _viewModel_WinnerRequested;
+
             _model.NewGame();
 
             _view = new MainWindow();
             _view.DataContext = _viewModel;
 
             _view.Show();
+        }
+
+        private void _viewModel_WinnerRequested(object? sender, EventArgs e)
+        {
+            MessageBox.Show("Congrats you, you won");
+        }
+
+        private void _viewModel_BankConfirmRequested(object? sender, BankConfirmEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show(e.Message, "Catan", MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
+            {
+                _model.ExchangeWithBank(e.From, e.To);
+            }
         }
     }
 }
