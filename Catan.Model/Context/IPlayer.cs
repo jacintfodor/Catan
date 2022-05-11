@@ -16,6 +16,12 @@ namespace Catan.Model.Context
         public void ReduceResources(Goods resourcesToReduce);
         public int Score { get; }
 
+        public int FirstRoll { get; set; }
+
+        public bool HasLargestArmy { get; }
+
+        public bool HasLongestRoad { get; }
+
         public bool CanAfford(Goods resourcesToAfford);
         public void BuildRoad();//changes card counters
         public void BuildTown();//changes card counters

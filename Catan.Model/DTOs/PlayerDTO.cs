@@ -13,5 +13,8 @@ namespace Catan.Model.DTOs
         public int KnightCardCount { get; init; }
         public int LengthOfLongestRoad { get; init; }
         public int Score { get; init; }
+        public int FirstRoll { get; init; }
+        public bool HasLargestArmy { get; init; }
+        public bool HasLongestRoad { get; init; }
     }
 }
