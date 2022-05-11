@@ -18,6 +18,7 @@ namespace Catan.Model.GameStates.ConcreteStates
             context.FirstDice.roll();
             context.SecondDice.roll();
             _rolls.Add(context.CurrentPlayer.ID, context.RolledSum);
+            context.CurrentPlayer.FirstRoll = context.RolledSum;
             context.NextPlayer();
             context.Events.OnPlayerUpdated(context);
             context.Events.OnDicesRolled(context);
