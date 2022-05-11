@@ -1,5 +1,4 @@
 ﻿using Catan.Model.Board.Components.Edge;
-using Catan.Model.Context;
 using Catan.Model.Enums;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -30,7 +29,7 @@ namespace Catan.Model.Test.Board.Components.Edge
         public void AddPotentialBuilder_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            PlayerEnum player = default(global::Catan.Model.Enums.PlayerEnum);
+            PlayerEnum player = default(PlayerEnum);
             IEdge edge = this.CreateEdge();
             IEdge edgeRoad = this.CreateEdge();
 
@@ -53,8 +52,8 @@ namespace Catan.Model.Test.Board.Components.Edge
         public void IsBuildableByPlayer_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            PlayerEnum player = default(global::Catan.Model.Enums.PlayerEnum);
-            PlayerEnum invalidPlayer = default(global::Catan.Model.Enums.PlayerEnum) + 1;
+            PlayerEnum player = default(PlayerEnum);
+            PlayerEnum invalidPlayer = default(PlayerEnum) + 1;
 
             IEdge edgeRoad = this.CreateEdge();
             IEdge edge = this.CreateEdge();
@@ -81,13 +80,13 @@ namespace Catan.Model.Test.Board.Components.Edge
             Assert.IsFalse(resultOwner);
             this.mockRepository.VerifyAll();
         }
-        
+
         [TestMethod]
         public void Build_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            PlayerEnum player = default(global::Catan.Model.Enums.PlayerEnum);
-            PlayerEnum invalidPlayer = default(global::Catan.Model.Enums.PlayerEnum) + 1;
+            PlayerEnum player = default(PlayerEnum);
+            PlayerEnum invalidPlayer = default(PlayerEnum) + 1;
 
             IEdge edge = this.CreateEdge();
 
