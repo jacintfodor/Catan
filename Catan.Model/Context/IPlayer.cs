@@ -94,6 +94,6 @@ namespace Catan.Model.Context
         /// Give KnightCard or ScoreCard
         /// </summary>
         /// <param name="resourcesToSpend"></param>
-        public void PurchaseBonusCard(Goods resourcesToSpend);
+        public BonusCardEnum DrawBonusCard();
     }
 }

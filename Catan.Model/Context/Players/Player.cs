@@ -114,16 +114,18 @@ namespace Catan.Model.Context.Players
             Goods balance = _resources - resourcesToSpend;
             return balance.Valid;
         }
-        public void PurchaseBonusCard(Goods resourcesToSpend)
+        public BonusCardEnum DrawBonusCard()
         {
             Random rnd = new Random();
             if (rnd.NextDouble() < .3)
             {
                 _scoreCardCount++;
+                return BonusCardEnum.ScoreCard;
             }
             else
             {
                 _knightCardCount++;
+                return BonusCardEnum.KnigthCard;
             }
         }
         #endregion
