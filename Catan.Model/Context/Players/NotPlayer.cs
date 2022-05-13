@@ -42,13 +42,12 @@ namespace Catan.Model.Context.Players
 
         public void AddResource(Goods resourcesToRemove)
         {
-            throw new NotImplementedException();
+            throw new InvalidOperationException("NotPlayer");
         }
 
         public void ReduceResources(Goods resourcesToReduce)
         {
-            throw new NotImplementedException();
-
+            throw new InvalidOperationException("NotPlayer");
         }
         public bool CanAfford(Goods resourcesToAfford)
         {
@@ -56,36 +55,36 @@ namespace Catan.Model.Context.Players
         }
         public void SpendRoadCards()
         {
-            throw new NotImplementedException();
+            throw new InvalidOperationException("NotPlayer");
         }
 
         public void SpendTownCard()
         {
-            throw new NotImplementedException();
+            throw new InvalidOperationException("NotPlayer");
         }
 
         public void SpendSettlementCard()
         {
-            throw new NotImplementedException();
+            throw new InvalidOperationException("NotPlayer");
         }
 
         public bool CanBuildRoad()
         {
-            throw new NotImplementedException();
+            return false;
         }
 
         public bool CanBuildTown()
         {
-            throw new NotImplementedException();
+            return false;
         }
 
         public bool CanBuildSettlement()
         {
-            throw new NotImplementedException();
+            return false;
         }
-        public void PurchaseBonusCard(Goods resourcesToSpend)
+        public BonusCardEnum DrawBonusCard()
         {
-            throw new NotImplementedException();
+            throw new InvalidOperationException("NotPlayer");
         }
 
     }
