@@ -24,7 +24,7 @@ namespace Catan.ViewModel
 
         private void onWinnerRequested() { WinnerRequested?.Invoke(this, EventArgs.Empty); }
 
-        private void onConfirmRequested(string s, ResourceEnum from, ResourceEnum to) { BankConfirmRequested?.Invoke(this, new BankConfirmEventArgs(s, from, to)); }
+        private void onConfirmRequested(ResourceEnum from) { BankConfirmRequested?.Invoke(this, new BankConfirmEventArgs(from)); }
 
         public ObservableCollection<HexViewModel> Hexes { get; set; } = new();
         public ObservableCollection<VertexViewModel> Vertices { get; set; } = new();
@@ -132,16 +132,13 @@ namespace Catan.ViewModel
 
         private bool IsExchangeWithBankValid(object resource)
         {
-            var to = (ResourceEnum)ResourceToNumber;
             _ = Enum.TryParse(resource.ToString(), out ResourceEnum from);
-            return _model.IsExchangeWithBankValid(from, to);
+            return _model.IsExchangeWithBankValid(from);
         }
-
         private void ExchangeWithBank(object resource)
         {
-            var to = (ResourceEnum)ResourceToNumber;
             _ = Enum.TryParse(resource.ToString(), out ResourceEnum from);
-            onConfirmRequested($"Trading 3 {from} for 1 {to}.", from, to);
+            onConfirmRequested(from);
         }
 
         private void Model_Events_Cancel(object? sender, CancelEventArgs e)
@@ -291,51 +288,6 @@ namespace Catan.ViewModel
             FirstDiceFace = e.FirstDice;
             SecondDiceFace = e.SecondDice;
         }
-
-
-
-        #region radio stuff
-        int _resourceToNumber = 0;
-        public int ResourceToNumber
-        {
-            get { return _resourceToNumber; }
-            set
-            {
-                _resourceToNumber = value; OnPropertyChanged(nameof(RadioCrop)); OnPropertyChanged(nameof(RadioOre));
-                OnPropertyChanged(nameof(RadioWood)); OnPropertyChanged(nameof(RadioBrick)); OnPropertyChanged(nameof(RadioWool));
-            }
-        }
-        //Desert = -1, Crop, Ore, Wood, Brick, Wool
-        public bool RadioCrop
-        {
-            get { return ResourceToNumber.Equals(0); }
-            set { ResourceToNumber = 0; }
-        }
-        public bool RadioOre
-        {
-            get { return ResourceToNumber.Equals(1); }
-            set { ResourceToNumber = 1; }
-        }
-
-        public bool RadioWood
-        {
-            get { return ResourceToNumber.Equals(2); }
-            set { ResourceToNumber = 2; }
-        }
-
-        public bool RadioBrick
-        {
-            get { return ResourceToNumber.Equals(3); }
-            set { ResourceToNumber = 3; }
-        }
-
-        public bool RadioWool
-        {
-            get { return ResourceToNumber.Equals(4); }
-            set { ResourceToNumber = 4; }
-        }
-
-        #endregion
 
         #region factory
         private BuildableEdgeViewModel BuildableEdgeFactory(EdgeDTO edge)

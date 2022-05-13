@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 
 using Catan.Model;
+using Catan.Model.Enums;
 using Catan.ViewModel;
 
 namespace Catan.View_Rework
@@ -49,10 +50,12 @@ namespace Catan.View_Rework
 
         private void _viewModel_BankConfirmRequested(object? sender, BankConfirmEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show(e.Message, "Catan", MessageBoxButton.YesNo);
-            if (result == MessageBoxResult.Yes)
+            var bankDialog = new BankDialog(e.From);
+            bankDialog.ShowDialog();
+            ResourceEnum to = bankDialog.Result;
+            if (to != ResourceEnum.Desert)
             {
-                _model.ExchangeWithBank(e.From, e.To);
+                _model.ExchangeWithBank(e.From, to);
             }
         }
     }

@@ -67,15 +67,6 @@
                 <local:PlayerControl Grid.Row="0" DataContext="{Binding CurrentPlayer}" />
                 <local:PlayerControl Grid.Row="1" DataContext="{Binding NextPlayer}" />
                 <local:PlayerControl Grid.Row="2" DataContext="{Binding NextNextPlayer}" />
-
-                <StackPanel Grid.Row="3" Background="Wheat" VerticalAlignment="Bottom" Margin="0" >
-                    <Label FontWeight="Bold">Bankkal Csere</Label>
-                    <RadioButton IsChecked="{Binding RadioCrop, Mode=TwoWay}">Gabona</RadioButton>
-                    <RadioButton IsChecked="{Binding RadioOre, Mode=TwoWay}">Érc</RadioButton>
-                    <RadioButton IsChecked="{Binding RadioWood, Mode=TwoWay}">Fa</RadioButton>
-                    <RadioButton IsChecked="{Binding RadioBrick, Mode=TwoWay}">Tégla</RadioButton>
-                    <RadioButton IsChecked="{Binding RadioWool, Mode=TwoWay}">Gyapjú</RadioButton>
-                </StackPanel>
             </Grid>
             
 
