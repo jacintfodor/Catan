@@ -21,6 +21,10 @@ namespace Catan.ViewModel
         public event EventHandler<BankConfirmEventArgs> BankConfirmRequested;
 
         public event EventHandler<EventArgs> WinnerRequested;
+        public event EventHandler<EventArgs> ScoreCardEarned;
+        public event EventHandler<EventArgs> KnightCardEarned;
+        public event EventHandler<EventArgs> LargestArmyTitleEarned;
+        public event EventHandler<EventArgs> LongestRoadTitleEarned;
 
         private void onWinnerRequested() { WinnerRequested?.Invoke(this, EventArgs.Empty); }
 
@@ -93,6 +97,11 @@ namespace Catan.ViewModel
             _model.Events.RogueMovingStarted += Model_Events_RogueMovingStarted;
             _model.Events.RogueMoved += Model_Events_RogueMoved;
 
+            _model.Events.ScoreCardDrawn += Model_Events_ScoreCardDrawn;
+            _model.Events.KnightCardDrawn += Model_Events_KnightCardDrawn;
+            _model.Events.LargestArmyEarned += Model_Events_LargestArmyEarned;
+            _model.Events.LongestRoadEarned += Model_Events_LongestRoadEarned;
+
             ThrowDicesCommand = new DelegateCommand(_ => _model.RollDices(), _ => _model.IsRollValid);
             EndTurnCommand = new DelegateCommand(_ => _model.EndTurn(), _ => _model.IsEndTurnValid);
             PurchaseBonusCardCommand = new DelegateCommand(_ => _model.PurchaseBonusCard(), _ => _model.IsPurchaseBonusCardValid);
@@ -101,6 +110,26 @@ namespace Catan.ViewModel
             UpgradeSettlementCommand = new DelegateCommand(_ => _model.StartSettlementUpgrading(), _ => _model.IsTownBuildingValid);
             CancelCommand = new DelegateCommand(_ => _model.Cancel(), _ => _model.IsCancelValid);
             ExchangeWithBankCommand = new DelegateCommand(resource => ExchangeWithBank(resource), resource => IsExchangeWithBankValid(resource));
+        }
+
+        private void Model_Events_LongestRoadEarned(object? sender, EventArgs e)
+        {
+            LongestRoadTitleEarned?.Invoke(this, e);
+        }
+
+        private void Model_Events_LargestArmyEarned(object? sender, EventArgs e)
+        {
+            LargestArmyTitleEarned?.Invoke(this, e);
+        }
+
+        private void Model_Events_KnightCardDrawn(object? sender, EventArgs e)
+        {
+            KnightCardEarned?.Invoke(this, e);
+        }
+
+        private void Model_Events_ScoreCardDrawn(object? sender, EventArgs e)
+        {
+            ScoreCardEarned?.Invoke(this, e);
         }
 
         private void Model_Events_GameWon(object? sender, GameWonEventArgs e)

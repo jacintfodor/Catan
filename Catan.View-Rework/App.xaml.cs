@@ -34,6 +34,10 @@ namespace Catan.View_Rework
             _viewModel = new(_model);
             _viewModel.BankConfirmRequested += _viewModel_BankConfirmRequested;
             _viewModel.WinnerRequested += _viewModel_WinnerRequested;
+            _viewModel.ScoreCardEarned += _viewModel_ScoreCardEarned;
+            _viewModel.KnightCardEarned += _viewModel_KnightCardEarned;
+            _viewModel.LongestRoadTitleEarned += _viewModel_LongestRoadTitleEarned;
+            _viewModel.LargestArmyTitleEarned += _viewModel_LargestArmyTitleEarned;
 
             _model.NewGame();
 
@@ -41,6 +45,26 @@ namespace Catan.View_Rework
             _view.DataContext = _viewModel;
 
             _view.Show();
+        }
+
+        private void _viewModel_LargestArmyTitleEarned(object? sender, EventArgs e)
+        {
+            MessageBox.Show("Congrats, you command the largest army in the contintent of Catan");
+        }
+
+        private void _viewModel_LongestRoadTitleEarned(object? sender, EventArgs e)
+        {
+            MessageBox.Show("Congrats, you own the longest road in the game");
+        }
+
+        private void _viewModel_KnightCardEarned(object? sender, EventArgs e)
+        {
+            MessageBox.Show("Congrats, you managed to grow your army by one");
+        }
+
+        private void _viewModel_ScoreCardEarned(object? sender, EventArgs e)
+        {
+            MessageBox.Show("Congrats, you earned 1 score card which increased your score by one");
         }
 
         private void _viewModel_WinnerRequested(object? sender, EventArgs e)
