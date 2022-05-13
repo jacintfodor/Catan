@@ -45,7 +45,7 @@ namespace Catan.View_Rework
 
         private void _viewModel_WinnerRequested(object? sender, EventArgs e)
         {
-            MessageBox.Show("Congrats you, you won");
+            MessageBox.Show("Congrats, you won");
         }
 
         private void _viewModel_BankConfirmRequested(object? sender, BankConfirmEventArgs e)
