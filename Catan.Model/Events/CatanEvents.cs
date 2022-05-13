@@ -36,6 +36,10 @@ namespace Catan.Model.Events
 
         public event EventHandler<EventArgs> RogueMovingStarted;
         public event EventHandler<RogueMovedEventArgs> RogueMoved;
+        public event EventHandler<EventArgs> ScoreCardDrawn;
+        public event EventHandler<EventArgs> KnightCardDrawn;
+        public event EventHandler<EventArgs> LargestArmyEarned;
+        public event EventHandler<EventArgs> LongestRoadEarned;
 
         public void OnRogueMovingStarted()
         {
@@ -137,6 +141,26 @@ namespace Catan.Model.Events
                 this,
                 new SettlementUpgradedEventArgs(row, col)
                 );
+        }
+
+        public void OnScoreCardDrawn()
+        {
+            ScoreCardDrawn?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void OnKnightCardDrawn()
+        {
+            KnightCardDrawn?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void OnLargestArmyEarned()
+        {
+            LargestArmyEarned?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void OnLongestRoadEarned()
+        {
+            LongestRoadEarned?.Invoke(this, EventArgs.Empty);
         }
     }
 }

@@ -19,7 +19,15 @@ namespace Catan.Model.Events
         event EventHandler<SettlementBuiltEventArgs> SettlementBuilt;
         event EventHandler<SettlementUpgradedEventArgs> SettlementUpgraded;
         event EventHandler<SettlementUpgradingStartedEventArgs> SettlementUpgradingStarted;
+        event EventHandler<EventArgs> ScoreCardDrawn;
+        event EventHandler<EventArgs> KnightCardDrawn;
+        event EventHandler<EventArgs> LargestArmyEarned;
+        event EventHandler<EventArgs> LongestRoadEarned;
 
+        void OnScoreCardDrawn();
+        void OnKnightCardDrawn();
+        void OnLargestArmyEarned();
+        void OnLongestRoadEarned();
         void OnDicesRolled(ICatanContext ctx);
         void OnGameStarted(ICatanContext ctx);
         void OnGameWon(ICatanContext ctx);
