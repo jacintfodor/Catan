@@ -54,17 +54,17 @@ namespace Catan.Model.Context.Players
         {
             return false;
         }
-        public void BuildRoad()
+        public void SpendRoadCards()
         {
             throw new NotImplementedException();
         }
 
-        public void BuildTown()
+        public void SpendTownCard()
         {
             throw new NotImplementedException();
         }
 
-        public void BuildSettlement()
+        public void SpendSettlementCard()
         {
             throw new NotImplementedException();
         }

@@ -49,16 +49,16 @@ namespace Catan.Model.Context.Players
         #endregion
 
         #region Card related Methods
-        public void BuildSettlement()
+        public void SpendSettlementCard()
         {
             _availableSettlementCardCount--;
         }
-        public void BuildTown()
+        public void SpendTownCard()
         {
             _availableSettlementCardCount++;
             _availableTownCardCount--;
         }
-        public void BuildRoad()
+        public void SpendRoadCards()
         {
             _availableRoadCardCount--;
         }

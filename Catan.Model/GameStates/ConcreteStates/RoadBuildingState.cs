@@ -14,7 +14,7 @@ namespace Catan.Model.GameStates.ConcreteStates
             context.CurrentPlayer.LengthOfLongestRoad = context.Board.CalculateLongestRoadFromEdge(row, col, context.CurrentPlayer.ID);
             context.LongestRoadOwner.ProcessOwner(context.CurrentPlayer);
 
-            context.CurrentPlayer.BuildRoad();
+            context.CurrentPlayer.SpendRoadCards();
             context.CurrentPlayer.ReduceResources(Constants.RoadCost);
             context.Events.OnPlayerUpdated(context);
             context.SetContext(new MainState());

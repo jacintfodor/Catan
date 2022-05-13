@@ -12,7 +12,7 @@ namespace Catan.Model.GameStates.ConcreteStates
             context.Board.BuildSettlement(row, col, context.State, context.CurrentPlayer.ID);
             context.Events.OnSettlementBuilt(context, row, col, context.CurrentPlayer.ID);
             
-            context.CurrentPlayer.BuildSettlement();
+            context.CurrentPlayer.SpendSettlementCard();
             context.CurrentPlayer.ReduceResources(Constants.SettlementCost);
             context.Events.OnPlayerUpdated(context);
             

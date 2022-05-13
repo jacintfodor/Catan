@@ -17,7 +17,7 @@ namespace Catan.Model.GameStates.ConcreteStates
 
         public void BuildSettleMent(ICatanContext context, int row, int col)
         {
-            context.CurrentPlayer.BuildSettlement();
+            context.CurrentPlayer.SpendSettlementCard();
             context.Events.OnPlayerUpdated(context);
 
             context.Board.BuildSettlement(row, col, context.State, context.CurrentPlayer.ID);

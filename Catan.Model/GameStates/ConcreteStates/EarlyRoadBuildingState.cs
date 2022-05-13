@@ -16,7 +16,9 @@ namespace Catan.Model.GameStates.ConcreteStates
         public void BuildRoad(ICatanContext context, int row, int col)
         {
             context.Board.BuildRoad(row, col, context.CurrentPlayer.ID);
+            context.CurrentPlayer.SpendRoadCards();
             context.Events.OnRoadBuilt(context, row, col, context.CurrentPlayer.ID);
+
 
             context.CurrentPlayer.LengthOfLongestRoad = context.Board.CalculateLongestRoadFromEdge(row, col, context.CurrentPlayer.ID);
             context.LongestRoadOwner.ProcessOwner(context.CurrentPlayer);
@@ -41,7 +43,6 @@ namespace Catan.Model.GameStates.ConcreteStates
             }
 
             context.NextPlayer();
-            context.CurrentPlayer.BuildRoad();
             context.Events.OnPlayerUpdated(context);
         }
     }
