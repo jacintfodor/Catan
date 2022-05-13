@@ -438,12 +438,12 @@
                 <Grid Grid.Row="0" Background="AliceBlue">
                     <Label Background="AliceBlue" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Content="{Binding SumOfDices, Mode=OneWay}" />
                 </Grid>
-                <Button Grid.Row="1" Content="Dob" Command="{Binding ThrowDicesCommand}"/>
-                <Button Grid.Row="2" Content="Város" Command="{Binding UpgradeSettlementCommand}"/>
-                <Button Grid.Row="3" Content="Település" Command="{Binding BuildSettlementCommand}"/>
-                <Button Grid.Row="4" Content="Út" Command="{Binding BuildRoadCommand}"/>
-                <Button Grid.Row="5" Content="Bonus kartya" Command="{Binding PurchaseBonusCardCommand}"/>
-                <Button Grid.Row="6" Content="Megse" Command="{Binding CancelCommand}"/>
+                <Button Grid.Row="1" Content="Roll" Command="{Binding ThrowDicesCommand}"/>
+                <Button Grid.Row="2" Content="Upgrade to town" Command="{Binding UpgradeSettlementCommand}" ToolTipService.ShowOnDisabled="True" ToolTip="Costs: 3 Crops and 3 Ores"/>
+                <Button Grid.Row="3" Content="Build Settlement" Command="{Binding BuildSettlementCommand}" ToolTipService.ShowOnDisabled="True" ToolTip="Costs: 1 Crop, 1 Wood, 1 Brick, 1 Wool"/>
+                <Button Grid.Row="4" Content="Build Road" Command="{Binding BuildRoadCommand}" ToolTipService.ShowOnDisabled="True" ToolTip="Costs: 1 Wood and 1 Wool"/>
+                <Button Grid.Row="5" Content="Purchase Bonus Card" Command="{Binding PurchaseBonusCardCommand}" ToolTipService.ShowOnDisabled="True" ToolTip="Costs: 1 Crop, 1 Ore, 1 Wool"/>
+                <Button Grid.Row="6" Content="Cancel" Command="{Binding CancelCommand}" />
             </Grid>
         </Grid>
 
@@ -624,13 +624,13 @@
                 
             </Grid>
 
-            <Button Grid.Column="1"  Grid.Row="1" Content="Csere" Command="{Binding ExchangeWithBankCommand}" CommandParameter="Crop"  Background="Goldenrod"/>
-            <Button Grid.Column="2" Grid.Row="1" Content="Csere"  Command="{Binding ExchangeWithBankCommand}" CommandParameter="Ore" Background="SlateGray"/>
-            <Button Grid.Column="3"  Grid.Row="1" Content="Csere" Command="{Binding ExchangeWithBankCommand}" CommandParameter="Wood" Background="ForestGreen"/>
-            <Button Grid.Column="4"  Grid.Row="1" Content="Csere" Command="{Binding ExchangeWithBankCommand}" CommandParameter="Brick" Background="Firebrick"/>
-            <Button Grid.Column="5"  Grid.Row="1" Content="Csere" Command="{Binding ExchangeWithBankCommand}" CommandParameter="Wool"  Background="PaleGreen"/>
+            <Button Grid.Column="1"  Grid.Row="1" Content="Exchange with bank" Command="{Binding ExchangeWithBankCommand}" CommandParameter="Crop"  Background="Goldenrod" ToolTipService.ShowOnDisabled="True" ToolTip="Costs: 3 Crops"/>
+            <Button Grid.Column="2" Grid.Row="1" Content="Exchange with bank"  Command="{Binding ExchangeWithBankCommand}" CommandParameter="Ore" Background="SlateGray" ToolTipService.ShowOnDisabled="True" ToolTip="Costs: 3 Ores"/>
+            <Button Grid.Column="3"  Grid.Row="1" Content="Exchange with bank" Command="{Binding ExchangeWithBankCommand}" CommandParameter="Wood" Background="ForestGreen" ToolTipService.ShowOnDisabled="True" ToolTip="Costs: 3 Woods"/>
+            <Button Grid.Column="4"  Grid.Row="1" Content="Exchange with bank" Command="{Binding ExchangeWithBankCommand}" CommandParameter="Brick" Background="Firebrick" ToolTipService.ShowOnDisabled="True" ToolTip="Costs: 3 Bricks"/>
+            <Button Grid.Column="5"  Grid.Row="1" Content="Exchange with bank" Command="{Binding ExchangeWithBankCommand}" CommandParameter="Wool"  Background="PaleGreen" ToolTipService.ShowOnDisabled="True" ToolTip="Costs: 3 Wools"/>
 
-            <Button Grid.Column="6" Grid.Row="1" Grid.RowSpan="2" Content="Kör Vége" Command="{Binding EndTurnCommand}"/>
+            <Button Grid.Column="6" Grid.Row="1" Grid.RowSpan="2" Content="End Turn" Command="{Binding EndTurnCommand}"/>
         </Grid>
 
     </Grid>
