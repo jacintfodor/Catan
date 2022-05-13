@@ -255,7 +255,7 @@ namespace Catan.Model.Test.Context.Players
 
             // Act
             for (int i = 0; i < n; i++)
-                player.PurchaseBonusCard(resourcesToSpend);
+                player.DrawBonusCard();
 
             // Assert
             Assert.IsTrue((player.KnightCardCount + player.ScoreCardCount) == n);

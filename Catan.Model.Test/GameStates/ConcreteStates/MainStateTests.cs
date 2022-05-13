@@ -108,13 +108,13 @@ namespace Catan.Model.Test.GameStates.ConcreteStates
         }
 
         [TestMethod]
-        public void PurchaseBonusCard_StateUnderTest_ExpectedBehavior()
+        public void DrawBonusCard_KnightCard_ExpectedBehavior()
         {
             // Arrange
             ICatanGameState mainState = this.CreateMainState();
             ICatanContext context = this.mockContext.Object;
 
-            this.mockContext.Setup(m => m.CurrentPlayer.PurchaseBonusCard(Constants.BonusCardCost)).Verifiable();
+            this.mockContext.Setup(m => m.CurrentPlayer.DrawBonusCard()).Returns(BonusCardEnum.KnigthCard);
             this.mockContext.Setup(m => m.CurrentPlayer.ReduceResources(Constants.BonusCardCost)).Verifiable();
             this.mockContext.Setup(m => m.LargestArmyHolder.ProcessOwner(context.CurrentPlayer)).Verifiable();
             this.mockContext.Setup(m => m.Events.OnPlayerUpdated(context)).Verifiable();
