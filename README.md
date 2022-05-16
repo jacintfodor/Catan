@@ -1,5 +1,5 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/jacintfodor/catan/badge)](https://www.codefactor.io/repository/github/jacintfodor/catan)
-[![LICENSE]](https://img.shields.io/github/license/jacintfodor/Catan)
+![GitHub](https://img.shields.io/github/license/jacintfodor/Catan)
 
 # Catan
 
