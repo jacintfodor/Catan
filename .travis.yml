@@ -16,12 +16,12 @@ jobs:
       script:
         - dotnet build Catan.Model
 
-    - stage: compile
-      os: windows
-      before_script:
-        - dotnet restore
-      script:
-        - dotnet build Catan.View-Rework
+#     - stage: compile
+#       os: windows
+#       before_script:
+#         - dotnet restore
+#       script:
+#         - dotnet build Catan.View-Rework
 
     - stage: test
       os: linux
