@@ -38,6 +38,7 @@ namespace Catan.View_Rework
             _viewModel.KnightCardEarned += _viewModel_KnightCardEarned;
             _viewModel.LongestRoadTitleEarned += _viewModel_LongestRoadTitleEarned;
             _viewModel.LargestArmyTitleEarned += _viewModel_LargestArmyTitleEarned;
+            _viewModel.NewGameRequested += _viewModel_NewGameRequested;
 
             _model.NewGame();
 
@@ -45,6 +46,16 @@ namespace Catan.View_Rework
             _view.DataContext = _viewModel;
 
             _view.Show();
+        }
+
+        private void _viewModel_NewGameRequested(object? sender, EventArgs e)
+        {
+            var dialog = MessageBox.Show("Creating a new game will make you lose any progress. Are you sure", "Catan: new game", MessageBoxButton.YesNo);
+            if (dialog == MessageBoxResult.Yes)
+            {
+                _viewModel.ConfirmNewGame();
+                _model.NewGame();
+            }
         }
 
         private void _viewModel_LargestArmyTitleEarned(object? sender, EventArgs e)
