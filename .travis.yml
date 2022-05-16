@@ -7,7 +7,7 @@ stages:
   - test
   - name: deploy
     if: branch = main
- 
+
 jobs:
   include:
     - stage: compile
@@ -15,18 +15,18 @@ jobs:
       dist: ubuntu
       script:
         - dotnet build Catan.Model
-      
+
     - stage: compile
       os: windows
       script:
         - dotnet build Catan.View-Rework
-    
+
     - stage: test
       os: linux
       dist: ubuntu
       script:
         - dotnet test Catan.Model.Test
-    
+
     - stage: deploy
       os: linux
       dist: ubuntu
