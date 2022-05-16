@@ -19,6 +19,12 @@ namespace Catan.Model.Context.Titles
                 Owner = titleContester;
             }
         }
+
+        public void Reset()
+        {
+            Owner = NotPlayer.Instance;
+        }
+
         public int Score { get { return 2; } }
     }
 }

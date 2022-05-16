@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 
 using Catan.Model;
+using Catan.Model.Enums;
 using Catan.ViewModel;
 
 namespace Catan.View_Rework
@@ -33,6 +34,11 @@ namespace Catan.View_Rework
             _viewModel = new(_model);
             _viewModel.BankConfirmRequested += _viewModel_BankConfirmRequested;
             _viewModel.WinnerRequested += _viewModel_WinnerRequested;
+            _viewModel.ScoreCardEarned += _viewModel_ScoreCardEarned;
+            _viewModel.KnightCardEarned += _viewModel_KnightCardEarned;
+            _viewModel.LongestRoadTitleEarned += _viewModel_LongestRoadTitleEarned;
+            _viewModel.LargestArmyTitleEarned += _viewModel_LargestArmyTitleEarned;
+            _viewModel.NewGameRequested += _viewModel_NewGameRequested;
 
             _model.NewGame();
 
@@ -42,17 +48,49 @@ namespace Catan.View_Rework
             _view.Show();
         }
 
+        private void _viewModel_NewGameRequested(object? sender, EventArgs e)
+        {
+            var dialog = MessageBox.Show("Creating a new game will make you lose any progress. Are you sure", "Catan: new game", MessageBoxButton.YesNo);
+            if (dialog == MessageBoxResult.Yes)
+            {
+                _viewModel.ConfirmNewGame();
+                _model.NewGame();
+            }
+        }
+
+        private void _viewModel_LargestArmyTitleEarned(object? sender, EventArgs e)
+        {
+            MessageBox.Show("Congrats, you command the largest army in the contintent of Catan");
+        }
+
+        private void _viewModel_LongestRoadTitleEarned(object? sender, EventArgs e)
+        {
+            MessageBox.Show("Congrats, you own the longest road in the game");
+        }
+
+        private void _viewModel_KnightCardEarned(object? sender, EventArgs e)
+        {
+            MessageBox.Show("Congrats, you managed to grow your army by one");
+        }
+
+        private void _viewModel_ScoreCardEarned(object? sender, EventArgs e)
+        {
+            MessageBox.Show("Congrats, you earned 1 score card which increased your score by one");
+        }
+
         private void _viewModel_WinnerRequested(object? sender, EventArgs e)
         {
-            MessageBox.Show("Congrats you, you won");
+            MessageBox.Show("Congrats, you won");
         }
 
         private void _viewModel_BankConfirmRequested(object? sender, BankConfirmEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show(e.Message, "Catan", MessageBoxButton.YesNo);
-            if (result == MessageBoxResult.Yes)
+            var bankDialog = new BankDialog(e.From);
+            bankDialog.ShowDialog();
+            ResourceEnum to = bankDialog.Result;
+            if (to != ResourceEnum.Desert)
             {
-                _model.ExchangeWithBank(e.From, e.To);
+                _model.ExchangeWithBank(e.From, to);
             }
         }
     }

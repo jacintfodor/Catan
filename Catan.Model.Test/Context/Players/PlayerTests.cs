@@ -40,7 +40,7 @@ namespace Catan.Model.Test.Context.Players
 
             // Act
             for (int i = 0; i < n; i++)
-                player.BuildSettlement();
+                player.SpendSettlementCard();
             // Assert
             Assert.AreEqual(player.AvailableSettlementCardCount, 5 - n);
         }
@@ -58,7 +58,7 @@ namespace Catan.Model.Test.Context.Players
 
             // Act
             for (int i = 0; i < n; i++)
-                player.BuildTown();
+                player.SpendTownCard();
 
             // Assert
             Assert.AreEqual(player.AvailableTownCardCount, 5 - n);
@@ -79,7 +79,7 @@ namespace Catan.Model.Test.Context.Players
 
             // Act
             for (int i = 0; i < n; i++)
-                player.BuildRoad();
+                player.SpendRoadCards();
             // Assert
 
             Assert.AreEqual(player.AvailableRoadCardCount, 15 - n);
@@ -101,7 +101,7 @@ namespace Catan.Model.Test.Context.Players
 
             // Act
             for (int i = 0; i < n; i++)
-                player.BuildSettlement();
+                player.SpendSettlementCard();
             var result = player.CanBuildSettlement();
 
             // Assert
@@ -127,7 +127,7 @@ namespace Catan.Model.Test.Context.Players
 
             // Act
             for (int i = 0; i < n; i++)
-                player.BuildTown();
+                player.SpendTownCard();
             var result = player.CanBuildTown();
 
             // Assert
@@ -153,7 +153,7 @@ namespace Catan.Model.Test.Context.Players
 
             // Act
             for (int i = 0; i < n; i++)
-                player.BuildRoad();
+                player.SpendRoadCards();
             var result = player.CanBuildRoad();
 
             // Assert
@@ -255,7 +255,7 @@ namespace Catan.Model.Test.Context.Players
 
             // Act
             for (int i = 0; i < n; i++)
-                player.PurchaseBonusCard(resourcesToSpend);
+                player.DrawBonusCard();
 
             // Assert
             Assert.IsTrue((player.KnightCardCount + player.ScoreCardCount) == n);

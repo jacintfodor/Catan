@@ -66,15 +66,15 @@ namespace Catan.Model.Context
         /// <summary>
         /// Reduce the available road card counts
         /// </summary>
-        public void BuildRoad();//changes card counters
+        public void SpendRoadCards();//changes card counters
         /// <summary>
         /// Reduce the available town card counts
         /// </summary>
-        public void BuildTown();//changes card counters
+        public void SpendTownCard();//changes card counters
         /// <summary>
         /// Reduce the available settlement card counts
         /// </summary>
-        public void BuildSettlement();//changes card counters
+        public void SpendSettlementCard();//changes card counters
         /// <summary>
         /// Check it still have road card
         /// </summary>
@@ -94,6 +94,6 @@ namespace Catan.Model.Context
         /// Give KnightCard or ScoreCard
         /// </summary>
         /// <param name="resourcesToSpend"></param>
-        public void PurchaseBonusCard(Goods resourcesToSpend);
+        public BonusCardEnum DrawBonusCard();
     }
 }

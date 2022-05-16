@@ -50,7 +50,7 @@ namespace Catan.Model.Test.GameStates.ConcreteStates
 
             this.mockContext.Setup(m => m.LongestRoadOwner.ProcessOwner(context.CurrentPlayer)).Verifiable();
 
-            this.mockContext.Setup(m => m.CurrentPlayer.BuildRoad()).Verifiable();
+            this.mockContext.Setup(m => m.CurrentPlayer.SpendRoadCards()).Verifiable();
             this.mockContext.Setup(m => m.CurrentPlayer.ReduceResources(Constants.RoadCost)).Verifiable();
             this.mockContext.Setup(m => m.Events.OnPlayerUpdated(context)).Verifiable();
             this.mockContext.Setup(m => m.SetContext(It.IsAny<MainState>())).Verifiable();

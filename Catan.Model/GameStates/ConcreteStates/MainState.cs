@@ -37,9 +37,20 @@ namespace Catan.Model.GameStates.ConcreteStates
         //Crop, Ore, Wood, Brick, Wool
         public void PurchaseBonusCard(ICatanContext context)
         {
-            context.CurrentPlayer.PurchaseBonusCard(Constants.BonusCardCost);
+            BonusCardEnum card = context.CurrentPlayer.DrawBonusCard();
+            if (card == BonusCardEnum.ScoreCard) context.Events.OnScoreCardDrawn();
+            if (card == BonusCardEnum.KnigthCard)
+            {
+                var currentLargestArmyOwner = context.LargestArmyHolder.Owner;
+                context.LargestArmyHolder.ProcessOwner(context.CurrentPlayer);
+                var updatedLargestArmyOwner = context.LargestArmyHolder.Owner;
+                context.Events.OnKnightCardDrawn();
+                if (currentLargestArmyOwner != updatedLargestArmyOwner)
+                {
+                    context.Events.OnLargestArmyEarned();
+                }
+            }
             context.CurrentPlayer.ReduceResources(Constants.BonusCardCost);
-            context.LargestArmyHolder.ProcessOwner(context.CurrentPlayer);
             context.Events.OnPlayerUpdated(context);
         }
 

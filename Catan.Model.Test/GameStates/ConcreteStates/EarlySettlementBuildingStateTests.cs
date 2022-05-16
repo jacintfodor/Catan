@@ -45,7 +45,7 @@ namespace Catan.Model.Test.GameStates.ConcreteStates
             int row = r;
             int col = c;
 
-            this.mockContext.Setup(m => m.CurrentPlayer.BuildSettlement()).Verifiable();
+            this.mockContext.Setup(m => m.CurrentPlayer.SpendSettlementCard()).Verifiable();
             this.mockContext.Setup(m => m.Events.OnPlayerUpdated(context)).Verifiable();
             this.mockContext.Setup(m => m.Board.BuildSettlement(row, col, context.State, context.CurrentPlayer.ID)).Verifiable();
             this.mockContext.Setup(m => m.Events.OnSettlementBuilt(context, row, col, context.CurrentPlayer.ID)).Verifiable();

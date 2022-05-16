@@ -31,6 +31,7 @@ namespace Catan.ViewModel.Player
             OnPropertyChanged(nameof(RoadCardCount));
             OnPropertyChanged(nameof(HasLongestRoad));
             OnPropertyChanged(nameof(HasLargestArmy));
+            OnPropertyChanged(nameof(TextColor));
         }
 
 
@@ -41,6 +42,7 @@ namespace Catan.ViewModel.Player
         public int Wool { get => _player.AvailableResources.Wool; }
         public int Score { get => _player.Score; }
         public string Color { get => _playerToColor.GetValueOrDefault(_player.ID) ?? "Black"; }
+        public string TextColor { get => ID == PlayerEnum.Player2 ? "Black" : "White"; }
         public PlayerEnum ID { get => _player.ID; }
 
         public int SumOfFirstRoll { get => _player.FirstRoll; }
@@ -49,8 +51,8 @@ namespace Catan.ViewModel.Player
         public int TownCardCount { get => _player.AvailableTownCardCount; }
         public int RoadCardCount { get => _player.AvailableRoadCardCount; }
 
-        public string HasLongestRoad { get => _player.HasLongestRoad ? "Igen" : "Nem"; }
-        public string HasLargestArmy { get => _player.HasLargestArmy ? "Igen" : "Nem"; }
+        public string HasLongestRoad { get => _player.HasLongestRoad ? "Yes" : "No"; }
+        public string HasLargestArmy { get => _player.HasLargestArmy ? "Yes" : "No"; }
 
         //TODO aggregate this to ViewModels
         private Dictionary<PlayerEnum, string> _playerToColor = new Dictionary<PlayerEnum, string>()

@@ -20,7 +20,7 @@ namespace Catan.Model.GameStates.ConcreteStates
             context.Board.UpgradeSettlement(row, col);
             context.Events.OnSettlementUpgraded(context, row, col);
 
-            context.CurrentPlayer.BuildTown();
+            context.CurrentPlayer.SpendTownCard();
             context.CurrentPlayer.ReduceResources(Constants.TownCost);
             context.Events.OnPlayerUpdated(context);
             

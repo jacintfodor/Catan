@@ -8,7 +8,10 @@
              xmlns:local="clr-namespace:Catan.View_Rework"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="{Binding Color}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <Grid.Background>
+            <SolidColorBrush Color="{Binding Color}" Opacity="0.75"></SolidColorBrush>
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
             <RowDefinition Height="1*"/>
@@ -24,7 +27,7 @@
                 <ColumnDefinition Width="20"/>
             </Grid.ColumnDefinitions>
 
-            <Label Foreground="White" Grid.Column="0" ToolTip="Első dobás összege">Első dobás összege:</Label>
+            <Label Foreground="{Binding TextColor}" Grid.Column="0">Sum of first roll</Label>
             <Border HorizontalAlignment="Right" Grid.Column="1"
                         VerticalAlignment="Center"
                         CornerRadius="50"
@@ -43,7 +46,7 @@
                 <ColumnDefinition Width="20"/>
             </Grid.ColumnDefinitions>
 
-            <Label Foreground="White" Grid.Column="0" ToolTip="Erőforrások összege">Erőforrások összege:</Label>
+            <Label Foreground="{Binding TextColor}" Grid.Column="0" ToolTip="Sum of resources">Sum of resources:</Label>
             <Border HorizontalAlignment="Right" Grid.Column="1"
                         VerticalAlignment="Center"
                         CornerRadius="50"
@@ -64,7 +67,7 @@
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="20"/>
             </Grid.ColumnDefinitions>
-            <Label Foreground="White" Grid.Column="0" ToolTip="Út kártyák száma">Út:</Label>
+            <Label Foreground="{Binding TextColor}" Grid.Column="0" ToolTip="no of roadcards">RoadCard:</Label>
             <Border Grid.Column="1"
                 HorizontalAlignment="Right"
                         VerticalAlignment="Center"
@@ -77,7 +80,7 @@
                 <Label Padding="0 0 0 1" VerticalAlignment="Center" HorizontalAlignment="Center" Content="{Binding RoadCardCount}" Foreground="Red"/>
             </Border>
 
-            <Label Foreground="White" Grid.Column="2" ToolTip="Település kártyák száma">Település:</Label>
+            <Label Foreground="{Binding TextColor}" Grid.Column="2" ToolTip="no of roadcards">SettlementCard:</Label>
             <Border Grid.Column="3" HorizontalAlignment="Right"
                         VerticalAlignment="Center"
                         CornerRadius="50"
@@ -89,7 +92,7 @@
                 <Label Padding="0 0 0 1" VerticalAlignment="Center" HorizontalAlignment="Center" Content="{Binding SettlementCardCount}" Foreground="Red"/>
             </Border>
 
-            <Label Foreground="White" Grid.Column="4" ToolTip="Város kártyák száma">Város:</Label>
+            <Label Foreground="{Binding TextColor}" Grid.Column="4" ToolTip="no of towncards">Towncards:</Label>
             <Border Grid.Column="5" HorizontalAlignment="Right"
                         VerticalAlignment="Center"
                         CornerRadius="50"
@@ -107,7 +110,7 @@
                 <ColumnDefinition Width="20"/>
             </Grid.ColumnDefinitions>
 
-            <Label Foreground="White" Grid.Column="0" ToolTip="Pontszám">Pontszám:</Label>
+            <Label Foreground="{Binding TextColor}" Grid.Column="0" ToolTip="Score">Score:</Label>
             <Border HorizontalAlignment="Right" Grid.Column="1"
                         VerticalAlignment="Center"
                         CornerRadius="50"
@@ -124,16 +127,16 @@
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="40"/>
             </Grid.ColumnDefinitions>
-            <Label Foreground="White" Grid.Column="0" ToolTip="Leghosszabb út birtokos">Leghosszabb út:</Label>
-            <Label HorizontalAlignment="Right" Foreground="White" Grid.Column="1" ToolTip="Leghosszabb út birtokos" Content="{Binding HasLongestRoad}"/>
+            <Label Foreground="{Binding TextColor}" Grid.Column="0" ToolTip="Owner of longest road">Longest road Owner</Label>
+            <Label HorizontalAlignment="Right" Foreground="{Binding TextColor}" Grid.Column="1" Content="{Binding HasLongestRoad}"/>
         </Grid>
         <Grid Grid.Row="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="40"/>
             </Grid.ColumnDefinitions>
-            <Label Foreground="White" Grid.Column="0" ToolTip="Legnagyobb hadsereg birtokos">Leghosszabb Hadsereg:</Label>
-            <Label HorizontalAlignment="Right" Foreground="White" Grid.Column="1" ToolTip="Leghosszabb út birtokos" Content="{Binding HasLargestArmy}"/>
+            <Label Foreground="{Binding TextColor}" Grid.Column="0" ToolTip="Holder of the largest army">Largest army holder:</Label>
+            <Label HorizontalAlignment="Right" Foreground="{Binding TextColor}" Grid.Column="1" Content="{Binding HasLargestArmy}"/>
         </Grid>
     </Grid>
 </UserControl>

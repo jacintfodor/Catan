@@ -21,10 +21,15 @@ namespace Catan.ViewModel
         public event EventHandler<BankConfirmEventArgs> BankConfirmRequested;
 
         public event EventHandler<EventArgs> WinnerRequested;
+        public event EventHandler<EventArgs> ScoreCardEarned;
+        public event EventHandler<EventArgs> KnightCardEarned;
+        public event EventHandler<EventArgs> LargestArmyTitleEarned;
+        public event EventHandler<EventArgs> LongestRoadTitleEarned;
+        public event EventHandler<EventArgs> NewGameRequested;
 
         private void onWinnerRequested() { WinnerRequested?.Invoke(this, EventArgs.Empty); }
 
-        private void onConfirmRequested(string s, ResourceEnum from, ResourceEnum to) { BankConfirmRequested?.Invoke(this, new BankConfirmEventArgs(s, from, to)); }
+        private void onConfirmRequested(ResourceEnum from) { BankConfirmRequested?.Invoke(this, new BankConfirmEventArgs(from)); }
 
         public ObservableCollection<HexViewModel> Hexes { get; set; } = new();
         public ObservableCollection<VertexViewModel> Vertices { get; set; } = new();
@@ -66,6 +71,7 @@ namespace Catan.ViewModel
         public DelegateCommand UpgradeSettlementCommand { get; private set; }
         public DelegateCommand CancelCommand { get; private set; }
         public DelegateCommand ExchangeWithBankCommand { get; private set; }
+        public DelegateCommand NewGameCommand { get; private set; }
         public CatanViewModel(CatanGameModel model)
         {
             _model = model;
@@ -93,6 +99,11 @@ namespace Catan.ViewModel
             _model.Events.RogueMovingStarted += Model_Events_RogueMovingStarted;
             _model.Events.RogueMoved += Model_Events_RogueMoved;
 
+            _model.Events.ScoreCardDrawn += Model_Events_ScoreCardDrawn;
+            _model.Events.KnightCardDrawn += Model_Events_KnightCardDrawn;
+            _model.Events.LargestArmyEarned += Model_Events_LargestArmyEarned;
+            _model.Events.LongestRoadEarned += Model_Events_LongestRoadEarned;
+
             ThrowDicesCommand = new DelegateCommand(_ => _model.RollDices(), _ => _model.IsRollValid);
             EndTurnCommand = new DelegateCommand(_ => _model.EndTurn(), _ => _model.IsEndTurnValid);
             PurchaseBonusCardCommand = new DelegateCommand(_ => _model.PurchaseBonusCard(), _ => _model.IsPurchaseBonusCardValid);
@@ -101,6 +112,39 @@ namespace Catan.ViewModel
             UpgradeSettlementCommand = new DelegateCommand(_ => _model.StartSettlementUpgrading(), _ => _model.IsTownBuildingValid);
             CancelCommand = new DelegateCommand(_ => _model.Cancel(), _ => _model.IsCancelValid);
             ExchangeWithBankCommand = new DelegateCommand(resource => ExchangeWithBank(resource), resource => IsExchangeWithBankValid(resource));
+            NewGameCommand = new DelegateCommand(_ => NewGame());
+        }
+
+        private void NewGame()
+        {
+            NewGameRequested?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void ConfirmNewGame()
+        {
+            BuildableCommunities.Clear();
+            BuildableEdges.Clear();
+            RogueMovingNodes.Clear();
+        }
+
+        private void Model_Events_LongestRoadEarned(object? sender, EventArgs e)
+        {
+            LongestRoadTitleEarned?.Invoke(this, e);
+        }
+
+        private void Model_Events_LargestArmyEarned(object? sender, EventArgs e)
+        {
+            LargestArmyTitleEarned?.Invoke(this, e);
+        }
+
+        private void Model_Events_KnightCardDrawn(object? sender, EventArgs e)
+        {
+            KnightCardEarned?.Invoke(this, e);
+        }
+
+        private void Model_Events_ScoreCardDrawn(object? sender, EventArgs e)
+        {
+            ScoreCardEarned?.Invoke(this, e);
         }
 
         private void Model_Events_GameWon(object? sender, GameWonEventArgs e)
@@ -132,16 +176,13 @@ namespace Catan.ViewModel
 
         private bool IsExchangeWithBankValid(object resource)
         {
-            var to = (ResourceEnum)ResourceToNumber;
             _ = Enum.TryParse(resource.ToString(), out ResourceEnum from);
-            return _model.IsExchangeWithBankValid(from, to);
+            return _model.IsExchangeWithBankValid(from);
         }
-
         private void ExchangeWithBank(object resource)
         {
-            var to = (ResourceEnum)ResourceToNumber;
             _ = Enum.TryParse(resource.ToString(), out ResourceEnum from);
-            onConfirmRequested($"Trading 3 {from} for 1 {to}.", from, to);
+            onConfirmRequested(from);
         }
 
         private void Model_Events_Cancel(object? sender, CancelEventArgs e)
@@ -291,51 +332,6 @@ namespace Catan.ViewModel
             FirstDiceFace = e.FirstDice;
             SecondDiceFace = e.SecondDice;
         }
-
-
-
-        #region radio stuff
-        int _resourceToNumber = 0;
-        public int ResourceToNumber
-        {
-            get { return _resourceToNumber; }
-            set
-            {
-                _resourceToNumber = value; OnPropertyChanged(nameof(RadioCrop)); OnPropertyChanged(nameof(RadioOre));
-                OnPropertyChanged(nameof(RadioWood)); OnPropertyChanged(nameof(RadioBrick)); OnPropertyChanged(nameof(RadioWool));
-            }
-        }
-        //Desert = -1, Crop, Ore, Wood, Brick, Wool
-        public bool RadioCrop
-        {
-            get { return ResourceToNumber.Equals(0); }
-            set { ResourceToNumber = 0; }
-        }
-        public bool RadioOre
-        {
-            get { return ResourceToNumber.Equals(1); }
-            set { ResourceToNumber = 1; }
-        }
-
-        public bool RadioWood
-        {
-            get { return ResourceToNumber.Equals(2); }
-            set { ResourceToNumber = 2; }
-        }
-
-        public bool RadioBrick
-        {
-            get { return ResourceToNumber.Equals(3); }
-            set { ResourceToNumber = 3; }
-        }
-
-        public bool RadioWool
-        {
-            get { return ResourceToNumber.Equals(4); }
-            set { ResourceToNumber = 4; }
-        }
-
-        #endregion
 
         #region factory
         private BuildableEdgeViewModel BuildableEdgeFactory(EdgeDTO edge)

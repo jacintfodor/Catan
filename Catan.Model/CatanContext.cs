@@ -24,6 +24,7 @@ namespace Catan.Model
         private ITitle _longestRoad = LongestRoadTitle.Instance;
         public void NewGame()
         {
+            State = new EarlyRollingState();
             Events.OnGameStarted(this);
         }
 
@@ -83,6 +84,9 @@ namespace Catan.Model
             _players.Enqueue(new Player(PlayerEnum.Player1));
             _players.Enqueue(new Player(PlayerEnum.Player2));
             _players.Enqueue(new Player(PlayerEnum.Player3));
+
+            LargestArmyHolder.Reset();
+            LongestRoadOwner.Reset();
 
             Events.OnPlayerUpdated(this);
         }

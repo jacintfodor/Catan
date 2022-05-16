@@ -38,10 +38,9 @@ namespace Catan.Model
         public bool IsCancelValid =>
             _catanContext.State is ICancellable;
 
-        public bool IsExchangeWithBankValid(ResourceEnum from, ResourceEnum to)
+        public bool IsExchangeWithBankValid(ResourceEnum from)
         {
             return _catanContext.State is IMainState &&
-                from != to &&
                 _catanContext.CurrentPlayer.CanAfford(new Goods(from) * 3);
         }
 

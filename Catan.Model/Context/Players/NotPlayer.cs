@@ -9,9 +9,7 @@ namespace Catan.Model.Context.Players
         {
         }
 
-        public PlayerEnum ID { get => PlayerEnum.NotPlayer; set =>
-            throw new NotImplementedException();
-        }
+        public PlayerEnum ID { get => PlayerEnum.NotPlayer; set { } }
 
         private static readonly NotPlayer _instance = new NotPlayer();
         public static NotPlayer Instance
@@ -29,8 +27,7 @@ namespace Catan.Model.Context.Players
 
         public int KnightCardCount => 2;
 
-        public int LengthOfLongestRoad { get => 4; set =>
-            throw new NotImplementedException(); }
+        public int LengthOfLongestRoad { get => 4; set { } }
 
         public int Score => -1;
 
@@ -42,50 +39,49 @@ namespace Catan.Model.Context.Players
 
         public void AddResource(Goods resourcesToRemove)
         {
-            throw new NotImplementedException();
+            throw new InvalidOperationException("NotPlayer");
         }
 
         public void ReduceResources(Goods resourcesToReduce)
         {
-            throw new NotImplementedException();
-
+            throw new InvalidOperationException("NotPlayer");
         }
         public bool CanAfford(Goods resourcesToAfford)
         {
             return false;
         }
-        public void BuildRoad()
+        public void SpendRoadCards()
         {
-            throw new NotImplementedException();
+            throw new InvalidOperationException("NotPlayer");
         }
 
-        public void BuildTown()
+        public void SpendTownCard()
         {
-            throw new NotImplementedException();
+            throw new InvalidOperationException("NotPlayer");
         }
 
-        public void BuildSettlement()
+        public void SpendSettlementCard()
         {
-            throw new NotImplementedException();
+            throw new InvalidOperationException("NotPlayer");
         }
 
         public bool CanBuildRoad()
         {
-            throw new NotImplementedException();
+            return false;
         }
 
         public bool CanBuildTown()
         {
-            throw new NotImplementedException();
+            return false;
         }
 
         public bool CanBuildSettlement()
         {
-            throw new NotImplementedException();
+            return false;
         }
-        public void PurchaseBonusCard(Goods resourcesToSpend)
+        public BonusCardEnum DrawBonusCard()
         {
-            throw new NotImplementedException();
+            throw new InvalidOperationException("NotPlayer");
         }
 
     }
