@@ -25,6 +25,7 @@ namespace Catan.ViewModel
         public event EventHandler<EventArgs> KnightCardEarned;
         public event EventHandler<EventArgs> LargestArmyTitleEarned;
         public event EventHandler<EventArgs> LongestRoadTitleEarned;
+        public event EventHandler<EventArgs> NewGameRequested;
 
         private void onWinnerRequested() { WinnerRequested?.Invoke(this, EventArgs.Empty); }
 
@@ -70,6 +71,7 @@ namespace Catan.ViewModel
         public DelegateCommand UpgradeSettlementCommand { get; private set; }
         public DelegateCommand CancelCommand { get; private set; }
         public DelegateCommand ExchangeWithBankCommand { get; private set; }
+        public DelegateCommand NewGameCommand { get; private set; }
         public CatanViewModel(CatanGameModel model)
         {
             _model = model;
@@ -110,6 +112,19 @@ namespace Catan.ViewModel
             UpgradeSettlementCommand = new DelegateCommand(_ => _model.StartSettlementUpgrading(), _ => _model.IsTownBuildingValid);
             CancelCommand = new DelegateCommand(_ => _model.Cancel(), _ => _model.IsCancelValid);
             ExchangeWithBankCommand = new DelegateCommand(resource => ExchangeWithBank(resource), resource => IsExchangeWithBankValid(resource));
+            NewGameCommand = new DelegateCommand(_ => NewGame());
+        }
+
+        private void NewGame()
+        {
+            NewGameRequested?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void ConfirmNewGame()
+        {
+            BuildableCommunities.Clear();
+            BuildableEdges.Clear();
+            RogueMovingNodes.Clear();
         }
 
         private void Model_Events_LongestRoadEarned(object? sender, EventArgs e)
