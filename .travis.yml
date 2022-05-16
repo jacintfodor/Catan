@@ -13,24 +13,24 @@ jobs:
     - stage: compile
       os: linux
       dist: ubuntu
-      script: 
+      script:
         - dotnet build Catan.Model
       
     - stage: compile
       os: windows
-      script: 
+      script:
         - dotnet build Catan.View-Rework
     
     - stage: test
       os: linux
       dist: ubuntu
-      script: 
+      script:
         - dotnet test Catan.Model.Test
     
     - stage: deploy
       os: linux
       dist: ubuntu
-      before_script: 
+      before_script:
         - apt-get update -yqq
         - apt-get install -yqq doxygen graphviz
       provider: pages
@@ -41,4 +41,3 @@ jobs:
         branch: main
       script:
         - doxygen Doxyfile
-      
