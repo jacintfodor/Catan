@@ -33,8 +33,8 @@ jobs:
       os: linux
       dist: ubuntu
       before_script:
-        - apt-get update -yqq
-        - apt-get install -yqq doxygen graphviz
+        - apt-get update -y
+        - apt-get install -y doxygen graphviz
       provider: pages
       skip_cleanup: true
       local_dir: html
