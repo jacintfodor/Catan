@@ -1,3 +1,5 @@
+[![CodeFactor](https://www.codefactor.io/repository/github/jacintfodor/catan/badge)](https://www.codefactor.io/repository/github/jacintfodor/catan)
+
 # Catan
 
 ## Felhasznált Assetek
