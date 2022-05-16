@@ -43,3 +43,4 @@ jobs:
         branch: main
       script:
         - doxygen Doxyfile
+        - - cp -r doc/html/. public/
