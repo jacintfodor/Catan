@@ -12,7 +12,7 @@ jobs:
   include:
     - stage: compile
       os: linux
-      dist: ubuntu
+      dist: xenial
       script:
         - dotnet build Catan.Model
 
@@ -25,16 +25,16 @@ jobs:
 
     - stage: test
       os: linux
-      dist: ubuntu
+      dist: xenial
       script:
         - dotnet test Catan.Model.Test
 
     - stage: deploy
       os: linux
-      dist: ubuntu
+      dist: xenial
       before_script:
-        - apt-get update -y
-        - apt-get install -y doxygen graphviz
+        - sudo apt-get update -y
+        - sudo apt-get install -y doxygen graphviz
       provider: pages
       skip_cleanup: true
       local_dir: html
