@@ -29,20 +29,20 @@ jobs:
       script:
         - dotnet test Catan.Model.Test
 
-    - stage: deploy
-      os: linux
-      dist: xenial
-      before_script:
-        - sudo apt-get update -y
-        - sudo apt-get install -y doxygen graphviz
-      provider: pages
-      skip_cleanup: true
-      local_dir: html
-      github_token: $GH_REPO_TOKEN
-      repo: jacintfodor/Catan
-      target-branch: gh-pages
-      on:
-        branch: main
-      script:
-        - doxygen Doxyfile
-        - - cp -r doc/html/. public/
+#     - stage: deploy
+#       os: linux
+#       dist: xenial
+#       before_script:
+#         - sudo apt-get update -y
+#         - sudo apt-get install -y doxygen graphviz
+#       provider: pages
+#       skip_cleanup: true
+#       local_dir: html
+#       github_token: $GH_REPO_TOKEN
+#       repo: jacintfodor/Catan
+#       target-branch: gh-pages
+#       on:
+#         branch: main
+#       script:
+#         - doxygen Doxyfile
+#         - - cp -r doc/html/. public/
