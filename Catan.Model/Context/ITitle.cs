@@ -15,5 +15,6 @@
         /// </summary>
         /// <param name="titleContester"></param>
         public void ProcessOwner(IPlayer titleContester);
+        public void Reset();
     }
 }
