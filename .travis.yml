@@ -1,0 +1,45 @@
+language: csharp
+mono: none
+dotnet: 6.0.200
+
+stages:
+  - compile
+  - test
+  - name: deploy
+    if: branch = main
+
+jobs:
+  include:
+    - stage: compile
+      os: linux
+      dist: xenial
+      script:
+        - dotnet build Catan.Model
+
+#     - stage: compile
+#       os: windows
+#       before_script:
+#         - dotnet restore
+#       script:
+#         - dotnet build Catan.View-Rework
+
+    - stage: test
+      os: linux
+      dist: xenial
+      script:
+        - dotnet test Catan.Model.Test
+
+    - stage: deploy
+      os: linux
+      dist: xenial
+      before_script:
+        - sudo apt-get update -y
+        - sudo apt-get install -y doxygen graphviz
+      provider: pages
+      skip_cleanup: true
+      local_dir: html
+      github_token: $GH_REPO_TOKEN
+      on:
+        branch: main
+      script:
+        - doxygen Doxyfile
