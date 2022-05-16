@@ -18,6 +18,8 @@ jobs:
 
     - stage: compile
       os: windows
+      before_script:
+        - dotnet restore
       script:
         - dotnet build Catan.View-Rework
 
