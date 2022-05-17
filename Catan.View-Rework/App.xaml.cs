@@ -23,6 +23,7 @@ namespace Catan.View_Rework
 
         public App()
         {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
             Startup += new StartupEventHandler(App_Startup);
         }
 
