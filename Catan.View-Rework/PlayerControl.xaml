@@ -1,4 +1,5 @@
-﻿<UserControl DataContext="{Binding RelativeSource={RelativeSource Self}}"
+﻿<UserControl xmlns:viewmodel="clr-namespace:Catan.ViewModel.Player;assembly=Catan.ViewModel"
+             d:DataContext="{d:DesignInstance Type=viewmodel:PlayerViewModel}"
              x:Class="Catan.View_Rework.PlayerControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
