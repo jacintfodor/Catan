@@ -1,0 +1,108 @@
+@startuml
+class CatanBoard {
+    ..private fields..
+	-_Hexes    : IHex[][]
+    -_Vertices : IVertex[][]
+    -_Edges    : IEdge[][]
+    
+	..component relations..
+    +GetVerticesOfHex(int, int)             : List<IVertex>
+    +GetNeighborVerticesOfVertex(int, int)  : List<IVertex>
+    +GetNeighborEdgesOfVertex(int, int)     : List<IEdge>
+    +GetNeighbourVerticesOfEdge(int, int)   : List<IVertex>
+    +GetNeighbourEdgesOfEdge(int, int)      : List<IEdge>
+    
+	..enumerators..
+    +GetHexEnumerator()    : IEnumerable<IHex>
+    +GetVertexEnumerator() : IENumerable<IVertex>
+    +GetEdgeEnumerator()   : IEnumerable<IEdge>
+
+    ..methods..
+    +BuildRoad(int, int, PlayerEnum)               : void
+    +BuildSettlement(int, int, PlayerEnum)         : void
+    +UpgradeSettlementToTown(int, int, PlayerEnum) : void
+    +CalculateLongestRoadFromEdge(IEdge, IPlayer) : void
+}
+
+interface IVertex
+{
+    +Owner : PlayerEnum
+    +Row : int
+    +Col : int
+    +AddPotentialBuilder(PlayerEnum) : void
+    +IsBuildableByPlayer(PlayerEnum) : bool
+    +IsNotBuildable : bool
+    +Build(PlayerEnum) : void
+    +Upgrade() : void
+}
+
+class Vertex implements IVertex{
+    -_community : ICommunity
+}
+
+interface ICommunity{
+    +Owner : PlayerEnum
+    +AddPotentialBuilder(PlayerEnum) : void
+    +IsBuildableByPlayer(PlayerEnum) : bool
+    +IsUpgradeable : bool
+    +IsBuildableCommunity : bool
+}
+
+Vertex *-right- ICommunity
+
+class BuildableCommunity implements ICommunity
+{
+    -_potentialBuilders : HashSet<PlayerEnum>
+}
+class NotBuildableCommunity << (S,#FF7700) Singleton >> implements ICommunity
+class Settlement implements ICommunity
+class Town implements ICommunity
+
+interface IEdge 
+{
+    +Owner : PlayerEnum
+    +Row : int
+    +Col : int
+    +AddPotentialBuilder(PlayerEnum) : void
+    +IsBuildableByPlayer(PlayerEnum) : bool
+    +Build(PlayerEnum) : void
+}
+
+class Edge implements IEdge
+{
+    -_road : IRoad
+}
+
+interface IRoad
+{
+    +Owner : PlayerEnum
+    +IsBuildable : bool
+    +AddPotentialBuilder(PlayerEnum) : void
+    +IsBuildableByPlayer(PlayerEnum) : bool
+}
+Edge *-left- IRoad
+
+class BuildableRoad implements IRoad
+{
+    -_potentialBuilders : HashSet<PlayerEnum>
+}
+
+class BuiltRoad implements IRoad
+
+interface IHex
+{
+    +Value : int
+    +Resource : ResourceEnum
+}
+
+class Hex
+{
+    
+}
+
+Hex .down.|> IHex
+CatanBoard *-right- Vertex
+CatanBoard *-left- Edge
+CatanBoard *-- Hex
+
+@enduml
