@@ -3,7 +3,14 @@
 
 # Catan
 
-## Felhasznált Assetek
-- [Catan mezők](https://opengameart.org/content/settlers-kit)
-- [Bandita](https://pixabay.com/illustrations/mafia-gangsters-people-silhouette-3153020/)
-- [Háttér](https://pixabay.com/photos/seascape-ocean-waves-ocean-sea-4788749/)
+## Assets
+- [Catan fields](https://opengameart.org/content/settlers-kit)
+- [Bandit](https://pixabay.com/illustrations/mafia-gangsters-people-silhouette-3153020/)
+- [Background](https://pixabay.com/photos/seascape-ocean-waves-ocean-sea-4788749/)
+
+## Screenshots
+### Launch
+![Launch](https://i.imgur.com/niEONhD.jpg)
+
+### Mid Game
+![midgame](https://i.imgur.com/rgmoacV.png)
