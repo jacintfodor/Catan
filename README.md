@@ -19,3 +19,6 @@
 ### Class diagram
 #### States
 ![states](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/jacintfodor/Catan/main/documentation/plantuml/states.iuml)
+
+#### Board
+![board](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/jacintfodor/Catan/main/documentation/plantuml/board.iuml)
