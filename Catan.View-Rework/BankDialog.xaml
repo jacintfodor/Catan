@@ -20,19 +20,19 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0">
-                <Button x:Name="CropButton" Content="Gabona" Click="Crop_Click"/>
+                <Button x:Name="CropButton" Content="Crop" Click="Crop_Click"/>
             </Grid>
             <Grid Grid.Column="1">
-                <Button x:Name="OreButton" Content="Érc" Click="Ore_Click"/>
+                <Button x:Name="OreButton" Content="Ore" Click="Ore_Click"/>
             </Grid>
             <Grid Grid.Column="2">
-                <Button x:Name="WoodButton" Content="Fa" Click="Wood_Click"/>
+                <Button x:Name="WoodButton" Content="Wood" Click="Wood_Click"/>
             </Grid>
             <Grid Grid.Column="3">
-                <Button x:Name="BrickButton" Content="Tégla" Click="Brick_Click"/>
+                <Button x:Name="BrickButton" Content="Brick" Click="Brick_Click"/>
             </Grid>
             <Grid Grid.Column="4">
-                <Button x:Name="WoolButton" Content="Gyapjú" Click="Wool_Click"/>
+                <Button x:Name="WoolButton" Content="Wool" Click="Wool_Click"/>
             </Grid>
         </Grid>
         <Grid Grid.Row="1">
