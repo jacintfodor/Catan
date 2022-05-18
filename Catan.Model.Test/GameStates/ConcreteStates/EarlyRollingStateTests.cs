@@ -1,30 +1,38 @@
-﻿using Catan.Model.Board.Components.Vertex;
+﻿using Catan.Model.Board;
+using Catan.Model.Board.Components.Vertex;
+using Catan.Model.Context;
 using Catan.Model.DTOs;
 using Catan.Model.Enums;
+using Catan.Model.Events;
 using Catan.Model.GameStates;
 using Catan.Model.GameStates.ConcreteStates;
 using Catan.Model.GameStates.Interfaces;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using Xunit;
 
 namespace Catan.Model.Test.GameStates.ConcreteStates
 {
-    [TestClass]
     public class EarlyRollingStateTests
     {
         private MockRepository mockRepository;
         private Mock<ICatanContext> mockContext;
+        private Mock<ICatanEvents> mockEvents;
+        private Mock<ICubeDice> mockDice;
+        private Mock<ICatanBoard> mockBoard;
 
-
-        [TestInitialize]
-        public void TestInitialize()
+        public EarlyRollingStateTests()
         {
-            this.mockRepository = new MockRepository(MockBehavior.Strict);
-
+            this.mockRepository = new MockRepository(MockBehavior.Loose);
             this.mockContext = this.mockRepository.Create<ICatanContext>();
+            this.mockEvents = this.mockRepository.Create<ICatanEvents>();
+            this.mockDice = this.mockRepository.Create<ICubeDice>();
+            this.mockBoard = this.mockRepository.Create<ICatanBoard>();
+
+            this.mockContext.Setup(x => x.Events).Returns(this.mockEvents.Object);
+            this.mockContext.Setup(x => x.FirstDice).Returns(this.mockDice.Object);
+            this.mockContext.Setup(x => x.SecondDice).Returns(this.mockDice.Object);
         }
 
         private EarlyRollingState CreateEarlyRollingState()
@@ -32,85 +40,70 @@ namespace Catan.Model.Test.GameStates.ConcreteStates
             return new EarlyRollingState();
         }
 
-        [TestMethod]
-        public void RollDices_CallOnce_DoesNotChangeState()
+        [Fact]
+        public void RollDices_RollOnce_DoesNotChangeState()
         {
             // Arrange
             ICatanGameState state = this.CreateEarlyRollingState();
             ICatanContext context = this.mockContext.Object;
 
-            this.mockContext.Setup(m => m.FirstDice.roll()).Verifiable();
-            this.mockContext.Setup(m => m.SecondDice.roll()).Verifiable();
-            
-            this.mockContext.Setup(m => m.CurrentPlayer.ID).Returns(PlayerEnum.Player1);
-            this.mockContext.Setup(m => m.RolledSum).Returns(12);
+            this.mockContext.Setup(x => x.FirstDice.roll()).Verifiable();
+            this.mockContext.Setup(x => x.SecondDice.roll()).Verifiable();
 
-            this.mockContext.SetupProperty(m => m.CurrentPlayer.FirstRoll);
-            this.mockContext.Setup(m => m.NextPlayer()).Verifiable();
+            this.mockContext.SetupGet(x => x.RolledSum).Returns(12).Verifiable();
+            this.mockContext.SetupGet(x => x.CurrentPlayer.ID).Returns(PlayerEnum.Player1).Verifiable();
+            this.mockContext.SetupSet(x => x.CurrentPlayer.FirstRoll=12).Verifiable();
             
-            this.mockContext.Setup(m => m.Events.OnPlayerUpdated(context)).Verifiable();
-            this.mockContext.Setup(m => m.Events.OnDicesRolled(context)).Verifiable();
-
+            this.mockContext.Setup(x => x.NextPlayer()).Verifiable();
+            
+            this.mockContext.Setup(x => x.Events.OnPlayerUpdated(context)).Verifiable();
+            this.mockContext.Setup(x => x.Events.OnDicesRolled(context)).Verifiable();
 
             // Act
             var o = state as IRollable;
             o?.RollDices(context);
 
             // Assert
-            Assert.IsNotNull(o);
-
-            this.mockContext.Verify(m => m.SetContext(It.IsAny<EarlySettlementBuildingState>()), Times.Never);
+            Assert.NotNull(o);
             this.mockRepository.VerifyAll();
         }
 
-        [DataTestMethod]
-        [DataRow(12, 7, 6, 3, PlayerEnum.Player1)]
-        [DataRow(2, 2, 2, 3, PlayerEnum.Player1)]
-        [DataRow(12, 12, 12, 3, PlayerEnum.Player1)]
-        [DataRow(7, 7, 7, 3, PlayerEnum.Player1)]
-        [DataRow(3, 11, 12, 5, PlayerEnum.Player3)]
-        [DataRow(3, 12, 5, 4, PlayerEnum.Player2)]
-        [DataRow(3, 12, 12, 4, PlayerEnum.Player2)]
-        public void RollDices_CallThrice_ChangesStateToEarlyBuildingState(int rollP1, int rollP2, int rollP3, int noOfTimesNexptlayerCalled, PlayerEnum expectedStarterPlayer)
+        [Theory]
+        [InlineData(12, 6, 3, 3, PlayerEnum.Player1)]
+        [InlineData(12, 12, 3, 3, PlayerEnum.Player1)]
+        [InlineData(12, 12, 12, 3, PlayerEnum.Player1)]
+        [InlineData(7, 11, 3, 4, PlayerEnum.Player2)]
+        [InlineData(7, 11, 11, 4, PlayerEnum.Player2)]
+        [InlineData(7, 2, 10, 5, PlayerEnum.Player3)]
+        public void RollDices_RollThrice_DoesChangeState(
+            int firstRollSum, 
+            int secondRollSum, 
+            int thirdRollSum, 
+            int expectedNoOfNextPlayerInvocations, 
+            PlayerEnum expectedStarter)
         {
             // Arrange
             ICatanGameState state = this.CreateEarlyRollingState();
-            ICatanContext context = this.mockContext.Object;
 
-            this.mockContext.Setup(m => m.FirstDice.roll()).Verifiable();
-            this.mockContext.Setup(m => m.SecondDice.roll()).Verifiable();
+            this.mockContext.Setup(x => x.Events.OnSettlementBuildingStarted(It.IsAny<List<VertexDTO>>()));
+            this.mockContext.SetupGet(x => x.Board).Returns(this.mockBoard.Object);
 
-            this.mockContext.SetupSequence(m => m.CurrentPlayer.ID)
-                .Returns(PlayerEnum.Player1)
-                .Returns(PlayerEnum.Player2)
-                .Returns(PlayerEnum.Player3)
-                .Returns(expectedStarterPlayer);
-
-            this.mockContext.SetupSequence(m => m.RolledSum)
-                .Returns(rollP1)
-                .Returns(rollP1)
-                .Returns(rollP2)
-                .Returns(rollP2)
-                .Returns(rollP3)
-                .Returns(rollP3);
-
-            this.mockContext.SetupProperty(m => m.CurrentPlayer.FirstRoll);
-
-            this.mockContext.Setup(m => m.NextPlayer()).Verifiable();
-
-            this.mockContext.Setup(m => m.Events.OnPlayerUpdated(context)).Verifiable();
-            this.mockContext.Setup(m => m.Events.OnDicesRolled(context)).Verifiable();
-
-            var list = new List<IVertex>() { new Vertex(1, 2) };
-            this.mockContext.Setup(m => 
-                m.Board.GetBuildableSettlementsByPlayer(state, expectedStarterPlayer))
+            var list = new List<IVertex>();
+            this.mockContext.Setup(x => x.Board.GetBuildableSettlementsByPlayer(state, expectedStarter))
                 .Returns(list);
 
-            var listDTO = list.Select(x => Mapping.Mapper.Map<VertexDTO>(x)).ToList();
+            this.mockContext.SetupSequence(x => x.CurrentPlayer.ID)
+                .Returns(PlayerEnum.Player1)    //before if
+                .Returns(PlayerEnum.Player2)    //before if
+                .Returns(PlayerEnum.Player3)    //before if
+                .Returns(expectedStarter);   //inside if, expected winner
 
-            this.mockContext.Setup(m => m.Events.OnSettlementBuildingStarted(listDTO)).Verifiable();
-            this.mockContext.Setup(m => m.Events.OnPlayerUpdated(context)).Verifiable();
-            this.mockContext.Setup(m => m.SetContext(It.IsAny<EarlySettlementBuildingState>())).Verifiable();
+            this.mockContext.SetupSequence(x => x.RolledSum)
+                .Returns(firstRollSum)
+                .Returns(secondRollSum)
+                .Returns(thirdRollSum);
+
+            ICatanContext context = this.mockContext.Object;
 
             // Act
             var o = state as IRollable;
@@ -119,10 +112,11 @@ namespace Catan.Model.Test.GameStates.ConcreteStates
             o?.RollDices(context);
 
             // Assert
-            Assert.IsNotNull(o);
+            Assert.NotNull(o);
 
-            this.mockContext.Verify(m => m.NextPlayer(), Times.Exactly(noOfTimesNexptlayerCalled));
-            this.mockContext.Verify(m => m.SetContext(It.IsAny<EarlySettlementBuildingState>()), Times.Once);
+            this.mockContext.Verify(x => x.NextPlayer(), Times.Exactly(expectedNoOfNextPlayerInvocations));
+            this.mockContext.Verify(x => x.SetContext(It.IsAny<EarlySettlementBuildingState>()));
+
             this.mockRepository.VerifyAll();
         }
     }
