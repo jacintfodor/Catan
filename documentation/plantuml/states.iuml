@@ -1,0 +1,161 @@
+@startuml
+class CatanGameModel {
+    ..private fields..
+    -_catanContext : CatanContext
+
+    ..properties..
+    +Events : CatanEvents
+
+    ..validation properties..
+    +IsRollValid : bool
+    +IsSettlementBuildingValid : bool
+    +IsTownBuildingValid : bool
+    +IsEndTurnValid : bool
+    +IsPurchaseBonusCardValid : bool
+    +IsRoadBuildingValid : bool
+    +IsCancelValid : bool
+    
+    ..methods..
+    {method}+NewGame() : void
+    {method}+RollDices() : void
+    {method}+EndTurn() : void
+    {method}+ExchangeWithBank(ResourceEnumerator, ResourceEnumerator) : void
+    {method}+PurchaseBonusCard() : void
+    {method}+StartRoadBuilding() : void
+    {method}+StartSettlementBuilding() : void
+    {method}+StartSettlementUpgrading() : void
+    {method}+MoveRogue(int, int) : void
+    {method}+BuildRoad(int, int) : void
+    {method}+BuildSettleMent(int, int) : void
+    {method}+UpgradeSettleMentToTown(int, int) : void
+    +Cancel();
+}
+
+interface IRollable {
+    {method}+RollDices(CatanContext) : void
+}
+
+interface IMainState {
+    {method}+EndTurn(CatanContext) : void
+    {method}+ExchangeWithBank(CatanContext, ResourceEnumerator, ResourceEnumerator) : void
+    {method}+PurchaseBonusCard(CatanContext) : void
+    {method}+StartRoadBuilding(CatanContext) : void
+    {method}+StartSettlementBuilding(CatanContext) : void
+    {method}+StartSettlementUpgrading(CatanContext) : void
+}
+
+interface IRogueMovable {
+    {method}+MoveRogue(CatanContext, int, int) : void
+}
+
+interface IWinningState {
+    
+}
+
+interface IRoadBuildable {
+    {method}+BuildRoad(CatanContext, int, int) : void
+}
+
+interface ISettlementBuildable {
+    {method}+BuildSettleMent(CatanContext, int, int) : void
+}
+
+interface ISettlementUpgradeable {
+    {method}+UpgradeSettleMentToTown(CatanContext, int, int) : void
+}
+
+interface ICancellable {
+    +Cancel(ICatanContext);
+}
+
+interface ICatanGameState {
+    
+}
+
+class CatanContext<<Partial>> {
+    +State: ICatanGameState
+    +SetContext(ICatanGameState)
+
+    ..state dependent methods..
+    {method}+RollDices() : void
+    {method}+EndTurn() : void
+    {method}+ExchangeWithBank(ResourceEnumerator, ResourceEnumerator) : void
+    {method}+PurchaseBonusCard() : void
+    {method}+StartRoadBuilding() : void
+    {method}+StartSettlementBuilding() : void
+    {method}+StartSettlementUpgrading() : void
+    {method}+MoveRogue(int, int) : void
+    {method}+BuildRoad(int, int) : void
+    {method}+BuildSettleMent(int, int) : void
+    {method}+UpgradeSettleMentToTown(int, int) : void
+    +Cancel();
+}
+
+class CatanEvents {
+    ..events..
+    +DicesRolled : EventHandler<DicesRolledEventArg>
+    +GameStarted : EventHandler<GameStartedEventArgs>
+    +GameWon : EventHandler<GameWonEventArgs>
+    +PlayerUpdated : EventHandler<PlayerUpdatedEventArgs>
+    +SettlementBuildingStarted : EventHandler<SettlementBuildingStartedEventArgs>
+    +SettlementBuilt : EventHandler<SettlementBuiltEventArgs>
+    +SettlementUpgradingStarted : EventHandler<SettlementUpgradingStartedEventArgs>
+    +SettlementUpgraded : EventHandler<SettlementUpgradedEventArgs>
+    +RoadBuildingStarted : EventHandler<RoadBuildingStartedEventArgs>
+    +RoadBuilt : EventHandler<RoadBuiltEventArgs>
+    +Cancelled : EventHandler<CancelEventArgs>
+    +RogueMovingStarted : EventHandler<EventArgs>
+    +RogueMoved : EventHandler<RogueMovedEventArgs>
+    +ScoreCardDrawn : EventHandler<EventArgs>
+    +KnightCardDrawn : EventHandler<EventArgs>
+    +LargestArmyEarned : EventHandler<EventArgs>
+    +LongestRoadEarned : EventHandler<EventArgs>
+}
+
+class EarlyRollingState implements ICatanGameState
+class EarlyRoadBuildingState implements ICatanGameState
+class EarlySettlementBuildingState implements ICatanGameState
+class MainState implements ICatanGameState
+class SettlementBuildingState implements  ICatanGameState
+class RoadBuildingState implements  ICatanGameState
+class SettlementUpgradingState implements  ICatanGameState
+class WinningState implements ICatanGameState
+class RogueMovingState implements ICatanGameState
+
+EarlyRollingState --|> IRollable
+RollingState --|> IRollable
+
+EarlySettlementBuildingState --|> ISettlementBuildable
+
+SettlementBuildingState --|> ISettlementBuildable
+SettlementBuildingState --|> ICancellable
+
+EarlyRoadBuildingState --|> IRoadBuildable
+
+RoadBuildingState --|> IRoadBuildable
+RoadBuildingState --|> ICancellable
+
+SettlementUpgradingState --|> ISettlementUpgradeable
+SettlementUpgradingState --|> ICancellable
+
+RogueMovingState --|> IRogueMovable
+RogueMovingState --|> ICancellable
+
+MainState --|> IMainState
+
+WinningState --|> IWinningState
+
+CatanContext *-right- ICatanGameState
+CatanGameModel *-right- CatanContext
+CatanContext *-up- CatanEvents
+
+EarlyRollingState  --> CatanContext
+EarlySettlementBuildingState --> CatanContext
+EarlyRoadBuildingState --> CatanContext
+MainState --> CatanContext
+SettlementBuildingState --> CatanContext
+RoadBuildingState --> CatanContext
+SettlementUpgradingState --> CatanContext
+WinningState --> CatanContext
+
+@enduml
