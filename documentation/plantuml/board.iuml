@@ -100,7 +100,7 @@ class Hex
     
 }
 
-Hex .down.|> IHex
+Hex .up.|> IHex
 CatanBoard *-- IVertex
 CatanBoard *-- IEdge
 CatanBoard *-- IHex
