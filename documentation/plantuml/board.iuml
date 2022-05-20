@@ -101,8 +101,8 @@ class Hex
 }
 
 Hex .down.|> IHex
-CatanBoard *-right- Vertex
-CatanBoard *-left- Edge
-CatanBoard *-- Hex
+CatanBoard *-right- IVertex
+CatanBoard *-left- IEdge
+CatanBoard *-- IHex
 
 @enduml
